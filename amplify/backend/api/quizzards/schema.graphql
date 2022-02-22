@@ -1,0 +1,120 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+#input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Result @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	quizID: Quiz! @belongsTo
+	resultID: String! @index(name: "resultToQuiz")
+	users: [User!] @manyToMany(relationName: "userToResult")
+	answers: [Answer!] @hasMany(indexName: "answerToResult")
+	description: String
+	image: String
+}
+
+type Answer @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	questionID: Question! @belongsTo
+	answerID: ID! @index(name: "answerToQuestion") @index(name: "answerToResult")
+	result: Result! @belongsTo
+	userAnswers: [User!] @hasMany(indexName: "userToAnswer")
+	weight: Int
+	answer: String!
+}
+
+type Question @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	quizID: Quiz! @belongsTo
+	questionID: String! @index(name: "questionToQuiz")
+	answers: [Answer!] @hasMany(indexName: "answerToQuestion")
+}
+
+type Quiz @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	quizID: String! @index(name: "userToQuiz")
+	owner: User! @belongsTo
+	groups: [Group!] @manyToMany(relationName: "quizToGroup")
+	questions: [Question!] @hasMany(indexName: "questionToQuiz")
+	results: [Result!] @hasMany(indexName: "resultToQuiz")
+	topic: String
+	publicPrivate: Int
+}
+
+type Response @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	responseID: ID! @index(name: "userToResponse")
+	messageID: GroupMessage! @belongsTo
+	postID: ID! @index(name: "responseToMessage")
+	responder: User! @belongsTo
+	text: String!
+}
+
+type Like @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	messageID: GroupMessage! @belongsTo
+	postID: ID! @index(name: "likeToMessage") @index(name: "userToLike")
+	liker: User! @belongsTo
+}
+
+type GroupMessage @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	groupID: Group! @belongsTo
+	poster: User! @belongsTo
+	postID: Int! @index(name: "messageToGroup") @index(name: "userToMessage")
+	text: String!
+	image: String
+	likes: [Like!] @hasMany(indexName: "likeToMessage")
+	responses: [Response!] @hasMany(indexName: "responseToMessage")
+}
+
+type Group @model @auth(rules: [{ allow: public }]) {
+	#group info
+	id: ID!
+	groupID: String! @index(name: "userToGroup")
+	owner: User! @belongsTo
+	members: [User!] @manyToMany(relationName: "member")
+	admin: [User!] @manyToMany(relationName: "groupAdmin")
+	messages: [GroupMessage!] @hasMany(indexName: "messageToGroup")
+	#quiz info
+	quizzes: [Quiz!] @manyToMany(relationName: "quizToGroup")
+	#settings info
+	highlightColor: Int
+	publicPrivate: Int
+	profilePicture: String
+	bio: String
+}
+
+type UserMessage @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	sender: User!
+	receiver: User!
+	text: String!
+}
+
+type User @model @auth(rules: [{ allow: public }]) {
+	#user info
+	id: ID!
+	userID: String! @index(name: "userToFriend") @index(name: "userToAnswer")
+	#@belongsTo
+	firstName: String!
+	lastName: String!
+	age: Int
+	admin: Boolean
+	friends: [User!] @hasMany(indexName: "userToFriend")
+	blocked: Boolean
+	#settings info
+	highlightColor: Int
+	profilePicture: String
+	publicPrivate: Int
+	bio: String
+	#group info
+	groups: [Group!] @manyToMany(relationName: "member")
+	groupAdmins: [Group!] @manyToMany(relationName: "groupAdmin")
+	groupOwners: [Group!] @hasMany(indexName: "userToGroup", fields: ["userID"])
+	groupMessages: [GroupMessage!] @hasMany(indexName: "userToMessage")
+	groupLikes: [Like!] @hasMany(indexName: "userToLike")
+	groupResponses: [Response!] @hasMany(indexName: "userToResponse")
+	#quiz info
+	quizOwners: [Quiz!] @hasMany(indexName: "userToQuiz")
+	quizResults: [Result!] @manyToMany(relationName: "userToResult")
+}

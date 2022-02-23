@@ -1,4 +1,5 @@
 import React from "react";
+import { Auth } from "aws-amplify";
 import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
 import {
@@ -10,7 +11,16 @@ import {
   photo17,
 } from "../images";
 
+async function getUsername() {
+  const response = await Auth.currentAuthenticatedUser();
+  let user = response.username;
+  console.log(user);
+  return user;
+}
+
 function Home() {
+  let username = getUsername();
+
   return (
     <div className="home">
       <div className="container">
@@ -25,7 +35,7 @@ function Home() {
               alt=""
             />
           </div>
-          <h3 className="font-weight-light col-lg-3">cthies</h3>
+          <h3 className="font-weight-light col-lg-3">{username}</h3>
         </div>
         <div className="row align-items-center mt-5 mb-2">
           <h1 className="font-weight-bold col-lg-4">Your Groups</h1>

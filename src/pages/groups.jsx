@@ -36,38 +36,38 @@ function Groups() {
         </div>
         <div className="row pb-5">
           <div className="col-lg-3">
-            <GroupBox link={photo13} groupName="Hogwarts" />
+            <GroupBox link={photo13} name="Hogwarts" />
           </div>
           <div className="col-lg-3">
-            <GroupBox link={photo14} groupName="Puppies" />
+            <GroupBox link={photo14} name="Puppies" />
           </div>
           <div className="col-lg-3">
-            <GroupBox link={photo15} groupName="Astronomy" />
+            <GroupBox link={photo15} name="Astronomy" />
           </div>
           <div className="col-lg-3">
-            <GroupBox link={photo16} groupName="Candy" />
-          </div>
-        </div>
-        <div className="row pb-5">
-          <div className="col-lg-3">
-            <GroupBox link={photo17} groupName="Books" />
-          </div>
-          <div className="col-lg-3">
-            <GroupBox link={photo13} groupName="Hogwarts" />
-          </div>
-          <div className="col-lg-3">
-            <GroupBox link={photo14} groupName="Puppies" />
-          </div>
-          <div className="col-lg-3">
-            <GroupBox link={photo15} groupName="Astronomy" />
+            <GroupBox link={photo16} name="Candy" />
           </div>
         </div>
         <div className="row pb-5">
           <div className="col-lg-3">
-            <GroupBox link={photo16} groupName="Candy" />
+            <GroupBox link={photo17} name="Books" />
           </div>
           <div className="col-lg-3">
-            <GroupBox link={photo17} groupName="Books" />
+            <GroupBox link={photo13} name="Hogwarts" />
+          </div>
+          <div className="col-lg-3">
+            <GroupBox link={photo14} name="Puppies" />
+          </div>
+          <div className="col-lg-3">
+            <GroupBox link={photo15} name="Astronomy" />
+          </div>
+        </div>
+        <div className="row pb-5">
+          <div className="col-lg-3">
+            <GroupBox link={photo16} name="Candy" />
+          </div>
+          <div className="col-lg-3">
+            <GroupBox link={photo17} name="Books" />
           </div>
         </div>
       </div>

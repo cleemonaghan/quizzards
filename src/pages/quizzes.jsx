@@ -38,38 +38,68 @@ function Quizzes() {
           </div>
           <div className="row pb-5">
             <div className="col-lg-3">
-              <QuizBox link={photo13} quizName="Hogwarts" />
+              <QuizBox
+                name="Hogwarts"
+                description="description of the quiz goes here."
+              />
             </div>
             <div className="col-lg-3">
-              <QuizBox link={photo14} quizName="Puppies" />
+              <QuizBox
+                name="Puppies"
+                description="description of the quiz goes here."
+              />
             </div>
             <div className="col-lg-3">
-              <QuizBox link={photo15} quizName="Astronomy" />
+              <QuizBox
+                name="Astronomy"
+                description="description of the quiz goes here."
+              />
             </div>
             <div className="col-lg-3">
-              <QuizBox link={photo16} quizName="Candy" />
-            </div>
-          </div>
-          <div className="row pb-5">
-            <div className="col-lg-3">
-              <QuizBox link={photo17} quizName="Books" />
-            </div>
-            <div className="col-lg-3">
-              <QuizBox link={photo13} quizName="Hogwarts" />
-            </div>
-            <div className="col-lg-3">
-              <QuizBox link={photo14} quizName="Puppies" />
-            </div>
-            <div className="col-lg-3">
-              <QuizBox link={photo15} quizName="Astronomy" />
+              <QuizBox
+                name="Candy"
+                description="description of the quiz goes here."
+              />
             </div>
           </div>
           <div className="row pb-5">
             <div className="col-lg-3">
-              <QuizBox link={photo16} quizName="Candy" />
+              <QuizBox
+                name="Books"
+                description="description of the quiz goes here."
+              />
             </div>
             <div className="col-lg-3">
-              <QuizBox link={photo17} quizName="Books" />
+              <QuizBox
+                name="Hogwarts"
+                description="description of the quiz goes here."
+              />
+            </div>
+            <div className="col-lg-3">
+              <QuizBox
+                name="Puppies"
+                description="description of the quiz goes here."
+              />
+            </div>
+            <div className="col-lg-3">
+              <QuizBox
+                name="Astronomy"
+                description="description of the quiz goes here."
+              />
+            </div>
+          </div>
+          <div className="row pb-5">
+            <div className="col-lg-3">
+              <QuizBox
+                name="Candy"
+                description="description of the quiz goes here."
+              />
+            </div>
+            <div className="col-lg-3">
+              <QuizBox
+                name="Books"
+                description="description of the quiz goes here."
+              />
             </div>
           </div>
         </div>

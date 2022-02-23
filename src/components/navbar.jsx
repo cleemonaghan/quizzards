@@ -13,10 +13,16 @@ class NavBar extends React.Component {
   async componentDidMount() {
     const response = await Auth.currentAuthenticatedUser();
 		let user = response.username;
-    this.setState({ username: user, 
-                    signOut: this.props.signOut});
+    this.setState({ username: user});
   }
 
+  async signOutUser() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
 
 
   render() {
@@ -38,7 +44,7 @@ class NavBar extends React.Component {
             <Nav.Link href="#messages">Messages</Nav.Link>
             <Nav.Link href="#profile">Profile</Nav.Link>
             <Nav.Link href="#profile">{this.state.username}</Nav.Link>
-            <button onClick={this.state.signOut}>Sign out</button>
+            <button onClick={this.signOutUser}>Sign out</button>
           </Nav>
         </Container>
       </Navbar>

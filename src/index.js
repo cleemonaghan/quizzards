@@ -5,25 +5,36 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Authenticator } from "@aws-amplify/ui-react";
 import { Navigation } from "./components";
 import { Home, Quizzes, Groups, Messages, Profile } from "./pages";
 import { GroupPage, QuizPage } from "./pages";
 
-ReactDOM.render(
-  <Router>
-    <Navigation />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/quizzes" element={<Quizzes />} />
-      <Route path="/groups" element={<Groups />} />
-      <Route path="/messages" element={<Messages />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/groupPage" element={<GroupPage />} />
-      <Route path="/quizPage" element={<QuizPage />} />
-    </Routes>
-  </Router>,
+import Amplify from "aws-amplify";
+import config from "./aws-exports";
+Amplify.configure(config);
 
-  document.getElementById("root")
+ReactDOM.render(
+	<Authenticator>
+		{({ signOut }) => (
+			<main>
+				<Router>
+					<Navigation />
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/quizzes" element={<Quizzes />} />
+						<Route path="/groups" element={<Groups />} />
+						<Route path="/messages" element={<Messages />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="/groupPage" element={<GroupPage />} />
+						<Route path="/quizPage" element={<QuizPage />} />
+					</Routes>
+				</Router>
+			</main>
+		)}
+	</Authenticator>,
+
+	document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

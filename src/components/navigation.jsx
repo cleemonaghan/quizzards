@@ -8,8 +8,17 @@ import {
   PatchQuestionFill,
 } from "react-bootstrap-icons";
 import logo from "../images/logo3.png";
+import {Auth} from "aws-amplify";
 
 class Navigation extends React.Component {
+
+  async signout() {
+    try {
+      await Auth.signOut();
+    } catch(err) {
+      console.log("There was an error signing out: ",err)
+    }
+  }
   render() {
     return (
       <Navbar bg="dark" variant="dark" sticky="top" className="mx0">
@@ -47,6 +56,9 @@ class Navigation extends React.Component {
               <PersonCircle className="mx-1 mb-1" />
               Profile
             </Nav.Link>
+            <button onClick={this.signout}>
+              Signout
+            </button>
           </Nav>
         </Container>
       </Navbar>

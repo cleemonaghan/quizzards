@@ -50,7 +50,7 @@ function Home() {
           </div>
         </div>
         <div className="row align-items-center mt-5 mb-2">
-          <h1 className="font-weight-bold col-lg-4">Your Groups</h1>
+          <h1 className="font-weight-bold col-lg-4">Your Quizzes</h1>
         </div>
         <div className="row col-lg-9 pb-5">
           <div className="col-lg-4">

@@ -1,14 +1,16 @@
 import React from "react";
 import { Quiz } from "../components";
 
-function QuizPage() {
-  return (
-    <div className="quiz-page">
-      <div className="container">
-        <Quiz />
+class QuizPage extends React.Component {
+  render() {
+    return (
+      <div className="quiz-page">
+        <div className="container">
+          <Quiz />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default QuizPage;

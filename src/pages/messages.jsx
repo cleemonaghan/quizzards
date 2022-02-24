@@ -6,7 +6,7 @@ class Messages extends React.Component {
     return (
       <div className="messages">
         <div className="row">
-          <div className="col-sm-3">
+          <div className="col-3">
             <Card>
               <Card.Header as="h5">Featured</Card.Header>
               <Card.Body>
@@ -18,7 +18,7 @@ class Messages extends React.Component {
               </Card.Body>
             </Card>
           </div>
-          <div className="col-sm-9">
+          <div className="col-9">
             <Card>
               <Card.Header as="h5">Featured</Card.Header>
               <Card.Body>

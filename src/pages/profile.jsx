@@ -6,7 +6,7 @@ class Profile extends React.Component {
       <div className="profile">
         <div className="container">
           <div className="row align-items-center my-5">
-            <div className="col-lg-5">
+            <div className="col-5">
               <h1 className="font-weight-light">Profile</h1>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting

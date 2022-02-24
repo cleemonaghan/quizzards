@@ -20,9 +20,9 @@ function MembersList() {
     <div className="members-list">
       <div className="outline ms-3 mb-5">
         <div className="row">
-          <h4 className="col-lg-5 mx-2 my-2"> Members: </h4>
-          <div className="col-lg-1"></div>
-          <div className="float-end col-lg-5 mt-2">
+          <h4 className="col-5 mx-2 my-2"> Members: </h4>
+          <div className="col-1"></div>
+          <div className="float-end col-5 mt-2">
             <Button variant="outline-primary">Invite</Button>{" "}
           </div>
         </div>

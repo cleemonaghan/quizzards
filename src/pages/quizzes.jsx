@@ -10,9 +10,9 @@ class Quizzes extends React.Component {
       <div className="quizzes">
         <div className="container">
           <div className="row">
-            <div className="col-lg-2"></div>
+            <div className="col-2"></div>
             <div className="row">
-              <div className="col-lg-8 mt-5 mb-4">
+              <div className="col-8 mt-5 mb-4">
                 <MDBCol>
                   <MDBInput
                     hint="Search Quizzes"
@@ -23,8 +23,8 @@ class Quizzes extends React.Component {
                   />
                 </MDBCol>
               </div>
-              <div className="col-lg-1"></div>
-              <div className="col-lg-3 mt-5 mb-4 float-end">
+              <div className="col-1"></div>
+              <div className="col-3 mt-5 mb-4 float-end">
                 <Link to="/createQuiz">
                   <Button variant="outline-primary" size="lg">
                     Create New Quiz +
@@ -34,28 +34,28 @@ class Quizzes extends React.Component {
             </div>
             {/* <hr /> */}
             <div className="row align-items-center mt-5 mb-2">
-              <h1 className="font-weight-bold col-lg-4">Suggested Quizzes</h1>
+              <h1 className="font-weight-bold col-4">Suggested Quizzes</h1>
             </div>
             <div className="row pb-5">
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Hogwarts"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Puppies"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Astronomy"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Candy"
                   description="description of the quiz goes here."
@@ -63,25 +63,25 @@ class Quizzes extends React.Component {
               </div>
             </div>
             <div className="row pb-5">
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Books"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Hogwarts"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Puppies"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Astronomy"
                   description="description of the quiz goes here."
@@ -89,13 +89,13 @@ class Quizzes extends React.Component {
               </div>
             </div>
             <div className="row pb-5">
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Candy"
                   description="description of the quiz goes here."
                 />
               </div>
-              <div className="col-lg-3">
+              <div className="col-3">
                 <QuizBox
                   name="Books"
                   description="description of the quiz goes here."

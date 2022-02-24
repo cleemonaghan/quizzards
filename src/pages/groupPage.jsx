@@ -17,12 +17,12 @@ class GroupPage extends React.Component {
         <div className="container">
           <div className="row">
             <img
-              className="hero-img col-lg-5 mb-5 px-0"
+              className="hero-img col-5 mb-5 px-0"
               src={photo13}
               alt=""
               width="100%"
             />
-            <div className="description col-lg-7 mb-5 py-5 px-0 bg-secondary">
+            <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
               <h1 className="px-5">Hogwarts</h1>
               <p className="px-5">
                 This is a description of the group... Lorem ipsum dolor sit
@@ -36,11 +36,11 @@ class GroupPage extends React.Component {
               </p>
             </div>
           </div>
-          <div className="float-end col-lg-3">
+          <div className="float-end col-3">
             <MembersList />
           </div>
           <div className="row mb-5">
-            <div className="col-lg-1">
+            <div className="col-1">
               <DropdownButton
                 id="dropdown-basic-button"
                 title="Filter"
@@ -52,14 +52,14 @@ class GroupPage extends React.Component {
                 <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
               </DropdownButton>
             </div>
-            <div className="col-lg-1"></div>
-            <div className="col-lg-3">
+            <div className="col-1"></div>
+            <div className="col-3">
               <Link to="/createQuiz">
                 <Button variant="outline-primary">Create New Quiz +</Button>{" "}
               </Link>
             </div>
-            <div className="col-lg-1"></div>
-            <div className="col-lg-5">
+            <div className="col-1"></div>
+            <div className="col-5">
               <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                 <ToggleButton
                   id="tbg-group-stats"
@@ -77,9 +77,9 @@ class GroupPage extends React.Component {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <div className="col-lg-1"></div>
+            <div className="col-1"></div>
           </div>
-          <div className="float-end col-lg-5 mx-5">
+          <div className="float-end col-5 mx-5">
             {/* <StatsBox
               name="Hogwarts House"
               result="Hufflepuff"
@@ -89,25 +89,25 @@ class GroupPage extends React.Component {
             <StatsBox />
             <CompareBox />
           </div>
-          <div className="col-lg-3 mt-5">
+          <div className="col-3 mt-5">
             <QuizBox
               name="Hogwarts House"
               description="Find out which Hogwarts House you belong to :)"
             />
           </div>
-          <div className="col-lg-3 mt-5">
+          <div className="col-3 mt-5">
             <QuizBox
               name="Pets"
               description="Which pet should you get in the wizarding world?"
             />
           </div>
-          <div className="col-lg-3 mt-5">
+          <div className="col-3 mt-5">
             <QuizBox
               name="Wands"
               description="Description of quiz goes here."
             />
           </div>
-          <div className="col-lg-3 mt-5">
+          <div className="col-3 mt-5">
             <QuizBox
               name="Patronus"
               description="Description of quiz goes here."

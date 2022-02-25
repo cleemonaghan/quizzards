@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "quizzards1b447bbf_identitypool_1b447bbf",
+    "identityPoolName": "quizzardsc000b8c4_identitypool_c000b8c4",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "quizza1b447bbf",
-    "userPoolName": "quizzards1b447bbf_userpool_1b447bbf",
+    "resourceNameTruncated": "quizzac000b8c4",
+    "userPoolName": "quizzardsc000b8c4_userpool_c000b8c4",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -20,7 +20,10 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-      "email"
+      "birthdate",
+      "email",
+      "family_name",
+      "name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
@@ -31,12 +34,17 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "quizza1b447bbf_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "quizzac000b8c4_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "1b447bbf",
-    "resourceName": "quizzards1b447bbf",
+    "sharedId": "c000b8c4",
+    "resourceName": "quizzardsauth",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "useDefault": "manual",
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": {},
+    "hostedUI": false,
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

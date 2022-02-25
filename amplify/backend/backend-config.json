@@ -1,6 +1,6 @@
 {
   "auth": {
-    "quizzards1b447bbf": {
+    "quizzardsauth": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -9,7 +9,10 @@
         "socialProviders": [],
         "usernameAttributes": [],
         "signupAttributes": [
-          "EMAIL"
+          "BIRTHDATE",
+          "EMAIL",
+          "FAMILY_NAME",
+          "NAME"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,

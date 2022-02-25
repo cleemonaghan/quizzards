@@ -7,34 +7,45 @@ import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Navigation } from "./components";
-import { Home, Quizzes, Groups, Messages, Profile } from "./pages";
-import { GroupPage, QuizPage } from "./pages";
+import {
+  Home,
+  Quizzes,
+  Groups,
+  Messages,
+  Profile,
+  CreateGroup,
+  CreateQuiz,
+  GroupPage,
+  QuizPage,
+} from "./pages";
 
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
 Amplify.configure(config);
 
 ReactDOM.render(
-	<Authenticator>
-		{({ signOut }) => (
-			<main>
-				<Router>
-					<Navigation />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/quizzes" element={<Quizzes />} />
-						<Route path="/groups" element={<Groups />} />
-						<Route path="/messages" element={<Messages />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/groupPage" element={<GroupPage />} />
-						<Route path="/quizPage" element={<QuizPage />} />
-					</Routes>
-				</Router>
-			</main>
-		)}
-	</Authenticator>,
+  <Authenticator>
+    {({ signOut }) => (
+      <main>
+        <Router>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/quizzes" element={<Quizzes />} />
+            <Route path="/groups" element={<Groups />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/groupPage" element={<GroupPage />} />
+            <Route path="/quizPage" element={<QuizPage />} />
+            <Route path="/createGroup" element={<CreateGroup />} />
+            <Route path="/createQuiz" element={<CreateQuiz />} />
+          </Routes>
+        </Router>
+      </main>
+    )}
+  </Authenticator>,
 
-	document.getElementById("root")
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

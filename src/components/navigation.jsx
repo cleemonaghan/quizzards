@@ -8,15 +8,14 @@ import {
   PatchQuestionFill,
 } from "react-bootstrap-icons";
 import logo from "../images/logo3.png";
-import {Auth} from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 class Navigation extends React.Component {
-
   async signout() {
     try {
       await Auth.signOut();
-    } catch(err) {
-      console.log("There was an error signing out: ",err)
+    } catch (err) {
+      console.log("There was an error signing out: ", err);
     }
   }
   render() {
@@ -34,8 +33,6 @@ class Navigation extends React.Component {
             Quizzards
           </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/groupPage">GP</Nav.Link>
-            <Nav.Link href="/quizPage">QP</Nav.Link>
             <Nav.Link href="/">
               <HouseFill className="mx-1 mb-1" />
               Home
@@ -56,9 +53,7 @@ class Navigation extends React.Component {
               <PersonCircle className="mx-1 mb-1" />
               Profile
             </Nav.Link>
-            <button onClick={this.signout}>
-              Signout
-            </button>
+            <button onClick={this.signout}>Signout</button>
           </Nav>
         </Container>
       </Navbar>

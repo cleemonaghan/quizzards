@@ -8,44 +8,77 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Navigation } from "./components";
 import {
-  Home,
-  Quizzes,
-  Groups,
-  Messages,
-  Profile,
-  CreateGroup,
-  CreateQuiz,
-  GroupPage,
-  QuizPage,
+	Home,
+	Quizzes,
+	Groups,
+	Messages,
+	Profile,
+	CreateGroup,
+	CreateQuiz,
+	GroupPage,
+	QuizPage,
 } from "./pages";
 
-import Amplify from "aws-amplify";
+import Amplify, { Hub } from "aws-amplify";
 import config from "./aws-exports";
 Amplify.configure(config);
 
-ReactDOM.render(
-  <Authenticator>
-    {({ signOut }) => (
-      <main>
-        <Router>
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/quizzes" element={<Quizzes />} />
-            <Route path="/groups" element={<Groups />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/groupPage" element={<GroupPage />} />
-            <Route path="/quizPage" element={<QuizPage />} />
-            <Route path="/createGroup" element={<CreateGroup />} />
-            <Route path="/createQuiz" element={<CreateQuiz />} />
-          </Routes>
-        </Router>
-      </main>
-    )}
-  </Authenticator>,
+//Add a listener for the Authenticator
+const listener = (data) => {
+	switch (data.payload.event) {
+		case "signIn":
+			console.log("user signed in");
+			break;
+		case "signUp":
+			console.log("user signed up");
+			//create a user profile
+			console.dir(data);
+			break;
+		case "signOut":
+			console.log("user signed out");
+			break;
+		case "signIn_failure":
+			console.log("user sign in failed");
+			break;
+		case "tokenRefresh":
+			console.log("token refresh succeeded");
+			break;
+		case "tokenRefresh_failure":
+			console.log("token refresh failed");
+			break;
+		case "configured":
+			console.log("the Auth module is configured");
+			break;
+		default:
+			console.log("Unknown log-in");
+	}
+};
+Hub.listen("auth", listener);
 
-  document.getElementById("root")
+//render the App
+ReactDOM.render(
+	<Authenticator>
+		{({ signOut }) => (
+			<main>
+				<Router>
+					<Navigation />
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/quizzes" element={<Quizzes />} />
+						<Route path="/groups" element={<Groups />} />
+						<Route path="/messages" element={<Messages />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="/groupPage" element={<GroupPage />} />
+						<Route path="/quizPage" element={<QuizPage />} />
+						<Route path="/createGroup" element={<CreateGroup />} />
+						<Route path="/createQuiz" element={<CreateQuiz />} />
+					</Routes>
+				</Router>
+			</main>
+		)}
+	</Authenticator>,
+
+	document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

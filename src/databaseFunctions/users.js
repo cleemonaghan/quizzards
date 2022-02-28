@@ -11,8 +11,12 @@ export async function createUser(username) {
 	//if the User did not enter a title, don't create a post
 	if (!username) return;
 	let params = {
-		userID: username,
+		username: username,
+		name: username,
+		admin: false,
+		blocked: false,
 	};
+	console.log(params);
 	//create a new Post using the form data
 	await API.graphql({
 		query: createUserMutation,
@@ -31,10 +35,8 @@ export async function updateUser(user, inputs) {
 	//if the was no username specified, don't update the user
 	let username = user.username;
 	if (!username) return;
-	let userVal = await getUserbyUsername(username);
 	let params = {
-		id: userVal.id,
-		userID: username,
+		username: username,
 	};
 	//add each key-value pair in the inputs to the params
 	let keys = Object.keys(inputs);
@@ -47,27 +49,20 @@ export async function updateUser(user, inputs) {
 			params[key] = fileName;
 		} else params[key] = inputs[key];
 	}
-	console.log(params);
 	//update the  a new Post using the form data
-	let result = await API.graphql({
+	await API.graphql({
 		query: updateUserMutation,
 		variables: { input: params },
 	});
-	console.log(result);
 }
 
-async function getUserbyUsername(username) {
-	const user = await API.graphql({
+export async function getUser(username) {
+	//if the was no username specified, don't update the user
+	if (!username) return;
+	//update the  a new Post using the form data
+	let result = await API.graphql({
 		query: getUserQuery,
-		variables: { userID: username },
+		variables: { username: username },
 	});
-	/*
-	const user = await API.graphql({
-		query: getUserQuery,
-		variables: { userID: username },
-	});
-	const s3Image = await Storage.get(user.data.getUser.image);
-	user.data.getUser.s3Image = s3Image;*/
-	console.log("User:", user);
-	return user;
+	return result;
 }

@@ -3,7 +3,7 @@ import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { photo } from "../images";
 import { Auth } from "aws-amplify";
 
-import { updateUser } from "../databaseFunctions/users";
+import { updateUser, getUser } from "../databaseFunctions/users";
 
 class ProfileEdit extends React.Component {
 	constructor(props) {
@@ -31,6 +31,8 @@ class ProfileEdit extends React.Component {
 		try {
 			this.user = await Auth.currentAuthenticatedUser();
 			let userSettings = await Auth.currentUserInfo();
+			let userDatabase = await getUser(this.user.username);
+			console.log(userDatabase);
 			this.setState({
 				username: userSettings.username,
 				family_name: userSettings.attributes.family_name,
@@ -39,7 +41,7 @@ class ProfileEdit extends React.Component {
 				email: userSettings.attributes.email,
 				color_theme: "blue", //we need to ensure this is updated
 				profile_pic: photo,
-				biography: "",
+				biography: userDatabase.data.getUser.bio,
 			});
 			this.tempPhoto = this.state.profile_pic;
 		} catch (err) {

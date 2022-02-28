@@ -3,6 +3,7 @@ import { Button, Offcanvas } from "react-bootstrap";
 import { photo } from "../images";
 import { Auth } from "aws-amplify";
 import { ProfileEdit } from "../components";
+import { getUser } from "../databaseFunctions/users";
 
 class Profile extends React.Component {
 	constructor(props) {
@@ -37,21 +38,19 @@ class Profile extends React.Component {
 	}
 
 	async updateProfile() {
-		try {
-			let userSettings = await Auth.currentUserInfo();
-			this.setState({
-				username: userSettings.username,
-				family_name: userSettings.attributes.family_name,
-				name: userSettings.attributes.name,
-				birthdate: userSettings.attributes.birthdate,
-				email: userSettings.attributes.email,
-				color_theme: "blue", //we need to ensure this is updated
-				profile_pic: photo,
-				biography: "",
-			});
-		} catch (err) {
-			console.log("There was an error logging: ", err);
-		}
+		let userSettings = await Auth.currentUserInfo();
+		let userDatabase = await getUser(this.user.username);
+		console.log(userDatabase);
+		this.setState({
+			username: userSettings.username,
+			family_name: userSettings.attributes.family_name,
+			name: userSettings.attributes.name,
+			birthdate: userSettings.attributes.birthdate,
+			email: userSettings.attributes.email,
+			color_theme: "blue", //we need to ensure this is updated
+			profile_pic: photo,
+			biography: userDatabase.data.getUser.bio,
+		});
 	}
 
 	render() {

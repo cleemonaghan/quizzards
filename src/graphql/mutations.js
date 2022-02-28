@@ -1,633 +1,795 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createResult = /* GraphQL */ `
-  mutation CreateResult(
-    $input: CreateResultInput!
-    $condition: ModelResultConditionInput
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createResult(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
+    createUser(input: $input, condition: $condition) {
+      username
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      friends {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
-      resultID
-      users {
-        items {
-          id
-          resultID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      answers {
-        items {
-          id
-          answerID
-          weight
-          answer
-          createdAt
-          updatedAt
-          resultAnswersId
-          questionAnswersId
-        }
-        nextToken
-      }
-      description
-      image
-      createdAt
-      updatedAt
-      quizResultsId
-    }
-  }
-`;
-export const updateResult = /* GraphQL */ `
-  mutation UpdateResult(
-    $input: UpdateResultInput!
-    $condition: ModelResultConditionInput
-  ) {
-    updateResult(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
+      friendRequests {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
-      resultID
-      users {
+      groups {
         items {
           id
-          resultID
           userID
+          groupID
           createdAt
           updatedAt
         }
         nextToken
       }
-      answers {
+      groupOwners {
         items {
           id
-          answerID
-          weight
-          answer
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          ownerUsername
           createdAt
           updatedAt
-          resultAnswersId
-          questionAnswersId
+          userGroupOwnersId
         }
         nextToken
       }
-      description
-      image
+      quizOwners {
+        items {
+          id
+          quizname
+          ownerUsername
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        nextToken
+      }
+      admin
+      blocked
       createdAt
       updatedAt
-      quizResultsId
     }
   }
 `;
-export const deleteResult = /* GraphQL */ `
-  mutation DeleteResult(
-    $input: DeleteResultInput!
-    $condition: ModelResultConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    deleteResult(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
+    updateUser(input: $input, condition: $condition) {
+      username
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      friends {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      friendRequests {
+        username
+        name
+        profilePicture
+        bio
         publicPrivate
-        createdAt
-        updatedAt
-        userQuizOwnersId
-      }
-      resultID
-      users {
-        items {
-          id
-          resultID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      answers {
-        items {
-          id
-          answerID
-          weight
-          answer
-          createdAt
-          updatedAt
-          resultAnswersId
-          questionAnswersId
-        }
-        nextToken
-      }
-      description
-      image
-      createdAt
-      updatedAt
-      quizResultsId
-    }
-  }
-`;
-export const createAnswer = /* GraphQL */ `
-  mutation CreateAnswer(
-    $input: CreateAnswerInput!
-    $condition: ModelAnswerConditionInput
-  ) {
-    createAnswer(input: $input, condition: $condition) {
-      id
-      questionID {
-        id
-        quizID {
-          id
-          quizID
-          topic
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
           publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        questionID
-        answers {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        quizQuestionsId
-      }
-      answerID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
-      userAnswers {
-        items {
-          userID
+          highlightColor
           admin
           blocked
-          highlightColor
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
           profilePicture
-          publicPrivate
           bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      weight
-      answer
-      createdAt
-      updatedAt
-      resultAnswersId
-      questionAnswersId
-    }
-  }
-`;
-export const updateAnswer = /* GraphQL */ `
-  mutation UpdateAnswer(
-    $input: UpdateAnswerInput!
-    $condition: ModelAnswerConditionInput
-  ) {
-    updateAnswer(input: $input, condition: $condition) {
-      id
-      questionID {
-        id
-        quizID {
-          id
-          quizID
-          topic
           publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        questionID
-        answers {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        quizQuestionsId
-      }
-      answerID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
-      userAnswers {
-        items {
-          userID
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      weight
-      answer
-      createdAt
-      updatedAt
-      resultAnswersId
-      questionAnswersId
-    }
-  }
-`;
-export const deleteAnswer = /* GraphQL */ `
-  mutation DeleteAnswer(
-    $input: DeleteAnswerInput!
-    $condition: ModelAnswerConditionInput
-  ) {
-    deleteAnswer(input: $input, condition: $condition) {
-      id
-      questionID {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        questionID
-        answers {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        quizQuestionsId
-      }
-      answerID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
-      userAnswers {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      weight
-      answer
-      createdAt
-      updatedAt
-      resultAnswersId
-      questionAnswersId
-    }
-  }
-`;
-export const createQuestion = /* GraphQL */ `
-  mutation CreateQuestion(
-    $input: CreateQuestionInput!
-    $condition: ModelQuestionConditionInput
-  ) {
-    createQuestion(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
-      questionID
-      answers {
+      groups {
         items {
           id
-          answerID
-          weight
-          answer
+          userID
+          groupID
           createdAt
           updatedAt
-          resultAnswersId
-          questionAnswersId
         }
         nextToken
       }
+      groupOwners {
+        items {
+          id
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          ownerUsername
+          createdAt
+          updatedAt
+          userGroupOwnersId
+        }
+        nextToken
+      }
+      quizOwners {
+        items {
+          id
+          quizname
+          ownerUsername
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        nextToken
+      }
+      admin
+      blocked
       createdAt
       updatedAt
-      quizQuestionsId
     }
   }
 `;
-export const updateQuestion = /* GraphQL */ `
-  mutation UpdateQuestion(
-    $input: UpdateQuestionInput!
-    $condition: ModelQuestionConditionInput
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    updateQuestion(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
+    deleteUser(input: $input, condition: $condition) {
+      username
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      friends {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
-      questionID
-      answers {
-        items {
-          id
-          answerID
-          weight
-          answer
-          createdAt
-          updatedAt
-          resultAnswersId
-          questionAnswersId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      quizQuestionsId
-    }
-  }
-`;
-export const deleteQuestion = /* GraphQL */ `
-  mutation DeleteQuestion(
-    $input: DeleteQuestionInput!
-    $condition: ModelQuestionConditionInput
-  ) {
-    deleteQuestion(input: $input, condition: $condition) {
-      id
-      quizID {
-        id
-        quizID
-        owner {
-          userID
+      friendRequests {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
-      questionID
-      answers {
+      groups {
         items {
           id
-          answerID
-          weight
-          answer
+          userID
+          groupID
           createdAt
           updatedAt
-          resultAnswersId
-          questionAnswersId
         }
         nextToken
       }
+      groupOwners {
+        items {
+          id
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          ownerUsername
+          createdAt
+          updatedAt
+          userGroupOwnersId
+        }
+        nextToken
+      }
+      quizOwners {
+        items {
+          id
+          quizname
+          ownerUsername
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        nextToken
+      }
+      admin
+      blocked
       createdAt
       updatedAt
-      quizQuestionsId
+    }
+  }
+`;
+export const createGroup = /* GraphQL */ `
+  mutation CreateGroup(
+    $input: CreateGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    createGroup(input: $input, condition: $condition) {
+      id
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      members {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberRequests {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      owner {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      ownerUsername
+      createdAt
+      updatedAt
+      userGroupOwnersId
+    }
+  }
+`;
+export const updateGroup = /* GraphQL */ `
+  mutation UpdateGroup(
+    $input: UpdateGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    updateGroup(input: $input, condition: $condition) {
+      id
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      members {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberRequests {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      owner {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      ownerUsername
+      createdAt
+      updatedAt
+      userGroupOwnersId
+    }
+  }
+`;
+export const deleteGroup = /* GraphQL */ `
+  mutation DeleteGroup(
+    $input: DeleteGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    deleteGroup(input: $input, condition: $condition) {
+      id
+      name
+      profilePicture
+      bio
+      publicPrivate
+      highlightColor
+      members {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberRequests {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      owner {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      ownerUsername
+      createdAt
+      updatedAt
+      userGroupOwnersId
     }
   }
 `;
@@ -638,83 +800,53 @@ export const createQuiz = /* GraphQL */ `
   ) {
     createQuiz(input: $input, condition: $condition) {
       id
-      quizID
+      quizname
       owner {
-        userID
-        admin
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
         friends {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         friendRequests {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
         groups {
-          nextToken
-        }
-        groupAdmins {
           nextToken
         }
         groupOwners {
           nextToken
         }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
         quizOwners {
           nextToken
         }
-        quizResults {
-          nextToken
-        }
-        id
+        admin
+        blocked
         createdAt
         updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
       }
-      groups {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      questions {
-        items {
-          id
-          questionID
-          createdAt
-          updatedAt
-          quizQuestionsId
-        }
-        nextToken
-      }
-      results {
-        items {
-          id
-          resultID
-          description
-          image
-          createdAt
-          updatedAt
-          quizResultsId
-        }
-        nextToken
-      }
-      topic
-      publicPrivate
+      ownerUsername
       createdAt
       updatedAt
       userQuizOwnersId
@@ -728,83 +860,53 @@ export const updateQuiz = /* GraphQL */ `
   ) {
     updateQuiz(input: $input, condition: $condition) {
       id
-      quizID
+      quizname
       owner {
-        userID
-        admin
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
         friends {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         friendRequests {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
         groups {
-          nextToken
-        }
-        groupAdmins {
           nextToken
         }
         groupOwners {
           nextToken
         }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
         quizOwners {
           nextToken
         }
-        quizResults {
-          nextToken
-        }
-        id
+        admin
+        blocked
         createdAt
         updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
       }
-      groups {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      questions {
-        items {
-          id
-          questionID
-          createdAt
-          updatedAt
-          quizQuestionsId
-        }
-        nextToken
-      }
-      results {
-        items {
-          id
-          resultID
-          description
-          image
-          createdAt
-          updatedAt
-          quizResultsId
-        }
-        nextToken
-      }
-      topic
-      publicPrivate
+      ownerUsername
       createdAt
       updatedAt
       userQuizOwnersId
@@ -818,3083 +920,347 @@ export const deleteQuiz = /* GraphQL */ `
   ) {
     deleteQuiz(input: $input, condition: $condition) {
       id
-      quizID
+      quizname
       owner {
-        userID
-        admin
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
         friends {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         friendRequests {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
         groups {
-          nextToken
-        }
-        groupAdmins {
           nextToken
         }
         groupOwners {
           nextToken
         }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
         quizOwners {
           nextToken
         }
-        quizResults {
-          nextToken
-        }
-        id
+        admin
+        blocked
         createdAt
         updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
       }
-      groups {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      questions {
-        items {
-          id
-          questionID
-          createdAt
-          updatedAt
-          quizQuestionsId
-        }
-        nextToken
-      }
-      results {
-        items {
-          id
-          resultID
-          description
-          image
-          createdAt
-          updatedAt
-          quizResultsId
-        }
-        nextToken
-      }
-      topic
-      publicPrivate
+      ownerUsername
       createdAt
       updatedAt
       userQuizOwnersId
     }
   }
 `;
-export const createResponse = /* GraphQL */ `
-  mutation CreateResponse(
-    $input: CreateResponseInput!
-    $condition: ModelResponseConditionInput
+export const createMembers = /* GraphQL */ `
+  mutation CreateMembers(
+    $input: CreateMembersInput!
+    $condition: ModelMembersConditionInput
   ) {
-    createResponse(input: $input, condition: $condition) {
+    createMembers(input: $input, condition: $condition) {
       id
-      responseID
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      responder {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-      groupMessageResponsesId
-      userGroupResponsesId
-    }
-  }
-`;
-export const updateResponse = /* GraphQL */ `
-  mutation UpdateResponse(
-    $input: UpdateResponseInput!
-    $condition: ModelResponseConditionInput
-  ) {
-    updateResponse(input: $input, condition: $condition) {
-      id
-      responseID
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      responder {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-      groupMessageResponsesId
-      userGroupResponsesId
-    }
-  }
-`;
-export const deleteResponse = /* GraphQL */ `
-  mutation DeleteResponse(
-    $input: DeleteResponseInput!
-    $condition: ModelResponseConditionInput
-  ) {
-    deleteResponse(input: $input, condition: $condition) {
-      id
-      responseID
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      responder {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-      groupMessageResponsesId
-      userGroupResponsesId
-    }
-  }
-`;
-export const createLike = /* GraphQL */ `
-  mutation CreateLike(
-    $input: CreateLikeInput!
-    $condition: ModelLikeConditionInput
-  ) {
-    createLike(input: $input, condition: $condition) {
-      id
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      liker {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-      groupMessageLikesId
-      userGroupLikesId
-    }
-  }
-`;
-export const updateLike = /* GraphQL */ `
-  mutation UpdateLike(
-    $input: UpdateLikeInput!
-    $condition: ModelLikeConditionInput
-  ) {
-    updateLike(input: $input, condition: $condition) {
-      id
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      liker {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-      groupMessageLikesId
-      userGroupLikesId
-    }
-  }
-`;
-export const deleteLike = /* GraphQL */ `
-  mutation DeleteLike(
-    $input: DeleteLikeInput!
-    $condition: ModelLikeConditionInput
-  ) {
-    deleteLike(input: $input, condition: $condition) {
-      id
-      messageID {
-        id
-        groupID {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        poster {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        postID
-        text
-        image
-        likes {
-          nextToken
-        }
-        responses {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        groupMessagesId
-      }
-      postID
-      liker {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-      groupMessageLikesId
-      userGroupLikesId
-    }
-  }
-`;
-export const createGroupMessage = /* GraphQL */ `
-  mutation CreateGroupMessage(
-    $input: CreateGroupMessageInput!
-    $condition: ModelGroupMessageConditionInput
-  ) {
-    createGroupMessage(input: $input, condition: $condition) {
-      id
-      groupID {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      poster {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      postID
-      text
-      image
-      likes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      responses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      groupMessagesId
-    }
-  }
-`;
-export const updateGroupMessage = /* GraphQL */ `
-  mutation UpdateGroupMessage(
-    $input: UpdateGroupMessageInput!
-    $condition: ModelGroupMessageConditionInput
-  ) {
-    updateGroupMessage(input: $input, condition: $condition) {
-      id
-      groupID {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      poster {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      postID
-      text
-      image
-      likes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      responses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      groupMessagesId
-    }
-  }
-`;
-export const deleteGroupMessage = /* GraphQL */ `
-  mutation DeleteGroupMessage(
-    $input: DeleteGroupMessageInput!
-    $condition: ModelGroupMessageConditionInput
-  ) {
-    deleteGroupMessage(input: $input, condition: $condition) {
-      id
-      groupID {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      poster {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      postID
-      text
-      image
-      likes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      responses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      groupMessagesId
-    }
-  }
-`;
-export const createGroup = /* GraphQL */ `
-  mutation CreateGroup(
-    $input: CreateGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    createGroup(input: $input, condition: $condition) {
-      id
+      userID
       groupID
-      owner {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      members {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      admin {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-        }
-        nextToken
-      }
-      quizzes {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      highlightColor
-      publicPrivate
-      profilePicture
-      bio
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateGroup = /* GraphQL */ `
-  mutation UpdateGroup(
-    $input: UpdateGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    updateGroup(input: $input, condition: $condition) {
-      id
-      groupID
-      owner {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      members {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      admin {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-        }
-        nextToken
-      }
-      quizzes {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      highlightColor
-      publicPrivate
-      profilePicture
-      bio
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteGroup = /* GraphQL */ `
-  mutation DeleteGroup(
-    $input: DeleteGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    deleteGroup(input: $input, condition: $condition) {
-      id
-      groupID
-      owner {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      members {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      admin {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-        }
-        nextToken
-      }
-      quizzes {
-        items {
-          id
-          quizID
-          groupID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      highlightColor
-      publicPrivate
-      profilePicture
-      bio
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createUserMessage = /* GraphQL */ `
-  mutation CreateUserMessage(
-    $input: CreateUserMessageInput!
-    $condition: ModelUserMessageConditionInput
-  ) {
-    createUserMessage(input: $input, condition: $condition) {
-      id
-      sender {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      receiver {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateUserMessage = /* GraphQL */ `
-  mutation UpdateUserMessage(
-    $input: UpdateUserMessageInput!
-    $condition: ModelUserMessageConditionInput
-  ) {
-    updateUserMessage(input: $input, condition: $condition) {
-      id
-      sender {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      receiver {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteUserMessage = /* GraphQL */ `
-  mutation DeleteUserMessage(
-    $input: DeleteUserMessageInput!
-    $condition: ModelUserMessageConditionInput
-  ) {
-    deleteUserMessage(input: $input, condition: $condition) {
-      id
-      sender {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      receiver {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      text
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      userID
-      admin
-      friends {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendRequests {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      blocked
-      highlightColor
-      profilePicture
-      publicPrivate
-      bio
-      groups {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupAdmins {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupOwners {
-        items {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupLikes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      groupResponses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      quizOwners {
-        items {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        nextToken
-      }
-      quizResults {
-        items {
-          id
-          resultID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      id
-      createdAt
-      updatedAt
-      answerUserAnswersId
-      userFriendsId
-      userFriendRequestsId
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      userID
-      admin
-      friends {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendRequests {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      blocked
-      highlightColor
-      profilePicture
-      publicPrivate
-      bio
-      groups {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupAdmins {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupOwners {
-        items {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupLikes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      groupResponses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      quizOwners {
-        items {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        nextToken
-      }
-      quizResults {
-        items {
-          id
-          resultID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      id
-      createdAt
-      updatedAt
-      answerUserAnswersId
-      userFriendsId
-      userFriendRequestsId
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
-      userID
-      admin
-      friends {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendRequests {
-        items {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      blocked
-      highlightColor
-      profilePicture
-      publicPrivate
-      bio
-      groups {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupAdmins {
-        items {
-          id
-          groupID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupOwners {
-        items {
-          id
-          groupID
-          highlightColor
-          publicPrivate
-          profilePicture
-          bio
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupLikes {
-        items {
-          id
-          postID
-          createdAt
-          updatedAt
-          groupMessageLikesId
-          userGroupLikesId
-        }
-        nextToken
-      }
-      groupResponses {
-        items {
-          id
-          responseID
-          postID
-          text
-          createdAt
-          updatedAt
-          groupMessageResponsesId
-          userGroupResponsesId
-        }
-        nextToken
-      }
-      quizOwners {
-        items {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        nextToken
-      }
-      quizResults {
-        items {
-          id
-          resultID
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      id
-      createdAt
-      updatedAt
-      answerUserAnswersId
-      userFriendsId
-      userFriendRequestsId
-    }
-  }
-`;
-export const createUserToResult = /* GraphQL */ `
-  mutation CreateUserToResult(
-    $input: CreateUserToResultInput!
-    $condition: ModelUserToResultConditionInput
-  ) {
-    createUserToResult(input: $input, condition: $condition) {
-      id
-      resultID
-      userID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
       user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
+        username
+        name
         profilePicture
-        publicPrivate
         bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateUserToResult = /* GraphQL */ `
-  mutation UpdateUserToResult(
-    $input: UpdateUserToResultInput!
-    $condition: ModelUserToResultConditionInput
-  ) {
-    updateUserToResult(input: $input, condition: $condition) {
-      id
-      resultID
-      userID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
           publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteUserToResult = /* GraphQL */ `
-  mutation DeleteUserToResult(
-    $input: DeleteUserToResultInput!
-    $condition: ModelUserToResultConditionInput
-  ) {
-    deleteUserToResult(input: $input, condition: $condition) {
-      id
-      resultID
-      userID
-      result {
-        id
-        quizID {
-          id
-          quizID
-          topic
-          publicPrivate
-          createdAt
-          updatedAt
-          userQuizOwnersId
-        }
-        resultID
-        users {
-          nextToken
-        }
-        answers {
-          nextToken
-        }
-        description
-        image
-        createdAt
-        updatedAt
-        quizResultsId
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createQuizToGroup = /* GraphQL */ `
-  mutation CreateQuizToGroup(
-    $input: CreateQuizToGroupInput!
-    $condition: ModelQuizToGroupConditionInput
-  ) {
-    createQuizToGroup(input: $input, condition: $condition) {
-      id
-      quizID
-      groupID
-      quiz {
-        id
-        quizID
-        owner {
-          userID
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
+        }
+        friendRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         groups {
           nextToken
         }
-        questions {
+        groupOwners {
           nextToken
         }
-        results {
+        quizOwners {
           nextToken
         }
-        topic
-        publicPrivate
+        admin
+        blocked
         createdAt
         updatedAt
-        userQuizOwnersId
       }
       group {
         id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
         members {
           nextToken
         }
-        admin {
-          nextToken
+        memberRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        messages {
-          nextToken
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
+        ownerUsername
         createdAt
         updatedAt
+        userGroupOwnersId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateQuizToGroup = /* GraphQL */ `
-  mutation UpdateQuizToGroup(
-    $input: UpdateQuizToGroupInput!
-    $condition: ModelQuizToGroupConditionInput
+export const updateMembers = /* GraphQL */ `
+  mutation UpdateMembers(
+    $input: UpdateMembersInput!
+    $condition: ModelMembersConditionInput
   ) {
-    updateQuizToGroup(input: $input, condition: $condition) {
+    updateMembers(input: $input, condition: $condition) {
       id
-      quizID
-      groupID
-      quiz {
-        id
-        quizID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        groups {
-          nextToken
-        }
-        questions {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        topic
-        publicPrivate
-        createdAt
-        updatedAt
-        userQuizOwnersId
-      }
-      group {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteQuizToGroup = /* GraphQL */ `
-  mutation DeleteQuizToGroup(
-    $input: DeleteQuizToGroupInput!
-    $condition: ModelQuizToGroupConditionInput
-  ) {
-    deleteQuizToGroup(input: $input, condition: $condition) {
-      id
-      quizID
-      groupID
-      quiz {
-        id
-        quizID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        groups {
-          nextToken
-        }
-        questions {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        topic
-        publicPrivate
-        createdAt
-        updatedAt
-        userQuizOwnersId
-      }
-      group {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createMember = /* GraphQL */ `
-  mutation CreateMember(
-    $input: CreateMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    createMember(input: $input, condition: $condition) {
-      id
-      groupID
       userID
-      group {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
+      groupID
+      user {
+        username
+        name
         profilePicture
         bio
-        createdAt
-        updatedAt
-      }
-      user {
-        userID
-        admin
+        publicPrivate
+        highlightColor
         friends {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
         friendRequests {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
         groups {
-          nextToken
-        }
-        groupAdmins {
           nextToken
         }
         groupOwners {
           nextToken
         }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
         quizOwners {
           nextToken
         }
-        quizResults {
-          nextToken
-        }
-        id
+        admin
+        blocked
         createdAt
         updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
+      }
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        createdAt
+        updatedAt
+        userGroupOwnersId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateMember = /* GraphQL */ `
-  mutation UpdateMember(
-    $input: UpdateMemberInput!
-    $condition: ModelMemberConditionInput
+export const deleteMembers = /* GraphQL */ `
+  mutation DeleteMembers(
+    $input: DeleteMembersInput!
+    $condition: ModelMembersConditionInput
   ) {
-    updateMember(input: $input, condition: $condition) {
+    deleteMembers(input: $input, condition: $condition) {
       id
-      groupID
       userID
-      group {
-        id
-        groupID
-        owner {
-          userID
+      groupID
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
         }
         friendRequests {
-          nextToken
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
         }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
         groups {
-          nextToken
-        }
-        groupAdmins {
           nextToken
         }
         groupOwners {
           nextToken
         }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
         quizOwners {
           nextToken
         }
-        quizResults {
-          nextToken
-        }
-        id
+        admin
+        blocked
         createdAt
         updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
       }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteMember = /* GraphQL */ `
-  mutation DeleteMember(
-    $input: DeleteMemberInput!
-    $condition: ModelMemberConditionInput
-  ) {
-    deleteMember(input: $input, condition: $condition) {
-      id
-      groupID
-      userID
       group {
         id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
         members {
           nextToken
         }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createGroupAdmin = /* GraphQL */ `
-  mutation CreateGroupAdmin(
-    $input: CreateGroupAdminInput!
-    $condition: ModelGroupAdminConditionInput
-  ) {
-    createGroupAdmin(input: $input, condition: $condition) {
-      id
-      groupID
-      userID
-      group {
-        id
-        groupID
-        owner {
-          userID
+        memberRequests {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
         }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateGroupAdmin = /* GraphQL */ `
-  mutation UpdateGroupAdmin(
-    $input: UpdateGroupAdminInput!
-    $condition: ModelGroupAdminConditionInput
-  ) {
-    updateGroupAdmin(input: $input, condition: $condition) {
-      id
-      groupID
-      userID
-      group {
-        id
-        groupID
         owner {
-          userID
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
           admin
           blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
           createdAt
           updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
         }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
+        ownerUsername
         createdAt
         updatedAt
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteGroupAdmin = /* GraphQL */ `
-  mutation DeleteGroupAdmin(
-    $input: DeleteGroupAdminInput!
-    $condition: ModelGroupAdminConditionInput
-  ) {
-    deleteGroupAdmin(input: $input, condition: $condition) {
-      id
-      groupID
-      userID
-      group {
-        id
-        groupID
-        owner {
-          userID
-          admin
-          blocked
-          highlightColor
-          profilePicture
-          publicPrivate
-          bio
-          id
-          createdAt
-          updatedAt
-          answerUserAnswersId
-          userFriendsId
-          userFriendRequestsId
-        }
-        members {
-          nextToken
-        }
-        admin {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        quizzes {
-          nextToken
-        }
-        highlightColor
-        publicPrivate
-        profilePicture
-        bio
-        createdAt
-        updatedAt
-      }
-      user {
-        userID
-        admin
-        friends {
-          nextToken
-        }
-        friendRequests {
-          nextToken
-        }
-        blocked
-        highlightColor
-        profilePicture
-        publicPrivate
-        bio
-        groups {
-          nextToken
-        }
-        groupAdmins {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        groupLikes {
-          nextToken
-        }
-        groupResponses {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        quizResults {
-          nextToken
-        }
-        id
-        createdAt
-        updatedAt
-        answerUserAnswersId
-        userFriendsId
-        userFriendRequestsId
+        userGroupOwnersId
       }
       createdAt
       updatedAt

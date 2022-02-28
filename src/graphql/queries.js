@@ -9,21 +9,19 @@ export const getResult = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -157,21 +155,19 @@ export const getAnswer = /* GraphQL */ `
       }
       userAnswers {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -232,21 +228,19 @@ export const getQuestion = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -319,13 +313,12 @@ export const getQuiz = /* GraphQL */ `
       id
       quizID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -342,9 +335,6 @@ export const getQuiz = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -357,10 +347,12 @@ export const getQuiz = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       groups {
         items {
@@ -413,21 +405,19 @@ export const listQuizzes = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -466,21 +456,19 @@ export const getResponse = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -494,17 +482,15 @@ export const getResponse = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       responder {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -521,9 +507,6 @@ export const getResponse = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -536,10 +519,12 @@ export const getResponse = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -567,25 +552,22 @@ export const listResponses = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         postID
         responder {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         text
         createdAt
@@ -614,21 +596,19 @@ export const getLike = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -642,17 +622,15 @@ export const getLike = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       liker {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -669,9 +647,6 @@ export const getLike = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -684,10 +659,12 @@ export const getLike = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -713,25 +690,22 @@ export const listLikes = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         postID
         liker {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         createdAt
         updatedAt
@@ -750,21 +724,19 @@ export const getGroupMessage = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -786,13 +758,12 @@ export const getGroupMessage = /* GraphQL */ `
         updatedAt
       }
       poster {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -809,9 +780,6 @@ export const getGroupMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -824,10 +792,12 @@ export const getGroupMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       postID
       text
@@ -859,7 +829,6 @@ export const getGroupMessage = /* GraphQL */ `
       createdAt
       updatedAt
       groupMessagesId
-      userGroupMessagesId
     }
   }
 `;
@@ -883,21 +852,19 @@ export const listGroupMessages = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -911,7 +878,6 @@ export const listGroupMessages = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       nextToken
     }
@@ -923,13 +889,12 @@ export const getGroup = /* GraphQL */ `
       id
       groupID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -946,9 +911,6 @@ export const getGroup = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -961,10 +923,12 @@ export const getGroup = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       members {
         items {
@@ -995,7 +959,6 @@ export const getGroup = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -1029,21 +992,19 @@ export const listGroups = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1073,13 +1034,12 @@ export const getUserMessage = /* GraphQL */ `
     getUserMessage(id: $id) {
       id
       sender {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1096,9 +1056,6 @@ export const getUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1111,19 +1068,20 @@ export const getUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       receiver {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1140,9 +1098,6 @@ export const getUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1155,10 +1110,12 @@ export const getUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -1176,38 +1133,34 @@ export const listUserMessages = /* GraphQL */ `
       items {
         id
         sender {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         receiver {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         text
         createdAt
@@ -1220,29 +1173,41 @@ export const listUserMessages = /* GraphQL */ `
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
-      id
       userID
-      firstName
-      lastName
-      age
       admin
       friends {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      friendRequests {
+        items {
+          userID
+          admin
+          blocked
+          highlightColor
+          profilePicture
+          publicPrivate
+          bio
+          id
+          createdAt
+          updatedAt
+          answerUserAnswersId
+          userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -1281,19 +1246,6 @@ export const getUser = /* GraphQL */ `
           bio
           createdAt
           updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -1343,10 +1295,12 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      id
       createdAt
       updatedAt
       answerUserAnswersId
       userFriendsId
+      userFriendRequestsId
     }
   }
 `;
@@ -1358,13 +1312,12 @@ export const listUsers = /* GraphQL */ `
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1381,9 +1334,6 @@ export const listUsers = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1396,10 +1346,12 @@ export const listUsers = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       nextToken
     }
@@ -1436,13 +1388,12 @@ export const getUserToResult = /* GraphQL */ `
         quizResultsId
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1459,9 +1410,6 @@ export const getUserToResult = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1474,10 +1422,12 @@ export const getUserToResult = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1505,21 +1455,19 @@ export const listUserToResults = /* GraphQL */ `
           quizResultsId
         }
         user {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         createdAt
         updatedAt
@@ -1538,21 +1486,19 @@ export const getQuizToGroup = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -1573,21 +1519,19 @@ export const getQuizToGroup = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1660,21 +1604,19 @@ export const getMember = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1696,13 +1638,12 @@ export const getMember = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1719,9 +1660,6 @@ export const getMember = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1734,10 +1672,12 @@ export const getMember = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1766,21 +1706,19 @@ export const listMembers = /* GraphQL */ `
           updatedAt
         }
         user {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         createdAt
         updatedAt
@@ -1799,21 +1737,19 @@ export const getGroupAdmin = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1835,13 +1771,12 @@ export const getGroupAdmin = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1858,9 +1793,6 @@ export const getGroupAdmin = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1873,10 +1805,12 @@ export const getGroupAdmin = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1905,21 +1839,19 @@ export const listGroupAdmins = /* GraphQL */ `
           updatedAt
         }
         user {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         createdAt
         updatedAt

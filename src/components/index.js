@@ -4,6 +4,7 @@ export { default as GroupBox } from "./groupBox";
 export { default as Member } from "./member";
 export { default as MembersList } from "./membersList";
 export { default as Navigation } from "./navigation";
+export { default as ProfileEdit } from "./profileEdit";
 export { default as Quiz } from "./quiz";
 export { default as User } from "./user";
 export { default as QuizBox } from "./quizBox";

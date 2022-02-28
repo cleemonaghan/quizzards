@@ -9,21 +9,19 @@ export const onCreateResult = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -80,21 +78,19 @@ export const onUpdateResult = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -151,21 +147,19 @@ export const onDeleteResult = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -264,21 +258,19 @@ export const onCreateAnswer = /* GraphQL */ `
       }
       userAnswers {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -341,21 +333,19 @@ export const onUpdateAnswer = /* GraphQL */ `
       }
       userAnswers {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -418,21 +408,19 @@ export const onDeleteAnswer = /* GraphQL */ `
       }
       userAnswers {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -453,21 +441,19 @@ export const onCreateQuestion = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -512,21 +498,19 @@ export const onUpdateQuestion = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -571,21 +555,19 @@ export const onDeleteQuestion = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -628,13 +610,12 @@ export const onCreateQuiz = /* GraphQL */ `
       id
       quizID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -651,9 +632,6 @@ export const onCreateQuiz = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -666,10 +644,12 @@ export const onCreateQuiz = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       groups {
         items {
@@ -717,13 +697,12 @@ export const onUpdateQuiz = /* GraphQL */ `
       id
       quizID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -740,9 +719,6 @@ export const onUpdateQuiz = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -755,10 +731,12 @@ export const onUpdateQuiz = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       groups {
         items {
@@ -806,13 +784,12 @@ export const onDeleteQuiz = /* GraphQL */ `
       id
       quizID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -829,9 +806,6 @@ export const onDeleteQuiz = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -844,10 +818,12 @@ export const onDeleteQuiz = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       groups {
         items {
@@ -907,21 +883,19 @@ export const onCreateResponse = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -935,17 +909,15 @@ export const onCreateResponse = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       responder {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -962,9 +934,6 @@ export const onCreateResponse = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -977,10 +946,12 @@ export const onCreateResponse = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -1008,21 +979,19 @@ export const onUpdateResponse = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -1036,17 +1005,15 @@ export const onUpdateResponse = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       responder {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1063,9 +1030,6 @@ export const onUpdateResponse = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1078,10 +1042,12 @@ export const onUpdateResponse = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -1109,21 +1075,19 @@ export const onDeleteResponse = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -1137,17 +1101,15 @@ export const onDeleteResponse = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       responder {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1164,9 +1126,6 @@ export const onDeleteResponse = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1179,10 +1138,12 @@ export const onDeleteResponse = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -1209,21 +1170,19 @@ export const onCreateLike = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -1237,17 +1196,15 @@ export const onCreateLike = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       liker {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1264,9 +1221,6 @@ export const onCreateLike = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1279,10 +1233,12 @@ export const onCreateLike = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1308,21 +1264,19 @@ export const onUpdateLike = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -1336,17 +1290,15 @@ export const onUpdateLike = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       liker {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1363,9 +1315,6 @@ export const onUpdateLike = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1378,10 +1327,12 @@ export const onUpdateLike = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1407,21 +1358,19 @@ export const onDeleteLike = /* GraphQL */ `
           updatedAt
         }
         poster {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         postID
         text
@@ -1435,17 +1384,15 @@ export const onDeleteLike = /* GraphQL */ `
         createdAt
         updatedAt
         groupMessagesId
-        userGroupMessagesId
       }
       postID
       liker {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1462,9 +1409,6 @@ export const onDeleteLike = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1477,10 +1421,12 @@ export const onDeleteLike = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -1497,21 +1443,19 @@ export const onCreateGroupMessage = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1533,13 +1477,12 @@ export const onCreateGroupMessage = /* GraphQL */ `
         updatedAt
       }
       poster {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1556,9 +1499,6 @@ export const onCreateGroupMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1571,10 +1511,12 @@ export const onCreateGroupMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       postID
       text
@@ -1606,7 +1548,6 @@ export const onCreateGroupMessage = /* GraphQL */ `
       createdAt
       updatedAt
       groupMessagesId
-      userGroupMessagesId
     }
   }
 `;
@@ -1618,21 +1559,19 @@ export const onUpdateGroupMessage = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1654,13 +1593,12 @@ export const onUpdateGroupMessage = /* GraphQL */ `
         updatedAt
       }
       poster {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1677,9 +1615,6 @@ export const onUpdateGroupMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1692,10 +1627,12 @@ export const onUpdateGroupMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       postID
       text
@@ -1727,7 +1664,6 @@ export const onUpdateGroupMessage = /* GraphQL */ `
       createdAt
       updatedAt
       groupMessagesId
-      userGroupMessagesId
     }
   }
 `;
@@ -1739,21 +1675,19 @@ export const onDeleteGroupMessage = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -1775,13 +1709,12 @@ export const onDeleteGroupMessage = /* GraphQL */ `
         updatedAt
       }
       poster {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1798,9 +1731,6 @@ export const onDeleteGroupMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1813,10 +1743,12 @@ export const onDeleteGroupMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       postID
       text
@@ -1848,7 +1780,6 @@ export const onDeleteGroupMessage = /* GraphQL */ `
       createdAt
       updatedAt
       groupMessagesId
-      userGroupMessagesId
     }
   }
 `;
@@ -1858,13 +1789,12 @@ export const onCreateGroup = /* GraphQL */ `
       id
       groupID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1881,9 +1811,6 @@ export const onCreateGroup = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1896,10 +1823,12 @@ export const onCreateGroup = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       members {
         items {
@@ -1930,7 +1859,6 @@ export const onCreateGroup = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -1959,13 +1887,12 @@ export const onUpdateGroup = /* GraphQL */ `
       id
       groupID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -1982,9 +1909,6 @@ export const onUpdateGroup = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -1997,10 +1921,12 @@ export const onUpdateGroup = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       members {
         items {
@@ -2031,7 +1957,6 @@ export const onUpdateGroup = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -2060,13 +1985,12 @@ export const onDeleteGroup = /* GraphQL */ `
       id
       groupID
       owner {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2083,9 +2007,6 @@ export const onDeleteGroup = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2098,10 +2019,12 @@ export const onDeleteGroup = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       members {
         items {
@@ -2132,7 +2055,6 @@ export const onDeleteGroup = /* GraphQL */ `
           createdAt
           updatedAt
           groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -2160,13 +2082,12 @@ export const onCreateUserMessage = /* GraphQL */ `
     onCreateUserMessage {
       id
       sender {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2183,9 +2104,6 @@ export const onCreateUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2198,19 +2116,20 @@ export const onCreateUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       receiver {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2227,9 +2146,6 @@ export const onCreateUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2242,10 +2158,12 @@ export const onCreateUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -2258,13 +2176,12 @@ export const onUpdateUserMessage = /* GraphQL */ `
     onUpdateUserMessage {
       id
       sender {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2281,9 +2198,6 @@ export const onUpdateUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2296,19 +2210,20 @@ export const onUpdateUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       receiver {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2325,9 +2240,6 @@ export const onUpdateUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2340,10 +2252,12 @@ export const onUpdateUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -2356,13 +2270,12 @@ export const onDeleteUserMessage = /* GraphQL */ `
     onDeleteUserMessage {
       id
       sender {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2379,9 +2292,6 @@ export const onDeleteUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2394,19 +2304,20 @@ export const onDeleteUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       receiver {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2423,9 +2334,6 @@ export const onDeleteUserMessage = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2438,10 +2346,12 @@ export const onDeleteUserMessage = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       text
       createdAt
@@ -2452,29 +2362,41 @@ export const onDeleteUserMessage = /* GraphQL */ `
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
-      id
       userID
-      firstName
-      lastName
-      age
       admin
       friends {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      friendRequests {
+        items {
+          userID
+          admin
+          blocked
+          highlightColor
+          profilePicture
+          publicPrivate
+          bio
+          id
+          createdAt
+          updatedAt
+          answerUserAnswersId
+          userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -2513,19 +2435,6 @@ export const onCreateUser = /* GraphQL */ `
           bio
           createdAt
           updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -2575,39 +2484,53 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      id
       createdAt
       updatedAt
       answerUserAnswersId
       userFriendsId
+      userFriendRequestsId
     }
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
-      id
       userID
-      firstName
-      lastName
-      age
       admin
       friends {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      friendRequests {
+        items {
+          userID
+          admin
+          blocked
+          highlightColor
+          profilePicture
+          publicPrivate
+          bio
+          id
+          createdAt
+          updatedAt
+          answerUserAnswersId
+          userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -2646,19 +2569,6 @@ export const onUpdateUser = /* GraphQL */ `
           bio
           createdAt
           updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -2708,39 +2618,53 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      id
       createdAt
       updatedAt
       answerUserAnswersId
       userFriendsId
+      userFriendRequestsId
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
-      id
       userID
-      firstName
-      lastName
-      age
       admin
       friends {
         items {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      friendRequests {
+        items {
+          userID
+          admin
+          blocked
+          highlightColor
+          profilePicture
+          publicPrivate
+          bio
+          id
+          createdAt
+          updatedAt
+          answerUserAnswersId
+          userFriendsId
+          userFriendRequestsId
         }
         nextToken
       }
@@ -2779,19 +2703,6 @@ export const onDeleteUser = /* GraphQL */ `
           bio
           createdAt
           updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          postID
-          text
-          image
-          createdAt
-          updatedAt
-          groupMessagesId
-          userGroupMessagesId
         }
         nextToken
       }
@@ -2841,10 +2752,12 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      id
       createdAt
       updatedAt
       answerUserAnswersId
       userFriendsId
+      userFriendRequestsId
     }
   }
 `;
@@ -2879,13 +2792,12 @@ export const onCreateUserToResult = /* GraphQL */ `
         quizResultsId
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2902,9 +2814,6 @@ export const onCreateUserToResult = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2917,10 +2826,12 @@ export const onCreateUserToResult = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -2958,13 +2869,12 @@ export const onUpdateUserToResult = /* GraphQL */ `
         quizResultsId
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -2981,9 +2891,6 @@ export const onUpdateUserToResult = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -2996,10 +2903,12 @@ export const onUpdateUserToResult = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3037,13 +2946,12 @@ export const onDeleteUserToResult = /* GraphQL */ `
         quizResultsId
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3060,9 +2968,6 @@ export const onDeleteUserToResult = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3075,10 +2980,12 @@ export const onDeleteUserToResult = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3095,21 +3002,19 @@ export const onCreateQuizToGroup = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -3130,21 +3035,19 @@ export const onCreateQuizToGroup = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3180,21 +3083,19 @@ export const onUpdateQuizToGroup = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -3215,21 +3116,19 @@ export const onUpdateQuizToGroup = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3265,21 +3164,19 @@ export const onDeleteQuizToGroup = /* GraphQL */ `
         id
         quizID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         groups {
           nextToken
@@ -3300,21 +3197,19 @@ export const onDeleteQuizToGroup = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3350,21 +3245,19 @@ export const onCreateMember = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3386,13 +3279,12 @@ export const onCreateMember = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3409,9 +3301,6 @@ export const onCreateMember = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3424,10 +3313,12 @@ export const onCreateMember = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3444,21 +3335,19 @@ export const onUpdateMember = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3480,13 +3369,12 @@ export const onUpdateMember = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3503,9 +3391,6 @@ export const onUpdateMember = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3518,10 +3403,12 @@ export const onUpdateMember = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3538,21 +3425,19 @@ export const onDeleteMember = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3574,13 +3459,12 @@ export const onDeleteMember = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3597,9 +3481,6 @@ export const onDeleteMember = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3612,10 +3493,12 @@ export const onDeleteMember = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3632,21 +3515,19 @@ export const onCreateGroupAdmin = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3668,13 +3549,12 @@ export const onCreateGroupAdmin = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3691,9 +3571,6 @@ export const onCreateGroupAdmin = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3706,10 +3583,12 @@ export const onCreateGroupAdmin = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3726,21 +3605,19 @@ export const onUpdateGroupAdmin = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3762,13 +3639,12 @@ export const onUpdateGroupAdmin = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3785,9 +3661,6 @@ export const onUpdateGroupAdmin = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3800,10 +3673,12 @@ export const onUpdateGroupAdmin = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt
@@ -3820,21 +3695,19 @@ export const onDeleteGroupAdmin = /* GraphQL */ `
         id
         groupID
         owner {
-          id
           userID
-          firstName
-          lastName
-          age
           admin
           blocked
           highlightColor
           profilePicture
           publicPrivate
           bio
+          id
           createdAt
           updatedAt
           answerUserAnswersId
           userFriendsId
+          userFriendRequestsId
         }
         members {
           nextToken
@@ -3856,13 +3729,12 @@ export const onDeleteGroupAdmin = /* GraphQL */ `
         updatedAt
       }
       user {
-        id
         userID
-        firstName
-        lastName
-        age
         admin
         friends {
+          nextToken
+        }
+        friendRequests {
           nextToken
         }
         blocked
@@ -3879,9 +3751,6 @@ export const onDeleteGroupAdmin = /* GraphQL */ `
         groupOwners {
           nextToken
         }
-        groupMessages {
-          nextToken
-        }
         groupLikes {
           nextToken
         }
@@ -3894,10 +3763,12 @@ export const onDeleteGroupAdmin = /* GraphQL */ `
         quizResults {
           nextToken
         }
+        id
         createdAt
         updatedAt
         answerUserAnswersId
         userFriendsId
+        userFriendRequestsId
       }
       createdAt
       updatedAt

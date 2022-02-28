@@ -19,6 +19,8 @@ import {
 	QuizPage,
 } from "./pages";
 
+import { createUser } from "./databaseFunctions/users";
+
 import Amplify, { Hub } from "aws-amplify";
 import config from "./aws-exports";
 Amplify.configure(config);
@@ -32,7 +34,7 @@ const listener = (data) => {
 		case "signUp":
 			console.log("user signed up");
 			//create a user profile
-			console.dir(data);
+			createUser(data.payload.data.user.username);
 			break;
 		case "signOut":
 			console.log("user signed out");

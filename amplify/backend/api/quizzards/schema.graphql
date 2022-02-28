@@ -17,7 +17,7 @@ type Answer @model @auth(rules: [{ allow: public }]) {
 	questionID: Question! @belongsTo
 	answerID: ID! @index(name: "answerToQuestion") @index(name: "answerToResult")
 	result: Result! @belongsTo
-	userAnswers: [User!] @hasMany(indexName: "userToAnswer")
+	userAnswers: [User!] #@hasMany(indexName: "userToAnswer")
 	weight: Int
 	answer: String!
 }
@@ -59,8 +59,8 @@ type Like @model @auth(rules: [{ allow: public }]) {
 type GroupMessage @model @auth(rules: [{ allow: public }]) {
 	id: ID!
 	groupID: Group! @belongsTo
-	poster: User! @belongsTo
-	postID: Int! @index(name: "messageToGroup") @index(name: "userToMessage")
+	poster: User! #@belongsTo
+	postID: Int! @index(name: "messageToGroup") #@index(name: "userToMessage")
 	text: String!
 	image: String
 	likes: [Like!] @hasMany(indexName: "likeToMessage")
@@ -93,14 +93,15 @@ type UserMessage @model @auth(rules: [{ allow: public }]) {
 
 type User @model @auth(rules: [{ allow: public }]) {
 	#user info
-	id: ID!
-	userID: String! @index(name: "userToFriend") @index(name: "userToAnswer")
+	#id: ID!
+	userID: String! @primaryKey
+	#@index(name: "userToFriend")
+	#@index(name: "userToAnswer")
+	#@index(name: "userToFriendReq")
 	#@belongsTo
-	firstName: String!
-	lastName: String!
-	age: Int
 	admin: Boolean
-	friends: [User!] @hasMany(indexName: "userToFriend")
+	friends: [User!] #@hasMany(indexName: "userToFriend")
+	friendRequests: [User!] #@hasMany(indexName: "userToFriendReq")
 	blocked: Boolean
 	#settings info
 	highlightColor: Int
@@ -111,7 +112,7 @@ type User @model @auth(rules: [{ allow: public }]) {
 	groups: [Group!] @manyToMany(relationName: "member")
 	groupAdmins: [Group!] @manyToMany(relationName: "groupAdmin")
 	groupOwners: [Group!] @hasMany(indexName: "userToGroup", fields: ["userID"])
-	groupMessages: [GroupMessage!] @hasMany(indexName: "userToMessage")
+	#groupMessages: [GroupMessage!] @hasMany(indexName: "userToMessage")
 	groupLikes: [Like!] @hasMany(indexName: "userToLike")
 	groupResponses: [Response!] @hasMany(indexName: "userToResponse")
 	#quiz info

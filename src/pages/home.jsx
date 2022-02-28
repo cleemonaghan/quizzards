@@ -11,17 +11,40 @@ import {
   photo17,
 } from "../images";
 
+import{
+  getUserByUsername as getUser,
+  getUserGroups as getUserGroups,
+} from "../graphql/userHomeFunctions";
+
 class Home extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      username: "",
+      name:"",
+      color_theme: "blue",
+      profile_pic: null,
+    };
+
   }
 
   async componentDidMount() {
-    const response = await Auth.currentAuthenticatedUser();
-    let user = response.username;
-    this.setState({ username: user });
+    try{
+      const response = await Auth.currentAuthenticatedUser();
+      this.setState({ 
+        username: response.username,
+        name: response.name,
+        color_theme: response.color_theme,
+        profile_pic: response.profile_pic,
+      });
+      await getUser(this.username);
+    }
+    catch(err){
+      console.log("error attaching user to home page: ",err);
+    }
+
   }
+
 
   render() {
     return (

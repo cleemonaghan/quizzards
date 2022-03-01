@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Offcanvas } from "react-bootstrap";
-import { photo } from "../images";
-import { Auth } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { ProfileEdit } from "../components";
 import { getUser } from "../databaseFunctions/users";
 
@@ -11,7 +10,6 @@ class Profile extends React.Component {
 		this.user = null;
 		this.state = {
 			username: "",
-			family_name: "",
 			name: "",
 			birthdate: "",
 			email: "",
@@ -40,17 +38,22 @@ class Profile extends React.Component {
 	async updateProfile() {
 		let userSettings = await Auth.currentUserInfo();
 		let userDatabase = await getUser(this.user.username);
-		console.log(userDatabase);
 		this.setState({
 			username: userSettings.username,
-			family_name: userSettings.attributes.family_name,
 			name: userSettings.attributes.name,
 			birthdate: userSettings.attributes.birthdate,
 			email: userSettings.attributes.email,
 			color_theme: "blue", //we need to ensure this is updated
-			profile_pic: photo,
+			profile_pic: userDatabase.data.getUser.profilePicture,
 			biography: userDatabase.data.getUser.bio,
 		});
+		//load the picture from storage
+		try {
+			const image = await Storage.get(this.state.profile_pic);
+			this.setState({ profile_pic: image });
+		} catch (error) {
+			console.log("Error occured: " + error);
+		}
 	}
 
 	render() {
@@ -83,8 +86,8 @@ class Profile extends React.Component {
 							<h1 className="font-weight-light">Profile</h1>
 							{/* Username */}
 							<p>{this.state.username}</p>
-							{/* First Name and Last Name*/}
-							<p>{this.state.name + " " + this.state.family_name}</p>
+							{/* Name*/}
+							<p>{this.state.name}</p>
 							{/* Email address */}
 							<p>{this.state.email}</p>
 							{/* Birth Date */}

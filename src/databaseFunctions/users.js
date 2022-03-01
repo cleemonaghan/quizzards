@@ -6,7 +6,7 @@ import {
 	updateUser as updateUserMutation,
 } from "../graphql/mutations";
 import { getUser as getUserQuery } from "../graphql/queries";
-import { photo as defaultProfile } from "../images";
+import { photo as defaultImage } from "../images";
 
 export async function createUser(username) {
 	//if the User did not enter a title, don't create a post
@@ -21,7 +21,14 @@ export async function createUser(username) {
 		blocked: false,
 	};
 	// add a default profile image to their storage
-	await Storage.put(fileName, defaultProfile);
+	fetch(defaultImage)
+		.then((res) => res.blob())
+		.then(async (myBlob) => {
+			await Storage.put(fileName, myBlob);
+		})
+		.catch((err) => console.log("Fetch Error: " + err));
+	//console.log(image.size);
+
 	//create a new Post using the form data
 	await API.graphql({
 		query: createUserMutation,

@@ -4,10 +4,21 @@ import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
 import { photo13, photo14, photo15, photo16, photo17 } from "../images";
 
+import{
+  getUserByUsername as getUser,
+  getUserGroups as getUserGroups,
+} from "../graphql/userHomeFunctions";
+
 class Home extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      username: "",
+      name:"",
+      color_theme: "blue",
+      profile_pic: null,
+    };
+
   }
 
   async componentDidMount() {
@@ -16,6 +27,7 @@ class Home extends React.Component {
     const image = await Storage.get(user + "_profile_pic");
     this.setState({ username: user, profile_pic: image });
   }
+
 
   render() {
     return (

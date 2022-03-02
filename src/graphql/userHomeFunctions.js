@@ -1,14 +1,17 @@
 import { API, Storage } from "aws-amplify";
-import { urlSafeDecode } from "../../quizzards/node_modules/@aws-amplify/core/lib-esm";
-import { getUser as getUserQuery } from "../graphql/queries";
+//import { urlSafeDecode } from "../../quizzards/node_modules/@aws-amplify/core/lib-esm";
+import { getUser as getUserQuery } from "./queries";
 
-async function getUserByUsername(username){
-    const user = await API.graphql(
-        {query: getUserQuery, 
-        variables: {userID: username},
+export async function getUserByUsername(usern){
+    console.log("in getuserByUsername function");
+
+    let result = await API.graphql({
+            query: getUserQuery,
+            variables: { username: usern },
         });
-    console.log(user);
-    return user;
+    //console.log(user);
+    console.log("returning user");
+    return result;
 }
 
 export async function getUserGroups(user){
@@ -19,21 +22,6 @@ export async function getUserGroups(user){
     return userVal.data.getUser.groups;
 }
 
-export const getUserGroups = 
-    query getUserGroups($id: ID!){
-        getUserGroups(id: $id){
-            groups{
-                items {
-                    id
-                    groupID
-                    userID
-                    createdAt
-                    updatedAt
-                  }
-                  nextToken
-            }
-        }
-    };
 
 export async function getUserFriends(user){
     let username = user.username;

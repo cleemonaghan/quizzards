@@ -1,6 +1,8 @@
 import React from "react";
 
 class CreateGroup extends React.Component {
+  //name, description, private/public, image, colorscheme
+  //once in group: invite members, make quiz, upload quiz
   render() {
     return (
       <div className="create-group">

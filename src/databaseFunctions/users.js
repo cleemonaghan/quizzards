@@ -6,29 +6,34 @@ import {
 	updateUser as updateUserMutation,
 } from "../graphql/mutations";
 import { getUser as getUserQuery } from "../graphql/queries";
+import { photo as defaultImage } from "../images";
 
 export async function createUser(username) {
 	//if the User did not enter a title, don't create a post
 	if (!username) return;
+
+	const fileName = username + "_profile_pic";
 	let params = {
 		username: username,
 		name: username,
+		profilePicture: fileName,
 		admin: false,
 		blocked: false,
 	};
-	console.log(params);
+	// add a default profile image to their storage
+	fetch(defaultImage)
+		.then((res) => res.blob())
+		.then(async (myBlob) => {
+			await Storage.put(fileName, myBlob);
+		})
+		.catch((err) => console.log("Fetch Error: " + err));
+	//console.log(image.size);
+
 	//create a new Post using the form data
 	await API.graphql({
 		query: createUserMutation,
 		variables: { input: params },
 	});
-	//if they added an image, add the image to the storage
-	/*
-	if (params.image) {
-		const image = await Storage.get(params.image);
-		params.image = image;
-	}
-    */
 }
 
 export async function updateUser(user, inputs) {

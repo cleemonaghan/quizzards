@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
-import { photo } from "../images";
-import { Auth } from "aws-amplify";
+import { photo as defaultImage } from "../images";
+import { Auth, Storage } from "aws-amplify";
 
 import { updateUser, getUser } from "../databaseFunctions/users";
 
@@ -11,7 +11,6 @@ class ProfileEdit extends React.Component {
 		this.user = null;
 		this.state = {
 			username: "",
-			family_name: "",
 			name: "",
 			birthdate: "",
 			email: "",
@@ -20,7 +19,10 @@ class ProfileEdit extends React.Component {
 			biography: "",
 		};
 
+		this.changedPhoto = false;
 		this.tempPhoto = this.state.profile_pic;
+		this.defaultImage = null;
+		this.defaultImageBlob = null;
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,18 +34,28 @@ class ProfileEdit extends React.Component {
 			this.user = await Auth.currentAuthenticatedUser();
 			let userSettings = await Auth.currentUserInfo();
 			let userDatabase = await getUser(this.user.username);
-			console.log(userDatabase);
 			this.setState({
 				username: userSettings.username,
-				family_name: userSettings.attributes.family_name,
 				name: userSettings.attributes.name,
 				birthdate: userSettings.attributes.birthdate,
 				email: userSettings.attributes.email,
 				color_theme: "blue", //we need to ensure this is updated
-				profile_pic: photo,
+				profile_pic: userDatabase.data.getUser.profilePicture,
 				biography: userDatabase.data.getUser.bio,
 			});
-			this.tempPhoto = this.state.profile_pic;
+
+			// get default file image
+			this.defaultImage = await Storage.get("default_profile_image");
+			fetch(defaultImage)
+				.then((res) => res.blob())
+				.then((myBlob) => {
+					this.defaultImageBlob = myBlob;
+				});
+
+			//load the image if there is one
+			const image = await Storage.get(this.state.profile_pic);
+			this.tempPhoto = image;
+			this.setState({ profile_pic: image });
 		} catch (err) {
 			console.log("There was an error logging: ", err);
 		}
@@ -54,17 +66,24 @@ class ProfileEdit extends React.Component {
 	 */
 	async updateAttributes() {
 		let params = {
-			family_name: this.state.family_name,
 			name: this.state.name,
 			birthdate: this.state.birthdate,
 		};
 		await Auth.updateUserAttributes(this.user, params);
 
-		params = {
-			//highlightColor:  this.state.color_theme,
-			profilePicture: this.state.profile_pic,
-			bio: this.state.biography,
-		};
+		//if they changed the photo, update the photo
+		if (this.changedPhoto) {
+			params = {
+				//highlightColor:  this.state.color_theme,
+				profilePicture: this.state.profile_pic,
+				bio: this.state.biography,
+			};
+		} else {
+			params = {
+				//highlightColor:  this.state.color_theme,
+				bio: this.state.biography,
+			};
+		}
 		await updateUser(this.user, params);
 	}
 
@@ -78,25 +97,37 @@ class ProfileEdit extends React.Component {
 	}
 
 	onImageChange(event) {
-		if (event.target.files && event.target.files[0]) {
-			let img = event.target.files[0];
-			this.tempPhoto = URL.createObjectURL(img);
-			this.setState({
-				profile_pic: URL.createObjectURL(img),
-			});
+		//check if they they submitted files
+		this.changedPhoto = true;
+		if (event.target.files) {
+			if (event.target.files.length === 0) {
+				//no file was uploaded, so revert to the default
+				this.tempPhoto = this.defaultImage;
+				this.setState({
+					profile_pic: this.defaultImageBlob,
+				});
+			} else if (event.target.files[0]) {
+				// Update the temp photo and the state.profile_pic
+				let file = event.target.files[0];
+				if (file.size < 1000000) {
+					this.tempPhoto = URL.createObjectURL(file);
+					this.setState({
+						profile_pic: file,
+					});
+				} else {
+					//the file was too big, so revert to the default
+					this.tempPhoto = this.defaultImage;
+					this.setState({
+						profile_pic: this.defaultImageBlob,
+					});
+				}
+			}
 		}
 	}
 
 	handleSubmit(event) {
-		//console.log(event);
-		alert("Your name is: " + this.state.name);
 		event.preventDefault();
-		//update the profile_pic_display image
-		//this.setState({
-		//	profile_pic: this.fileInput.current.value,
-		//});
 		//update the color scheme
-
 		//update the user profile
 		this.updateAttributes();
 	}
@@ -117,24 +148,13 @@ class ProfileEdit extends React.Component {
 								/>
 							</FloatingLabel>
 						</Form.Group>
-						{/* First Name */}
+						{/* Name */}
 						<Form.Group className="mb-3" controlId="name">
-							<FloatingLabel label="First Name" className="mb-3">
+							<FloatingLabel label="Name" className="mb-3">
 								<Form.Control
 									name="name"
 									type="text"
 									value={this.state.name}
-									onChange={this.handleChange}
-								/>
-							</FloatingLabel>
-						</Form.Group>
-						{/* Last Name */}
-						<Form.Group className="mb-3" controlId="family_name">
-							<FloatingLabel label="Last Name" className="mb-3">
-								<Form.Control
-									name="family_name"
-									type="text"
-									value={this.state.family_name}
 									onChange={this.handleChange}
 								/>
 							</FloatingLabel>
@@ -168,8 +188,18 @@ class ProfileEdit extends React.Component {
 								type="file"
 								name="profile_pic"
 								onChange={this.onImageChange}
+								accept="image/png, image/jpeg"
 							/>
 						</Form.Group>
+						<div>
+							<img
+								id="profile_pic_display"
+								className="img-fluid rounded-circle" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
+								alt=""
+								src={this.tempPhoto}
+								style={{ height: "200px", width: "200px" }}
+							/>
+						</div>
 						{/* Color Theme */}
 						<Form.Group className="mb-3" controlId="color_theme">
 							<Form.Label>Theme Color</Form.Label>
@@ -196,21 +226,6 @@ class ProfileEdit extends React.Component {
 							Submit
 						</Button>
 					</Form>
-
-					<div className="row align-items-center my-5">
-						<div className="col-5">
-							<h1 className="font-weight-light">Profile</h1>
-							<div>
-								<img
-									id="profile_pic_display"
-									className="img-fluid rounded-circle" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
-									alt=""
-									src={this.state.profile_pic}
-								/>
-							</div>
-							<p>{this.state.biography}</p>
-						</div>
-					</div>
 				</div>
 			</div>
 		);

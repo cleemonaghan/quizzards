@@ -1,15 +1,8 @@
 import React from "react";
-import { Auth } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
-import {
-  photo12,
-  photo13,
-  photo14,
-  photo15,
-  photo16,
-  photo17,
-} from "../images";
+import { photo13, photo14, photo15, photo16, photo17 } from "../images";
 
 import{
   getUserByUsername as getUser,
@@ -29,20 +22,10 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    try{
-      const response = await Auth.currentAuthenticatedUser();
-      this.setState({ 
-        username: response.username,
-        name: response.name,
-        color_theme: response.color_theme,
-        profile_pic: response.profile_pic,
-      });
-      await getUser(this.username);
-    }
-    catch(err){
-      console.log("error attaching user to home page: ",err);
-    }
-
+    const response = await Auth.currentAuthenticatedUser();
+    let user = response.username;
+    const image = await Storage.get(user + "_profile_pic");
+    this.setState({ username: user, profile_pic: image });
   }
 
 
@@ -56,12 +39,14 @@ class Home extends React.Component {
           <div className="row align-items-center my-5">
             <div className="col-1">
               <img
-                className="img-fluid rounded-circle mb-4 mb-0"
-                src={photo12}
+                className="img-fluid rounded-circle my-auto"
+                src={this.state.profile_pic}
                 alt=""
               />
             </div>
-            <h3 className="font-weight-light col-3">{this.state.username}</h3>
+            <h3 className="font-weight-light col-3 my-auto">
+              {this.state.username}
+            </h3>
           </div>
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold col-4">Your Groups</h1>

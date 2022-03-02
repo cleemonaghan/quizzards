@@ -1,4 +1,16 @@
 import React from "react";
+import { createGroup } from "../databaseFunctions/groups";
+import "@aws-amplify/ui-react/styles.css";
+
+import Amplify, { Hub } from "aws-amplify";
+import config from "../aws-exports";
+Amplify.configure(config);
+
+//Add a listener for the Authenticator
+const listener = (data) => {
+  createGroup();
+};
+Hub.listen("auth", listener);
 
 class CreateGroup extends React.Component {
   //name, description, private/public, image, colorscheme

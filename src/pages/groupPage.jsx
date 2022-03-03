@@ -86,7 +86,7 @@ class GroupPage extends React.Component {
               labels={["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]}
               data={[15, 45, 35, 5]}
             /> */}
-            <StatsBox />
+            {/* <StatsBox /> */}
             <CompareBox />
           </div>
           <div className="col-3 mt-5">

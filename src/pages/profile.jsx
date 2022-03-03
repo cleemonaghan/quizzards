@@ -61,14 +61,48 @@ class Profile extends React.Component {
       <div className="profile">
         <div className="container">
           <div className="row align-items-center my-5">
+            <h1 className="col-11">Profile</h1>
+            <Button
+              variant="outline-primary"
+              onClick={this.handleShow}
+              className="col-1 float-end"
+            >
+              Edit Profile
+            </Button>
+          </div>
+          <div className="row align-items-center mb-2">
+            <div className="col-1">
+              <img
+                id="profile_pic_display"
+                className="img-fluid rounded-circle my-auto"
+                src={this.state.profile_pic}
+                alt=""
+              />
+            </div>
+            <h3 className="font-weight-light col-3 my-auto">
+              {this.state.username}
+            </h3>
+          </div>
+
+          <div className="row">
+            <h4 className="col-1">Name:</h4>
+            <h4 className="col-11 ps-4">{this.state.name}</h4>
+          </div>
+          <div className="row">
+            <h4 className="col-1">Email:</h4>
+            <h4 className="col-11 ps-4">{this.state.email}</h4>
+          </div>
+          <div className="row">
+            <h4 className="col-1">Birthdate:</h4>
+            <h4 className="col-11 ps-4">{this.state.birthdate}</h4>
+          </div>
+          <div className="row">
+            <h4 className="col-1">Bio:</h4>
+            <h4 className="col-11 ps-4">{this.state.biography}</h4>
+          </div>
+
+          <div className="row align-items-center my-5">
             <div className="col-5">
-              <Button
-                variant="primary"
-                onClick={this.handleShow}
-                className="me-2"
-              >
-                Edit Profile
-              </Button>
               <Offcanvas
                 show={this.state.show}
                 onHide={this.handleClose}
@@ -83,24 +117,6 @@ class Profile extends React.Component {
                   <ProfileEdit></ProfileEdit>
                 </Offcanvas.Body>
               </Offcanvas>
-              <h1 className="font-weight-light">Profile</h1>
-              {/* Username */}
-              <p>{this.state.username}</p>
-              {/* Name*/}
-              <p>{this.state.name}</p>
-              {/* Email address */}
-              <p>{this.state.email}</p>
-              {/* Birth Date */}
-              <p>{this.state.birthdate}</p>
-              <div>
-                <img
-                  id="profile_pic_display"
-                  className="img-fluid rounded-circle" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
-                  alt=""
-                  src={this.state.profile_pic}
-                />
-              </div>
-              <p>{this.state.biography}</p>
             </div>
           </div>
         </div>

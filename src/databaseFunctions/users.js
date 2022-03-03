@@ -22,8 +22,8 @@ export async function createUser(username) {
 	};
 	// add a default profile image to their storage
 	fetch(defaultImage)
-		.then((res) => res.blob())
-		.then(async (myBlob) => {
+		.then(async (res) => {
+			let myBlob = await res.blob();
 			await Storage.put(fileName, myBlob);
 		})
 		.catch((err) => console.log("Fetch Error: " + err));

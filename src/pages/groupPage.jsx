@@ -14,28 +14,23 @@ class GroupPage extends React.Component {
   render() {
     return (
       <div className="group-page">
-        <div className="container">
-          <div className="row">
-            <img
-              className="hero-img col-5 mb-5 px-0"
-              src={photo13}
-              alt=""
-              width="100%"
-            />
-            <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
-              <h1 className="px-5">Hogwarts</h1>
-              <p className="px-5">
-                This is a description of the group... Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-            </div>
+        <div className="row m-0">
+          <img className="col-5 mb-5 px-0" src={photo13} alt="" width="100%" />
+          <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
+            <h1 className="px-5">Hogwarts</h1>
+            <p className="px-5">
+              This is a description of the group... Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+              occaecat cupidatat non proident, sunt in culpa qui officia
+              deserunt mollit anim id est laborum.
+            </p>
           </div>
+        </div>
+        <div className="container">
           <div className="float-end col-3">
             <MembersList />
           </div>

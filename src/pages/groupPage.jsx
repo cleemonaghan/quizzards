@@ -35,7 +35,7 @@ class GroupPage extends React.Component {
             <MembersList />
           </div>
           <div className="row mb-5">
-            <div className="col-1">
+            <div className="col-1 px-0">
               <DropdownButton
                 id="dropdown-basic-button"
                 title="Filter"
@@ -48,7 +48,7 @@ class GroupPage extends React.Component {
               </DropdownButton>
             </div>
             <div className="col-1"></div>
-            <div className="col-3">
+            <div className="col-3 px-0">
               <Link to="/createQuiz">
                 <Button variant="outline-primary">Create New Quiz +</Button>{" "}
               </Link>

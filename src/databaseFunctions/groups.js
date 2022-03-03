@@ -28,37 +28,37 @@ export async function createGroup(id, groupName, User, username) {
 }
 
 export async function updateGroup(user, inputs) {
-  //   //if the was no username specified, don't update the user
-  //   let username = user.username;
-  //   if (!username) return;
-  //   let params = {
-  //     username: username,
-  //   };
-  //   //add each key-value pair in the inputs to the params
-  //   let keys = Object.keys(inputs);
-  //   for (let i = 0; i < keys.length; i++) {
-  //     let key = keys[i];
-  //     if (key === "profilePicture") {
-  //       // Update the image
-  //       const fileName = username + "_profile_pic";
-  //       await Storage.put(fileName, inputs[key]);
-  //       params[key] = fileName;
-  //     } else params[key] = inputs[key];
-  //   }
-  //   //update the  a new Post using the form data
-  //   await API.graphql({
-  //     query: updateUserMutation,
-  //     variables: { input: params },
-  //   });
+  //if the was no username specified, don't update the user
+  let username = user.username;
+  if (!username) return;
+  let params = {
+    username: username,
+  };
+  //add each key-value pair in the inputs to the params
+  let keys = Object.keys(inputs);
+  for (let i = 0; i < keys.length; i++) {
+    let key = keys[i];
+    if (key === "profilePicture") {
+      // Update the image
+      const fileName = username + "_profile_pic";
+      await Storage.put(fileName, inputs[key]);
+      params[key] = fileName;
+    } else params[key] = inputs[key];
+  }
+  //update the  a new Post using the form data
+  await API.graphql({
+    query: updateGroupMutation,
+    variables: { input: params },
+  });
 }
 
-export async function getGroup(username) {
-  // //if the was no username specified, don't update the user
-  // if (!username) return;
-  // //update the  a new Post using the form data
-  // let result = await API.graphql({
-  // 	query: getUserQuery,
-  // 	variables: { username: username },
-  // });
-  // return result;
+export async function getGroup(id) {
+  //if the was no username specified, don't update the user
+  if (!id) return;
+  //update the  a new Post using the form data
+  let result = await API.graphql({
+    query: getGroupQuery,
+    variables: { id: id },
+  });
+  return result;
 }

@@ -39,22 +39,14 @@ class CreateGroup extends React.Component {
   async componentDidMount() {
     try {
       this.user = await Auth.currentAuthenticatedUser();
-      let userSettings = await Auth.currentUserInfo();
-      let userDatabase = await getGroup(this.user.username);
+      let groupSettings = await Auth.currentGroupInfo();
+      let groupDatabase = await getGroup(this.group.id);
       this.setState({
-        id: "",
-        name: "",
-        profile_pic: null,
+        id: groupSettings.id,
+        name: groupSettings.attributes.name,
+        profile_pic: groupDatabase.data.getGroup.profilePicture,
         owner: null,
         ownerUsername: "",
-
-        username: userSettings.username,
-        name: userSettings.attributes.name,
-        birthdate: userSettings.attributes.birthdate,
-        email: userSettings.attributes.email,
-        color_theme: "blue", //we need to ensure this is updated
-        profile_pic: userDatabase.data.getGroup.profilePicture,
-        biography: userDatabase.data.getGroup.bio,
       });
 
       // get default file image
@@ -211,25 +203,5 @@ class CreateGroup extends React.Component {
     );
   }
 }
-//   render() {
-//     return (
-//       <div className="create-group">
-//         <div className="container">
-//           <div className="row align-items-center my-5">
-//             <div className="col-5">
-//               <h1 className="font-weight-light">Create Group</h1>
-//               <p>
-//                 Lorem Ipsum is simply dummy text of the printing and typesetting
-//                 industry. Lorem Ipsum has been the industry's standard dummy
-//                 text ever since the 1500s, when an unknown printer took a galley
-//                 of type and scrambled it to make a type specimen book.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
 
 export default CreateGroup;

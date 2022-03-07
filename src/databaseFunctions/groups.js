@@ -27,12 +27,11 @@ export async function createGroup(id, groupName, User, username) {
   });
 }
 
-export async function updateGroup(user, inputs) {
-  //if the was no username specified, don't update the user
-  let username = user.username;
-  if (!username) return;
+export async function updateGroup(id, inputs) {
+  //if the was no id specified, don't update the group
+  if (!id) return;
   let params = {
-    username: username,
+    id: id,
   };
   //add each key-value pair in the inputs to the params
   let keys = Object.keys(inputs);
@@ -40,7 +39,7 @@ export async function updateGroup(user, inputs) {
     let key = keys[i];
     if (key === "profilePicture") {
       // Update the image
-      const fileName = username + "_profile_pic";
+      const fileName = id + "_profile_pic";
       await Storage.put(fileName, inputs[key]);
       params[key] = fileName;
     } else params[key] = inputs[key];

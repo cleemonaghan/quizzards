@@ -1,13 +1,14 @@
 import React from "react";
-import { Auth, Storage } from "aws-amplify";
+import { Auth, navItem, Storage } from "aws-amplify";
 import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
 import { photo13, photo14, photo15, photo16, photo17 } from "../images";
 
 import{
-  getUserByUsername as getUser,
-  getUserGroups as getUserGroups,
-} from "../graphql/userHomeFunctions";
+  getUser,
+  getUserGroups,
+  getUserQuizzes,
+} from "../databaseFunctions/users.js";
 
 class Home extends React.Component {
   constructor() {
@@ -26,10 +27,32 @@ class Home extends React.Component {
     let user = response.username;
     const image = await Storage.get(user + "_profile_pic");
     this.setState({ username: user, profile_pic: image });
+    //let result = await getUserQuizzes(user);
+    //console.log(result);
+  }
+
+  async getGroups(){
+    const groupArr = await getUserGroups(this.username);
+    if(groupArr == undefined){
+      console.log("returning empty list");
+      return [];
+    }
+    return groupArr;
+  }
+
+  async getQuizzes(){
+    const quizArr = await getUserQuizzes(this.username);
+    if(quizArr == undefined){
+      console.log("returning an empty quiz list");
+      return [];
+    }
+    return quizArr;
   }
 
 
   render() {
+    let groupArr = this.getGroups();
+    let quizArr = this.getQuizzes();
     return (
       <div className="home">
         <div className="container">
@@ -44,14 +67,22 @@ class Home extends React.Component {
                 alt=""
               />
             </div>
-            <h3 className="font-weight-light col-3 my-auto">
+            <h3 className="font-weight-light col-3 my-auto"> 
               {this.state.username}
             </h3>
           </div>
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold col-4">Your Groups</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className = "row col-9 pb-5">
+            {groupArr.length ? groupArr.map(item => {
+              return  <div className="col-4 mb-4">
+              <GroupBox link={item.profilePicture} name={item.name} />
+            </div>;
+            }) : <p>You have no groups</p>}
+          </div>
+            {/*
+            <div className="row col-9 pb-5">
             <div className="col-4 mb-4">
               <GroupBox link={photo13} name="Hogwarts" />
             </div>
@@ -70,9 +101,20 @@ class Home extends React.Component {
               <GroupBox link={photo17} name="Books" />
             </div>
           </div>
+            */}
+
+
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold col-4">Your Quizzes</h1>
           </div>
+          <div className = "row col-9 pb-5">
+            {quizArr.length ? quizArr.map(item => {
+              return  <div className="col-4">
+              <QuizBox  name={item.quizname} description={item.description}/>
+            </div>;
+            }) : <p>You have no quizzes</p>}
+          </div>
+          {/*
           <div className="row col-9 pb-5">
             <div className="col-4">
               <QuizBox
@@ -105,8 +147,14 @@ class Home extends React.Component {
                 name="Books"
                 description="description of the quiz goes here."
               />
-            </div>
-          </div>
+
+              </div>  
+              </div>
+           
+          */
+          }
+
+          
         </div>
       </div>
     );

@@ -50,6 +50,7 @@ type Quiz @model @auth(rules: [{ allow: public }]) {
 	quizname: String!
 	owner: User! @belongsTo(fields: ["ownerUsername"])
 	ownerUsername: String!
+	description: String!
 	#groups: [Group!] @manyToMany(relationName: "quizToGroup")
 	#questions: [Question!] @hasMany(indexName: "questionToQuiz", fields: ["id"])
 	#results: [Result!] @hasMany(indexName: "resultToQuiz", fields: ["id"])

@@ -71,3 +71,34 @@ export async function getUser(username) {
 	});
 	return result;
 }
+
+export async function getUserGroups(user){
+    //console.log("in getUserGroups");
+    //let username = user.username;
+    if(!user) return;
+    let userVal = await getUser(user);
+    //console.log("the user:");
+    //console.log(userVal);
+    //console.log("returning groups");
+    return userVal.data.getUser.groups.items;
+}
+
+export async function getUserFriends(user){
+    //let username = user.username;
+    if(!user) return;
+    let userVal = await getUser(user);
+    return userVal.data.getUser.friends;
+}
+
+export async function getUserFriendRequests(user){
+    if(!user) return;
+    let userVal = await getUser(user);
+    return userVal.data.getUser.friendRequests;
+}
+
+export async function getUserQuizzes(user){
+    let username = user.username;
+    if(!username) return;
+    let userVal = await getUser(username);
+    return userVal.data.getUser.quizOwners.data;
+}

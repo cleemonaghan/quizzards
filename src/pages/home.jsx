@@ -8,7 +8,9 @@ import{
   getUser,
   getUserGroups,
   getUserQuizzes,
+  addFriend,
 } from "../databaseFunctions/users.js";
+import Button from "@restart/ui/esm/Button";
 
 class Home extends React.Component {
   constructor() {
@@ -114,6 +116,10 @@ class Home extends React.Component {
             </div>;
             }) : <p>You have no quizzes</p>}
           </div>
+          <div className = "row align-items-center mt-5 mb-2">
+            <h1 >Make a Friend!</h1>
+          </div>
+          <Button onClick = {() => addFriend(this.state.username, "cleemonaghan")}></Button>
           {/*
           <div className="row col-9 pb-5">
             <div className="col-4">

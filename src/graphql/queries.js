@@ -11,92 +11,50 @@ export const getUser = /* GraphQL */ `
       publicPrivate
       highlightColor
       friends {
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
         username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
         friends {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-        }
-        groups {
           nextToken
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
         createdAt
         updatedAt
       }
       friendRequests {
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
         username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-        }
         friendRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-        }
-        groups {
           nextToken
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
         createdAt
         updatedAt
       }
@@ -130,6 +88,7 @@ export const getUser = /* GraphQL */ `
           id
           quizname
           ownerUsername
+          description
           createdAt
           updatedAt
           userQuizOwnersId
@@ -140,6 +99,10 @@ export const getUser = /* GraphQL */ `
       blocked
       createdAt
       updatedAt
+      friendsFriendsId
+      friendRequestsFriendRequestsId
+      userFriendsId
+      userFriendRequestsId
     }
   }
 `;
@@ -167,25 +130,11 @@ export const listUsers = /* GraphQL */ `
         highlightColor
         friends {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
         friendRequests {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
@@ -200,6 +149,222 @@ export const listUsers = /* GraphQL */ `
         }
         admin
         blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getFriends = /* GraphQL */ `
+  query GetFriends($username: String!) {
+    getFriends(username: $username) {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friends {
+        items {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFriends = /* GraphQL */ `
+  query ListFriends(
+    $username: String
+    $filter: ModelFriendsFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listFriends(
+      username: $username
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        username
+        friends {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFriendRequests = /* GraphQL */ `
+  query GetFriendRequests($username: String!) {
+    getFriendRequests(username: $username) {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          createdAt
+          updatedAt
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friendRequests {
+        items {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFriendRequests = /* GraphQL */ `
+  query ListFriendRequests(
+    $username: String
+    $filter: ModelFriendRequestsFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listFriendRequests(
+      username: $username
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        username
+        friendRequests {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -235,25 +400,11 @@ export const getGroup = /* GraphQL */ `
         highlightColor
         friends {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
         friendRequests {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
@@ -270,6 +421,10 @@ export const getGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
       }
       owner {
         username
@@ -280,25 +435,11 @@ export const getGroup = /* GraphQL */ `
         highlightColor
         friends {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
         friendRequests {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
@@ -315,6 +456,10 @@ export const getGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
       }
       ownerUsername
       createdAt
@@ -359,6 +504,10 @@ export const listGroups = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         owner {
           username
@@ -371,6 +520,10 @@ export const listGroups = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         ownerUsername
         createdAt
@@ -395,25 +548,11 @@ export const getQuiz = /* GraphQL */ `
         highlightColor
         friends {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
         friendRequests {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
@@ -430,8 +569,13 @@ export const getQuiz = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
       }
       ownerUsername
+      description
       createdAt
       updatedAt
       userQuizOwnersId
@@ -467,8 +611,13 @@ export const listQuizzes = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         ownerUsername
+        description
         createdAt
         updatedAt
         userQuizOwnersId
@@ -492,25 +641,11 @@ export const getMembers = /* GraphQL */ `
         highlightColor
         friends {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
         friendRequests {
           username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
           createdAt
           updatedAt
         }
@@ -527,6 +662,10 @@ export const getMembers = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
+        friendsFriendsId
+        friendRequestsFriendRequestsId
+        userFriendsId
+        userFriendRequestsId
       }
       group {
         id
@@ -549,6 +688,10 @@ export const getMembers = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         owner {
           username
@@ -561,6 +704,10 @@ export const getMembers = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         ownerUsername
         createdAt
@@ -594,6 +741,10 @@ export const listMembers = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+          friendsFriendsId
+          friendRequestsFriendRequestsId
+          userFriendsId
+          userFriendRequestsId
         }
         group {
           id

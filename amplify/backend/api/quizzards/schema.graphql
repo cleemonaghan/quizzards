@@ -5,7 +5,7 @@ input AMPLIFY {
 } # FOR TESTING ONLY!
 type User @model @auth(rules: [{ allow: public }]) {
 	#user info
-	username: String! @primaryKey
+	username: String! @primaryKey  
 	name: String!
 	profilePicture: String
 	bio: String
@@ -13,8 +13,8 @@ type User @model @auth(rules: [{ allow: public }]) {
 	highlightColor: String
 
 	#friend info
-	friends: [User!]
-	friendRequests: [User!]
+	friends: Friends! @hasOne
+	friendRequests: FriendRequests! @hasOne
 
 	#group info
 	groups: [Group!]! @manyToMany(relationName: "members")
@@ -24,6 +24,19 @@ type User @model @auth(rules: [{ allow: public }]) {
 	quizOwners: [Quiz!]! @hasMany
 	admin: Boolean! @default(value: "false")
 	blocked: Boolean! @default(value: "false")
+}
+
+type Friends @model @auth(rules: [{ allow: public }]){
+	user: User! @belongsTo(fields: ["username"])
+	username: String! @primaryKey
+	friends: [User!]! @hasMany
+}
+
+type FriendRequests @model @auth(rules: [{ allow: public }]){
+	user: User! @belongsTo(fields: ["username"])
+	username: String! @primaryKey
+	friendRequests: [User!]! @hasMany
+	#friendRequests: [User!]! @hasMany
 }
 
 type Group @model @auth(rules: [{ allow: public }]) {

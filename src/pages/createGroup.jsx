@@ -13,12 +13,6 @@ import Amplify, { Hub } from "aws-amplify";
 import config from "../aws-exports";
 Amplify.configure(config);
 
-//Add a listener for the Authenticator
-const listener = (data) => {
-  createGroup();
-};
-Hub.listen("auth", listener);
-
 class CreateGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -39,15 +33,6 @@ class CreateGroup extends React.Component {
   async componentDidMount() {
     try {
       this.user = await Auth.currentAuthenticatedUser();
-      let groupSettings = await Auth.currentGroupInfo();
-      let groupDatabase = await getGroup(this.group.id);
-      this.setState({
-        id: groupSettings.id,
-        name: groupSettings.attributes.name,
-        profile_pic: groupDatabase.data.getGroup.profilePicture,
-        owner: null,
-        ownerUsername: "",
-      });
 
       // get default file image
       this.defaultImage = await Storage.get("default_profile_image");

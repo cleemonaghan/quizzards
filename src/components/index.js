@@ -11,3 +11,6 @@ export { default as QuizBox } from "./quizBox";
 export { default as GroupStats } from "./groupStats";
 export { default as StatsBox } from "./statsBox";
 export { default as CompareBox } from "./compareBox";
+export { default as QuizQuestion } from "./quizQuestion";
+export { default as QuizAnswer } from "./quizAnswer";
+export { default as QuizResult } from "./quizResult";

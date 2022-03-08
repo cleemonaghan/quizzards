@@ -7,14 +7,13 @@ import {
 	updateFriends,
 } from "../graphql/mutations";
 import { getUser as getUserQuery } from "../graphql/queries";
-import { photo as defaultImage } from "../images";
 
 export async function createUser(username) {
 	console.log("creating user");
 	//if the User did not enter a title, don't create a post
 	if (!username) return;
 
-	const fileName = username + "_profile_pic";
+	//set up the params
 	let params = {
 		username: username,
 		name: username,
@@ -24,14 +23,6 @@ export async function createUser(username) {
 		admin: false,
 		blocked: false,
 	};
-	// add a default profile image to their storage
-	fetch(defaultImage)
-		.then((res) => res.blob())
-		.then(async (myBlob) => {
-			await Storage.put(fileName, myBlob);
-		})
-		.catch((err) => console.log("Fetch Error: " + err));
-	//console.log(image.size);
 
 	//create a new Post using the form data
 	let res = await API.graphql({

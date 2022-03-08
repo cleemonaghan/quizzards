@@ -1,8 +1,7 @@
 import React from "react";
-import { Auth, navItem, Storage } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
-import { photo13, photo14, photo15, photo16, photo17 } from "../images";
 
 import{
   getUser,
@@ -28,22 +27,16 @@ class Home extends React.Component {
 		const response = await Auth.currentAuthenticatedUser();
 		let user = response.username;
 		let userSettings = await getUser(user);
+		console.log(userSettings);
 		const image = await Storage.get(userSettings.data.getUser.profilePicture);
-		this.setState({ username: user, profile_pic: image });
-	}
-
-	async componentDidMount() {
-		const response = await Auth.currentAuthenticatedUser();
-		let user = response.username;
-		const image = await Storage.get(user + "_profile_pic");
 		this.setState({ username: user, profile_pic: image });
 		//let result = await getUserQuizzes(user);
 		//console.log(result);
 	}
 
 	async getGroups() {
-		const groupArr = await getUserGroups(this.username);
-		if (groupArr == undefined) {
+		const groupArr = await getUserGroups(this.state.username);
+		if (groupArr === undefined) {
 			console.log("returning empty list");
 			return [];
 		}
@@ -51,8 +44,8 @@ class Home extends React.Component {
 	}
 
 	async getQuizzes() {
-		const quizArr = await getUserQuizzes(this.username);
-		if (quizArr == undefined) {
+		const quizArr = await getUserQuizzes(this.state.username);
+		if (quizArr === undefined) {
 			console.log("returning an empty quiz list");
 			return [];
 		}

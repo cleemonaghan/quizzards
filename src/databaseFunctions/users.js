@@ -5,6 +5,8 @@ import {
 	createUser as createUserMutation,
 	updateUser as updateUserMutation,
 	updateFriends,
+	createFriends,
+	createFriendRequests,
 } from "../graphql/mutations";
 import { getUser as getUserQuery } from "../graphql/queries";
 
@@ -22,14 +24,30 @@ export async function createUser(username) {
 		//friendRequests: [],
 		admin: false,
 		blocked: false,
+
+		friendsFriendsId: username,
+		friendRequestsFriendRequestsId: username,
+		userFriendsId: username,
+		userFriendRequestsId: username,
 	};
 
-	//create a new Post using the form data
-	let res = await API.graphql({
+	//create a new user with default settings
+	await API.graphql({
 		query: createUserMutation,
 		variables: { input: params },
 	});
-	console.log(res);
+	params = {
+		username: username,
+	};
+	//create Friend entry and FriendRequests
+	await API.graphql({
+		query: createFriends,
+		variables: { input: params },
+	});
+	await API.graphql({
+		query: createFriendRequests,
+		variables: { input: params },
+	});
 }
 
 export async function updateUser(user, inputs) {
@@ -57,75 +75,69 @@ export async function updateUser(user, inputs) {
 	});
 }
 
-export async function addFriend(username, newFriend){
-	
-	try{
-	//let username = user.username;
-	console.log("adding a friend:");
-	console.log(username);
-	console.log(newFriend);
-	if (!username) return;
-	if (!newFriend) return;
+export async function addFriend(username, newFriend) {
+	try {
+		//let username = user.username;
+		console.log("adding a friend:");
+		console.log(username);
+		console.log(newFriend);
+		if (!username) return;
+		if (!newFriend) return;
 
-	let userVal = await getUser(username);
-	let newFriendUser = await getUser(newFriend);
-	console.log("printing user");
-	console.log(userVal);
+		let userVal = await getUser(username);
+		let newFriendUser = await getUser(newFriend);
+		console.log("printing user");
+		console.log(userVal);
 
-	let friendObj = userVal.data.getUser.friends;
-	let friendArr = friendObj.friends;
-	friendArr.push(newFriendUser.data.getUser);
-	let params = {
-		username: username,
-		friends: friendArr,
-	};
-	let result = await API.graphql({
-		query: updateFriends,
-		variables: { input: params },
-	});
+		let friendObj = userVal.data.getUser.friends;
+		let friendArr = friendObj.friends;
+		friendArr.push(newFriendUser.data.getUser);
+		let params = {
+			username: username,
+			friends: friendArr,
+		};
+		let result = await API.graphql({
+			query: updateFriends,
+			variables: { input: params },
+		});
 
-	let friendReq = userVal.data.getUser.friendRequests;
-	let friendReqList = friendReq.friends;
-	if(friendReqList.contains(newFriendUser.data.getUser)){
-		let noMoreRequest = await removeFriend()
-	}
-	console.log(result);
-	await addFriend(newFriend, username);	
-	await getUser(username);
-	}
-
-	catch(error){
+		let friendReq = userVal.data.getUser.friendRequests;
+		let friendReqList = friendReq.friends;
+		if (friendReqList.contains(newFriendUser.data.getUser)) {
+			let noMoreRequest = await removeFriend();
+		}
+		console.log(result);
+		await addFriend(newFriend, username);
+		await getUser(username);
+	} catch (error) {
 		console.error(error);
 	}
-
 }
 
-export async function addFriendRequest(username, newFriend){
-	try{
-	//let username = user.username;
+export async function addFriendRequest(username, newFriend) {
+	try {
+		//let username = user.username;
 
-	if (!username) return;
-	if (!newFriend) return;
+		if (!username) return;
+		if (!newFriend) return;
 
-	let userVal = await getUser(username);
-	let newFriendUser = await getUser(newFriend);
+		let userVal = await getUser(username);
+		let newFriendUser = await getUser(newFriend);
 
-	let friendObj = newFriendUser.data.getUser.friendRequests;
-	let friendArr = friendObj.friends;
-	friendArr.push(userVal.data.getUser);
-	let params = {
-		username: username,
-		friends: friendArr,
-	};
-	let result = await API.graphql({
-		query: updateFriends,
-		variables: { input: params },
-	});
-	}
-	catch(error){
+		let friendObj = newFriendUser.data.getUser.friendRequests;
+		let friendArr = friendObj.friends;
+		friendArr.push(userVal.data.getUser);
+		let params = {
+			username: username,
+			friends: friendArr,
+		};
+		let result = await API.graphql({
+			query: updateFriends,
+			variables: { input: params },
+		});
+	} catch (error) {
 		console.error(error);
 	}
-
 }
 
 export async function getUser(username) {
@@ -141,35 +153,46 @@ export async function getUser(username) {
 	return result;
 }
 
-export async function getUserGroups(user){
-    //console.log("in getUserGroups");
-    //let username = user.username;
-    if(!user) return;
-    let userVal = await getUser(user);
-    //console.log("the user:");
-    //console.log(userVal);
-    //console.log("returning groups");
-    return userVal.data.getUser.groups.items;
+export async function getUserGroups(username) {
+	//console.log("in getUserGroups");
+	//let username = user.username;
+	if (!username) return;
+	let userVal = await getUser(username);
+	//console.log("the user:");
+	//console.log(userVal);
+	//console.log("returning groups");
+	return userVal.data.getUser.groups.items;
 }
 
-export async function getUserFriends(user){
-    //let username = user.username;
-    if(!user) return;
-    let userVal = await getUser(user);
-    return userVal.data.getUser.friends;
+export async function getUserQuizzes(username) {
+	if (!username) return;
+	let userVal = await getUser(username);
+	return userVal.data.getUser.quizOwners.data;
 }
 
-export async function getUserFriendRequests(user){
-    if(!user) return;
-    let userVal = await getUser(user);
-    return userVal.data.getUser.friendRequests;
+export async function getUserFriends(username) {
+	if (!username) return;
+	let userVal = await getUser(username);
+	return userVal.data.getUser.friends;
 }
 
-export async function getUserQuizzes(username){
-   // let username = user.username;
-    if(!username) return;
-    let userVal = await getUser(username);
-    return userVal.data.getUser.quizOwners.data;
+export async function getUserFriendRequests(username) {
+	if (!username) return;
+	let userVal = await getUser(username);
+	return userVal.data.getUser.friendRequests;
 }
 
+export async function acceptFriend(username, friendUsername) {
+	//get the user database entries
+	let user = (await getUser(username)).data.getUser;
+	let friend = (await getUser(friendUsername)).data.getUser;
+	// get their friend lists from the DB
+	let userFriendList = user.friends;
+	let friendFriendList = friend.friends;
+	//add the users to the other user's friend list
 
+	console.log(user);
+	console.log(friend);
+
+	return "success";
+}

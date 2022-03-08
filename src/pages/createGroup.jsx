@@ -20,6 +20,7 @@ class CreateGroup extends React.Component {
     this.state = {
       id: "",
       name: "",
+      bio: "",
       profile_pic: null,
       owner: null,
       ownerUsername: "",
@@ -148,7 +149,7 @@ class CreateGroup extends React.Component {
                 accept="image/png, image/jpeg"
               />
             </Form.Group>
-            <div>
+            <div className="mb-3">
               <img
                 id="profile_pic_display"
                 className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
@@ -158,7 +159,7 @@ class CreateGroup extends React.Component {
               />
             </div>
             {/* Color Theme */}
-            <Form.Group className="mb-3" controlId="color_theme">
+            {/* <Form.Group className="mb-3" controlId="color_theme">
               <Form.Label>Theme Color</Form.Label>
               <Form.Control
                 name="color_theme"
@@ -166,7 +167,7 @@ class CreateGroup extends React.Component {
                 defaultValue="#563d7c"
                 title="Choose your color"
               />
-            </Form.Group>
+            </Form.Group> */}
             {/* Biography */}
             <Form.Group className="mb-3" controlId="biography">
               <FloatingLabel label="Group description" className="mb-3">

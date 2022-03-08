@@ -13,8 +13,8 @@ type User @model @auth(rules: [{ allow: public }]) {
 	highlightColor: String
 
 	#friend info
-	friends: [User!]
-	friendRequests: [User!]
+	friends: [User!]!
+	friendRequests: [User!]!
 
 	#group info
 	groups: [Group!]! @manyToMany(relationName: "members")

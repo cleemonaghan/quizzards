@@ -23,7 +23,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -47,7 +46,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -55,8 +53,20 @@ export const onCreateUser = /* GraphQL */ `
         friendRequests {
           nextToken
         }
+        friendUsernames
         createdAt
         updatedAt
+      }
+      friendList {
+        items {
+          username
+          friendUsername
+          id
+          createdAt
+          updatedAt
+          userFriendListId
+        }
+        nextToken
       }
       groups {
         items {
@@ -100,7 +110,6 @@ export const onCreateUser = /* GraphQL */ `
       createdAt
       updatedAt
       friendsFriendsId
-      friendRequestsFriendRequestsId
       userFriendsId
       userFriendRequestsId
     }
@@ -128,7 +137,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -152,7 +160,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -160,8 +167,20 @@ export const onUpdateUser = /* GraphQL */ `
         friendRequests {
           nextToken
         }
+        friendUsernames
         createdAt
         updatedAt
+      }
+      friendList {
+        items {
+          username
+          friendUsername
+          id
+          createdAt
+          updatedAt
+          userFriendListId
+        }
+        nextToken
       }
       groups {
         items {
@@ -205,7 +224,6 @@ export const onUpdateUser = /* GraphQL */ `
       createdAt
       updatedAt
       friendsFriendsId
-      friendRequestsFriendRequestsId
       userFriendsId
       userFriendRequestsId
     }
@@ -233,7 +251,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -257,7 +274,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -265,8 +281,20 @@ export const onDeleteUser = /* GraphQL */ `
         friendRequests {
           nextToken
         }
+        friendUsernames
         createdAt
         updatedAt
+      }
+      friendList {
+        items {
+          username
+          friendUsername
+          id
+          createdAt
+          updatedAt
+          userFriendListId
+        }
+        nextToken
       }
       groups {
         items {
@@ -310,7 +338,6 @@ export const onDeleteUser = /* GraphQL */ `
       createdAt
       updatedAt
       friendsFriendsId
-      friendRequestsFriendRequestsId
       userFriendsId
       userFriendRequestsId
     }
@@ -333,8 +360,12 @@ export const onCreateFriends = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -350,7 +381,6 @@ export const onCreateFriends = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -368,7 +398,6 @@ export const onCreateFriends = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -396,8 +425,12 @@ export const onUpdateFriends = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -413,7 +446,6 @@ export const onUpdateFriends = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -431,7 +463,6 @@ export const onUpdateFriends = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -459,8 +490,12 @@ export const onDeleteFriends = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -476,7 +511,6 @@ export const onDeleteFriends = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -494,7 +528,6 @@ export const onDeleteFriends = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -502,6 +535,270 @@ export const onDeleteFriends = /* GraphQL */ `
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateFriendConnection = /* GraphQL */ `
+  subscription OnCreateFriendConnection {
+    onCreateFriendConnection {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friend {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      friendUsername
+      id
+      createdAt
+      updatedAt
+      userFriendListId
+    }
+  }
+`;
+export const onUpdateFriendConnection = /* GraphQL */ `
+  subscription OnUpdateFriendConnection {
+    onUpdateFriendConnection {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friend {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      friendUsername
+      id
+      createdAt
+      updatedAt
+      userFriendListId
+    }
+  }
+`;
+export const onDeleteFriendConnection = /* GraphQL */ `
+  subscription OnDeleteFriendConnection {
+    onDeleteFriendConnection {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friend {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      friendUsername
+      id
+      createdAt
+      updatedAt
+      userFriendListId
     }
   }
 `;
@@ -522,8 +819,12 @@ export const onCreateFriendRequests = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -539,7 +840,6 @@ export const onCreateFriendRequests = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -557,12 +857,12 @@ export const onCreateFriendRequests = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
         nextToken
       }
+      friendUsernames
       createdAt
       updatedAt
     }
@@ -585,8 +885,12 @@ export const onUpdateFriendRequests = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -602,7 +906,6 @@ export const onUpdateFriendRequests = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -620,12 +923,12 @@ export const onUpdateFriendRequests = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
         nextToken
       }
+      friendUsernames
       createdAt
       updatedAt
     }
@@ -648,8 +951,12 @@ export const onDeleteFriendRequests = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -665,7 +972,6 @@ export const onDeleteFriendRequests = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -683,12 +989,12 @@ export const onDeleteFriendRequests = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
         nextToken
       }
+      friendUsernames
       createdAt
       updatedAt
     }
@@ -727,8 +1033,12 @@ export const onCreateGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -744,7 +1054,6 @@ export const onCreateGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -762,8 +1071,12 @@ export const onCreateGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -779,7 +1092,6 @@ export const onCreateGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -823,8 +1135,12 @@ export const onUpdateGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -840,7 +1156,6 @@ export const onUpdateGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -858,8 +1173,12 @@ export const onUpdateGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -875,7 +1194,6 @@ export const onUpdateGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -919,8 +1237,12 @@ export const onDeleteGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -936,7 +1258,6 @@ export const onDeleteGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -954,8 +1275,12 @@ export const onDeleteGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -971,7 +1296,6 @@ export const onDeleteGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1001,8 +1325,12 @@ export const onCreateQuiz = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1018,7 +1346,6 @@ export const onCreateQuiz = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1049,8 +1376,12 @@ export const onUpdateQuiz = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1066,7 +1397,6 @@ export const onUpdateQuiz = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1097,8 +1427,12 @@ export const onDeleteQuiz = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1114,7 +1448,6 @@ export const onDeleteQuiz = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1146,8 +1479,12 @@ export const onCreateMembers = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1163,7 +1500,6 @@ export const onCreateMembers = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1189,7 +1525,6 @@ export const onCreateMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -1205,7 +1540,6 @@ export const onCreateMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -1239,8 +1573,12 @@ export const onUpdateMembers = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1256,7 +1594,6 @@ export const onUpdateMembers = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1282,7 +1619,6 @@ export const onUpdateMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -1298,7 +1634,6 @@ export const onUpdateMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -1332,8 +1667,12 @@ export const onDeleteMembers = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -1349,7 +1688,6 @@ export const onDeleteMembers = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -1375,7 +1713,6 @@ export const onDeleteMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -1391,7 +1728,6 @@ export const onDeleteMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }

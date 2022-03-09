@@ -1,8 +1,3 @@
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY {
-	globalAuthRule: AuthRule = { allow: public }
-} # FOR TESTING ONLY!
 type User @model @auth(rules: [{ allow: public }]) {
 	#user info
 	username: String! @primaryKey
@@ -13,9 +8,10 @@ type User @model @auth(rules: [{ allow: public }]) {
 	highlightColor: String
 
 	#friend info
-
 	friends: Friends @hasOne
 	friendRequests: FriendRequests @hasOne
+
+	friendList: [FriendConnection!]! @hasMany
 
 	#group info
 	groups: [Group!]! @manyToMany(relationName: "members")
@@ -33,11 +29,18 @@ type Friends @model @auth(rules: [{ allow: public }]) {
 	friends: [User!]! @hasMany
 }
 
+type FriendConnection @model @auth(rules: [{ allow: public }]) {
+	user: User! @belongsTo(fields: ["username"])
+	username: String!
+	friend: User! @belongsTo(fields: ["friendUsername"])
+	friendUsername: String!
+}
+
 type FriendRequests @model @auth(rules: [{ allow: public }]) {
 	user: User! @belongsTo(fields: ["username"])
 	username: String! @primaryKey
-	friendRequests: [User!]! @hasMany
-	#friendRequests: [User!]! @hasMany
+	friendRequests: [User!]! @hasMany(fields: ["friendUsernames"])
+	friendUsernames: [String!]!
 }
 
 type Group @model @auth(rules: [{ allow: public }]) {

@@ -3,11 +3,12 @@ import { Auth, Storage } from "aws-amplify";
 import { FriendsList, QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
 
-import{
-  getUser,
-  getUserGroups,
-  getUserQuizzes,
-  addFriend,
+import {
+	getUser,
+	getUserGroups,
+	getUserQuizzes,
+	acceptFriend,
+	createUser,
 } from "../databaseFunctions/users.js";
 import Button from "@restart/ui/esm/Button";
 
@@ -111,22 +112,45 @@ class Home extends React.Component {
           </div>
             */}
 
-
-          <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold col-4">Your Quizzes</h1>
-          </div>
-          <div className = "row col-9 pb-5">
-            {quizArr.length ? quizArr.map(item => {
-              return  <div className="col-4">
-              <QuizBox  name={item.quizname} description={item.description}/>
-            </div>;
-            }) : <p>You have no quizzes</p>}
-          </div>
-          <div className = "row align-items-center mt-5 mb-2">
-            <h1 >Make a Friend!</h1>
-          </div>
-          <Button onClick = {() => addFriend(this.state.username, "cleemonaghan")}></Button>
-          {/*
+					<div className="row align-items-center mt-5 mb-2">
+						<h1 className="font-weight-bold col-4">Your Quizzes</h1>
+					</div>
+					<div className="row col-9 pb-5">
+						{quizArr.length ? (
+							quizArr.map((item) => {
+								return (
+									<div className="col-4">
+										<QuizBox
+											name={item.quizname}
+											description={item.description}
+										/>
+									</div>
+								);
+							})
+						) : (
+							<p>You have no quizzes</p>
+						)}
+					</div>
+					<div className="row align-items-center mt-5 mb-2">
+						<h1>Make a Friend!</h1>
+					</div>
+					<Button
+						onClick={() => acceptFriend("cleemonaghan9", "cleemonaghan8")}
+					>
+						Add Friend
+					</Button>
+					<Button onClick={() => createUser("cleemonaghan9")}>
+						Create User
+					</Button>
+					<Button
+						onClick={async () => {
+							let x = await getUser("cleemonaghan9");
+							console.log(x);
+						}}
+					>
+						Log User
+					</Button>
+					{/*
           <div className="row col-9 pb-5">
             <div className="col-4">
               <QuizBox

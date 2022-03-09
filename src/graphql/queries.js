@@ -23,7 +23,6 @@ export const getUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -47,7 +46,6 @@ export const getUser = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -55,8 +53,20 @@ export const getUser = /* GraphQL */ `
         friendRequests {
           nextToken
         }
+        friendUsernames
         createdAt
         updatedAt
+      }
+      friendList {
+        items {
+          username
+          friendUsername
+          id
+          createdAt
+          updatedAt
+          userFriendListId
+        }
+        nextToken
       }
       groups {
         items {
@@ -100,7 +110,6 @@ export const getUser = /* GraphQL */ `
       createdAt
       updatedAt
       friendsFriendsId
-      friendRequestsFriendRequestsId
       userFriendsId
       userFriendRequestsId
     }
@@ -135,8 +144,12 @@ export const listUsers = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -152,7 +165,6 @@ export const listUsers = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -177,8 +189,12 @@ export const getFriends = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -194,7 +210,6 @@ export const getFriends = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -212,7 +227,6 @@ export const getFriends = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -251,7 +265,6 @@ export const listFriends = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -261,6 +274,147 @@ export const listFriends = /* GraphQL */ `
         }
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFriendConnection = /* GraphQL */ `
+  query GetFriendConnection($id: ID!) {
+    getFriendConnection(id: $id) {
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      username
+      friend {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends {
+          username
+          createdAt
+          updatedAt
+        }
+        friendRequests {
+          username
+          friendUsernames
+          createdAt
+          updatedAt
+        }
+        friendList {
+          nextToken
+        }
+        groups {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+        friendsFriendsId
+        userFriendsId
+        userFriendRequestsId
+      }
+      friendUsername
+      id
+      createdAt
+      updatedAt
+      userFriendListId
+    }
+  }
+`;
+export const listFriendConnections = /* GraphQL */ `
+  query ListFriendConnections(
+    $filter: ModelFriendConnectionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFriendConnections(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        username
+        friend {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          admin
+          blocked
+          createdAt
+          updatedAt
+          friendsFriendsId
+          userFriendsId
+          userFriendRequestsId
+        }
+        friendUsername
+        id
+        createdAt
+        updatedAt
+        userFriendListId
       }
       nextToken
     }
@@ -283,8 +437,12 @@ export const getFriendRequests = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -300,7 +458,6 @@ export const getFriendRequests = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -318,12 +475,12 @@ export const getFriendRequests = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
         nextToken
       }
+      friendUsernames
       createdAt
       updatedAt
     }
@@ -357,7 +514,6 @@ export const listFriendRequests = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -365,6 +521,7 @@ export const listFriendRequests = /* GraphQL */ `
         friendRequests {
           nextToken
         }
+        friendUsernames
         createdAt
         updatedAt
       }
@@ -405,8 +562,12 @@ export const getGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -422,7 +583,6 @@ export const getGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -440,8 +600,12 @@ export const getGroup = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -457,7 +621,6 @@ export const getGroup = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -505,7 +668,6 @@ export const listGroups = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -521,7 +683,6 @@ export const listGroups = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -553,8 +714,12 @@ export const getQuiz = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -570,7 +735,6 @@ export const getQuiz = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -612,7 +776,6 @@ export const listQuizzes = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -646,8 +809,12 @@ export const getMembers = /* GraphQL */ `
         }
         friendRequests {
           username
+          friendUsernames
           createdAt
           updatedAt
+        }
+        friendList {
+          nextToken
         }
         groups {
           nextToken
@@ -663,7 +830,6 @@ export const getMembers = /* GraphQL */ `
         createdAt
         updatedAt
         friendsFriendsId
-        friendRequestsFriendRequestsId
         userFriendsId
         userFriendRequestsId
       }
@@ -689,7 +855,6 @@ export const getMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -705,7 +870,6 @@ export const getMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }
@@ -742,7 +906,6 @@ export const listMembers = /* GraphQL */ `
           createdAt
           updatedAt
           friendsFriendsId
-          friendRequestsFriendRequestsId
           userFriendsId
           userFriendRequestsId
         }

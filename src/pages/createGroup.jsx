@@ -18,12 +18,9 @@ class CreateGroup extends React.Component {
     super(props);
     this.user = null;
     this.state = {
-      id: "",
       name: "",
-      bio: "",
+      biography: "",
       profile_pic: null,
-      owner: null,
-      ownerUsername: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -58,26 +55,17 @@ class CreateGroup extends React.Component {
   async updateAttributes() {
     let params = {
       name: this.state.name,
+      bio: this.state.biography,
+      profilePicture: this.state.profile_pic,
+      ownerUsername: this.user.username,
     };
-    await Auth.updateGroupAttributes(this.user, params);
-
-    //if they changed the photo, update the photo
-    if (this.changedPhoto) {
-      params = {
-        //highlightColor:  this.state.color_theme,
-        profilePicture: this.state.profile_pic,
-        bio: this.state.biography,
-      };
-    } else {
-      params = {
-        //highlightColor:  this.state.color_theme,
-        bio: this.state.biography,
-      };
-    }
-    await updateGroup(this.user, params);
+    console.log(params);
+    let res = await createGroup(params);
+    console.log(res);
   }
 
   handleChange(event) {
+    console.log(event);
     let target = event.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -134,7 +122,7 @@ class CreateGroup extends React.Component {
                 <Form.Control
                   name="name"
                   type="text"
-                  value={this.state.name}
+                  src={this.state.name}
                   onChange={this.handleChange}
                 />
               </FloatingLabel>
@@ -155,7 +143,7 @@ class CreateGroup extends React.Component {
                 className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
                 alt=""
                 src={this.tempPhoto}
-                style={{ height: "200px", width: "200px" }}
+                style={{ height: "200px", width: "400px" }}
               />
             </div>
             {/* Color Theme */}
@@ -174,7 +162,7 @@ class CreateGroup extends React.Component {
                 <Form.Control
                   name="biography"
                   type="text"
-                  value={this.state.biography}
+                  src={this.state.biography}
                   onChange={this.handleChange}
                 />
               </FloatingLabel>

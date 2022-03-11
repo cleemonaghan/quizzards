@@ -7,24 +7,18 @@ import {
 } from "../graphql/mutations";
 import { getGroup as getGroupQuery } from "../graphql/queries";
 
-export async function createGroup(id, groupName, User, username) {
+export async function createGroup(params) {
   //if the User did not enter a title, don't create a post
-  if (!id) return;
+  //if (!id) return;
 
-  const fileName = id + "_profile_pic";
-  let params = {
-    id: id,
-    name: groupName,
-    profilePicture: fileName,
-    owner: User,
-    ownerUsername: username,
-  };
-
+  const fileName = params.name + "_profile_pic";
+  console.log("About to start");
   //create a new Post using the form data
-  await API.graphql({
+  let result = await API.graphql({
     query: createGroupMutation,
     variables: { input: params },
   });
+  console.log(result);
 }
 
 export async function updateGroup(id, inputs) {

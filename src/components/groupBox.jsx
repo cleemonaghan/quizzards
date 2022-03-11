@@ -1,15 +1,19 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function GroupBox({ link, name }) {
   return (
     <div className="group-box">
-      <Link to="/groupPage">
-        <Button variant="dark p-0 col-12">
-          <img className="group-box img-fluid mb-0" src={link} alt="" />
-          <h2 className="float-start ps-2">{name}</h2>
-        </Button>{" "}
+      <Link to="/groupPage" style={{ textDecoration: "none" }}>
+        <Card bg="dark" text="white">
+          <Card.Img variant="top" src={link} style={{ height: "10rem" }} />
+          <Card.Body className="py-2">
+            <Card.Title>
+              <h2>{name}</h2>
+            </Card.Title>
+          </Card.Body>
+        </Card>
       </Link>
     </div>
   );

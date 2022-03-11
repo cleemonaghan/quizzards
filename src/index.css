@@ -121,11 +121,6 @@ hr:not([size]) {
   opacity: 0.5;
 }
 
-.group-box {
-  height: 150px;
-  width: 100%;
-}
-
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

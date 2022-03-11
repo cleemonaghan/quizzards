@@ -33,41 +33,41 @@ class Groups extends React.Component {
           </div>
           {/* <hr /> */}
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold col-4">Suggested Groups</h1>
+            <h1 className="font-weight-bold">Suggested Groups</h1>
           </div>
-          <div className="row pb-5">
-            <div className="col-3">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo13} name="Hogwarts" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo14} name="Puppies" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo15} name="Astronomy" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo16} name="Candy" />
             </div>
           </div>
-          <div className="row pb-5">
-            <div className="col-3">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo17} name="Books" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo13} name="Hogwarts" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo14} name="Puppies" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo15} name="Astronomy" />
             </div>
           </div>
-          <div className="row pb-5">
-            <div className="col-3">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo16} name="Candy" />
             </div>
-            <div className="col-3">
+            <div className="col-lg-3 col-sm-6">
               <GroupBox link={photo17} name="Books" />
             </div>
           </div>

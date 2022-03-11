@@ -100,12 +100,6 @@ class CreateQuiz extends React.Component {
             {/* Results */}
             <div className="results">
               <h2 className="font-weight-light mt-5">Results</h2>
-              {/* {resultArr.length ? (
-                resultArr.map((item) => {
-                  return <QuizResult rNumber={item.number} />;
-                })
-              ) 
-              )} */}
               <QuizResult rNumber="1" />
 
               <Button variant="outline-primary">Add Result +</Button>

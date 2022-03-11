@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function GroupBox({ link, name }) {
   return (
-    <div className="group-box">
+    <div className="group-box mb-4">
       <Link to="/groupPage" style={{ textDecoration: "none" }}>
         <Card bg="dark" text="white">
           <Card.Img variant="top" src={link} style={{ height: "10rem" }} />

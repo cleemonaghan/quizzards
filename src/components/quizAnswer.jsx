@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, FloatingLabel } from "react-bootstrap";
+import { Form, FloatingLabel, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { InfoCircle } from "react-bootstrap-icons";
 
 function QuizAnswer({ aNumber }) {
   return (
@@ -19,7 +20,22 @@ function QuizAnswer({ aNumber }) {
             accept="image/png, image/jpeg"
           />
         </Form.Group>
-        <h4>Points (i)</h4>
+        <OverlayTrigger
+          placement="right"
+          overlay={
+            <Tooltip id="button-tooltip-2">
+              For each answer of a question, assign points to the quiz results
+              here. These will tally up and the highest point total will be the
+              result displayed at the end of the quiz.{" "}
+            </Tooltip>
+          }
+        >
+          {({ ref, ...triggerHandler }) => (
+            <h4 {...triggerHandler}>
+              Points <InfoCircle className="py-1" ref={ref} />
+            </h4>
+          )}
+        </OverlayTrigger>
         <form className="ps-3">
           <label>
             {" "}

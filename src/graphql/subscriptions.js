@@ -10,64 +10,8 @@ export const onCreateUser = /* GraphQL */ `
       bio
       publicPrivate
       highlightColor
-      friends {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendRequests {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friendRequests {
-          nextToken
-        }
-        friendUsernames
-        createdAt
-        updatedAt
-      }
-      friendList {
-        items {
-          username
-          friendUsername
-          id
-          createdAt
-          updatedAt
-          userFriendListId
-        }
-        nextToken
-      }
+      friends
+      friendRequests
       groups {
         items {
           id
@@ -109,9 +53,6 @@ export const onCreateUser = /* GraphQL */ `
       blocked
       createdAt
       updatedAt
-      friendsFriendsId
-      userFriendsId
-      userFriendRequestsId
     }
   }
 `;
@@ -124,64 +65,8 @@ export const onUpdateUser = /* GraphQL */ `
       bio
       publicPrivate
       highlightColor
-      friends {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendRequests {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friendRequests {
-          nextToken
-        }
-        friendUsernames
-        createdAt
-        updatedAt
-      }
-      friendList {
-        items {
-          username
-          friendUsername
-          id
-          createdAt
-          updatedAt
-          userFriendListId
-        }
-        nextToken
-      }
+      friends
+      friendRequests
       groups {
         items {
           id
@@ -223,9 +108,6 @@ export const onUpdateUser = /* GraphQL */ `
       blocked
       createdAt
       updatedAt
-      friendsFriendsId
-      userFriendsId
-      userFriendRequestsId
     }
   }
 `;
@@ -238,64 +120,8 @@ export const onDeleteUser = /* GraphQL */ `
       bio
       publicPrivate
       highlightColor
-      friends {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friends {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendRequests {
-        user {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        username
-        friendRequests {
-          nextToken
-        }
-        friendUsernames
-        createdAt
-        updatedAt
-      }
-      friendList {
-        items {
-          username
-          friendUsername
-          id
-          createdAt
-          updatedAt
-          userFriendListId
-        }
-        nextToken
-      }
+      friends
+      friendRequests
       groups {
         items {
           id
@@ -335,666 +161,6 @@ export const onDeleteUser = /* GraphQL */ `
       }
       admin
       blocked
-      createdAt
-      updatedAt
-      friendsFriendsId
-      userFriendsId
-      userFriendRequestsId
-    }
-  }
-`;
-export const onCreateFriends = /* GraphQL */ `
-  subscription OnCreateFriends {
-    onCreateFriends {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friends {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateFriends = /* GraphQL */ `
-  subscription OnUpdateFriends {
-    onUpdateFriends {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friends {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteFriends = /* GraphQL */ `
-  subscription OnDeleteFriends {
-    onDeleteFriends {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friends {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateFriendConnection = /* GraphQL */ `
-  subscription OnCreateFriendConnection {
-    onCreateFriendConnection {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friend {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      friendUsername
-      id
-      createdAt
-      updatedAt
-      userFriendListId
-    }
-  }
-`;
-export const onUpdateFriendConnection = /* GraphQL */ `
-  subscription OnUpdateFriendConnection {
-    onUpdateFriendConnection {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friend {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      friendUsername
-      id
-      createdAt
-      updatedAt
-      userFriendListId
-    }
-  }
-`;
-export const onDeleteFriendConnection = /* GraphQL */ `
-  subscription OnDeleteFriendConnection {
-    onDeleteFriendConnection {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friend {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      friendUsername
-      id
-      createdAt
-      updatedAt
-      userFriendListId
-    }
-  }
-`;
-export const onCreateFriendRequests = /* GraphQL */ `
-  subscription OnCreateFriendRequests {
-    onCreateFriendRequests {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friendRequests {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendUsernames
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateFriendRequests = /* GraphQL */ `
-  subscription OnUpdateFriendRequests {
-    onUpdateFriendRequests {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friendRequests {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendUsernames
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteFriendRequests = /* GraphQL */ `
-  subscription OnDeleteFriendRequests {
-    onDeleteFriendRequests {
-      user {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
-        groups {
-          nextToken
-        }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
-      }
-      username
-      friendRequests {
-        items {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          admin
-          blocked
-          createdAt
-          updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
-        }
-        nextToken
-      }
-      friendUsernames
       createdAt
       updatedAt
     }
@@ -1026,20 +192,8 @@ export const onCreateGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1053,9 +207,6 @@ export const onCreateGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       owner {
         username
@@ -1064,20 +215,8 @@ export const onCreateGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1091,9 +230,6 @@ export const onCreateGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       createdAt
@@ -1128,20 +264,8 @@ export const onUpdateGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1155,9 +279,6 @@ export const onUpdateGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       owner {
         username
@@ -1166,20 +287,8 @@ export const onUpdateGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1193,9 +302,6 @@ export const onUpdateGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       createdAt
@@ -1230,20 +336,8 @@ export const onDeleteGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1257,9 +351,6 @@ export const onDeleteGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       owner {
         username
@@ -1268,20 +359,8 @@ export const onDeleteGroup = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1295,9 +374,6 @@ export const onDeleteGroup = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       createdAt
@@ -1318,20 +394,8 @@ export const onCreateQuiz = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1345,9 +409,6 @@ export const onCreateQuiz = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       description
@@ -1369,20 +430,8 @@ export const onUpdateQuiz = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1396,9 +445,6 @@ export const onUpdateQuiz = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       description
@@ -1420,20 +466,8 @@ export const onDeleteQuiz = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1447,9 +481,6 @@ export const onDeleteQuiz = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       ownerUsername
       description
@@ -1472,20 +503,8 @@ export const onCreateMembers = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1499,9 +518,6 @@ export const onCreateMembers = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       group {
         id
@@ -1520,13 +536,12 @@ export const onCreateMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         owner {
           username
@@ -1535,13 +550,12 @@ export const onCreateMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         ownerUsername
         createdAt
@@ -1566,20 +580,8 @@ export const onUpdateMembers = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1593,9 +595,6 @@ export const onUpdateMembers = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       group {
         id
@@ -1614,13 +613,12 @@ export const onUpdateMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         owner {
           username
@@ -1629,13 +627,12 @@ export const onUpdateMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         ownerUsername
         createdAt
@@ -1660,20 +657,8 @@ export const onDeleteMembers = /* GraphQL */ `
         bio
         publicPrivate
         highlightColor
-        friends {
-          username
-          createdAt
-          updatedAt
-        }
-        friendRequests {
-          username
-          friendUsernames
-          createdAt
-          updatedAt
-        }
-        friendList {
-          nextToken
-        }
+        friends
+        friendRequests
         groups {
           nextToken
         }
@@ -1687,9 +672,6 @@ export const onDeleteMembers = /* GraphQL */ `
         blocked
         createdAt
         updatedAt
-        friendsFriendsId
-        userFriendsId
-        userFriendRequestsId
       }
       group {
         id
@@ -1708,13 +690,12 @@ export const onDeleteMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         owner {
           username
@@ -1723,13 +704,12 @@ export const onDeleteMembers = /* GraphQL */ `
           bio
           publicPrivate
           highlightColor
+          friends
+          friendRequests
           admin
           blocked
           createdAt
           updatedAt
-          friendsFriendsId
-          userFriendsId
-          userFriendRequestsId
         }
         ownerUsername
         createdAt

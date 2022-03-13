@@ -27,6 +27,9 @@ class ProfileEdit extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
+    
+    //this is an inputted function that will close the ProfileEdit class
+    this.close = props.close.bind(this);
   }
 
   async componentDidMount() {
@@ -40,8 +43,8 @@ class ProfileEdit extends React.Component {
         birthdate: userSettings.attributes.birthdate,
         email: userSettings.attributes.email,
         color_theme: "blue", //we need to ensure this is updated
-        profile_pic: userDatabase.data.getUser.profilePicture,
-        biography: userDatabase.data.getUser.bio,
+        profile_pic: userDatabase.profilePicture,
+        biography: userDatabase.bio,
       });
 
       // get default file image
@@ -84,7 +87,7 @@ class ProfileEdit extends React.Component {
         bio: this.state.biography,
       };
     }
-    await updateUser(this.user, params);
+    await updateUser(this.user.username, params);
   }
 
   handleChange(event) {
@@ -127,9 +130,10 @@ class ProfileEdit extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    //update the color scheme
-    //update the user profile
+    //update the attributes
     this.updateAttributes();
+    //close the profile editor
+    this.close();
   }
 
   render() {

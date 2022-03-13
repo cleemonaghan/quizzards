@@ -8,6 +8,7 @@ import {
   getUserGroups,
   getUserQuizzes,
   acceptFriend,
+  requestFriend,
   createUser,
 } from "../databaseFunctions/users.js";
 import Button from "@restart/ui/esm/Button";
@@ -23,18 +24,25 @@ class Home extends React.Component {
     };
   }
 
+  /** This method initalizes the state of the Home component.
+   *  
+   *  This method fetches the user's username and profile picture 
+   *  and initializes their values in the component's state.
+   */
   async componentDidMount() {
     //get the user information
     const response = await Auth.currentAuthenticatedUser();
-    let user = response.username;
-    let userSettings = await getUser(user);
-    console.log(userSettings);
-    const image = await Storage.get(userSettings.data.getUser.profilePicture);
-    this.setState({ username: user, profile_pic: image });
-    //let result = await getUserQuizzes(user);
-    //console.log(result);
+    let username = response.username;
+    let userSettings = await getUser(username);
+    const image = await Storage.get(userSettings.profilePicture);
+    // set the state with the user info
+    this.setState({ username: username, profile_pic: image });
   }
 
+  /** This method fetches and returns a list of groups that this user is a part of.
+   * 
+   * @returns a list of groups that the user is a part of
+   */
   async getGroups() {
     const groupArr = await getUserGroups(this.state.username);
     if (groupArr === undefined) {
@@ -44,6 +52,10 @@ class Home extends React.Component {
     return groupArr;
   }
 
+  /** This method fetches and returns a list of quizzes that this user has.
+   * 
+   * @returns a list of quizzes that the user has
+   */
   async getQuizzes() {
     const quizArr = await getUserQuizzes(this.state.username);
     if (quizArr === undefined) {
@@ -53,6 +65,7 @@ class Home extends React.Component {
     return quizArr;
   }
 
+  
   render() {
     let groupArr = this.getGroups();
     let quizArr = this.getQuizzes();
@@ -135,16 +148,21 @@ class Home extends React.Component {
             <h1>Make a Friend!</h1>
           </div>
           <Button
-            onClick={() => acceptFriend("cleemonaghan9", "cleemonaghan8")}
+            onClick={() => requestFriend(this.state.username, "cleemonaghanALT")}
           >
-            Add Friend
+            Request Friend
           </Button>
-          <Button onClick={() => createUser("cleemonaghan9")}>
+          <Button
+            onClick={() => acceptFriend( "cleemonaghanALT", this.state.username)}
+          >
+            Accept Friend
+          </Button>
+          <Button onClick={() => createUser("cleemonaghanALT")}>
             Create User
           </Button>
           <Button
             onClick={async () => {
-              let x = await getUser("cleemonaghan9");
+              let x = await getUser(this.state.username);
               console.log(x);
             }}
           >

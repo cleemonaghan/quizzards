@@ -44,8 +44,8 @@ class Profile extends React.Component {
       birthdate: userSettings.attributes.birthdate,
       email: userSettings.attributes.email,
       color_theme: "blue", //we need to ensure this is updated
-      profile_pic: userDatabase.data.getUser.profilePicture,
-      biography: userDatabase.data.getUser.bio,
+      profile_pic: userDatabase.profilePicture,
+      biography: userDatabase.bio,
     });
     //load the picture from storage
     try {
@@ -114,7 +114,7 @@ class Profile extends React.Component {
                   <Offcanvas.Title>Edit Profile</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                  <ProfileEdit></ProfileEdit>
+                  <ProfileEdit close={this.handleClose}></ProfileEdit>
                 </Offcanvas.Body>
               </Offcanvas>
             </div>

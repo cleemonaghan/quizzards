@@ -7,6 +7,14 @@ import {
 } from "../graphql/mutations";
 import { getQuiz as getQuizQuery } from "../graphql/queries";
 
+/** This method creates a new quiz with the specified name.
+ * 
+ * @param {*} id the ID of the new quiz
+ * @param {*} quizName the name of the new quiz
+ * @param {*} User the user who created the quiz
+ * @param {*} username the username of the user who created the quiz
+ * @returns None
+ */
 export async function createQuiz(id, quizName, User, username) {
   //if the User did not enter a title, don't create a post
   if (!id) return;
@@ -52,5 +60,5 @@ export async function getQuiz(id) {
     query: getQuizQuery,
     variables: { id: id },
   });
-  return result;
+  return result.data.getQuiz;
 }

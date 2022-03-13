@@ -1,26 +1,36 @@
-//This file holds the API call functions
-
-import { API, Storage } from "aws-amplify";
+import { API, Storage, graphqlOperation  } from "aws-amplify";
 import {
   createGroup as createGroupMutation,
   updateGroup as updateGroupMutation,
 } from "../graphql/mutations";
 import { getGroup as getGroupQuery } from "../graphql/queries";
 
+/** This method creates a group with specified attributes.
+ * 
+ * @param {*} params the params of the group
+ */
 export async function createGroup(params) {
-  //if the User did not enter a title, don't create a post
-  //if (!id) return;
-
-  const fileName = params.name + "_profile_pic";
-  console.log("About to start");
-  //create a new Post using the form data
-  let result = await API.graphql({
+  //if the user didn't enter a profile picture, give them a default one
+  if(!params.profilePicture) {
+    params.profilePicture = "default_profile_image";
+  } 
+  console.log("Creating group...");
+  //create a new group using the inputted data
+  let result = API.graphql(graphqlOperation(createGroupMutation, {input: params}));
+  /*await API.graphql({
     query: createGroupMutation,
     variables: { input: params },
-  });
+  });*/
+  console.log("Created group!");
   console.log(result);
 }
 
+/** This method updates the attributes of a specified group.
+ * 
+ * @param {*} id The ID of the group
+ * @param {*} inputs the attributes and values we are updating for the group
+ * @returns None
+ */
 export async function updateGroup(id, inputs) {
   //if the was no id specified, don't update the group
   if (!id) return;
@@ -38,13 +48,18 @@ export async function updateGroup(id, inputs) {
       params[key] = fileName;
     } else params[key] = inputs[key];
   }
-  //update the  a new Post using the form data
+  //update the group using the inputed data
   await API.graphql({
     query: updateGroupMutation,
     variables: { input: params },
   });
 }
 
+/** This method fetches and returns the group with the specifed ID.
+ * 
+ * @param {*} id The ID of the specified group
+ * @returns a json with the group's attributes
+ */
 export async function getGroup(id) {
   //if the was no username specified, don't update the user
   if (!id) return;
@@ -53,5 +68,5 @@ export async function getGroup(id) {
     query: getGroupQuery,
     variables: { id: id },
   });
-  return result;
+  return result.data.getGroup;
 }

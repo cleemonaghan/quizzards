@@ -4,29 +4,30 @@ import { API, Storage } from "aws-amplify";
 import {
   createUser as createUserMutation,
   updateUser as updateUserMutation,
-  updateFriends,
-  createFriends,
-  createFriendRequests,
-  createFriendConnection,
 } from "../graphql/mutations";
 import { getUser as getUserQuery } from "../graphql/queries";
 
+/** This method creates a default user with the specified username.
+ * 
+ * @param {String} username the username of the new user
+ */
 export async function createUser(username) {
   console.log("creating user");
   //if the User did not enter a title, don't create a post
   if (!username) return;
 
   //set up the params
-  let params = {
+  const params = {
     username: username,
     name: username,
     profilePicture: "default_profile_image",
+    bio: "",
+
+    friends: [],
+    friendRequests: [],
+
     admin: false,
     blocked: false,
-
-    userFriendsId: username,
-    friendsFriendsId: username,
-    userFriendRequestsId: username,
   };
 
   //create a new user with default settings
@@ -34,19 +35,16 @@ export async function createUser(username) {
     query: createUserMutation,
     variables: { input: params },
   });
-  params = {
-    username: username,
-  };
-  //create Friend entry and FriendRequests
-  await API.graphql({
-    query: createFriends,
-    variables: { input: params },
-  });
 }
 
-export async function updateUser(user, inputs) {
+/** This method updates the specified user's profile setting to the specified values.
+ * 
+ * @param {String} username the username of the user being updated 
+ * @param {*} inputs a json object with the new fields for the user
+ * @returns None
+ */
+export async function updateUser(username, inputs) {
   //if the was no username specified, don't update the user
-  let username = user.username;
   if (!username) return;
   let params = {
     username: username,
@@ -62,52 +60,18 @@ export async function updateUser(user, inputs) {
       params[key] = fileName;
     } else params[key] = inputs[key];
   }
-  //update the  a new Post using the form data
+  //update the User using the form data
   await API.graphql({
     query: updateUserMutation,
     variables: { input: params },
   });
 }
 
-export async function addFriend(username, newFriend) {
-  try {
-    //let username = user.username;
-    console.log("adding a friend:");
-    console.log(username);
-    console.log(newFriend);
-    if (!username) return;
-    if (!newFriend) return;
-
-    let userVal = await getUser(username);
-    let newFriendUser = await getUser(newFriend);
-    console.log("printing user");
-    console.log(userVal);
-
-    let friendObj = userVal.data.getUser.friends;
-    let friendArr = friendObj.friends;
-    friendArr.push(newFriendUser.data.getUser);
-    let params = {
-      username: username,
-      friends: friendArr,
-    };
-    let result = await API.graphql({
-      query: updateFriends,
-      variables: { input: params },
-    });
-
-    let friendReq = userVal.data.getUser.friendRequests;
-    let friendReqList = friendReq.friends;
-    if (friendReqList.contains(newFriendUser.data.getUser)) {
-      //let noMoreRequest = await removeFriend();
-    }
-    console.log(result);
-    await addFriend(newFriend, username);
-    await getUser(username);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
+/** This method fetches and returns the specified user's profile attributes.
+ * 
+ * @param {String} username the username of the user being fetched
+ * @returns a json of the user's attributes
+ */
 export async function getUser(username) {
   //if the was no username specified, don't update the user
   if (!username) return;
@@ -116,11 +80,16 @@ export async function getUser(username) {
     query: getUserQuery,
     variables: { username: username },
   });
-  console.log("user");
-  console.log(result);
-  return result;
+  return result.data.getUser;
 }
 
+// User Groups ---------------------------
+
+/** This method fetches and returns the specified user's groups.
+ * 
+ * @param {String} username the username of the user
+ * @returns an array of the user's groups
+ */
 export async function getUserGroups(username) {
   //console.log("in getUserGroups");
   //let username = user.username;
@@ -129,113 +98,128 @@ export async function getUserGroups(username) {
   //console.log("the user:");
   //console.log(userVal);
   //console.log("returning groups");
-  return userVal.data.getUser.groups.items;
+  return userVal.groups.items;
 }
 
+// User Quizzes ---------------------------
+
+/** This method fetches and returns the specified user's quizzes.
+ * 
+ * @param {String} username the username of the user
+ * @returns an array of the user's quizzes
+ */
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  return userVal.data.getUser.quizOwners.data;
+  return userVal.quizOwners.data;
 }
 
+// User Friends ---------------------------
+
+/** This method fetches and returns the specified user's friends.
+ * 
+ * @param {String} username the username of the user
+ * @returns an array of the user's friends
+ */
 export async function getUserFriends(username) {
   if (!username) return;
-  let userVal = await getUser(username);
-  return userVal.data.getUser.friends;
+  let userFriends = (await getUser(username)).friends;
+  let result = [];
+  //fetch the user profile for each friend
+  for(let friend in userFriends) {
+    result.push((await getUser(friend)));
+  }
+  return result;
 }
-
+/** This method fetches and returns the specified user's friends requests. 
+ * 
+ * @param {String} username the username of the user
+ * @returns an array of other user profiles that have requested to be this user's friend
+ */
 export async function getUserFriendRequests(username) {
   if (!username) return;
-  let userVal = await getUser(username);
-  return userVal.data.getUser.friendRequests;
-}
-
-export async function addFriendRequest(username, newFriend) {
-  try {
-    //let username = user.username;
-
-    if (!username) return;
-    if (!newFriend) return;
-
-    let userVal = await getUser(username);
-    let newFriendUser = await getUser(newFriend);
-
-    let friendObj = newFriendUser.data.getUser.friendRequests;
-    let friendArr = friendObj.friends;
-    friendArr.push(userVal.data.getUser);
-    let params = {
-      username: username,
-      friends: friendArr,
-    };
-    let result = await API.graphql({
-      query: updateFriends,
-      variables: { input: params },
-    });
-  } catch (error) {
-    console.error(error);
+  let userFriendReqs = (await getUser(username)).friendRequests;
+  let result = [];
+  //fetch the user profile for each friend request
+  for(let friend in userFriendReqs) {
+    result.push((await getUser(friend)));
   }
+  return result;
 }
-
+/** This method adds the two inputed users to each other's friend list.
+ *  This method also removes the friendUser from the accepting user's 
+ *    friend request list, since the request has been accepted.
+ * 
+ * @param {*} username the username of the user accepting the request
+ * @param {*} friendUsername the username of the user requesting to be friends
+ * @returns true if the friends were added to each other's friend lists
+ */
 export async function acceptFriend(username, friendUsername) {
   try {
     //get the user database entries
-    let user = (await getUser(username)).data.getUser;
-    let friend = (await getUser(friendUsername)).data.getUser;
-    // get their friend lists from the DB
-    let userFriendList = user.friends.friends;
-    let friendFriendList = friend.friends.friends;
+    let user = await getUser(username);
+    let friend = await getUser(friendUsername);
+    // get their friend lists
+    let userFriendList = user.friends;
+    let friendFriendList = friend.friends;
     //add the users to the other user's friend list
-
-    console.log(userFriendList);
-    console.log(friendFriendList);
-    userFriendList.items.push(friend);
-    friendFriendList.items.push(user);
-    console.log(userFriendList);
-    console.log(friendFriendList);
+    friendFriendList.push(username);
+    userFriendList.push(friendUsername);
+    //remove friend from user's friend request list
+    const index = user.friendRequests.indexOf(friendUsername);
+    user.friendRequests.splice(index, 1); // remove the username from the list
+    
     //update the database with the new lists
-    await API.graphql({
-      query: updateFriends,
-      variables: {
-        input: {
-          username: username,
-          friends: friend,
-        },
-      },
-    });
-    await API.graphql({
-      query: updateFriends,
-      variables: {
-        input: {
-          username: friendUsername,
-          friends: user,
-        },
-      },
-    });
-    /*
-		let result = await API.graphql({
-			query: createFriendConnection,
-			variables: {
-				input: {
-					username: username,
-					friendUsername: friendUsername,
-					userFriendListId: friendUsername,
-				},
-			},
-		});
-		*/
-    // console.log(result);
     await API.graphql({
       query: updateUserMutation,
       variables: {
         input: {
           username: username,
+          friends: userFriendList,
+          friendRequests: user.friendRequests
         },
       },
     });
-    //return true
-    console.log("success");
-    let output = await getUser(username);
-    console.log(output);
+    await API.graphql({
+      query: updateUserMutation,
+      variables: {
+        input: {
+          username: friendUsername,
+          friends: friendFriendList,
+        },
+      },
+    });
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+/** This method adds a user to another user's friend request list.
+ * 
+ * @param {*} username the username of the user requesting to be friends
+ * @param {*} friendUsername the username of the user they want to be friends with
+ * @returns true if the user was added to the other's friend request lists
+ */
+export async function requestFriend(username, friendUsername) {
+  try {
+    //get the user database entries
+    let friend = await getUser(friendUsername);
+    // get their friend lists from the DB
+    let friendFriendReqList = friend.friendRequests;
+    //add the users to the other user's friend request list
+    friendFriendReqList.push(username);
+    //update the database with the new list
+    await API.graphql({
+      query: updateUserMutation,
+      variables: {
+        input: {
+          username: friendUsername,
+          friendRequests: friendFriendReqList,
+        },
+      },
+    });
+
     return true;
   } catch (error) {
     console.error(error);

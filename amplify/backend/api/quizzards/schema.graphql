@@ -8,10 +8,8 @@ type User @model @auth(rules: [{ allow: public }]) {
 	highlightColor: String
 
 	#friend info
-	friends: Friends @hasOne
-	friendRequests: FriendRequests @hasOne
-
-	friendList: [FriendConnection!]! @hasMany
+	friends: [String!]!
+	friendRequests: [String!]!
 
 	#group info
 	groups: [Group!]! @manyToMany(relationName: "members")
@@ -23,38 +21,10 @@ type User @model @auth(rules: [{ allow: public }]) {
 	blocked: Boolean! @default(value: "false")
 }
 
-type Friends @model @auth(rules: [{ allow: public }]) {
-	user: User! @belongsTo(fields: ["username"])
-	username: String! @primaryKey
-	friends: [User!]! @hasMany
-}
-
-type Mutation{
-	addFriendToFriends(input: addFriendToFriendsInput!): Friends!
-}
-
-input addFriendToFriendsInput{
-	username: String! 
-	user: User!
-}
-
-type FriendConnection @model @auth(rules: [{ allow: public }]) {
-	user: User! @belongsTo(fields: ["username"])
-	username: String!
-	friend: User! @belongsTo(fields: ["friendUsername"])
-	friendUsername: String!
-}
-
-type FriendRequests @model @auth(rules: [{ allow: public }]) {
-	user: User! @belongsTo(fields: ["username"])
-	username: String! @primaryKey
-	friendRequests: [User!]! @hasMany(fields: ["friendUsernames"])
-	friendUsernames: [String!]!
-}
 
 type Group @model @auth(rules: [{ allow: public }]) {
 	#group info
-	id: ID! @primaryKey
+	id: ID!
 	name: String!
 	profilePicture: String
 	bio: String
@@ -72,7 +42,7 @@ type Group @model @auth(rules: [{ allow: public }]) {
 }
 
 type Quiz @model @auth(rules: [{ allow: public }]) {
-	id: ID! @primaryKey
+	id: ID!
 	quizname: String!
 	owner: User! @belongsTo(fields: ["ownerUsername"])
 	ownerUsername: String!

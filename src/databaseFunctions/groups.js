@@ -16,11 +16,10 @@ export async function createGroup(params) {
   } 
   console.log("Creating group...");
   //create a new group using the inputted data
-  let result = API.graphql(graphqlOperation(createGroupMutation, {input: params}));
-  /*await API.graphql({
+  let result = await API.graphql({
     query: createGroupMutation,
     variables: { input: params },
-  });*/
+  });
   console.log("Created group!");
   console.log(result);
 }

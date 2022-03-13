@@ -58,6 +58,7 @@ class CreateGroup extends React.Component {
       bio: this.state.biography,
       profilePicture: this.state.profile_pic,
       ownerUsername: this.user.username,
+      userGroupOwnersId: this.user.username,
     };
     console.log(params);
     let res = await createGroup(params);

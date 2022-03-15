@@ -4,7 +4,7 @@ import {
 } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
-import { photo as defaultImage } from "../images";
+import { default_group as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
 
 import {Navigate } from "react-router";
@@ -29,18 +29,17 @@ class CreateGroup extends React.Component {
     try {
       this.user = await Auth.currentAuthenticatedUser();
 
-      // get default file image
-      this.defaultImage = await Storage.get("default_profile_image");
-      fetch(defaultImage)
-        .then((res) => res.blob())
-        .then((myBlob) => {
-          this.defaultImageBlob = myBlob;
-        });
+     // get default file image
+     this.defaultImage = await Storage.get("default_group_image");
+     fetch(defaultImage)
+       .then((res) => res.blob())
+       .then((myBlob) => {
+         this.defaultImageBlob = myBlob;
+       });
 
-      //load the image if there is one
-      const image = await Storage.get(this.state.profile_pic);
-      this.tempPhoto = image;
-      this.setState({ profile_pic: image });
+     //load the image if there is one
+     this.tempPhoto = this.defaultImage;
+     this.setState({ profile_pic: this.defaultImage });
     } catch (err) {
       console.log("There was an error logging: ", err);
     }
@@ -78,7 +77,7 @@ class CreateGroup extends React.Component {
         //no file was uploaded, so revert to the default
         this.tempPhoto = this.defaultImage;
         this.setState({
-          profile_pic: this.defaultImageBlob,
+          profile_pic: "default_group_image",
         });
       } else if (event.target.files[0]) {
         // Update the temp photo and the state.profile_pic
@@ -92,7 +91,7 @@ class CreateGroup extends React.Component {
           //the file was too big, so revert to the default
           this.tempPhoto = this.defaultImage;
           this.setState({
-            profile_pic: this.defaultImageBlob,
+            profile_pic: "default_group_image",
           });
         }
       }
@@ -105,7 +104,7 @@ class CreateGroup extends React.Component {
     this.updateAttributes();
 
     //reroute to different page?
-    this.setState({submit: true});
+    //this.setState({submit: true});
   }
 
   render() {

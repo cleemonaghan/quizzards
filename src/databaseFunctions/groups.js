@@ -11,21 +11,28 @@ import { getGroup as getGroupQuery } from "../graphql/queries";
  * @param {*} params the params of the group
  */
 export async function createGroup(params) {
-  //if the user didn't enter a profile picture, give them a default one
-  if(!params.profilePicture) {
-    params.profilePicture = "default_profile_image";
+  //if the user entered a group picture, put it in the bucket
+  let defaultImage = true;
+  if(params.profilePicture !== "default_group_image") {
+    defaultImage = false;
   } 
+  params["profilePicture"] = "default_group_image";
+
   //create a new group using the inputted data
   let res = await API.graphql({
     query: createGroupMutation,
     variables: { input: params },
   });
-  console.log(res);
-  console.log("success 1");
+  console.log(res.data);
+  let groupID = res.data.createGroup.id;
   //add the user to the group's members
-  res = await addMemberToGroup(params.ownerUsername, res.data.createGroup.id);
-  console.log(res);
-  console.log("success 2");
+  await addMemberToGroup(params.ownerUsername, groupID);
+  //add the image to storage
+  if(!defaultImage) {
+    const fileName = params[groupID] + "_group_pic";
+    await Storage.put(fileName, params["profilePicture"]);
+    params["profilePicture"] = fileName;
+  }
 
 }
 

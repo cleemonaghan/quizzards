@@ -1,17 +1,13 @@
 import React from "react";
 import {
   createGroup,
-  updateGroup,
-  getGroup,
 } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { photo as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
 
-import Amplify, { Hub } from "aws-amplify";
-import config from "../aws-exports";
-Amplify.configure(config);
+import {Navigate } from "react-router";
 
 class CreateGroup extends React.Component {
   constructor(props) {
@@ -21,6 +17,7 @@ class CreateGroup extends React.Component {
       name: "",
       biography: "",
       profile_pic: null,
+      submit: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -61,7 +58,7 @@ class CreateGroup extends React.Component {
       userGroupOwnersId: this.user.username,
     };
     //create the group
-    await createGroup(params);
+    return (await createGroup(params));
   }
 
   handleChange(event) {
@@ -108,10 +105,13 @@ class CreateGroup extends React.Component {
     this.updateAttributes();
 
     //reroute to different page?
-    
+    this.setState({submit: true});
   }
 
   render() {
+    if (this.state.submit) {
+      return <Navigate to="/" />
+    }
     return (
       <div className="create_group">
         <div className="container">

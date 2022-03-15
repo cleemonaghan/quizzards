@@ -22,6 +22,16 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      groupRequests {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       groupOwners {
         items {
           id
@@ -83,6 +93,9 @@ export const listUsers = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -118,27 +131,14 @@ export const getGroup = /* GraphQL */ `
         nextToken
       }
       memberRequests {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends
-        friendRequests
-        groups {
-          nextToken
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
+        nextToken
       }
       owner {
         username
@@ -150,6 +150,9 @@ export const getGroup = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -188,18 +191,7 @@ export const listGroups = /* GraphQL */ `
           nextToken
         }
         memberRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          friends
-          friendRequests
-          admin
-          blocked
-          createdAt
-          updatedAt
+          nextToken
         }
         owner {
           username
@@ -239,6 +231,9 @@ export const getQuiz = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -312,6 +307,9 @@ export const getMembers = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -334,18 +332,7 @@ export const getMembers = /* GraphQL */ `
           nextToken
         }
         memberRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          friends
-          friendRequests
-          admin
-          blocked
-          createdAt
-          updatedAt
+          nextToken
         }
         owner {
           username
@@ -378,6 +365,119 @@ export const listMembers = /* GraphQL */ `
     $nextToken: String
   ) {
     listMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        groupID
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        group {
+          id
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          ownerUsername
+          createdAt
+          updatedAt
+          userGroupOwnersId
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getMemberRequests = /* GraphQL */ `
+  query GetMemberRequests($id: ID!) {
+    getMemberRequests(id: $id) {
+      id
+      userID
+      groupID
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends
+        friendRequests
+        groups {
+          nextToken
+        }
+        groupRequests {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          nextToken
+        }
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        createdAt
+        updatedAt
+        userGroupOwnersId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMemberRequests = /* GraphQL */ `
+  query ListMemberRequests(
+    $filter: ModelMemberRequestsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMemberRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         userID

@@ -13,6 +13,7 @@ type User @model @auth(rules: [{ allow: public }]) {
 
 	#group info
 	groups: [Group!]! @manyToMany(relationName: "members")
+	groupRequests: [Group!]! @manyToMany(relationName: "memberRequests")
 	#groupAdmins: [Group!]! @manyToMany(relationName: "groupAdmins")
 	groupOwners: [Group!]! @hasMany
 	#quiz info
@@ -33,7 +34,7 @@ type Group @model @auth(rules: [{ allow: public }]) {
 
 	#member info
 	members: [User!]! @manyToMany(relationName: "members")
-	memberRequests: [User!]!
+	memberRequests: [User!]! @manyToMany(relationName: "memberRequests")
 	owner: User! @belongsTo(fields: ["ownerUsername"])
 	ownerUsername: String!
 

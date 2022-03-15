@@ -25,6 +25,16 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      groupRequests {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       groupOwners {
         items {
           id
@@ -74,6 +84,16 @@ export const updateUser = /* GraphQL */ `
       friends
       friendRequests
       groups {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      groupRequests {
         items {
           id
           userID
@@ -141,6 +161,16 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      groupRequests {
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       groupOwners {
         items {
           id
@@ -198,27 +228,14 @@ export const createGroup = /* GraphQL */ `
         nextToken
       }
       memberRequests {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends
-        friendRequests
-        groups {
-          nextToken
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
+        nextToken
       }
       owner {
         username
@@ -230,6 +247,9 @@ export const createGroup = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -273,27 +293,14 @@ export const updateGroup = /* GraphQL */ `
         nextToken
       }
       memberRequests {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends
-        friendRequests
-        groups {
-          nextToken
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
+        nextToken
       }
       owner {
         username
@@ -305,6 +312,9 @@ export const updateGroup = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -348,27 +358,14 @@ export const deleteGroup = /* GraphQL */ `
         nextToken
       }
       memberRequests {
-        username
-        name
-        profilePicture
-        bio
-        publicPrivate
-        highlightColor
-        friends
-        friendRequests
-        groups {
-          nextToken
+        items {
+          id
+          userID
+          groupID
+          createdAt
+          updatedAt
         }
-        groupOwners {
-          nextToken
-        }
-        quizOwners {
-          nextToken
-        }
-        admin
-        blocked
-        createdAt
-        updatedAt
+        nextToken
       }
       owner {
         username
@@ -380,6 +377,9 @@ export const deleteGroup = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -418,6 +418,9 @@ export const createQuiz = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -459,6 +462,9 @@ export const updateQuiz = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -496,6 +502,9 @@ export const deleteQuiz = /* GraphQL */ `
         friends
         friendRequests
         groups {
+          nextToken
+        }
+        groupRequests {
           nextToken
         }
         groupOwners {
@@ -538,6 +547,9 @@ export const createMembers = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -560,18 +572,7 @@ export const createMembers = /* GraphQL */ `
           nextToken
         }
         memberRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          friends
-          friendRequests
-          admin
-          blocked
-          createdAt
-          updatedAt
+          nextToken
         }
         owner {
           username
@@ -618,6 +619,9 @@ export const updateMembers = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -640,18 +644,7 @@ export const updateMembers = /* GraphQL */ `
           nextToken
         }
         memberRequests {
-          username
-          name
-          profilePicture
-          bio
-          publicPrivate
-          highlightColor
-          friends
-          friendRequests
-          admin
-          blocked
-          createdAt
-          updatedAt
+          nextToken
         }
         owner {
           username
@@ -698,6 +691,9 @@ export const deleteMembers = /* GraphQL */ `
         groups {
           nextToken
         }
+        groupRequests {
+          nextToken
+        }
         groupOwners {
           nextToken
         }
@@ -720,6 +716,9 @@ export const deleteMembers = /* GraphQL */ `
           nextToken
         }
         memberRequests {
+          nextToken
+        }
+        owner {
           username
           name
           profilePicture
@@ -732,6 +731,208 @@ export const deleteMembers = /* GraphQL */ `
           blocked
           createdAt
           updatedAt
+        }
+        ownerUsername
+        createdAt
+        updatedAt
+        userGroupOwnersId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createMemberRequests = /* GraphQL */ `
+  mutation CreateMemberRequests(
+    $input: CreateMemberRequestsInput!
+    $condition: ModelMemberRequestsConditionInput
+  ) {
+    createMemberRequests(input: $input, condition: $condition) {
+      id
+      userID
+      groupID
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends
+        friendRequests
+        groups {
+          nextToken
+        }
+        groupRequests {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          nextToken
+        }
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        createdAt
+        updatedAt
+        userGroupOwnersId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateMemberRequests = /* GraphQL */ `
+  mutation UpdateMemberRequests(
+    $input: UpdateMemberRequestsInput!
+    $condition: ModelMemberRequestsConditionInput
+  ) {
+    updateMemberRequests(input: $input, condition: $condition) {
+      id
+      userID
+      groupID
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends
+        friendRequests
+        groups {
+          nextToken
+        }
+        groupRequests {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          nextToken
+        }
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        createdAt
+        updatedAt
+        userGroupOwnersId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteMemberRequests = /* GraphQL */ `
+  mutation DeleteMemberRequests(
+    $input: DeleteMemberRequestsInput!
+    $condition: ModelMemberRequestsConditionInput
+  ) {
+    deleteMemberRequests(input: $input, condition: $condition) {
+      id
+      userID
+      groupID
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends
+        friendRequests
+        groups {
+          nextToken
+        }
+        groupRequests {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          nextToken
         }
         owner {
           username

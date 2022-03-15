@@ -2,6 +2,7 @@ import { API, Storage, graphqlOperation  } from "aws-amplify";
 import {
   createGroup as createGroupMutation,
   updateGroup as updateGroupMutation,
+  createMembers
 } from "../graphql/mutations";
 import { getGroup as getGroupQuery } from "../graphql/queries";
 
@@ -14,14 +15,18 @@ export async function createGroup(params) {
   if(!params.profilePicture) {
     params.profilePicture = "default_profile_image";
   } 
-  console.log("Creating group...");
   //create a new group using the inputted data
-  let result = await API.graphql({
+  let res = await API.graphql({
     query: createGroupMutation,
     variables: { input: params },
   });
-  console.log("Created group!");
-  console.log(result);
+  console.log(res);
+  console.log("success 1");
+  //add the user to the group's members
+  res = await addMemberToGroup(params.ownerUsername, res.data.createGroup.id);
+  console.log(res);
+  console.log("success 2");
+
 }
 
 /** This method updates the attributes of a specified group.
@@ -68,4 +73,17 @@ export async function getGroup(id) {
     variables: { id: id },
   });
   return result.data.getGroup;
+}
+
+
+export async function addMemberToGroup(memberID, groupID) {
+  let params = {
+    userID: memberID,
+    groupID: groupID,
+  }
+  let res = await API.graphql({
+    query: createMembers,
+    variables: { input: params },
+  });
+  return res;
 }

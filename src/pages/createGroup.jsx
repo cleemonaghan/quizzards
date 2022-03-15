@@ -60,13 +60,11 @@ class CreateGroup extends React.Component {
       ownerUsername: this.user.username,
       userGroupOwnersId: this.user.username,
     };
-    console.log(params);
-    let res = await createGroup(params);
-    console.log(res);
+    //create the group
+    await createGroup(params);
   }
 
   handleChange(event) {
-    console.log(event);
     let target = event.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -106,9 +104,11 @@ class CreateGroup extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    //update the color scheme
-    //update the user profile
+    // create the group
     this.updateAttributes();
+
+    //reroute to different page?
+    
   }
 
   render() {

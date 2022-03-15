@@ -13,6 +13,9 @@ import {
 } from "../databaseFunctions/users.js";
 import Button from "@restart/ui/esm/Button";
 
+import { getGroup } from "../databaseFunctions/groups";
+import { getQuiz } from "../databaseFunctions/quizzes";
+
 class Home extends React.Component {
   constructor() {
     super();
@@ -21,6 +24,8 @@ class Home extends React.Component {
       name: "",
       color_theme: "blue",
       profile_pic: null,
+      groupElements: null,
+      quizElements: null,
     };
   }
 
@@ -32,43 +37,107 @@ class Home extends React.Component {
   async componentDidMount() {
     //get the user information
     const response = await Auth.currentAuthenticatedUser();
-    let username = response.username;
-    let userSettings = await getUser(username);
+    const username = response.username;
+    const userSettings = await getUser(username);
     const image = await Storage.get(userSettings.profilePicture);
+
+    
     // set the state with the user info
-    this.setState({ username: username, profile_pic: image });
+    this.setState({
+      username: username, 
+      profile_pic: image, 
+    });
+
+    //fetch the user's groups and quizzes
+    this.setState({groupElements : await this.displayGroupsElement(),
+      quizElements : await this.displayQuizzesElement()});    
   }
 
   /** This method fetches and returns a list of groups that this user is a part of.
    * 
    * @returns a list of groups that the user is a part of
    */
-  async getGroups() {
-    const groupArr = await getUserGroups(this.state.username);
+  async getGroups(username) {
+    const groupArr = await getUserGroups(username);
     if (groupArr === undefined) {
-      console.log("returning empty list");
+      //return an empty list
       return [];
     }
-    return groupArr;
+    else {
+      //for each group we are in, fetch the group and add it to the result array
+      let result = [];
+      groupArr.map(async (item) => {
+        result.push((await getGroup(item.groupID)));
+      });
+      return result;
+    }
+    
   }
 
   /** This method fetches and returns a list of quizzes that this user has.
    * 
    * @returns a list of quizzes that the user has
    */
-  async getQuizzes() {
-    const quizArr = await getUserQuizzes(this.state.username);
+  async getQuizzes(username) {
+    const quizArr = await getUserQuizzes(username);
     if (quizArr === undefined) {
-      console.log("returning an empty quiz list");
       return [];
     }
-    return quizArr;
+    else {
+      //for each quiz we are in, fetch the group and add it to the result array
+      let result = [];
+      quizArr.map(async (item) => {
+        result.push((await getGroup(item.groupID)));
+      });
+      return result;
+    }
   }
 
+  async displayGroupsElement() {
+
+    const groupArr = await getUserGroups(this.state.username);
+    // if there are no groups, 
+    if (groupArr === undefined || groupArr.length < 1) {return (
+      <p>You have no groups</p>
+    );}
+    else {
+      //for each group we are in, fetch the group and add it to the result array
+      var result = [];
+      for(let i = 0; i < groupArr.length; i++) {
+        let group = await getGroup(groupArr[i].groupID);
+        result.push((<div className="col-4 mb-4" key={i}>
+          <GroupBox key={group.id} link={group.profilePicture} name={group.name} />
+        </div>)
+        );
+      }
+      return result;
+    }
+  }
   
+  async displayQuizzesElement() {
+    const quizArr = await getUserQuizzes(this.state.username);
+    // if there are no quizzes, display message
+    if (quizArr === undefined || quizArr.length < 1) {return (
+      <p>You have no quizzes</p>
+    );}
+    else {
+      //for each quiz we are in, fetch the quiz and add it to the result array
+      var result = [];
+      for(let i = 0; i < quizArr.length; i++) {
+        let quiz = await getQuiz(quizArr[i].quizID);
+        result.push((<div className="col-4"  key={i}>
+        <QuizBox
+          name={quiz.quizname}
+          description={quiz.description}
+        /></div>)
+        );
+      }
+      return result;
+    }
+  }
+  
+
   render() {
-    let groupArr = this.getGroups();
-    let quizArr = this.getQuizzes();
     return (
       <div className="home">
         <div className="container">
@@ -91,58 +160,16 @@ class Home extends React.Component {
             <h1 className="font-weight-bold col-4">Your Groups</h1>
           </div>
           <div className="row col-9 pb-5">
-            {groupArr.length ? (
-              groupArr.map((item) => {
-                return (
-                  <div className="col-4 mb-4">
-                    <GroupBox link={item.profilePicture} name={item.name} />
-                  </div>
-                );
-              })
-            ) : (
-              <p>You have no groups</p>
-            )}
+            {/* Display the user's groups */}
+            {this.state.groupElements}
           </div>
-          {/*
-            <div className="row col-9 pb-5">
-            <div className="col-4 mb-4">
-              <GroupBox link={photo13} name="Hogwarts" />
-            </div>
-            <div className="col-4 mb-4">
-              <GroupBox link={photo14} name="Puppies" />
-            </div>
-            <div className="col-4 mb-4">
-              <GroupBox link={photo15} name="Astronomy" />
-            </div>
-          </div>
-          <div className="row col-9 pb-5">
-            <div className="col-4 mb-4">
-              <GroupBox link={photo16} name="Candy" />
-            </div>
-            <div className="col-4 mb-4">
-              <GroupBox link={photo17} name="Books" />
-            </div>
-          </div>
-            */}
-
+          
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold col-4">Your Quizzes</h1>
           </div>
           <div className="row col-9 pb-5">
-            {quizArr.length ? (
-              quizArr.map((item) => {
-                return (
-                  <div className="col-4">
-                    <QuizBox
-                      name={item.quizname}
-                      description={item.description}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <p>You have no quizzes</p>
-            )}
+            {/* Display the user's quizzes */}
+            {this.state.quizElements}
           </div>
           <div className="row align-items-center mt-5 mb-2">
             <h1>Make a Friend!</h1>

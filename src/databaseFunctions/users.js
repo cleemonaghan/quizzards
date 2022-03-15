@@ -95,8 +95,8 @@ export async function getUserGroups(username) {
   //let username = user.username;
   if (!username) return;
   let userVal = await getUser(username);
-  //console.log("the user:");
-  //console.log(userVal);
+  console.log("the user:");
+  console.log(userVal);
   //console.log("returning groups");
   return userVal.groups.items;
 }

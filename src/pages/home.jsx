@@ -105,6 +105,7 @@ class Home extends React.Component {
       var result = [];
       for(let i = 0; i < groupArr.length; i++) {
         let group = await getGroup(groupArr[i].groupID);
+        console.log(group.profilePicture);
         let groupImage = await Storage.get(group.profilePicture);
         result.push((<div className="col-4 mb-4" key={i}>
           <GroupBox key={group.id} link={groupImage} name={group.name} />

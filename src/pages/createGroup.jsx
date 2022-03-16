@@ -31,11 +31,6 @@ class CreateGroup extends React.Component {
 
      // get default file image
      this.defaultImage = await Storage.get("default_group_image");
-     fetch(defaultImage)
-       .then((res) => res.blob())
-       .then((myBlob) => {
-         this.defaultImageBlob = myBlob;
-       });
 
      //load the image if there is one
      this.tempPhoto = this.defaultImage;
@@ -74,6 +69,7 @@ class CreateGroup extends React.Component {
     this.changedPhoto = true;
     if (event.target.files) {
       if (event.target.files.length === 0) {
+        console.log(1);
         //no file was uploaded, so revert to the default
         this.tempPhoto = this.defaultImage;
         this.setState({
@@ -82,12 +78,16 @@ class CreateGroup extends React.Component {
       } else if (event.target.files[0]) {
         // Update the temp photo and the state.profile_pic
         let file = event.target.files[0];
-        if (file.size < 1000000) {
+        if (file.size < 10000000) {
+          
+          console.log(2);
           this.tempPhoto = URL.createObjectURL(file);
           this.setState({
             profile_pic: file,
           });
         } else {
+          
+          console.log(3);
           //the file was too big, so revert to the default
           this.tempPhoto = this.defaultImage;
           this.setState({
@@ -101,8 +101,8 @@ class CreateGroup extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     // create the group
-    this.updateAttributes();
-
+    let res = this.updateAttributes();
+    
     //reroute to different page?
     //this.setState({submit: true});
   }

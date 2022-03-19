@@ -30,6 +30,7 @@ class Profile extends React.Component {
   }
   handleClose() {
     this.setState({ show: false });
+    this.updateProfile();
   }
   handleShow() {
     this.setState({ show: true });
@@ -108,7 +109,6 @@ class Profile extends React.Component {
                 onHide={this.handleClose}
                 placement={"top"}
                 style={{ height: "100vh" }}
-                onExit={this.updateProfile}
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title>Edit Profile</Offcanvas.Title>

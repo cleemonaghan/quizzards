@@ -1,14 +1,13 @@
 import React from "react";
-import { GroupBox , failToLoad, Loading} from "../components";
+import { GroupBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput } from "mdbreact";
 import { Link } from "react-router-dom";
-import { photo13, photo14, photo15, photo16, photo17 } from "../images";
 
-import { getUserGroups } from "../databaseFunctions/users.js";
+import { getUser, getUserGroups } from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
-import { getGroup } from "../databaseFunctions/groups";
+import { getGroup, recommendGroups } from "../databaseFunctions/groups";
 
 class Groups extends React.Component {
   constructor() {
@@ -16,6 +15,7 @@ class Groups extends React.Component {
     this.state = {
       username: "",
       groupElements: null,
+      recommendationElements: null,
       error: null,
       loading: true,
     };
@@ -31,19 +31,25 @@ class Groups extends React.Component {
       //get the user information
       const response = await Auth.currentAuthenticatedUser();
       const username = response.username;
-      const yourGroups = await this.fetchYourGroups(username);
+      const groupArr = await getUserGroups(username);
+      const yourGroups = await this.fetchYourGroups(groupArr);
+      const yourRecommendations = await this.fetchRecommendedGroups(
+        username,
+        groupArr
+      );
 
       // set the state with the user info
       this.setState({
         username: username,
       });
 
-      //update with the user's groups
-      this.setState({ groupElements: yourGroups });
-
-      //update with the user's recommended groups
-
+      //update with the user's groups and user's recommended groups
+      this.setState({
+        groupElements: yourGroups,
+        recommendationElements: yourRecommendations,
+      });
     } catch (err) {
+      console.log(err);
       this.setState({ error: err });
     } finally {
       //we are done loading, so set loading to false
@@ -54,11 +60,10 @@ class Groups extends React.Component {
   /** This method fetches and returns the list of groups that the user is in
    * formatted in html form.
    *
-   * @param {String} username the user's username
+   * @param {JSON} groupArr the user's profile data
    * @returns a list of the html for each of their groups
    */
-  async fetchYourGroups(username) {
-    const groupArr = await getUserGroups(username);
+  async fetchYourGroups(groupArr) {
     // if there are no groups,
     if (groupArr === undefined || groupArr.length < 1) {
       return <p>You have no groups</p>;
@@ -74,6 +79,41 @@ class Groups extends React.Component {
               link={groupImage}
               name={group.name}
               groupID={groupArr[i].groupID}
+            />
+          </div>
+        );
+      }
+      return result;
+    }
+  }
+
+  /** This method fetches and returns the list of recommended groups for the user
+   * formatted in html form.
+   *
+   * @param {JSON} groupArr the user's profile data
+   * @returns a list of the html for each of their recommended groups
+   */
+  async fetchRecommendedGroups(username, groupArr) {
+    let friendList = (await getUser(username)).friends;
+    console.log(friendList);
+    console.log(groupArr);
+    let recommendations = await recommendGroups(friendList, groupArr);
+
+    // if there are no groups,
+    if (recommendations === undefined || recommendations.length < 1) {
+      return <p>You have no recommendations</p>;
+    } else {
+      //for each group we are in, fetch the group and add it to the result array
+      var result = [];
+      for (let i = 0; i < recommendations.length; i++) {
+        let group = await getGroup(recommendations[i]);
+        let groupImage = await Storage.get(group.profilePicture);
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <GroupBox
+              link={groupImage}
+              name={group.name}
+              groupID={recommendations[i]}
             />
           </div>
         );
@@ -120,42 +160,7 @@ class Groups extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Suggested Groups</h1>
           </div>
-          <div className="row">
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo13} name="Hogwarts" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo14} name="Puppies" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo15} name="Astronomy" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo16} name="Candy" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo17} name="Books" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo13} name="Hogwarts" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo14} name="Puppies" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo15} name="Astronomy" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo16} name="Candy" />
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <GroupBox link={photo17} name="Books" />
-            </div>
-          </div>
+          <div className="row">{this.state.recommendationElements}</div>
         </div>
       </div>
     );

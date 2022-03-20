@@ -1,23 +1,25 @@
-import { API, Storage, graphqlOperation  } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import {
   createGroup as createGroupMutation,
   updateGroup as updateGroupMutation,
-  createMembers
+  createMembers,
 } from "../graphql/mutations";
 import { getGroup as getGroupQuery } from "../graphql/queries";
 
+import { getUser } from "./users";
+
 /** This method creates a group with specified attributes.
- * 
+ *
  * @param {*} params the params of the group
  */
 export async function createGroup(params) {
   //if the user entered a group picture, put it in the bucket
   let defaultImage = true;
   let image = null;
-  if(params.profilePicture !== "default_group_image") {
+  if (params.profilePicture !== "default_group_image") {
     defaultImage = false;
-    image = params["profilePicture"]
-  } 
+    image = params["profilePicture"];
+  }
   params["profilePicture"] = "default_group_image";
 
   //create a new group using the inputted data
@@ -29,7 +31,7 @@ export async function createGroup(params) {
   //add the user to the group's members
   await addMemberToGroup(params.ownerUsername, groupID);
   //add the image to storage
-  if(!defaultImage) {
+  if (!defaultImage) {
     const fileName = groupID + "_group_pic";
     await Storage.put(fileName, image);
     params["profilePicture"] = fileName;
@@ -37,19 +39,19 @@ export async function createGroup(params) {
     //update the group with the image
     res = await API.graphql({
       query: updateGroupMutation,
-      variables: { input: 
-      {
-        id: groupID,
-        profilePicture: params["profilePicture"]
-      } },
+      variables: {
+        input: {
+          id: groupID,
+          profilePicture: params["profilePicture"],
+        },
+      },
     });
-    
   }
   return res.data.updateGroup;
 }
 
 /** This method updates the attributes of a specified group.
- * 
+ *
  * @param {*} id The ID of the group
  * @param {*} inputs the attributes and values we are updating for the group
  * @returns None
@@ -79,7 +81,7 @@ export async function updateGroup(id, inputs) {
 }
 
 /** This method fetches and returns the group with the specifed ID.
- * 
+ *
  * @param {*} id The ID of the specified group
  * @returns a json with the group's attributes
  */
@@ -94,15 +96,84 @@ export async function getGroup(id) {
   return result.data.getGroup;
 }
 
-
 export async function addMemberToGroup(memberID, groupID) {
   let params = {
     userID: memberID,
     groupID: groupID,
-  }
+  };
   let res = await API.graphql({
     query: createMembers,
     variables: { input: params },
   });
   return res;
+}
+
+export async function recommendGroups(friendList, userGroups) {
+  const shuffleArray = function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
+  const MAX_PER_FRIEND = 2;
+  const MAX_TOTAL = 6;
+  console.log(friendList);
+  let shuffled = shuffleArray(friendList);
+  console.log(shuffled);
+  var result = [];
+  //go through each friend
+  for (let index in shuffled) {
+    //if the friend owns any groups that this user isn't a part of, add them to result
+    //console.log(shuffled[index]);
+    let friendInfo = await getUser(shuffled[index]);
+    //added tracks the number of groups we have added from this user's group list
+    let added = 0;
+    //console.log(friendInfo.groupOwners);
+    let groups = shuffleArray(friendInfo.groupOwners.items);
+    //console.log(groups);
+    for (let i in groups) {
+      let match = false;
+      //console.log(groups[i]);
+      for (let j in userGroups) {
+        //console.log(userGroups[j]);
+        if (userGroups[j].id === groups[i].id) {
+          match = true;
+          break;
+        }
+        //console.log("Moving to our next group");
+      }
+      if (!match) {
+        //if there was not a match, we found a group to add
+        //console.log("Adding to list");
+        //console.log(groups[i].id)
+        result.push(groups[i].id);
+        added++;
+      }
+      //if we added more than 2 groups, move onto the next friend
+      if (added >= MAX_PER_FRIEND) break;
+      //console.log("Moving to next group");
+    }
+    //if we have 4 or more results in our list, we have enough, so break
+    console.log(result.length)
+    if (result.length >= MAX_TOTAL) return result;
+    //console.log("Moving to next friend");
+  }
+  //console.log("recommended groups: ");
+  //console.log(result);
+
+  return result;
 }

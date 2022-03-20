@@ -87,7 +87,7 @@ ReactDOM.render(
 						<Route path="/groups" element={<Groups />} />
 						<Route path="/messages" element={<Messages />} />
 						<Route path="/profile" element={<Profile />} />
-						<Route path="/groupPage" element={<GroupPage />} />
+						<Route path="/groupPage/:id" element={<GroupPage />} />
 						<Route path="/quizPage" element={<QuizPage />} />
 						<Route path="/createGroup" element={<CreateGroup />} />
 						<Route path="/createQuiz" element={<CreateQuiz />} />

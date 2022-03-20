@@ -53,48 +53,7 @@ class Home extends React.Component {
       quizElements : await this.displayQuizzesElement()});    
   }
 
-  /** This method fetches and returns a list of groups that this user is a part of.
-   * 
-   * @returns a list of groups that the user is a part of
-   */
-  async getGroups(username) {
-    const groupArr = await getUserGroups(username);
-    if (groupArr === undefined) {
-      //return an empty list
-      return [];
-    }
-    else {
-      //for each group we are in, fetch the group and add it to the result array
-      let result = [];
-      groupArr.map(async (item) => {
-        result.push((await getGroup(item.groupID)));
-      });
-      return result;
-    }
-    
-  }
-
-  /** This method fetches and returns a list of quizzes that this user has.
-   * 
-   * @returns a list of quizzes that the user has
-   */
-  async getQuizzes(username) {
-    const quizArr = await getUserQuizzes(username);
-    if (quizArr === undefined) {
-      return [];
-    }
-    else {
-      //for each quiz we are in, fetch the group and add it to the result array
-      let result = [];
-      quizArr.map(async (item) => {
-        result.push((await getGroup(item.groupID)));
-      });
-      return result;
-    }
-  }
-
   async displayGroupsElement() {
-
     const groupArr = await getUserGroups(this.state.username);
     // if there are no groups, 
     if (groupArr === undefined || groupArr.length < 1) {return (
@@ -105,10 +64,9 @@ class Home extends React.Component {
       var result = [];
       for(let i = 0; i < groupArr.length; i++) {
         let group = await getGroup(groupArr[i].groupID);
-        console.log(group.profilePicture);
         let groupImage = await Storage.get(group.profilePicture);
         result.push((<div className="col-4 mb-4" key={i}>
-          <GroupBox key={group.id} link={groupImage} name={group.name} />
+          <GroupBox link={groupImage} name={group.name} groupID={groupArr[i].groupID}/>
         </div>)
         );
       }

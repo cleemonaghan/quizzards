@@ -45,8 +45,7 @@ export async function createGroup(params) {
     });
     
   }
-
-  console.log(res.data);
+  return res.data.updateGroup;
 }
 
 /** This method updates the attributes of a specified group.

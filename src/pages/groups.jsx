@@ -64,7 +64,7 @@ class Groups extends React.Component {
         let group = await getGroup(groupArr[i].groupID);
         let groupImage = await Storage.get(group.profilePicture);
         result.push((<div className="col-lg-3 col-sm-6" key={i}>
-          <GroupBox key={group.id} link={groupImage} name={group.name} groupID={groupArr[i].groupID}/>
+          <GroupBox link={groupImage} name={group.name} groupID={groupArr[i].groupID}/>
         </div>)
         );
       }

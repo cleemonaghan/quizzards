@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Storage } from "aws-amplify";
+import { Link, useParams } from "react-router-dom";
 import {
   Dropdown,
   DropdownButton,
@@ -7,26 +8,57 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "react-bootstrap";
-import { MembersList, QuizBox, StatsBox, CompareBox } from "../components";
+import { MembersList, QuizBox, StatsBox, CompareBox, failToLoad, Loading } from "../components";
 import { photo13 } from "../images";
 
-class GroupPage extends React.Component {
-  render() {
-    return (
+import { getGroup } from "../databaseFunctions/groups";
+
+
+function GroupPage() {
+  let info = useParams();
+
+  let groupID = info.id;
+  
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [group, setGroup] = useState(null);
+  const [groupImage, setGroupImage] = useState(null);
+
+  /** This function is called upon initialization to fetch all the 
+   * information essential to displaying the page. Once all the 
+   * information is gathered, it sets the loading state var to false 
+   * so that the component will re-render with the information. 
+   * 
+   */
+  async function getInfo() {
+    try {
+      setLoading(true);
+      //get the group
+      let res = await getGroup(groupID);
+      setGroup(res);
+      res = await Storage.get(res.profilePicture);
+      setGroupImage(res);
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    getInfo();
+  }, []);
+  
+  if (error) return (failToLoad());
+  return loading ? Loading() : 
+   (
       <div className="group-page">
         <div className="row m-0">
-          <img className="col-5 mb-5 px-0" src={photo13} alt="" width="100%" />
+          <img className="col-5 mb-5 px-0" src={groupImage} alt="" width="100%" />
           <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
-            <h1 className="px-5">Hogwarts</h1>
+            <h1 className="px-5">{group.name}</h1>
             <p className="px-5">
-              This is a description of the group... Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
+              This is a description of the group... 
+              {group.bio}
             </p>
           </div>
         </div>
@@ -111,7 +143,7 @@ class GroupPage extends React.Component {
         </div>
       </div>
     );
-  }
+  
 }
 
 export default GroupPage;

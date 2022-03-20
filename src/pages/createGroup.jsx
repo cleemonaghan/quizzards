@@ -14,6 +14,7 @@ class CreateGroup extends React.Component {
     super(props);
     this.user = null;
     this.state = {
+      id: null,
       name: "",
       biography: "",
       profile_pic: null,
@@ -36,7 +37,7 @@ class CreateGroup extends React.Component {
      this.tempPhoto = this.defaultImage;
      this.setState({ profile_pic: this.defaultImage });
     } catch (err) {
-      console.log("There was an error logging: ", err);
+      console.log("There was an error: ", err);
     }
   }
 
@@ -52,7 +53,8 @@ class CreateGroup extends React.Component {
       userGroupOwnersId: this.user.username,
     };
     //create the group
-    return (await createGroup(params));
+    let res = await createGroup(params)
+    return res;
   }
 
   handleChange(event) {
@@ -69,7 +71,6 @@ class CreateGroup extends React.Component {
     this.changedPhoto = true;
     if (event.target.files) {
       if (event.target.files.length === 0) {
-        console.log(1);
         //no file was uploaded, so revert to the default
         this.tempPhoto = this.defaultImage;
         this.setState({
@@ -79,15 +80,11 @@ class CreateGroup extends React.Component {
         // Update the temp photo and the state.profile_pic
         let file = event.target.files[0];
         if (file.size < 10000000) {
-          
-          console.log(2);
           this.tempPhoto = URL.createObjectURL(file);
           this.setState({
             profile_pic: file,
           });
         } else {
-          
-          console.log(3);
           //the file was too big, so revert to the default
           this.tempPhoto = this.defaultImage;
           this.setState({
@@ -98,18 +95,21 @@ class CreateGroup extends React.Component {
     }
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     // create the group
-    let res = this.updateAttributes();
+    let res = await this.updateAttributes();
+
+    this.setState({id: res.id});
     
     //reroute to different page?
-    //this.setState({submit: true});
+    this.setState({submit: true});
   }
 
   render() {
     if (this.state.submit) {
-      return <Navigate to="/" />
+      //route to the newly created group page
+      return <Navigate to={"/groupPage/"+this.state.id} />
     }
     return (
       <div className="create_group">

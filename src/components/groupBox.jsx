@@ -2,10 +2,15 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function GroupBox({ link, name }) {
+function GroupBox({ link, name, groupID }) {
   return (
     <div className="group-box mb-4">
-      <Link to="/groupPage" style={{ textDecoration: "none" }}>
+      <Link
+        to={{
+          pathname:"/groupPage/"+groupID,
+        }}
+        style={{ textDecoration: "none" }}
+      >
         <Card bg="dark" text="white">
           <Card.Img variant="top" src={link} style={{ height: "10rem" }} />
           <Card.Body className="py-2">

@@ -12,12 +12,12 @@ import { MembersList, QuizBox, StatsBox, CompareBox, failToLoad, Loading } from 
 
 import { getGroup } from "../databaseFunctions/groups";
 
-
-function GroupPage() {
-  let info = useParams();
-
-  let groupID = info.id;
-  
+/** This function gathers the resources necessary to load the group page.
+ * 
+ * @param {String} groupID the id of the group to load
+ * @returns an array containing a json of the group, the groupImage, the error status, and the loading status
+ */
+function useGatherResources(groupID) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [group, setGroup] = useState(null);
@@ -27,7 +27,6 @@ function GroupPage() {
    * information essential to displaying the page. Once all the 
    * information is gathered, it sets the loading state var to false 
    * so that the component will re-render with the information. 
-   * 
    */
   async function getInfo() {
     try {
@@ -35,17 +34,33 @@ function GroupPage() {
       //get the group
       let res = await getGroup(groupID);
       setGroup(res);
+      //get the group image
       res = await Storage.get(res.profilePicture);
       setGroupImage(res);
     } catch (e) {
+      //there was an error, so save it
       setError(e);
     } finally {
+      //we are finished loading, so set loading to false
       setLoading(false);
     }
   }
   useEffect(() => {
     getInfo();
   }, []);
+
+  return [group, groupImage, error, loading];
+}
+
+/** This function loads a group page and returns the formatted html to display the page.
+ * 
+ * @returns the group page with the specified ID
+ */
+function GroupPage() {
+  let info = useParams();
+  let groupID = info.id;
+  
+  const [group, groupImage, error, loading] = useGatherResources(groupID);
   
   if (error) return (failToLoad());
   return loading ? Loading() : 

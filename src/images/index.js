@@ -1,3 +1,4 @@
+export { default as logo } from "./logo3.png";
 export { default as default_group } from "./default_group.png";
 export { default as photo } from "./photo.png";
 export { default as photo2 } from "./photo2.png";

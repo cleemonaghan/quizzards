@@ -1,3 +1,6 @@
+export { default as failToLoad } from "./failToLoad";
+export { default as Loading } from "./loading";
+
 export { default as Friend } from "./friend";
 export { default as FriendsList } from "./friendsList";
 export { default as GroupBox } from "./groupBox";

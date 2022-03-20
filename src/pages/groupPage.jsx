@@ -9,7 +9,6 @@ import {
   ToggleButtonGroup,
 } from "react-bootstrap";
 import { MembersList, QuizBox, StatsBox, CompareBox, failToLoad, Loading } from "../components";
-import { photo13 } from "../images";
 
 import { getGroup } from "../databaseFunctions/groups";
 

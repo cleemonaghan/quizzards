@@ -151,13 +151,13 @@ class Home extends React.Component {
           </div>
           <Button
             onClick={() =>
-              requestFriend(this.state.username, "cleemonaghanALT")
+              requestFriend(this.state.username, "cleemonaghan")
             }
           >
             Request Friend
           </Button>
           <Button
-            onClick={() => acceptFriend("cleemonaghanALT", this.state.username)}
+            onClick={() => acceptFriend(this.state.username, "colinmonaghan")}
           >
             Accept Friend
           </Button>
@@ -172,44 +172,7 @@ class Home extends React.Component {
           >
             Log User
           </Button>
-          {/*
-          <div className="row col-9 pb-5">
-            <div className="col-4">
-              <QuizBox
-                name="Hogwarts"
-                description="description of the quiz goes here."
-              />
-            </div>
-            <div className="col-4">
-              <QuizBox
-                name="Puppies"
-                description="description of the quiz goes here."
-              />
-            </div>
-            <div className="col-4">
-              <QuizBox
-                name="Astronomy"
-                description="description of the quiz goes here."
-              />
-            </div>
-          </div>
-          <div className="row col-9 pb-5">
-            <div className="col-4">
-              <QuizBox
-                name="Candy"
-                description="description of the quiz goes here."
-              />
-            </div>
-            <div className="col-4">
-              <QuizBox
-                name="Books"
-                description="description of the quiz goes here."
-              />
-
-              </div>  
-              </div>
-           
-          */}
+          
         </div>
       </div>
     );

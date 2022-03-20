@@ -66,7 +66,7 @@ export async function updateGroup(id, inputs) {
     let key = keys[i];
     if (key === "profilePicture") {
       // Update the image
-      const fileName = id + "_profile_pic";
+      const fileName = id + "_group_pic";
       await Storage.put(fileName, inputs[key]);
       params[key] = fileName;
     } else params[key] = inputs[key];

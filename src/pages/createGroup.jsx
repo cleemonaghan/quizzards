@@ -4,7 +4,6 @@ import {
 } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
-import { default_group as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
 
 import {Navigate } from "react-router";
@@ -35,7 +34,7 @@ class CreateGroup extends React.Component {
 
      //load the image if there is one
      this.tempPhoto = this.defaultImage;
-     this.setState({ profile_pic: this.defaultImage });
+     this.setState({ profile_pic: "default_group_image" });
     } catch (err) {
       console.log("There was an error: ", err);
     }
@@ -53,7 +52,7 @@ class CreateGroup extends React.Component {
       userGroupOwnersId: this.user.username,
     };
     //create the group
-    let res = await createGroup(params)
+    let res = await createGroup(params);
     return res;
   }
 

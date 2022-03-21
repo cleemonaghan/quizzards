@@ -17,6 +17,7 @@ export async function createGroup(params) {
   let defaultImage = true;
   let image = null;
   if (params.profilePicture !== "default_group_image") {
+    console.log(params["profilePicture"]);
     defaultImage = false;
     image = params["profilePicture"];
   }
@@ -46,8 +47,11 @@ export async function createGroup(params) {
         },
       },
     });
+    //if we updated the profile picture, the object is under updateGroup 
+    return res.data.updateGroup;
   }
-  return res.data.updateGroup;
+  //return the created group object
+  return res.data.createGroup;
 }
 
 /** This method updates the attributes of a specified group.

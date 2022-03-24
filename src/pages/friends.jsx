@@ -221,9 +221,6 @@ class Friends extends React.Component {
           <div className="row">{this.state.friendReqElements}</div>
 
           {/* Display the user's friend requests */}
-          <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Friends Requests</h1>
-          </div>
           <div className="row">{this.state.outgoingFriendReqElements}</div>
 
           {/* Display the user's recommended friends */}

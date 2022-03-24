@@ -1,10 +1,8 @@
 import React from "react";
-import {
-  updateUser as updateUserMutation,
-} from "../graphql/mutations";
+import { updateUser as updateUserMutation } from "../graphql/mutations";
 import { API, Auth, Storage } from "aws-amplify";
-import { default as Friends} from "./friends"
-import { QuizBox, failToLoad, Loading } from "../components";
+import { default as Friends } from "./friends";
+import { QuizBox, failToLoad, Loading, FriendsList } from "../components";
 import GroupBox from "../components/groupBox";
 
 import {
@@ -119,8 +117,8 @@ class Home extends React.Component {
       <div className="home">
         <div className="container">
           <div className="float-end col-3">
-          <div className="outline ms-3 mb-5 pb-4">
-            <Friends />
+            <div className="outline ms-3 mb-5 p-4">
+              <FriendsList />
             </div>
           </div>
           <div className="row align-items-center my-5">
@@ -158,18 +156,18 @@ class Home extends React.Component {
               let user = await getUser(this.state.username);
               //remove self from user's friend list
               let index = user.friends.indexOf(this.state.username);
-              if(index >= 0) user.friends.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
               index = user.friends.indexOf("cleemonaghan");
-              if(index >= 0) user.friends.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
               index = user.friends.indexOf("colinmonaghan");
-              if(index >= 0) user.friends.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
               //remove self from user's friend request list
               index = user.friendRequests.indexOf(this.state.username);
-              if(index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
               index = user.friendRequests.indexOf("cleemonaghan");
-              if(index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
               index = user.friendRequests.indexOf("colinmonaghan");
-              if(index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
+              if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
 
               //update the database with the new lists
               await API.graphql({

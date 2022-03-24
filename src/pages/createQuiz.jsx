@@ -104,10 +104,10 @@ class CreateQuiz extends React.Component {
               <QuizResult rNumber="1" />
 
               <Link to="/addResult">
-                  <Button variant="outline-primary" size="lg">
-                    Add Result +
-                  </Button>{" "}
-                </Link>
+                <Button variant="outline-primary" size="lg">
+                  Add Result +
+                </Button>{" "}
+              </Link>
             </div>
 
             {/* Questions and Answers */}

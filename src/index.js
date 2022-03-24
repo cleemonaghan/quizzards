@@ -19,6 +19,7 @@ import {
 	CreateQuiz,
 	GroupPage,
 	QuizPage,
+	Friends,
 } from "./pages";
 
 import { createUser } from "./databaseFunctions/users";
@@ -87,10 +88,12 @@ ReactDOM.render(
 						<Route path="/groups" element={<Groups />} />
 						<Route path="/messages" element={<Messages />} />
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/profile/:username" element={<Profile />} />
 						<Route path="/groupPage/:id" element={<GroupPage />} />
 						<Route path="/quizPage" element={<QuizPage />} />
 						<Route path="/createGroup" element={<CreateGroup />} />
 						<Route path="/createQuiz" element={<CreateQuiz />} />
+						<Route path="/friends" element={<Friends />} />
 					</Routes>
 				</Router>
 			</main>

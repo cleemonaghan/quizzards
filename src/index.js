@@ -20,6 +20,7 @@ import {
 	CreateQuiz,
 	GroupPage,
 	QuizPage,
+	AddResult,
 	Friends,
 } from "./pages";
 
@@ -94,6 +95,7 @@ ReactDOM.render(
 						<Route path="/quizPage" element={<QuizPage />} />
 						<Route path="/createGroup" element={<CreateGroup />} />
 						<Route path="/createQuiz" element={<CreateQuiz />} />
+						<Route path="/addResult" element={<AddResult />} />
 						<Route path="/friends" element={<Friends />} />
 					</Routes>
 				</Router>

@@ -12,6 +12,7 @@ export const onCreateUser = /* GraphQL */ `
       highlightColor
       friends
       friendRequests
+      outgoingFriendRequests
       groups {
         items {
           id
@@ -77,6 +78,7 @@ export const onUpdateUser = /* GraphQL */ `
       highlightColor
       friends
       friendRequests
+      outgoingFriendRequests
       groups {
         items {
           id
@@ -142,6 +144,7 @@ export const onDeleteUser = /* GraphQL */ `
       highlightColor
       friends
       friendRequests
+      outgoingFriendRequests
       groups {
         items {
           id
@@ -234,6 +237,7 @@ export const onCreateGroup = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -296,6 +300,7 @@ export const onUpdateGroup = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -358,6 +363,7 @@ export const onDeleteGroup = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -396,6 +402,7 @@ export const onCreateQuiz = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -435,6 +442,7 @@ export const onUpdateQuiz = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -474,6 +482,7 @@ export const onDeleteQuiz = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -514,6 +523,7 @@ export const onCreateMembers = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -553,6 +563,7 @@ export const onCreateMembers = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -583,6 +594,7 @@ export const onUpdateMembers = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -622,6 +634,7 @@ export const onUpdateMembers = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -652,6 +665,7 @@ export const onDeleteMembers = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -691,6 +705,7 @@ export const onDeleteMembers = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -721,6 +736,7 @@ export const onCreateMemberRequests = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -760,6 +776,7 @@ export const onCreateMemberRequests = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -790,6 +807,7 @@ export const onUpdateMemberRequests = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -829,6 +847,7 @@ export const onUpdateMemberRequests = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -859,6 +878,7 @@ export const onDeleteMemberRequests = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -898,6 +918,7 @@ export const onDeleteMemberRequests = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt

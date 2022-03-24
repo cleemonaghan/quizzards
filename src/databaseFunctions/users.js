@@ -275,7 +275,7 @@ export async function requestFriend(username, friendUsername) {
     let friend = await getUser(friendUsername);
 
     //remove friend from user's friend request list
-    const index = user.friendRequests.indexOf(friendUsername);
+    let index = user.friendRequests.indexOf(friendUsername);
     user.friendRequests.splice(index, 1); // remove the username from the list
     //remove friend from friend's outgoing friend request list
     index = friend.outgoingFriendRequests.indexOf(username);
@@ -288,6 +288,14 @@ export async function requestFriend(username, friendUsername) {
         input: {
           username: username,
           friendRequests: user.friendRequests,
+        },
+      },
+    });
+    await API.graphql({
+      query: updateUserMutation,
+      variables: {
+        input: {
+          username: friendUsername,
           outgoingFriendRequests: friend.outgoingFriendRequests
         },
       },

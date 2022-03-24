@@ -68,7 +68,7 @@ function useStatus(ourUser, username, status) {
     return (
       <div className="ms-5 ps-5">
         <Button variant="primary" size="sm" disabled={true}>
-          Request
+          Requested
         </Button>{" "}
       </div>
     );

@@ -117,7 +117,7 @@
 
 hr:not([size]) {
   height: 3px;
-  margin: 20px;
+  /* margin: 20px; */
   opacity: 0.5;
 }
 

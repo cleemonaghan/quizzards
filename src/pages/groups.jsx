@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 import { getUser, getUserGroups } from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
-import { getGroup, recommendGroups } from "../databaseFunctions/groups";
+import {
+  getGroup,
+  getGroups,
+  recommendGroups,
+} from "../databaseFunctions/groups";
 
 class Groups extends React.Component {
   constructor() {
@@ -18,7 +22,10 @@ class Groups extends React.Component {
       recommendationElements: null,
       error: null,
       loading: true,
+      searchBar: "",
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   /** This method initalizes the state of the Group component.
@@ -95,13 +102,12 @@ class Groups extends React.Component {
    */
   async fetchRecommendedGroups(username, groupArr) {
     let friendList = (await getUser(username)).friends;
-    console.log(friendList);
-    console.log(groupArr);
     let recommendations = await recommendGroups(friendList, groupArr);
 
     // if there are no groups,
     if (recommendations === undefined || recommendations.length < 1) {
-      return <p>You have no recommendations</p>;
+      console.log("no groups");
+      return this.fetchGroups(username);
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
@@ -122,15 +128,63 @@ class Groups extends React.Component {
     }
   }
 
+  async fetchGroups(username) {
+    var groupData = await getGroups();
+    //var yourGroups = await getUserGroups(username);
+    var allGroups = groupData.items;
+
+    var result = [];
+
+    for (let i = 0; i < allGroups.length; i++) {
+      let group = allGroups[i];
+      if (group.ownerUsername === username) {
+        continue;
+      }
+      let groupImage = await Storage.get(group.profilePicture);
+      result.push(
+        <div className="col-lg-3 col-sm-6" key={i}>
+          <GroupBox link={groupImage} name={group.name} groupID={group.id} />
+        </div>
+      );
+    }
+
+    return result;
+  }
+
+  async getGroupBySearch(substr) {
+    var groupData = await getGroups();
+    var allGroups = groupData.items;
+    var result = [];
+    for (let i = 0; i < allGroups.length; i++) {
+      let group = allGroups[i];
+      if (group.name.includes(substr)) {
+        let groupImage = await Storage.get(group.profilePicture);
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <GroupBox link={groupImage} name={group.name} groupID={group.id} />
+          </div>
+        );
+      }
+    }
+    return result;
+  }
+
+  async handleChange(e){
+    if(e.target.value === "") {
+      this.setState({searchBar: [] });
+    }
+    else this.setState({searchBar: await this.getGroupBySearch(e.target.value) });
+  }
+
   render() {
     if (this.state.error) return failToLoad();
     return this.state.loading ? (
       Loading()
     ) : (
-      <div className="groups">
+      <div className="groups mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-8 mt-5 mb-4">
+            <div className="col-8 mt-5">
               <MDBCol>
                 <MDBInput
                   hint="Search Groups"
@@ -138,6 +192,7 @@ class Groups extends React.Component {
                   containerClass="active-pink active-pink-2 mt-0 mb-3"
                   variant="outline-primary"
                   size="lg"
+                  onChange={this.handleChange}
                 />
               </MDBCol>
             </div>
@@ -150,6 +205,8 @@ class Groups extends React.Component {
               </Link>
             </div>
           </div>
+          
+          <div className="row">{this.state.searchBar}</div>
           {/* Display the user's groups */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Groups</h1>

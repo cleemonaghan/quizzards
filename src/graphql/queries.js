@@ -12,6 +12,7 @@ export const getUser = /* GraphQL */ `
       highlightColor
       friends
       friendRequests
+      outgoingFriendRequests
       groups {
         items {
           id
@@ -90,6 +91,7 @@ export const listUsers = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -149,6 +151,7 @@ export const getGroup = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -202,6 +205,7 @@ export const listGroups = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -230,6 +234,7 @@ export const getQuiz = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -274,6 +279,7 @@ export const listQuizzes = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -304,6 +310,7 @@ export const getMembers = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -343,6 +350,7 @@ export const getMembers = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -378,6 +386,7 @@ export const listMembers = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -417,6 +426,7 @@ export const getMemberRequests = /* GraphQL */ `
         highlightColor
         friends
         friendRequests
+        outgoingFriendRequests
         groups {
           nextToken
         }
@@ -456,6 +466,7 @@ export const getMemberRequests = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt
@@ -491,6 +502,7 @@ export const listMemberRequests = /* GraphQL */ `
           highlightColor
           friends
           friendRequests
+          outgoingFriendRequests
           admin
           blocked
           createdAt

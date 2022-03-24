@@ -8,7 +8,7 @@ import {
 import { getUser as getUserQuery, listUsers } from "../graphql/queries";
 
 /** This method creates a default user with the specified username.
- * 
+ *
  * @param {String} username the username of the new user
  */
 export async function createUser(username) {
@@ -39,8 +39,8 @@ export async function createUser(username) {
 }
 
 /** This method updates the specified user's profile setting to the specified values.
- * 
- * @param {String} username the username of the user being updated 
+ *
+ * @param {String} username the username of the user being updated
  * @param {*} inputs a json object with the new fields for the user
  * @returns None
  */
@@ -69,7 +69,7 @@ export async function updateUser(username, inputs) {
 }
 
 /** This method fetches and returns the specified user's profile attributes.
- * 
+ *
  * @param {String} username the username of the user being fetched
  * @returns a json of the user's attributes
  */
@@ -87,7 +87,7 @@ export async function getUser(username) {
 // User Groups ---------------------------
 
 /** This method fetches and returns the specified user's groups.
- * 
+ *
  * @param {String} username the username of the user
  * @returns an array of the user's groups
  */
@@ -103,7 +103,7 @@ export async function getUserGroups(username) {
 // User Quizzes ---------------------------
 
 /** This method fetches and returns the specified user's quizzes.
- * 
+ *
  * @param {String} username the username of the user
  * @returns an array of the user's quizzes
  */
@@ -116,7 +116,7 @@ export async function getUserQuizzes(username) {
 // User Friends ---------------------------
 
 /** This method fetches and returns the specified user's friends.
- * 
+ *
  * @param {String} username the username of the user
  * @returns an array of the user's friends
  */
@@ -125,13 +125,13 @@ export async function getUserFriends(username) {
   let userFriends = (await getUser(username)).friends;
   let result = [];
   //fetch the user profile for each friend
-  for(let friend in userFriends) {
-    result.push((await getUser(friend)));
+  for (let friend in userFriends) {
+    result.push(await getUser(friend));
   }
   return result;
 }
-/** This method fetches and returns the specified user's friends requests. 
- * 
+/** This method fetches and returns the specified user's friends requests.
+ *
  * @param {String} username the username of the user
  * @returns an array of other user profiles that have requested to be this user's friend
  */
@@ -140,29 +140,29 @@ export async function getUserFriendRequests(username) {
   let userFriendReqs = (await getUser(username)).friendRequests;
   let result = [];
   //fetch the user profile for each friend request
-  for(let friend in userFriendReqs) {
-    result.push((await getUser(friend)));
+  for (let friend in userFriendReqs) {
+    result.push(await getUser(friend));
   }
   return result;
 }
-/** This method fetches and returns the specified user's outgoing friends requests. 
- * 
+/** This method fetches and returns the specified user's outgoing friends requests.
+ *
  * @param {String} username the username of the user
  * @returns an array of other user profiles that have requested to be this user's friend
  */
- export async function getUserOutgoingFriendRequests(username) {
+export async function getUserOutgoingFriendRequests(username) {
   if (!username) return;
   let userFriendReqs = (await getUser(username)).outgoingFriendRequests;
   let result = [];
   //fetch the user profile for each friend request
-  for(let friend in userFriendReqs) {
-    result.push((await getUser(friend)));
+  for (let friend in userFriendReqs) {
+    result.push(await getUser(friend));
   }
   return result;
 }
 
 /** This method adds a user to another user's friend request list.
- * 
+ *
  * @param {*} username the username of the user requesting to be friends
  * @param {*} friendUsername the username of the user they want to be friends with
  * @returns true if the user was added to the other's friend request lists
@@ -208,14 +208,14 @@ export async function requestFriend(username, friendUsername) {
 }
 
 /** This method adds the two inputed users to each other's friend list.
- *  This method also removes the friendUser from the accepting user's 
+ *  This method also removes the friendUser from the accepting user's
  *    friend request list, since the request has been accepted.
- * 
+ *
  * @param {*} username the username of the user accepting the request
  * @param {*} friendUsername the username of the user requesting to be friends
  * @returns true if the friends were added to each other's friend lists
  */
- export async function acceptFriend(username, friendUsername) {
+export async function acceptFriend(username, friendUsername) {
   try {
     //get the user database entries
     let user = await getUser(username);
@@ -232,7 +232,7 @@ export async function requestFriend(username, friendUsername) {
     //remove friend from user's friend request list
     index = friend.outgoingFriendRequests.indexOf(username);
     friend.outgoingFriendRequests.splice(index, 1); // remove the username from the list
-    
+
     //update the database with the new lists
     await API.graphql({
       query: updateUserMutation,
@@ -240,7 +240,7 @@ export async function requestFriend(username, friendUsername) {
         input: {
           username: username,
           friends: userFriendList,
-          friendRequests: user.friendRequests
+          friendRequests: user.friendRequests,
         },
       },
     });
@@ -250,7 +250,7 @@ export async function requestFriend(username, friendUsername) {
         input: {
           username: friendUsername,
           friends: friendFriendList,
-          outgoingFriendRequests: friend.outgoingFriendRequests
+          outgoingFriendRequests: friend.outgoingFriendRequests,
         },
       },
     });
@@ -261,14 +261,14 @@ export async function requestFriend(username, friendUsername) {
   }
 }
 
-/** This method also removes the friendUser from the accepting user's 
+/** This method also removes the friendUser from the accepting user's
  *    friend request list, since the request has been rejected.
- * 
+ *
  * @param {*} username the username of the user rejecting the request
  * @param {*} friendUsername the username of the user requesting to be friends
  * @returns true if the friends were added to each other's friend lists
  */
- export async function rejectFriend(username, friendUsername) {
+export async function rejectFriend(username, friendUsername) {
   try {
     //get the user database entries
     let user = await getUser(username);
@@ -280,7 +280,7 @@ export async function requestFriend(username, friendUsername) {
     //remove friend from friend's outgoing friend request list
     index = friend.outgoingFriendRequests.indexOf(username);
     friend.outgoingFriendRequests.splice(index, 1); // remove the username from the list
-    
+
     //update the database with the new lists
     await API.graphql({
       query: updateUserMutation,
@@ -296,7 +296,7 @@ export async function requestFriend(username, friendUsername) {
       variables: {
         input: {
           username: friendUsername,
-          outgoingFriendRequests: friend.outgoingFriendRequests
+          outgoingFriendRequests: friend.outgoingFriendRequests,
         },
       },
     });
@@ -307,7 +307,12 @@ export async function requestFriend(username, friendUsername) {
   }
 }
 
-export async function recommendFriends(username, friendList, friendReqList, outgoingFriendReqList) {
+export async function recommendFriends(
+  username,
+  friendList,
+  friendReqList,
+  outgoingFriendReqList
+) {
   const shuffleArray = function shuffle(array) {
     let currentIndex = array.length,
       randomIndex;
@@ -328,9 +333,6 @@ export async function recommendFriends(username, friendList, friendReqList, outg
     return array;
   };
 
-  console.log(friendList);
-  console.log(friendReqList);
-  console.log(outgoingFriendReqList);
   const MAX_PER_FRIEND = 2;
   const MAX_TOTAL = 8;
   let shuffled = shuffleArray(friendList);
@@ -341,18 +343,17 @@ export async function recommendFriends(username, friendList, friendReqList, outg
     let friendInfo = await getUser(shuffled[index]);
     //added tracks the number of groups we have added from this user's group list
     let added = 0;
-    let friends = shuffleArray(friendInfo.friends);
-    for (let i in friends) {
-      let match = false;
-      for (let j in friendList) {
-        if (friendList[j].username === friends[i].username) {
-          match = true;
-          break;
-        }
-      }
-      if (!match) {
-        //if there was not a match, we found a group to add
-        result.push(friends[i].username);
+    let friendFriendList = shuffleArray(friendInfo.friends);
+    // go through all our friend's friends
+    for (let j in friendFriendList) {
+      if (
+        username !== friendFriendList[j] &&
+        !friendList.includes(friendFriendList[j]) &&
+        !friendReqList.includes(friendFriendList[j]) &&
+        !outgoingFriendReqList.includes(friendFriendList[j])
+      ) {
+        //if our friend's friend is not in any of our lists, add it to the result
+        result.push(friendFriendList[j]);
         added++;
       }
       //if we added more than 2 groups, move onto the next friend
@@ -363,28 +364,27 @@ export async function recommendFriends(username, friendList, friendReqList, outg
   }
   let listAllUsers = await API.graphql({
     query: listUsers,
-    variables: { limit: 10 },
+    variables: { limit: 20 },
   });
-  listAllUsers = listAllUsers.data.listUsers.items;
-  
-  console.log(listAllUsers);
-  
+  listAllUsers = shuffleArray(listAllUsers.data.listUsers.items);
+
   let i = 0;
   while (result.length < MAX_TOTAL) {
     //add random friends until we reach the expected number
-    if(listAllUsers[i] === undefined) {
+    if (listAllUsers[i] === undefined) {
       return result;
     }
     let currentUsername = listAllUsers[i].username;
-    if(username !== currentUsername && 
-      !friendList.includes(currentUsername) && 
+    if (
+      username !== currentUsername &&
+      !friendList.includes(currentUsername) &&
       !friendReqList.includes(currentUsername) &&
-      !outgoingFriendReqList.includes(currentUsername)) {
+      !outgoingFriendReqList.includes(currentUsername)
+    ) {
       //add the user to the recommended list
-      console.log(i+": "+currentUsername);
       result.push(currentUsername);
     }
-    
+
     i++;
   }
   return result;

@@ -112,7 +112,7 @@ export async function getGroups(){
     query: listGroupQuery,
     variables: { input: params },
   });
-  return result;
+  return result.data.listGroups;
 }
 
 export async function addMemberToGroup(memberID, groupID) {
@@ -150,49 +150,34 @@ export async function recommendGroups(friendList, userGroups) {
 
   const MAX_PER_FRIEND = 2;
   const MAX_TOTAL = 6;
-  console.log(friendList);
   let shuffled = shuffleArray(friendList);
-  console.log(shuffled);
   var result = [];
   //go through each friend
   for (let index in shuffled) {
     //if the friend owns any groups that this user isn't a part of, add them to result
-    //console.log(shuffled[index]);
     let friendInfo = await getUser(shuffled[index]);
     //added tracks the number of groups we have added from this user's group list
     let added = 0;
-    //console.log(friendInfo.groupOwners);
     let groups = shuffleArray(friendInfo.groupOwners.items);
-    //console.log(groups);
     for (let i in groups) {
       let match = false;
-      //console.log(groups[i]);
       for (let j in userGroups) {
-        //console.log(userGroups[j]);
         if (userGroups[j].id === groups[i].id) {
           match = true;
           break;
         }
-        //console.log("Moving to our next group");
       }
       if (!match) {
         //if there was not a match, we found a group to add
-        //console.log("Adding to list");
-        //console.log(groups[i].id)
         result.push(groups[i].id);
         added++;
       }
       //if we added more than 2 groups, move onto the next friend
       if (added >= MAX_PER_FRIEND) break;
-      //console.log("Moving to next group");
     }
     //if we have 4 or more results in our list, we have enough, so break
-    console.log(result.length)
     if (result.length >= MAX_TOTAL) return result;
-    //console.log("Moving to next friend");
   }
-  //console.log("recommended groups: ");
-  //console.log(result);
 
   return result;
 }

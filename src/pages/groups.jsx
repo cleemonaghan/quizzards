@@ -102,8 +102,6 @@ class Groups extends React.Component {
    */
   async fetchRecommendedGroups(username, groupArr) {
     let friendList = (await getUser(username)).friends;
-    console.log(friendList);
-    console.log(groupArr);
     let recommendations = await recommendGroups(friendList, groupArr);
 
     // if there are no groups,
@@ -133,9 +131,8 @@ class Groups extends React.Component {
   async fetchGroups(username) {
     var groupData = await getGroups();
     //var yourGroups = await getUserGroups(username);
-    var allGroups = groupData.data.listGroups.items;
+    var allGroups = groupData.items;
 
-    //console.log("allgroups size: ",allGroups.length);
     var result = [];
 
     for (let i = 0; i < allGroups.length; i++) {
@@ -156,7 +153,7 @@ class Groups extends React.Component {
 
   async getGroupBySearch(substr) {
     var groupData = await getGroups();
-    var allGroups = groupData.data.listGroups.items;
+    var allGroups = groupData.items;
     var result = [];
     for (let i = 0; i < allGroups.length; i++) {
       let group = allGroups[i];

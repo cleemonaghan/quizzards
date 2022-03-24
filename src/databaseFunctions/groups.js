@@ -4,7 +4,8 @@ import {
   updateGroup as updateGroupMutation,
   createMembers,
 } from "../graphql/mutations";
-import { getGroup as getGroupQuery } from "../graphql/queries";
+import { getGroup as getGroupQuery,
+        listGroups as listGroupQuery, } from "../graphql/queries";
 
 import { getUser } from "./users";
 
@@ -98,6 +99,20 @@ export async function getGroup(id) {
     variables: { id: id },
   });
   return result.data.getGroup;
+}
+
+export async function getGroups(){
+  let params = {
+    limit: 20,
+    //filter: {
+     // Visibility: "public",
+    //},
+  };
+  let result = await API.graphql({
+    query: listGroupQuery,
+    variables: { input: params },
+  });
+  return result;
 }
 
 export async function addMemberToGroup(memberID, groupID) {

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { SuitHeartFill } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
@@ -67,20 +67,15 @@ function useStatus(ourUser, username, status) {
   } else if (status === "Waiting") {
     return (
       <div className="ms-5 ps-5">
-        <Button
-          variant="primary"
-          size="sm"
-          disabled={true}
-        >
+        <Button variant="primary" size="sm" disabled={true}>
           Request
         </Button>{" "}
       </div>
     );
   }
-  
+
   //status === "Friends"
-  return (<div></div>);
-  
+  return <div></div>;
 }
 
 function User({ ourUser, username, image, status }) {

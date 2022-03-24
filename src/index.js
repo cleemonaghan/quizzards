@@ -19,6 +19,7 @@ import {
 	CreateQuiz,
 	GroupPage,
 	QuizPage,
+	AddResult,
 } from "./pages";
 
 import { createUser } from "./databaseFunctions/users";
@@ -91,6 +92,7 @@ ReactDOM.render(
 						<Route path="/quizPage" element={<QuizPage />} />
 						<Route path="/createGroup" element={<CreateGroup />} />
 						<Route path="/createQuiz" element={<CreateQuiz />} />
+						<Route path="/addResult" element={<AddResult />} />
 					</Routes>
 				</Router>
 			</main>

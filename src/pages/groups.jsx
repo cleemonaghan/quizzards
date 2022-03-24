@@ -18,8 +18,10 @@ class Groups extends React.Component {
       recommendationElements: null,
       error: null,
       loading: true,
-      searchBar: null,
+      searchBar: "",
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   /** This method initalizes the state of the Group component.
@@ -176,7 +178,10 @@ class Groups extends React.Component {
   }
 
   async handleChange(e){
-    this.setState({searchBar: this.getGroupBySearch(e.target.value) });
+    if(e.target.value === "") {
+      this.setState({searchBar: [] });
+    }
+    else this.setState({searchBar: await this.getGroupBySearch(e.target.value) });
   }
 
   render() {
@@ -192,7 +197,6 @@ class Groups extends React.Component {
                 <MDBInput
                   hint="Search Groups"
                   type="text"
-                  value = {this.state.searchBar}
                   containerClass="active-pink active-pink-2 mt-0 mb-3"
                   variant="outline-primary"
                   size="lg"
@@ -200,6 +204,7 @@ class Groups extends React.Component {
                 />
               </MDBCol>
             </div>
+            <div className="row">{this.state.searchBar}</div>
             <div className="col-1"></div>
             <div className="col-3 mt-5 mb-4 float-end">
               <Link to="/createGroup">

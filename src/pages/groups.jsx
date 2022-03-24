@@ -180,7 +180,7 @@ class Groups extends React.Component {
   }
 
   render() {
-    //if (this.state.error) return failToLoad();
+    if (this.state.error) return failToLoad();
     return this.state.loading ? (
       Loading()
     ) : (
@@ -199,7 +199,6 @@ class Groups extends React.Component {
                 />
               </MDBCol>
             </div>
-            <div className="row">{this.state.searchBar}</div>
             <div className="col-1"></div>
             <div className="col-3 mt-5 mb-4 float-end">
               <Link to="/createGroup">
@@ -209,6 +208,8 @@ class Groups extends React.Component {
               </Link>
             </div>
           </div>
+          
+          <div className="row">{this.state.searchBar}</div>
           {/* Display the user's groups */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Groups</h1>

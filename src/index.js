@@ -15,6 +15,7 @@ import {
 	Groups,
 	Messages,
 	Profile,
+	ViewProfile,
 	CreateGroup,
 	CreateQuiz,
 	GroupPage,
@@ -88,7 +89,7 @@ ReactDOM.render(
 						<Route path="/groups" element={<Groups />} />
 						<Route path="/messages" element={<Messages />} />
 						<Route path="/profile" element={<Profile />} />
-						<Route path="/profile/:username" element={<Profile />} />
+						<Route path="/profile/:username" element={<ViewProfile />} />
 						<Route path="/groupPage/:id" element={<GroupPage />} />
 						<Route path="/quizPage" element={<QuizPage />} />
 						<Route path="/createGroup" element={<CreateGroup />} />

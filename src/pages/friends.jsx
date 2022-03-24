@@ -192,7 +192,7 @@ class Friends extends React.Component {
   }
 
   render() {
-    //if (this.state.error) return failToLoad();
+    if (this.state.error) return failToLoad();
     return this.state.loading ? (
       Loading()
     ) : (

@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 class Quizzes extends React.Component {
   render() {
     return (
-      <div className="quizzes">
+      <div className="quizzes mb-5">
         <div className="container">
           <div className="row">
             <div className="col-2"></div>
             <div className="row">
-              <div className="col-8 mt-5 mb-4">
+              <div className="col-8 mt-5">
                 <MDBCol>
                   <MDBInput
                     hint="Search Quizzes"

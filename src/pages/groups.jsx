@@ -1,7 +1,7 @@
 import React from "react";
 import { GroupBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
-import { MDBCol, MDBInput } from "mdbreact";
+import { MDBCol, MDBInput, MDBIcon } from "mdbreact";
 import { Link } from "react-router-dom";
 
 import { getUser, getUserGroups } from "../databaseFunctions/users.js";
@@ -18,7 +18,7 @@ class Groups extends React.Component {
       recommendationElements: null,
       error: null,
       loading: true,
-      searchBar: null,
+      searchBar: "",
     };
   }
 
@@ -38,6 +38,7 @@ class Groups extends React.Component {
         username,
         groupArr
       );
+
 
       // set the state with the user info
       this.setState({
@@ -153,7 +154,15 @@ class Groups extends React.Component {
     return result;
   }
 
+  async handleChange(e){
+    console.log("handle change");
+    console.log(e.target.value);
+    const searchGroups = await this.getGroupBySearch(e.target.value);
+    this.setState({searchBar: searchGroups });
+  }
+
   async getGroupBySearch(substr){
+    console.log("in getGroupBySearch");
     var groupData = await getGroups();
     var allGroups = groupData.data.listGroups.items;
     var result = [];
@@ -172,12 +181,13 @@ class Groups extends React.Component {
        );
       }
     }
+    if(result.length==0){
+      return <p> No groups match your search</p>;
+    }
     return result;
   }
 
-  async handleChange(e){
-    this.setState({searchBar: this.getGroupBySearch(e.target.value) });
-  }
+
 
   render() {
    //if (this.state.error) return failToLoad();
@@ -187,10 +197,16 @@ class Groups extends React.Component {
       <div className="groups">
         <div className="container">
           <div className="row">
-            <div className="col-8 mt-5 mb-4">
-              <MDBCol>
+            <MDBCol md = "6">
+            <div className="input-group md-form form-sm form-1 pl-0">
+               <div className="input-group-prepend">
+                   <span className="input-group-text purple lighten-3" id="basic-text1" > 
+                    <MDBIcon className="text-white" icon="search" />
+                  </span> 
+                </div>
                 <MDBInput
                   hint="Search Groups"
+                  className = "form-control my-0 py-1"
                   type="text"
                   value = {this.state.searchBar}
                   containerClass="active-pink active-pink-2 mt-0 mb-3"
@@ -198,8 +214,10 @@ class Groups extends React.Component {
                   size="lg"
                   onChange = {this.handleChange}
                 />
-              </MDBCol>
             </div>
+             </MDBCol>
+
+             <div className = "row">{this.state.searchBar}</div>
             <div className="col-1"></div>
             <div className="col-3 mt-5 mb-4 float-end">
               <Link to="/createGroup">

@@ -112,7 +112,7 @@ class ProfileEdit extends React.Component {
       } else if (event.target.files[0]) {
         // Update the temp photo and the state.profile_pic
         let file = event.target.files[0];
-        if (file.size < 1000000) {
+        if (file.size < 10000000) {
           this.tempPhoto = URL.createObjectURL(file);
           this.setState({
             profile_pic: file,

@@ -1,10 +1,8 @@
 import React from "react";
 import { User, failToLoad, Loading } from "../components";
-import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput } from "mdbreact";
-import { Link } from "react-router-dom";
 
-import { getUser, recommendFriends } from "../databaseFunctions/users.js";
+import { getUser, listAllUsers, recommendFriends } from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
 
@@ -17,9 +15,11 @@ class Friends extends React.Component {
       friendReqElements: null,
       recommendationElements: null,
       outgoingFriendReqElements: null,
+      searchBar: "",
       error: null,
       loading: true,
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   /** This method initalizes the state of the Group component.
@@ -156,7 +156,6 @@ class Friends extends React.Component {
    */
   async fetchRecommendedFriends(username) {
     let userArr = await getUser(username);
-    console.log(userArr);
     let friendList = userArr.friends;
     let friendReqList = userArr.friendRequests;
     let outgoingFriendReqList = userArr.outgoingFriendRequests;
@@ -191,6 +190,36 @@ class Friends extends React.Component {
     }
   }
 
+  async getFriendBySearch(substr) {
+    var allUsers = (await listAllUsers()).items;
+    console.log(allUsers)
+    var result = [];
+    for (let i = 0; i < allUsers.length; i++) {
+      let user = allUsers[i];
+      if (user.name.includes(substr)) {
+        let userImage = await Storage.get(user.profilePicture);
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <User
+              image={userImage}
+              username={user.name}
+              status={"Friend"}
+              ourUser={this.state.username}
+            />
+          </div>
+        );
+      }
+    }
+    return result;
+  }
+
+  async handleChange(e){
+    if(e.target.value === "") {
+      this.setState({searchBar: [] });
+    }
+    else this.setState({searchBar: await this.getFriendBySearch(e.target.value) });
+  }
+
   render() {
     if (this.state.error) return failToLoad();
     return this.state.loading ? (
@@ -207,10 +236,13 @@ class Friends extends React.Component {
                   containerClass="active-pink active-pink-2 mt-0 mb-3"
                   variant="outline-primary"
                   size="lg"
+                  onChange={this.handleChange}
                 />
               </MDBCol>
             </div>
           </div>
+          
+          <div className="row">{this.state.searchBar}</div>
 
           {/* Display the user's friends */}
           <div className="row align-items-center mt-5 mb-2">

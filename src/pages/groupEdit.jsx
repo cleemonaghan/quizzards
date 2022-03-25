@@ -15,6 +15,7 @@ function GroupEdit() {
 	let info = useParams();
 	let groupID = info.id;
 
+	// group values to be edited 
 	const [submit, setSubmit] = useState(false);
 	const [group, setGroup] = useState(null);
 	const [groupImage, setGroupImage] = useState(null);
@@ -26,7 +27,7 @@ function GroupEdit() {
 
 	if (error) return (failToLoad());
 	else if (submit) {
-		//route to the newly created group page
+		//route to group page
 		return <Navigate to={"/groupPage/" + group.id} />;
 	}
 	return loading ? Loading() :
@@ -34,14 +35,14 @@ function GroupEdit() {
 			<div className="edit_group">
 				<div className="container">
 					<h1 className="font-weight-light my-5">Create Group</h1>
-					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, setGroupImage, setSubmit)}>
+					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, groupImage, setGroupImage, setSubmit)}>
 						{/* Name */}
 						<Form.Group className="mb-3" controlId="name">
 							<FloatingLabel label="Name" className="mb-3">
 								<Form.Control
 									name="name"
 									type="text"
-									value={group.name}
+									defaultValue={group.name}
 									onChange={(event) =>handleChange(event, group, setGroup)}
 								/>
 							</FloatingLabel>
@@ -76,12 +77,12 @@ function GroupEdit() {
 				  />
 				</Form.Group> */}
 						{/* Biography */}
-						<Form.Group className="mb-3" controlId="biography">
+						<Form.Group className="mb-3" controlId="bio">
 							<FloatingLabel label="Group description" className="mb-3">
 								<Form.Control
-									name="biography"
+									name="bio"
 									type="text"
-									value={group.bio}
+									defaultValue={group.bio}
 									onChange={(event) => handleChange(event, group, setGroup)}
 								/>
 							</FloatingLabel>
@@ -185,7 +186,7 @@ function useGatherResources(groupID, group, setGroup, groupImage, setGroupImage,
 	return [error, loading];
 }
 
-function handleSubmit(event, tempImage, changedImage, group, setGroupImage, setSubmit) {
+function handleSubmit(event, tempImage, changedImage, group, groupImage, setGroupImage, setSubmit) {
 	if(changedImage) {
 		setGroupImage(tempImage);
 	}
@@ -194,7 +195,7 @@ function handleSubmit(event, tempImage, changedImage, group, setGroupImage, setS
 	//update the user profile
 	updateAttributes(changedImage, group, groupImage);
 	
-	//this.close();
+	// 
 	let pathname = "/groupPage/" + group.id;
 	console.log(pathname);
 

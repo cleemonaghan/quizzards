@@ -82,20 +82,40 @@ function User({ ourUser, username, image, status }) {
   return (
     <div className="user">
       <div className="row">
-        <img
+        {/* <img
           className="img-fluid rounded-circle col-2 px-2 py-2"
           src={image}
           alt=""
           style={{ height: "60px", width: "60px" }}
         />
         {heart(status)}
-        <Link 
+        <Link
           to={{
             pathname: "/profile/" + username,
           }}
+          style={{ textDecoration: "none", color: "#292b2c" }}
           className="font-weight-light col-8 ps-2 pt-4 mb-0"
-        ><h5> {username} </h5></Link>
-        
+        >
+          <h5> {username} </h5>
+        </Link> */}
+        <Link
+          to={{ pathname: "/profile/" + username }}
+          style={{ textDecoration: "none", color: "#292b2c" }}
+        >
+          <div className="row">
+            <img
+              className="img-fluid rounded-circle col-2 px-2 py-2"
+              src={image}
+              alt=""
+              style={{ height: "60px", width: "60px" }}
+            />
+            {heart(status)}
+            <h5 className="font-weight-light col-8 ps-2 pt-3 mb-0">
+              {username}
+            </h5>
+          </div>
+        </Link>
+
         {useStatus(ourUser, username, status)}
       </div>
     </div>

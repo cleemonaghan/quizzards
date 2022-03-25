@@ -4,6 +4,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel, Dropdown } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult } from "../components";
+import { Link } from "react-router-dom";
 
 import Amplify, { Hub } from "aws-amplify";
 import config from "../aws-exports";
@@ -102,7 +103,11 @@ class CreateQuiz extends React.Component {
               <h2 className="font-weight-light mt-5">Results</h2>
               <QuizResult rNumber="1" />
 
-              <Button variant="outline-primary">Add Result +</Button>
+              <Link to="/addResult">
+                <Button variant="outline-primary" size="lg">
+                  Add Result +
+                </Button>{" "}
+              </Link>
             </div>
 
             {/* Questions and Answers */}

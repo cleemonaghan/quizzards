@@ -192,22 +192,26 @@ class Friends extends React.Component {
   }
 
   render() {
-    //if (this.state.error) return failToLoad();
+    if (this.state.error) return failToLoad();
     return this.state.loading ? (
       Loading()
     ) : (
-      <div className="friends">
+      <div className="friends mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-1"></div>
-            <div className="col-3 mt-5 mb-4 float-end">
-              <Link to="/friends">
-                <Button variant="outline-primary" size="lg">
-                  Search For Friends
-                </Button>{" "}
-              </Link>
+            <div className="col-12 mt-5">
+              <MDBCol>
+                <MDBInput
+                  hint="Search Users"
+                  type="text"
+                  containerClass="active-pink active-pink-2 mt-0 mb-3"
+                  variant="outline-primary"
+                  size="lg"
+                />
+              </MDBCol>
             </div>
           </div>
+
           {/* Display the user's friends */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Friends</h1>
@@ -216,11 +220,13 @@ class Friends extends React.Component {
 
           {/* Display the user's friend requests */}
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Friends Requests</h1>
+            <h1 className="font-weight-bold">Your Friend Requests</h1>
           </div>
+          <h4 className="font-weight-bold">Incoming:</h4>
           <div className="row">{this.state.friendReqElements}</div>
 
           {/* Display the user's friend requests */}
+          <h4 className="font-weight-bold">Outgoing:</h4>
           <div className="row">{this.state.outgoingFriendReqElements}</div>
 
           {/* Display the user's recommended friends */}

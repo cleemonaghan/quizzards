@@ -1,12 +1,10 @@
 import React from "react";
-import {
-  createGroup,
-} from "../databaseFunctions/groups";
+import { createGroup } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 
-import {Navigate } from "react-router";
+import { Navigate } from "react-router";
 
 class CreateGroup extends React.Component {
   constructor(props) {
@@ -29,12 +27,12 @@ class CreateGroup extends React.Component {
     try {
       this.user = await Auth.currentAuthenticatedUser();
 
-     // get default file image
-     this.defaultImage = await Storage.get("default_group_image");
+      // get default file image
+      this.defaultImage = await Storage.get("default_group_image");
 
-     //load the image if there is one
-     this.tempPhoto = this.defaultImage;
-     this.setState({ profile_pic: "default_group_image" });
+      //load the image if there is one
+      this.tempPhoto = this.defaultImage;
+      this.setState({ profile_pic: "default_group_image" });
     } catch (err) {
       console.log("There was an error: ", err);
     }
@@ -99,16 +97,16 @@ class CreateGroup extends React.Component {
     // create the group
     let res = await this.updateAttributes();
 
-    this.setState({id: res.id});
-    
+    this.setState({ id: res.id });
+
     //reroute to different page?
-    this.setState({submit: true});
+    this.setState({ submit: true });
   }
 
   render() {
     if (this.state.submit) {
       //route to the newly created group page
-      return <Navigate to={"/groupPage/"+this.state.id} />
+      return <Navigate to={"/groupPage/" + this.state.id} />;
     }
     return (
       <div className="create_group">

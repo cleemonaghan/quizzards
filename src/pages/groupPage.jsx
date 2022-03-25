@@ -78,7 +78,7 @@ function GroupPage() {
         </div>
         <div className="container">
           <div className="float-end col-3">
-            <MembersList />
+            <MembersList group={group}/>
           </div>
           <div className="row mb-5">
             <div className="col-1 px-0">

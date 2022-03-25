@@ -8,7 +8,7 @@ import { getUser, recommendFriends } from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
 
-class FriendsList extends React.Component {
+class Friends extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -78,7 +78,7 @@ class FriendsList extends React.Component {
         let friend = await getUser(userArr.friends[i]);
         let friendImage = await Storage.get(friend.profilePicture);
         result.push(
-          <div key={i}>
+          <div className="col-lg-3 col-sm-6" key={i}>
             <User
               image={friendImage}
               username={friend.name}
@@ -106,7 +106,7 @@ class FriendsList extends React.Component {
         let friendReq = await getUser(userArr.friendRequests[i]);
         let friendImage = await Storage.get(friendReq.profilePicture);
         result.push(
-          <div key={i}>
+          <div className="col-lg-3 col-sm-6" key={i}>
             <User
               image={friendImage}
               username={friendReq.name}
@@ -134,7 +134,7 @@ class FriendsList extends React.Component {
         let friendReq = await getUser(userArr.outgoingFriendRequests[i]);
         let friendImage = await Storage.get(friendReq.profilePicture);
         result.push(
-          <div key={i}>
+          <div className="col-lg-3 col-sm-6" key={i}>
             <User
               image={friendImage}
               username={friendReq.name}
@@ -177,7 +177,7 @@ class FriendsList extends React.Component {
         let friend = await getUser(recommendations[i]);
         let friendImage = await Storage.get(friend.profilePicture);
         result.push(
-          <div key={i}>
+          <div className="col-lg-3 col-sm-6" key={i}>
             <User
               image={friendImage}
               username={friend.name}
@@ -196,26 +196,48 @@ class FriendsList extends React.Component {
     return this.state.loading ? (
       Loading()
     ) : (
-      <div className="friends-list">
-        <Link to="/friends">
-          <Button variant="outline-primary" size="lg">
-            Search For Friends
-          </Button>{" "}
-        </Link>
-        <h4 className="my-2"> Friends: </h4>
-        <div className="row">{this.state.friendElements}</div>
-        <hr />
-        <h4 className="my-2"> Friend Requests: </h4>
-        <h5 className="my-2"> Incoming: </h5>
-        <div className="row">{this.state.friendReqElements}</div>
-        <h5 className="my-2"> Outgoing: </h5>
-        <div className="row">{this.state.outgoingFriendReqElements}</div>
-        <hr />
-        <h4 className="my-2"> Suggested Friends: </h4>
-        <div className="row">{this.state.recommendationElements}</div>
+      <div className="friends mb-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-12 mt-5">
+              <MDBCol>
+                <MDBInput
+                  hint="Search Users"
+                  type="text"
+                  containerClass="active-pink active-pink-2 mt-0 mb-3"
+                  variant="outline-primary"
+                  size="lg"
+                />
+              </MDBCol>
+            </div>
+          </div>
+
+          {/* Display the user's friends */}
+          <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">Your Friends</h1>
+          </div>
+          <div className="row">{this.state.friendElements}</div>
+
+          {/* Display the user's friend requests */}
+          <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">Your Friend Requests</h1>
+          </div>
+          <h4 className="font-weight-bold">Incoming:</h4>
+          <div className="row">{this.state.friendReqElements}</div>
+
+          {/* Display the user's friend requests */}
+          <h4 className="font-weight-bold">Outgoing:</h4>
+          <div className="row">{this.state.outgoingFriendReqElements}</div>
+
+          {/* Display the user's recommended friends */}
+          <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">Suggested Friends</h1>
+          </div>
+          <div className="row">{this.state.recommendationElements}</div>
+        </div>
       </div>
     );
   }
 }
 
-export default FriendsList;
+export default Friends;

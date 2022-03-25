@@ -29,7 +29,7 @@ function GroupEdit() {
 			<div className="edit_group">
 				<div className="container">
 					<h1 className="font-weight-light my-5">Create Group</h1>
-					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, setGroupImage)}>
+					<Form onSubmit={(event) => handleSubmit (event, groupImage, changedImage, group)}>
 						{/* Name */}
 						<Form.Group className="mb-3" controlId="name">
 							<FloatingLabel label="Name" className="mb-3">
@@ -47,7 +47,7 @@ function GroupEdit() {
 							<Form.Control
 								type="file"
 								name="profile_pic"
-								onChange={(event) => changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, groupImage)}
+								onChange={(event) => changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, setGroupImage, groupImage)}
 								accept="image/png, image/jpeg"
 								s />
 						</Form.Group>
@@ -94,7 +94,7 @@ function GroupEdit() {
 /**
  * This method updates the groups's attributes in AWS Cognito and in the database.
  */
-async function updateAttributes(changedImage, group) {
+async function updateAttributes(changedImage, group, groupImage) {
 	let params = {
 		name: group.name,
 		bio: group.biography,
@@ -105,7 +105,7 @@ async function updateAttributes(changedImage, group) {
 	if (changedImage) {
 		params = {
 			//highlightColor:  this.state.color_theme,
-			profilePicture: group.profile_pic,
+			profilePicture: groupImage,
 			bio: group.biography,
 		};
 	} else {
@@ -127,7 +127,7 @@ function handleChange(event, group, setGroup) {
 	console.log(group);
 }
 
-function changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, groupImage) {
+function changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, setGroupImage, groupImage) {
 	//check if they they submitted files
 	if (event.target.files) {
 		if (event.target.files.length === 0) {
@@ -139,6 +139,7 @@ function changeImage(event, tempImage, changedImage, setChangedImage, setTempIma
 			if (file.size < 1000000) {
 				let tempPhoto = URL.createObjectURL(file);
 				setTempImage(tempPhoto);
+				setGroupImage(file);
 				setChangedImage(true);
 			} else {
 				//the file was too big, so revert to the default
@@ -178,14 +179,11 @@ function useGatherResources(groupID, group, setGroup, groupImage, setGroupImage,
 	return [error, loading];
 }
 
-function handleSubmit(event, tempImage, changedImage, group, setGroupImage) {
-	if(changedImage) {
-		setGroupImage(tempImage);
-	}
+function handleSubmit(event, groupImage, changedImage, group) {
 	event.preventDefault();
 	//update the color scheme
 	//update the user profile
-	updateAttributes(changedImage, group);
+	updateAttributes(changedImage, group, groupImage);
 	
 	//this.close();
 	let pathname = "/groupPage/" + group.id;

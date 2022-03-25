@@ -161,6 +161,8 @@ class Home extends React.Component {
               if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
               index = user.friends.indexOf("colinmonaghan");
               if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
+              index = user.friends.indexOf("avb123");
+              if (index >= 0) user.friends.splice(index, 1); // remove the username from the list
               //remove self from user's friend request list
               index = user.friendRequests.indexOf(this.state.username);
               if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
@@ -168,12 +170,16 @@ class Home extends React.Component {
               if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
               index = user.friendRequests.indexOf("colinmonaghan");
               if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
+              index = user.friendRequests.indexOf("avb123");
+              if (index >= 0) user.friendRequests.splice(index, 1); // remove the username from the list
               //remove self from user's outgoing friend request list
               index = user.outgoingFriendRequests.indexOf(this.state.username);
               if (index >= 0) user.outgoingFriendRequests.splice(index, 1); // remove the username from the list
               index = user.outgoingFriendRequests.indexOf("cleemonaghan");
               if (index >= 0) user.outgoingFriendRequests.splice(index, 1); // remove the username from the list
               index = user.outgoingFriendRequests.indexOf("colinmonaghan");
+              if (index >= 0) user.outgoingFriendRequests.splice(index, 1); // remove the username from the list
+              index = user.outgoingFriendRequests.indexOf("avb123");
               if (index >= 0) user.outgoingFriendRequests.splice(index, 1); // remove the username from the list
 
               //update the database with the new lists

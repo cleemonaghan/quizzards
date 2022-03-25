@@ -368,7 +368,8 @@ export async function recommendFriends(
         username !== friendFriendList[j] &&
         !friendList.includes(friendFriendList[j]) &&
         !friendReqList.includes(friendFriendList[j]) &&
-        !outgoingFriendReqList.includes(friendFriendList[j])
+        !outgoingFriendReqList.includes(friendFriendList[j]) &&
+        !result.includes(friendFriendList[j])
       ) {
         //if our friend's friend is not in any of our lists, add it to the result
         result.push(friendFriendList[j]);

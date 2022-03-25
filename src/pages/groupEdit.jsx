@@ -15,6 +15,8 @@ function GroupEdit() {
 	let info = useParams();
 	let groupID = info.id;
 
+	// group values to be edited 
+	const [submit, setSubmit] = useState(false);
 	const [group, setGroup] = useState(null);
 	const [groupImage, setGroupImage] = useState(null);
 	const [tempImage, setTempImage] = useState(null);
@@ -24,19 +26,23 @@ function GroupEdit() {
 
 
 	if (error) return (failToLoad());
+	else if (submit) {
+		//route to group page
+		return <Navigate to={"/groupPage/" + group.id} />;
+	}
 	return loading ? Loading() :
 		(
 			<div className="edit_group">
 				<div className="container">
 					<h1 className="font-weight-light my-5">Create Group</h1>
-					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, setGroupImage)}>
+					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, groupImage, setGroupImage, setSubmit)}>
 						{/* Name */}
 						<Form.Group className="mb-3" controlId="name">
 							<FloatingLabel label="Name" className="mb-3">
 								<Form.Control
 									name="name"
 									type="text"
-									value={group.name}
+									defaultValue={group.name}
 									onChange={(event) =>handleChange(event, group, setGroup)}
 								/>
 							</FloatingLabel>
@@ -47,7 +53,7 @@ function GroupEdit() {
 							<Form.Control
 								type="file"
 								name="profile_pic"
-								onChange={(event) => changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, groupImage)}
+								onChange={(event) => changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, setGroupImage, groupImage)}
 								accept="image/png, image/jpeg"
 								s />
 						</Form.Group>
@@ -71,12 +77,12 @@ function GroupEdit() {
 				  />
 				</Form.Group> */}
 						{/* Biography */}
-						<Form.Group className="mb-3" controlId="biography">
+						<Form.Group className="mb-3" controlId="bio">
 							<FloatingLabel label="Group description" className="mb-3">
 								<Form.Control
-									name="biography"
+									name="bio"
 									type="text"
-									src={group.biography}
+									defaultValue={group.bio}
 									onChange={(event) => handleChange(event, group, setGroup)}
 								/>
 							</FloatingLabel>
@@ -94,10 +100,10 @@ function GroupEdit() {
 /**
  * This method updates the groups's attributes in AWS Cognito and in the database.
  */
-async function updateAttributes(changedImage, group) {
+async function updateAttributes(changedImage, group, groupImage) {
 	let params = {
 		name: group.name,
-		bio: group.biography,
+		bio: group.bio,
 		profilePicture: group.profile_pic,
 	};
 
@@ -106,19 +112,20 @@ async function updateAttributes(changedImage, group) {
 		params = {
 			//highlightColor:  this.state.color_theme,
 			profilePicture: group.profile_pic,
-			bio: group.biography,
+			bio: group.bio,
+			name: group.name,
 		};
 	} else {
 		params = {
 			//highlightColor:  this.state.color_theme,
-			bio: group.biography,
+			bio: group.bio,
+			name: group.name,
 		};
 	}
 	await updateGroup(group.id, params);
 }
 
 function handleChange(event, group, setGroup) {
-	console.log(group);
 	let target = event.target;
 	let value = target.type === "checkbox" ? target.checked : target.value;
 	let name = target.name;
@@ -127,7 +134,7 @@ function handleChange(event, group, setGroup) {
 	console.log(group);
 }
 
-function changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, groupImage) {
+function changeImage(event, tempImage, changedImage, setChangedImage, setTempImage, setGroupImage, groupImage) {
 	//check if they they submitted files
 	if (event.target.files) {
 		if (event.target.files.length === 0) {
@@ -139,6 +146,7 @@ function changeImage(event, tempImage, changedImage, setChangedImage, setTempIma
 			if (file.size < 1000000) {
 				let tempPhoto = URL.createObjectURL(file);
 				setTempImage(tempPhoto);
+				setGroupImage(file);
 				setChangedImage(true);
 			} else {
 				//the file was too big, so revert to the default
@@ -178,28 +186,23 @@ function useGatherResources(groupID, group, setGroup, groupImage, setGroupImage,
 	return [error, loading];
 }
 
-function handleSubmit(event, tempImage, changedImage, group, setGroupImage) {
+function handleSubmit(event, tempImage, changedImage, group, groupImage, setGroupImage, setSubmit) {
 	if(changedImage) {
 		setGroupImage(tempImage);
 	}
 	event.preventDefault();
 	//update the color scheme
 	//update the user profile
-	updateAttributes(changedImage, group);
+	updateAttributes(changedImage, group, groupImage);
 	
-	//this.close();
+	// 
 	let pathname = "/groupPage/" + group.id;
 	console.log(pathname);
 
-	<Navigate replace to={pathname} />;
-
-
 	//reroute to different page?
-    //this.setState({submit: true});
+    setSubmit(true);
 
-	//<Navigate to={pathname} />;
-	//history.push(pathname)
-	//this.setState(submit: )
+	//<Navigate replace to={pathname} />;
 }
 
 

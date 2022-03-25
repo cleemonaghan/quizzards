@@ -15,6 +15,7 @@ function GroupEdit() {
 	let info = useParams();
 	let groupID = info.id;
 
+	const [submit, setSubmit] = useState(false);
 	const [group, setGroup] = useState(null);
 	const [groupImage, setGroupImage] = useState(null);
 	const [tempImage, setTempImage] = useState(null);
@@ -24,12 +25,16 @@ function GroupEdit() {
 
 
 	if (error) return (failToLoad());
+	else if (submit) {
+		//route to the newly created group page
+		return <Navigate to={"/groupPage/" + group.id} />;
+	}
 	return loading ? Loading() :
 		(
 			<div className="edit_group">
 				<div className="container">
 					<h1 className="font-weight-light my-5">Create Group</h1>
-					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, setGroupImage)}>
+					<Form onSubmit={(event) => handleSubmit (event, tempImage, changedImage, group, setGroupImage, setSubmit)}>
 						{/* Name */}
 						<Form.Group className="mb-3" controlId="name">
 							<FloatingLabel label="Name" className="mb-3">
@@ -76,7 +81,7 @@ function GroupEdit() {
 								<Form.Control
 									name="biography"
 									type="text"
-									src={group.biography}
+									value={group.bio}
 									onChange={(event) => handleChange(event, group, setGroup)}
 								/>
 							</FloatingLabel>
@@ -97,7 +102,7 @@ function GroupEdit() {
 async function updateAttributes(changedImage, group) {
 	let params = {
 		name: group.name,
-		bio: group.biography,
+		bio: group.bio,
 		profilePicture: group.profile_pic,
 	};
 
@@ -106,19 +111,20 @@ async function updateAttributes(changedImage, group) {
 		params = {
 			//highlightColor:  this.state.color_theme,
 			profilePicture: group.profile_pic,
-			bio: group.biography,
+			bio: group.bio,
+			name: group.name,
 		};
 	} else {
 		params = {
 			//highlightColor:  this.state.color_theme,
-			bio: group.biography,
+			bio: group.bio,
+			name: group.name,
 		};
 	}
 	await updateGroup(group.id, params);
 }
 
 function handleChange(event, group, setGroup) {
-	console.log(group);
 	let target = event.target;
 	let value = target.type === "checkbox" ? target.checked : target.value;
 	let name = target.name;
@@ -178,7 +184,7 @@ function useGatherResources(groupID, group, setGroup, groupImage, setGroupImage,
 	return [error, loading];
 }
 
-function handleSubmit(event, tempImage, changedImage, group, setGroupImage) {
+function handleSubmit(event, tempImage, changedImage, group, setGroupImage, setSubmit) {
 	if(changedImage) {
 		setGroupImage(tempImage);
 	}
@@ -191,15 +197,10 @@ function handleSubmit(event, tempImage, changedImage, group, setGroupImage) {
 	let pathname = "/groupPage/" + group.id;
 	console.log(pathname);
 
-	<Navigate replace to={pathname} />;
-
-
 	//reroute to different page?
-    //this.setState({submit: true});
+    setSubmit(true);
 
-	//<Navigate to={pathname} />;
-	//history.push(pathname)
-	//this.setState(submit: )
+	//<Navigate replace to={pathname} />;
 }
 
 

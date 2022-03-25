@@ -71,7 +71,7 @@ function GroupPage() {
           <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
             <h1 className="px-5">{group.name}</h1>
             <p className="px-5">
-              This is a description of the group... 
+              
               {group.bio}
             </p>
           </div>
@@ -97,6 +97,12 @@ function GroupPage() {
             <div className="col-3 px-0">
               <Link to="/createQuiz">
                 <Button variant="outline-primary">Create New Quiz +</Button>{" "}
+              </Link>
+            </div>
+            <div className="col-1"></div>
+            <div className="col-3 px-0">
+              <Link to={{ pathname: "/groupEdit/" + groupID}}>
+                <Button variant="outline-primary">Edit Group </Button>{" "}
               </Link>
             </div>
             <div className="col-1"></div>

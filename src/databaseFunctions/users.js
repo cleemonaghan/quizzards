@@ -84,6 +84,24 @@ export async function getUser(username) {
   return result.data.getUser;
 }
 
+/** This method fetches and returns the all users.
+ *
+ * @returns a list of all the users
+ */
+ export async function listAllUsers() {
+  let params = {
+    limit: 100,
+    //filter: {
+     // Visibility: "public",
+    //},
+  };
+  let result = await API.graphql({
+    query: listUsers,
+    variables: { input: params },
+  });
+  return result.data.listUsers;
+}
+
 // User Groups ---------------------------
 
 /** This method fetches and returns the specified user's groups.
@@ -379,7 +397,8 @@ export async function recommendFriends(
       username !== currentUsername &&
       !friendList.includes(currentUsername) &&
       !friendReqList.includes(currentUsername) &&
-      !outgoingFriendReqList.includes(currentUsername)
+      !outgoingFriendReqList.includes(currentUsername) &&
+      !result.includes(currentUsername)
     ) {
       //add the user to the recommended list
       result.push(currentUsername);

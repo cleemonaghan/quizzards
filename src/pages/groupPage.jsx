@@ -99,6 +99,11 @@ function GroupPage() {
                 <Button variant="outline-primary">Create New Quiz +</Button>{" "}
               </Link>
             </div>
+            <div className="col-3 px-0">
+              <Link to={{ pathname: "/groupEdit/" + groupID}}>
+                <Button variant="outline-primary">Edit Group </Button>{" "}
+              </Link>
+            </div>
             <div className="col-1"></div>
             <div className="col-5">
               <ToggleButtonGroup type="radio" name="options" defaultValue={1}>

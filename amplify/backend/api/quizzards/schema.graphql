@@ -21,6 +21,7 @@ type User @model @auth(rules: [{ allow: public }]) {
 	quizOwners: [Quiz!]! @hasMany
 	admin: Boolean! @default(value: "false")
 	blocked: Boolean! @default(value: "false")
+	quizAnswers: [UserAnswers!]! @hasMany
 }
 
 
@@ -40,21 +41,74 @@ type Group @model @auth(rules: [{ allow: public }]) {
 	ownerUsername: String!
 
 	#quiz info
+	quizzes: [Quiz]! @manyToMany(relationName: "quizToGroup")
 	#quizOwners: [Quiz!]! @hasMany
 }
 
 type Quiz @model @auth(rules: [{ allow: public }]) {
 	id: ID!
-	quizname: String!
+	title: String!
 	owner: User! @belongsTo(fields: ["ownerUsername"])
 	ownerUsername: String!
 	description: String!
-	#groups: [Group!] @manyToMany(relationName: "quizToGroup")
-	#questions: [Question!] @hasMany(indexName: "questionToQuiz", fields: ["id"])
+	groups: [Group!] @manyToMany(relationName: "quizToGroup")
+	questions: [Question!]! @hasMany
+	results: [Result!]! @hasMany
+
+	picture: String!
+
+	userAnswers: [UserAnswers!]! @hasMany
 	#results: [Result!] @hasMany(indexName: "resultToQuiz", fields: ["id"])
 	#topic: String
 	#publicPrivate: Visibility
 }
+
+type Question @model @auth(rules: [{allow: public}]){
+	id: ID!
+	quiz: Quiz! @belongsTo(fields: ["quizID"])
+	quizID: ID!
+
+	name: String!
+	picture: String
+	answers: [Answer!]! @hasMany
+}
+
+type Answer @model @auth(rules: [{allow: public}]){
+	id: ID!
+	question: Question! @belongsTo(fields: ["questionID"])
+	questionID: ID!
+
+	#quizID: ID!
+
+	name: String!
+	#results: [ID!]! 
+	weights: [Int!]!
+}
+
+type Result @model @auth(rules: [{allow: public}]){
+	id: ID!
+	quiz: Quiz! @belongsTo(fields: ["quizID"])
+	quizID: ID!
+
+	name: String!
+	description: String
+	picture: String
+}
+
+type UserAnswers @model @auth(rules: [{allow: public}]){
+	id: ID!
+
+	user: User! @belongsTo(fields: ["username"])
+	username: String!
+
+	quiz: Quiz! @belongsTo(fields: ["quizID"])
+	quizID: ID!
+
+	answers: [ID!]! 
+	result: ID!
+}
+
+
 
 enum Visibility {
 	public # all users

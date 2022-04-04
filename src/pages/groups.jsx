@@ -200,8 +200,8 @@ class Groups extends React.Component {
                   size="lg"
                   onChange={this.handleChange}
                 />
-            </div>
              </MDBCol>
+            </div>
 
              <div className = "row">{this.state.searchBar}</div>
             <div className="col-1"></div>

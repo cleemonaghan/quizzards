@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { Form, Button, FloatingLabel, Accordion } from "react-bootstrap";
 import { QuizAnswer } from "../components";
 
 function QuizQuestion({ qNumber }) {
@@ -20,10 +20,65 @@ function QuizQuestion({ qNumber }) {
             accept="image/png, image/jpeg"
           />
         </Form.Group>
-        <QuizAnswer aNumber="1" />
-        <Button className="mb-3" variant="outline-primary">
+        <Accordion defaultActiveKey="1">
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>Answer 1</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="1" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Answer 2 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="2" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3">
+            <Accordion.Header>Answer 3 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="3" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="4">
+            <Accordion.Header>Answer 4 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="4" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="5">
+            <Accordion.Header>Answer 5 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="5" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="6">
+            <Accordion.Header>Answer 6 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="6" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="7">
+            <Accordion.Header>Answer 7 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="7" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="8">
+            <Accordion.Header>Answer 8 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="8" />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="9">
+            <Accordion.Header>Answer 9 *optional</Accordion.Header>
+            <Accordion.Body>
+              <QuizAnswer aNumber="9" />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+        {/* <Button className="mb-3" variant="outline-primary">
           Add Answer +
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

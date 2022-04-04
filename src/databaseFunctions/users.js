@@ -26,6 +26,7 @@ export async function createUser(username) {
     friends: [],
     friendRequests: [],
     outgoingFriendRequests: [],
+    quizAnswers: [],
 
     admin: false,
     blocked: false,

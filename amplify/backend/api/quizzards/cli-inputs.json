@@ -3,14 +3,10 @@
   "serviceConfiguration": {
     "apiName": "quizzards",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "C:\\Users\\Colin\\software\\quizzards\\amplify\\backend\\api\\quizzards\\schema.graphql",
+    "gqlSchemaPath": "/Users/annavanboven/Desktop/crapstone/quizzards/amplify/backend/api/quizzards/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 365,
-      "apiKeyExpirationDate": "2023-04-04T18:44:53.266Z",
-      "keyDescription": "API Authorization for GraphQL"
-    },
-    "conflictResolution": {},
-    "additionalAuthTypes": []
+      "expirationTime": 7
+    }
   }
 }

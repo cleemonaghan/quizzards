@@ -101,7 +101,7 @@ function GroupPage() {
           <div className="col-1"></div>
           <div className="col-3 px-0">
             <Link to="/createQuiz">
-              <Button variant="outline-primary">Create New Quiz +</Button>{" "}
+              <Button variant="outline-primary">Add Quiz +</Button>{" "}
             </Link>
           </div>
           <div className="col-2 px-0">

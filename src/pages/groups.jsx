@@ -198,11 +198,7 @@ class Groups extends React.Component {
                   size="lg"
                   onChange={this.handleChange}
                 />
-<<<<<<< HEAD
-             </MDBCol>
-=======
               </MDBCol>
->>>>>>> 1db9dd8094fd2b02ead7bf30d0dcb9b427ecbeba
             </div>
 
             <div className="row">{this.state.searchBar}</div>

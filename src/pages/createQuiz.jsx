@@ -1,7 +1,13 @@
 import React from "react";
 import { createQuiz, updateQuiz, getQuiz } from "../databaseFunctions/quizzes";
 import "@aws-amplify/ui-react/styles.css";
-import { Form, Button, FloatingLabel, Dropdown } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  FloatingLabel,
+  Dropdown,
+  Accordion,
+} from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult } from "../components";
 import { Link } from "react-router-dom";
@@ -101,21 +107,185 @@ class CreateQuiz extends React.Component {
             {/* Results */}
             <div className="results">
               <h2 className="font-weight-light mt-5">Results</h2>
-              <QuizResult rNumber="1" />
+              <Accordion defaultActiveKey="1">
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Result 1</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="1" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                  <Accordion.Header>Result 2 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="2" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="3">
+                  <Accordion.Header>Result 3 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="3" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="4">
+                  <Accordion.Header>Result 4 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="4" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="5">
+                  <Accordion.Header>Result 5 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="5" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="6">
+                  <Accordion.Header>Result 6 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="6" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="7">
+                  <Accordion.Header>Result 7 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="7" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="8">
+                  <Accordion.Header>Result 8 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="8" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="9">
+                  <Accordion.Header>Result 9 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="9" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="10">
+                  <Accordion.Header>Result 10 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="10" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="11">
+                  <Accordion.Header>Result 11 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="11" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="12">
+                  <Accordion.Header>Result 12 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizResult rNumber="12" />
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
 
-              <Link to="/addResult">
+              {/* <Link to="/addResult">
                 <Button variant="outline-primary" size="lg">
                   Add Result +
                 </Button>{" "}
-              </Link>
+              </Link> */}
             </div>
 
             {/* Questions and Answers */}
             <div className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
-              <QuizQuestion qNumber="1" />
+              <Accordion defaultActiveKey="1">
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Question 1</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="1" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                  <Accordion.Header>Question 2 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="2" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="3">
+                  <Accordion.Header>Question 3 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="3" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="4">
+                  <Accordion.Header>Question 4 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="4" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="5">
+                  <Accordion.Header>Question 5 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="5" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="6">
+                  <Accordion.Header>Question 6 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="6" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="7">
+                  <Accordion.Header>Question 7 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="7" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="8">
+                  <Accordion.Header>Question 8 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="8" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="9">
+                  <Accordion.Header>Question 9 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="9" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="10">
+                  <Accordion.Header>Question 10 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="10" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="11">
+                  <Accordion.Header>Question 11 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="11" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="12">
+                  <Accordion.Header>Question 12 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="12" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="13">
+                  <Accordion.Header>Question 13 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="13" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="14">
+                  <Accordion.Header>Question 14 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="14" />
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="15">
+                  <Accordion.Header>Question 15 *optional</Accordion.Header>
+                  <Accordion.Body>
+                    <QuizQuestion qNumber="15" />
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
 
-              <Button variant="outline-primary">Add Question +</Button>
+              {/* <Button variant="outline-primary">Add Question +</Button> */}
             </div>
 
             {/* Submit Button */}
@@ -135,4 +305,4 @@ class CreateQuiz extends React.Component {
 export default CreateQuiz;
 // 15 questions
 // 9 answers
-// ?? results
+// 12 results

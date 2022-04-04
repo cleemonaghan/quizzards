@@ -1,7 +1,7 @@
 import React from "react";
 import { GroupBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
-import { MDBCol, MDBInput } from "mdbreact";
+import { MDBCol, MDBInput, MDBIcon } from "mdbreact";
 import { Link } from "react-router-dom";
 
 import { getUser, getUserGroups } from "../databaseFunctions/users.js";
@@ -166,14 +166,17 @@ class Groups extends React.Component {
         );
       }
     }
+    if (result.length == 0) {
+      return <p> No groups match your search</p>;
+    }
     return result;
   }
 
-  async handleChange(e){
-    if(e.target.value === "") {
-      this.setState({searchBar: [] });
-    }
-    else this.setState({searchBar: await this.getGroupBySearch(e.target.value) });
+  async handleChange(e) {
+    if (e.target.value === "") {
+      this.setState({ searchBar: [] });
+    } else
+      this.setState({ searchBar: await this.getGroupBySearch(e.target.value) });
   }
 
   render() {
@@ -188,6 +191,7 @@ class Groups extends React.Component {
               <MDBCol>
                 <MDBInput
                   hint="Search Groups"
+                  className="form-control my-0 py-1"
                   type="text"
                   containerClass="active-pink active-pink-2 mt-0 mb-3"
                   variant="outline-primary"
@@ -196,6 +200,7 @@ class Groups extends React.Component {
                 />
               </MDBCol>
             </div>
+
             <div className="col-1"></div>
             <div className="col-3 mt-5 mb-4 float-end">
               <Link to="/createGroup">
@@ -205,7 +210,6 @@ class Groups extends React.Component {
               </Link>
             </div>
           </div>
-          
           <div className="row">{this.state.searchBar}</div>
           {/* Display the user's groups */}
           <div className="row align-items-center mt-5 mb-2">

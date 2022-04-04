@@ -1,5 +1,6 @@
 {
   "AppSyncApiName": "quizzards",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2022-04-04T18:44:57.710Z"
 }

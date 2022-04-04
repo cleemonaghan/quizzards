@@ -12,14 +12,6 @@ function QuizAnswer({ aNumber }) {
         </FloatingLabel>
       </Form.Group>
       <div className="ps-5">
-        <Form.Group controlId="answer_pic" className="mb-3">
-          <Form.Label>Answer Picture</Form.Label>
-          <Form.Control
-            type="file"
-            name="answer_pic"
-            accept="image/png, image/jpeg"
-          />
-        </Form.Group>
         <OverlayTrigger
           placement="right"
           overlay={
@@ -37,18 +29,18 @@ function QuizAnswer({ aNumber }) {
           )}
         </OverlayTrigger>
         <form className="ps-3">
-          <label>
-            {" "}
-            <h5 className="pe-2">Result 1</h5>{" "}
-          </label>
-          <select>
-            <option value="0"> 0</option>
-            <option value="1"> 1</option>
-            <option value="2"> 2</option>
-            <option value="3"> 3</option>
-            <option value="3"> 4</option>
-            <option value="3"> 5</option>
-          </select>
+          <div>
+            <label>
+              {" "}
+              <h5 className="pe-2">Result 1</h5>{" "}
+            </label>
+            <select>
+              <option value="0"> 0</option>
+              <option value="1"> 1</option>
+              <option value="2"> 2</option>
+              <option value="3"> 3</option>
+            </select>
+          </div>
         </form>
       </div>
     </div>

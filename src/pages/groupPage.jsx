@@ -104,13 +104,11 @@ function GroupPage() {
               <Button variant="outline-primary">Create New Quiz +</Button>{" "}
             </Link>
           </div>
-          <div className="col-1"></div>
-          <div className="col-3 px-0">
+          <div className="col-2 px-0">
             <Link to={{ pathname: "/groupEdit/" + groupID }}>
               <Button variant="outline-primary">Edit Group </Button>{" "}
             </Link>
           </div>
-          <div className="col-1"></div>
           <div className="col-5">
             <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
               <ToggleButton
@@ -132,13 +130,7 @@ function GroupPage() {
           <div className="col-1"></div>
         </div>
         <div className="float-end col-5 mx-5">
-          {/* <StatsBox
-              name="Hogwarts House"
-              result="Hufflepuff"
-              labels={["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]}
-              data={[15, 45, 35, 5]}
-            /> */}
-          {/* <StatsBox /> */}
+          <StatsBox />
           <CompareBox />
         </div>
         <div className="col-3 mt-5">

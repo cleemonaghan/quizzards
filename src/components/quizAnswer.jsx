@@ -12,14 +12,6 @@ function QuizAnswer({ aNumber }) {
         </FloatingLabel>
       </Form.Group>
       <div className="ps-5">
-        <Form.Group controlId="answer_pic" className="mb-3">
-          <Form.Label>Answer Picture</Form.Label>
-          <Form.Control
-            type="file"
-            name="answer_pic"
-            accept="image/png, image/jpeg"
-          />
-        </Form.Group>
         <OverlayTrigger
           placement="right"
           overlay={
@@ -47,8 +39,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -61,8 +51,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -75,8 +63,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -89,8 +75,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -103,8 +87,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -117,8 +99,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -131,8 +111,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -145,8 +123,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -159,8 +135,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -173,8 +147,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -187,8 +159,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
           <div>
@@ -201,8 +171,6 @@ function QuizAnswer({ aNumber }) {
               <option value="1"> 1</option>
               <option value="2"> 2</option>
               <option value="3"> 3</option>
-              <option value="3"> 4</option>
-              <option value="3"> 5</option>
             </select>
           </div>
         </form>

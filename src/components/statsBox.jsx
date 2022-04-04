@@ -9,7 +9,7 @@ function StatsBox({ name, result, labels, data }) {
       <div className="outline ms-3 mb-5 pb-4">
         <h4 className="mx-3 my-3"> Group Stats: {name}</h4>
         <div className="mx-4 my-2">
-          <GroupStats barLabels={labels} barData={data} />
+          {/* <GroupStats barLabels={labels} barData={data} /> */}
         </div>
         <hr />
         <div className="row mx-auto">

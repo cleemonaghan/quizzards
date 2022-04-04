@@ -51,9 +51,10 @@ export const getUser = /* GraphQL */ `
       quizOwners {
         items {
           id
-          quizname
+          title
           ownerUsername
           description
+          picture
           createdAt
           updatedAt
           userQuizOwnersId
@@ -62,6 +63,20 @@ export const getUser = /* GraphQL */ `
       }
       admin
       blocked
+      quizAnswers {
+        items {
+          id
+          username
+          quizID
+          answers
+          result
+          createdAt
+          updatedAt
+          userQuizAnswersId
+          quizUserAnswersId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -106,6 +121,9 @@ export const listUsers = /* GraphQL */ `
         }
         admin
         blocked
+        quizAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -166,10 +184,23 @@ export const getGroup = /* GraphQL */ `
         }
         admin
         blocked
+        quizAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       ownerUsername
+      quizzes {
+        items {
+          id
+          groupID
+          quizID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       userGroupOwnersId
@@ -212,6 +243,9 @@ export const listGroups = /* GraphQL */ `
           updatedAt
         }
         ownerUsername
+        quizzes {
+          nextToken
+        }
         createdAt
         updatedAt
         userGroupOwnersId
@@ -224,7 +258,7 @@ export const getQuiz = /* GraphQL */ `
   query GetQuiz($id: ID!) {
     getQuiz(id: $id) {
       id
-      quizname
+      title
       owner {
         username
         name
@@ -249,11 +283,64 @@ export const getQuiz = /* GraphQL */ `
         }
         admin
         blocked
+        quizAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       ownerUsername
       description
+      groups {
+        items {
+          id
+          groupID
+          quizID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      questions {
+        items {
+          id
+          quizID
+          name
+          picture
+          createdAt
+          updatedAt
+          quizQuestionsId
+        }
+        nextToken
+      }
+      results {
+        items {
+          id
+          quizID
+          name
+          description
+          picture
+          createdAt
+          updatedAt
+          quizResultsId
+        }
+        nextToken
+      }
+      picture
+      userAnswers {
+        items {
+          id
+          username
+          quizID
+          answers
+          result
+          createdAt
+          updatedAt
+          userQuizAnswersId
+          quizUserAnswersId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       userQuizOwnersId
@@ -269,7 +356,7 @@ export const listQuizzes = /* GraphQL */ `
     listQuizzes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        quizname
+        title
         owner {
           username
           name
@@ -287,9 +374,392 @@ export const listQuizzes = /* GraphQL */ `
         }
         ownerUsername
         description
+        groups {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        picture
+        userAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
         userQuizOwnersId
+      }
+      nextToken
+    }
+  }
+`;
+export const getQuestion = /* GraphQL */ `
+  query GetQuestion($id: ID!) {
+    getQuestion(id: $id) {
+      id
+      quiz {
+        id
+        title
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        description
+        groups {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        picture
+        userAnswers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        userQuizOwnersId
+      }
+      quizID
+      name
+      picture
+      answers {
+        items {
+          id
+          questionID
+          name
+          weights
+          createdAt
+          updatedAt
+          questionAnswersId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      quizQuestionsId
+    }
+  }
+`;
+export const listQuestions = /* GraphQL */ `
+  query ListQuestions(
+    $filter: ModelQuestionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        quiz {
+          id
+          title
+          ownerUsername
+          description
+          picture
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        quizID
+        name
+        picture
+        answers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        quizQuestionsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getAnswer = /* GraphQL */ `
+  query GetAnswer($id: ID!) {
+    getAnswer(id: $id) {
+      id
+      question {
+        id
+        quiz {
+          id
+          title
+          ownerUsername
+          description
+          picture
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        quizID
+        name
+        picture
+        answers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        quizQuestionsId
+      }
+      questionID
+      name
+      weights
+      createdAt
+      updatedAt
+      questionAnswersId
+    }
+  }
+`;
+export const listAnswers = /* GraphQL */ `
+  query ListAnswers(
+    $filter: ModelAnswerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAnswers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        question {
+          id
+          quizID
+          name
+          picture
+          createdAt
+          updatedAt
+          quizQuestionsId
+        }
+        questionID
+        name
+        weights
+        createdAt
+        updatedAt
+        questionAnswersId
+      }
+      nextToken
+    }
+  }
+`;
+export const getResult = /* GraphQL */ `
+  query GetResult($id: ID!) {
+    getResult(id: $id) {
+      id
+      quiz {
+        id
+        title
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        description
+        groups {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        picture
+        userAnswers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        userQuizOwnersId
+      }
+      quizID
+      name
+      description
+      picture
+      createdAt
+      updatedAt
+      quizResultsId
+    }
+  }
+`;
+export const listResults = /* GraphQL */ `
+  query ListResults(
+    $filter: ModelResultFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listResults(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        quiz {
+          id
+          title
+          ownerUsername
+          description
+          picture
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        quizID
+        name
+        description
+        picture
+        createdAt
+        updatedAt
+        quizResultsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserAnswers = /* GraphQL */ `
+  query GetUserAnswers($id: ID!) {
+    getUserAnswers(id: $id) {
+      id
+      user {
+        username
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        friends
+        friendRequests
+        outgoingFriendRequests
+        groups {
+          nextToken
+        }
+        groupRequests {
+          nextToken
+        }
+        groupOwners {
+          nextToken
+        }
+        quizOwners {
+          nextToken
+        }
+        admin
+        blocked
+        quizAnswers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      username
+      quiz {
+        id
+        title
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        description
+        groups {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        picture
+        userAnswers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        userQuizOwnersId
+      }
+      quizID
+      answers
+      result
+      createdAt
+      updatedAt
+      userQuizAnswersId
+      quizUserAnswersId
+    }
+  }
+`;
+export const listUserAnswers = /* GraphQL */ `
+  query ListUserAnswers(
+    $filter: ModelUserAnswersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserAnswers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        user {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        username
+        quiz {
+          id
+          title
+          ownerUsername
+          description
+          picture
+          createdAt
+          updatedAt
+          userQuizOwnersId
+        }
+        quizID
+        answers
+        result
+        createdAt
+        updatedAt
+        userQuizAnswersId
+        quizUserAnswersId
       }
       nextToken
     }
@@ -325,6 +795,9 @@ export const getMembers = /* GraphQL */ `
         }
         admin
         blocked
+        quizAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -357,6 +830,9 @@ export const getMembers = /* GraphQL */ `
           updatedAt
         }
         ownerUsername
+        quizzes {
+          nextToken
+        }
         createdAt
         updatedAt
         userGroupOwnersId
@@ -441,6 +917,9 @@ export const getMemberRequests = /* GraphQL */ `
         }
         admin
         blocked
+        quizAnswers {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -473,6 +952,9 @@ export const getMemberRequests = /* GraphQL */ `
           updatedAt
         }
         ownerUsername
+        quizzes {
+          nextToken
+        }
         createdAt
         updatedAt
         userGroupOwnersId
@@ -519,6 +1001,130 @@ export const listMemberRequests = /* GraphQL */ `
           createdAt
           updatedAt
           userGroupOwnersId
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getQuizToGroup = /* GraphQL */ `
+  query GetQuizToGroup($id: ID!) {
+    getQuizToGroup(id: $id) {
+      id
+      groupID
+      quizID
+      group {
+        id
+        name
+        profilePicture
+        bio
+        publicPrivate
+        highlightColor
+        members {
+          nextToken
+        }
+        memberRequests {
+          nextToken
+        }
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        quizzes {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        userGroupOwnersId
+      }
+      quiz {
+        id
+        title
+        owner {
+          username
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          friends
+          friendRequests
+          outgoingFriendRequests
+          admin
+          blocked
+          createdAt
+          updatedAt
+        }
+        ownerUsername
+        description
+        groups {
+          nextToken
+        }
+        questions {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        picture
+        userAnswers {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        userQuizOwnersId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listQuizToGroups = /* GraphQL */ `
+  query ListQuizToGroups(
+    $filter: ModelQuizToGroupFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuizToGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        groupID
+        quizID
+        group {
+          id
+          name
+          profilePicture
+          bio
+          publicPrivate
+          highlightColor
+          ownerUsername
+          createdAt
+          updatedAt
+          userGroupOwnersId
+        }
+        quiz {
+          id
+          title
+          ownerUsername
+          description
+          picture
+          createdAt
+          updatedAt
+          userQuizOwnersId
         }
         createdAt
         updatedAt

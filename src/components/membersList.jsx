@@ -4,7 +4,7 @@ import Friend from "./friend";
 import Member from "./member";
 import { Button, Form, Modal } from "react-bootstrap";
 import { photo2, photo3, photo4, photo5 } from "../images";
-import { getUser } from "../databaseFunctions/users";
+import { getUser, getUserFriends } from "../databaseFunctions/users";
 
 async function getUserImage(username) {
   let user = await getUser(username);
@@ -88,6 +88,41 @@ function useGatherMembers(ownername, memberList) {
   return [members, loading];
 }
 
+async function gatherFriends(username, memberList, setLoading, setFriends) {
+  try {
+    setLoading(true);
+    let friendList = await getUserFriends(username);
+    let result = [];
+    for (let friend in friendList) {
+      let match = false;
+      for (let mem in memberList) {
+        if (memberList[mem].userID === friend) {
+          match = true;
+          break;
+        }
+      }
+      if (!match) {
+        let image = await getUserImage(friend);
+        result.push(
+          <div className="row">
+            <Form.Check id={friend}></Form.Check>
+            <Friend userName={friend} link={image} key={friend} />
+          </div>
+        );
+      }
+    }
+    setFriends(result);
+  } catch (e) {
+    //there was an error, so print it
+    console.log(e);
+  } finally {
+    //we are finished loading, so set loading to false
+    setLoading(false);
+  }
+
+  return true;
+}
+
 function generateInviteButton(currentUser, owner, handleShow) {
   if (currentUser === owner)
     return (
@@ -100,6 +135,35 @@ function generateInviteButton(currentUser, owner, handleShow) {
   else return <div></div>;
 }
 
+function addMembers(event) {
+  console.log(event);
+  console.log("Added members to group!");
+}
+
+function modalBody(loading, friends) {
+  if(loading) return (<p>loading...</p>)
+  else
+  return (
+  <Modal.Body>
+    {/** List the friends below */}
+    <Form id="member-form">
+      {friends}
+      <div className="row">
+        <Form.Check></Form.Check>
+        <Friend userName={"test1"} link={photo2} />
+      </div>
+      <div className="row">
+        <Form.Check></Form.Check>
+        <Friend userName={"test2"} link={photo3} />
+      </div>
+      <div className="row">
+        <Form.Check></Form.Check>
+        <Friend userName={"test3"} link={photo4} />
+      </div>
+    </Form>
+  </Modal.Body>);
+}
+
 function MembersList(params) {
   const [username, loading1] = useGatherCurrentUser();
   const [ownerProfile, loading2] = useGatherOwner(params.group.ownerUsername);
@@ -108,11 +172,27 @@ function MembersList(params) {
     params.group.members.items
   );
 
+  //constants for adding friends to the group
+  const [loading4, setLoading4] = useState(true);
+  const [friends, setFriends] = useState([]);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const inviteButton = generateInviteButton(username, params.group.ownerUsername, handleShow)
+  const useHandleShow = async () => {
+    let res = await gatherFriends(
+      username,
+      params.group.members.items,
+      setLoading4,
+      setFriends
+    );
+    console.log(friends);
+    setShow(true);
+  };
+  const inviteButton = generateInviteButton(
+    username,
+    params.group.ownerUsername,
+    useHandleShow
+  );
 
   return loading1 || loading2 || loading3 ? (
     <div>Loading...</div>
@@ -142,28 +222,19 @@ function MembersList(params) {
           <Modal.Header closeButton>
             <Modal.Title>Add Friends to Group</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            {/** List the friends below */}
-            <Form>
-              <div className="row">
-                <Form.Check></Form.Check>
-                <Friend userName={"test1"} link={photo2} />
-              </div>
-              <div className="row">
-                <Form.Check></Form.Check>
-                <Friend userName={"test2"} link={photo3} />
-              </div>
-              <div className="row">
-                <Form.Check></Form.Check>
-                <Friend userName={"test3"} link={photo4} />
-              </div>
-            </Form>
-          </Modal.Body>
+          {modalBody(loading4, friends)}
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button
+              form="my-form"
+              variant="primary"
+              onClick={(event) => {
+                addMembers(event);
+                handleClose();
+              }}
+            >
               Add Friends
             </Button>
           </Modal.Footer>

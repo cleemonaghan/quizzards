@@ -2,13 +2,40 @@ import React from "react";
 import { Form, Button, FloatingLabel, Accordion } from "react-bootstrap";
 import { QuizAnswer } from "../components";
 
-function QuizQuestion({ qNumber }) {
+function QuizQuestion({ question, index, handleUpdateQuestion }) {
+  // this.state = {
+  //   answers: [{ name: "", weights: "" }],
+  // };
+
+  // this.addQuestion = this.addQuestion.bind(this);
+  // this.updateQuestion = this.updateQuestion.bind(this);
+
+  // function addAnswer() {
+  //   const answers = this.state.answers;
+  //   answers.push({ name: "", img: "" });
+  //   this.setState({ answers });
+  // }
+
+  // function updateAnswer(index, updatedAnswer) {
+  //   const answers = this.state.answers;
+  //   answers.splice(index, 1, updatedAnswer);
+  //   this.setState({ answers });
+  // }
+
+  function handleNameChange(evt) {
+    const newName = evt.nativeEvent.target.value;
+    handleUpdateQuestion(index, {
+      ...question,
+      name: newName,
+    });
+  }
+
   return (
     <div className="question">
-      <h4>Question {qNumber}</h4>
+      <h4>Question {index + 1}</h4>
       <Form.Group className="mb-3" controlId="question">
         <FloatingLabel label="Question" className="mb-3">
-          <Form.Control name="name" type="text" />
+          <Form.Control name="name" type="text" onChange={handleNameChange} />
         </FloatingLabel>
       </Form.Group>
       <div className="ps-5">
@@ -20,11 +47,23 @@ function QuizQuestion({ qNumber }) {
             accept="image/png, image/jpeg"
           />
         </Form.Group>
-        <QuizAnswer aNumber="1" />
+        <QuizAnswer index={0} />
+        {/* {this.state.answers.map((answer, index) => {
+          return (
+            <QuizAnswer
+              index={index}
+              answer={answer}
+              handleUpdateAnswer={this.updateAnswer}
+            />
+          );
+        })} */}
 
         <Button className="mb-3" variant="outline-primary">
           Add Answer +
         </Button>
+        {/* <Button variant="outline-primary" onClick={this.addAnswer}>
+          Add Answer +
+        </Button> */}
       </div>
     </div>
   );

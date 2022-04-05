@@ -2,13 +2,21 @@ import React from "react";
 import { Form, FloatingLabel, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
-function QuizAnswer({ aNumber }) {
+function QuizAnswer({ answer, index, handleUpdateQuestion }) {
+  function handleNameChange(evt) {
+    const newName = evt.nativeEvent.target.value;
+    handleUpdateQuestion(index, {
+      ...answer,
+      name: newName,
+    });
+  }
+
   return (
     <div className="answer">
-      <h4>Answer {aNumber}</h4>
+      <h4>Answer {index + 1}</h4>
       <Form.Group className="mb-3" controlId="answer">
         <FloatingLabel label="Answer" className="mb-3">
-          <Form.Control name="name" type="text" />
+          <Form.Control name="name" type="text" onChange={handleNameChange} />
         </FloatingLabel>
       </Form.Group>
       <div className="ps-5">
@@ -16,7 +24,7 @@ function QuizAnswer({ aNumber }) {
           placement="right"
           overlay={
             <Tooltip id="button-tooltip-2">
-              For each answer of a question, assign points to the quiz results
+              For each answer of a question, assign weights to the quiz results
               here. These will tally up and the highest point total will be the
               result displayed at the end of the quiz.{" "}
             </Tooltip>
@@ -24,7 +32,7 @@ function QuizAnswer({ aNumber }) {
         >
           {({ ref, ...triggerHandler }) => (
             <h4 {...triggerHandler}>
-              Points <InfoCircle className="py-1" ref={ref} />
+              Weights <InfoCircle className="py-1" ref={ref} />
             </h4>
           )}
         </OverlayTrigger>

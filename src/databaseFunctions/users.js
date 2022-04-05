@@ -88,11 +88,11 @@ export async function getUser(username) {
  *
  * @returns a list of all the users
  */
- export async function listAllUsers() {
+export async function listAllUsers() {
   let params = {
     limit: 100,
     //filter: {
-     // Visibility: "public",
+    // Visibility: "public",
     //},
   };
   let result = await API.graphql({
@@ -195,29 +195,32 @@ export async function requestFriend(username, friendUsername) {
     let friendFriendReqList = friend.friendRequests;
 
     //add the users to the other user's friend request list
-    friendFriendReqList.push(username);
-    userOutgoingFriendRequests.push(friendUsername);
-
-    //update the database with the new list
-    await API.graphql({
-      query: updateUserMutation,
-      variables: {
-        input: {
-          username: friendUsername,
-          friendRequests: friendFriendReqList,
+    if (!friendFriendReqList.includes(username)) {
+      //if our username is not in the friend's list, add it and update the db
+      friendFriendReqList.push(username);
+      await API.graphql({
+        query: updateUserMutation,
+        variables: {
+          input: {
+            username: username,
+            outgoingFriendRequests: userOutgoingFriendRequests,
+          },
         },
-      },
-    });
-    await API.graphql({
-      query: updateUserMutation,
-      variables: {
-        input: {
-          username: username,
-          outgoingFriendRequests: userOutgoingFriendRequests,
+      });
+    }
+    if (!userOutgoingFriendRequests.includes(friendUsername)) {
+      //if our friend's username is not in our list, add it and update the db
+      userOutgoingFriendRequests.push(friendUsername);
+      await API.graphql({
+        query: updateUserMutation,
+        variables: {
+          input: {
+            username: friendUsername,
+            friendRequests: friendFriendReqList,
+          },
         },
-      },
-    });
-
+      });
+    }
     return;
   } catch (error) {
     console.error(error);

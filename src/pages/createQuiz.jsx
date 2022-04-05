@@ -26,11 +26,17 @@ class CreateQuiz extends React.Component {
       description: "",
       owner: null,
       ownerUsername: "",
+      results: [{ name: "", img: "" }],
+      questions: [{ name: "", img: "" }],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateAttributes = this.updateAttributes.bind(this);
+    this.addResult = this.addResult.bind(this);
+    this.updateResult = this.updateResult.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
+    this.updateQuestion = this.updateQuestion.bind(this);
   }
 
   async componentDidMount() {
@@ -74,6 +80,30 @@ class CreateQuiz extends React.Component {
     this.updateAttributes();
   }
 
+  addResult() {
+    const results = this.state.results;
+    results.push({ name: "", img: "" });
+    this.setState({ results });
+  }
+
+  updateResult(index, updatedResult) {
+    const results = this.state.results;
+    results.splice(index, 1, updatedResult);
+    this.setState({ results });
+  }
+
+  addQuestion() {
+    const questions = this.state.questions;
+    questions.push({ name: "", img: "" });
+    this.setState({ questions });
+  }
+
+  updateQuestion(index, updatedQuestion) {
+    const questions = this.state.questions;
+    questions.splice(index, 1, updatedQuestion);
+    this.setState({ questions });
+  }
+
   render() {
     return (
       <div className="create_quiz">
@@ -107,17 +137,37 @@ class CreateQuiz extends React.Component {
             {/* Results */}
             <div className="results">
               <h2 className="font-weight-light mt-5">Results</h2>
-              <QuizResult rNumber="1" />
+              {this.state.results.map((result, index) => {
+                return (
+                  <QuizResult
+                    index={index}
+                    result={result}
+                    handleUpdateResult={this.updateResult}
+                  />
+                );
+              })}
 
-              <Button variant="outline-primary">Add Result +</Button>
+              <Button variant="outline-primary" onClick={this.addResult}>
+                Add Result +
+              </Button>
             </div>
 
             {/* Questions and Answers */}
             <div className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
-              <QuizQuestion qNumber="1" />
+              {this.state.questions.map((result, index) => {
+                return (
+                  <QuizQuestion
+                    index={index}
+                    question={result}
+                    handleUpdateQuestion={this.updateQuestion}
+                  />
+                );
+              })}
 
-              <Button variant="outline-primary">Add Question +</Button>
+              <Button variant="outline-primary" onClick={this.addQuestion}>
+                Add Question +
+              </Button>
             </div>
 
             {/* Submit Button */}

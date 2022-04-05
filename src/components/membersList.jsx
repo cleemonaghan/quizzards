@@ -4,7 +4,8 @@ import Friend from "./friend";
 import Member from "./member";
 import { Button, Form, Modal } from "react-bootstrap";
 import { photo2, photo3, photo4, photo5 } from "../images";
-import { getUser, getUserFriends } from "../databaseFunctions/users";
+import { getUser } from "../databaseFunctions/users";
+import { addMemberToGroup } from "../databaseFunctions/groups"
 
 async function getUserImage(username) {
   let user = await getUser(username);
@@ -41,7 +42,7 @@ function useGatherOwner(username) {
     try {
       //fetch the owner's username and image then update the ownerProfile state
       let image = await getUserImage(username);
-      setOwnerProfile(<Friend userName={username} link={image} />);
+      setOwnerProfile(<Member userName={username} link={image} />);
     } catch (e) {
       //there was an error, so print it
       console.log(e);
@@ -65,13 +66,10 @@ function useGatherMembers(ownername, memberList) {
       for (let mem in memberList) {
         if (memberList[mem].userID === ownername) continue;
         let image = await getUserImage(memberList[mem].userID);
-        result.push(
-          <Friend
-            userName={memberList[mem].userID}
-            link={image}
-            key={memberList[mem].userID}
-          />
-        );
+        result.push({
+          name: memberList[mem].userID,
+          image: image,
+        });
       }
       setMembers(result);
     } catch (e) {
@@ -88,27 +86,45 @@ function useGatherMembers(ownername, memberList) {
   return [members, loading];
 }
 
+function displayMembers(loading, members) {
+  if (loading) return <p>loading...</p>;
+  else {
+    if(members.length < 1) {
+      return <p>There are no other members.</p>
+    }
+    let list = [];
+    for (let i in members) {
+      list.push(
+        <Member
+          userName={members[i].name}
+          link={members[i].image}
+          key={members[i].name}
+        />
+      );
+    }
+    return <div>{list}</div>;
+  }
+}
+
 async function gatherFriends(username, memberList, setLoading, setFriends) {
   try {
     setLoading(true);
-    let friendList = await getUserFriends(username);
+    let friendList = (await getUser(username)).friends;
     let result = [];
     for (let friend in friendList) {
       let match = false;
       for (let mem in memberList) {
-        if (memberList[mem].userID === friend) {
+        if (memberList[mem].userID === friendList[friend]) {
           match = true;
           break;
         }
       }
       if (!match) {
-        let image = await getUserImage(friend);
-        result.push(
-          <div className="row">
-            <Form.Check id={friend}></Form.Check>
-            <Friend userName={friend} link={image} key={friend} />
-          </div>
-        );
+        let image = await getUserImage(friendList[friend]);
+        result.push({
+          name: friendList[friend],
+          image: image,
+        });
       }
     }
     setFriends(result);
@@ -135,40 +151,52 @@ function generateInviteButton(currentUser, owner, handleShow) {
   else return <div></div>;
 }
 
-function addMembers(event) {
-  console.log(event);
-  console.log("Added members to group!");
+async function addMembers(event, friends, groupID) {
+  event.preventDefault();
+  let target = event.target;
+  for(let i = 0; i < friends.length; i++) {
+    // if friend is checked, add them to the group
+    if(event.target[i].checked) {
+      console.log("Adding "+target[i].id)
+      await addMemberToGroup(target[i].id, groupID)
+    }
+  }
+  console.log("Done adding members to group!");
 }
 
-function modalBody(loading, friends) {
-  if(loading) return (<p>loading...</p>)
-  else
-  return (
-  <Modal.Body>
-    {/** List the friends below */}
-    <Form id="member-form">
-      {friends}
-      <div className="row">
-        <Form.Check></Form.Check>
-        <Friend userName={"test1"} link={photo2} />
-      </div>
-      <div className="row">
-        <Form.Check></Form.Check>
-        <Friend userName={"test2"} link={photo3} />
-      </div>
-      <div className="row">
-        <Form.Check></Form.Check>
-        <Friend userName={"test3"} link={photo4} />
-      </div>
-    </Form>
-  </Modal.Body>);
+function displayModalBody(loading, friends) {
+  if (loading) return <p>loading...</p>;
+  else {
+    let list = [];
+    for (let i in friends) {
+      list.push(
+        <Form.Group
+          className="row"
+          controlId={friends[i].name}
+          key={friends[i].name}
+        >
+          <Form.Check id={friends[i].name}></Form.Check>
+          <Friend
+            userName={friends[i].name}
+            link={friends[i].image}
+            key={friends[i].name}
+          />
+        </Form.Group>
+      );
+    }
+    if(list.length < 1) {
+      return <p>All your friends are in the group!</p>
+    }
+    return <div>{list}</div>;
+  }
 }
 
 function MembersList(params) {
+  const ownerUsername = params.group.ownerUsername;
   const [username, loading1] = useGatherCurrentUser();
-  const [ownerProfile, loading2] = useGatherOwner(params.group.ownerUsername);
+  const [ownerProfile, loading2] = useGatherOwner(ownerUsername);
   const [members, loading3] = useGatherMembers(
-    params.group.ownerUsername,
+    ownerUsername,
     params.group.members.items
   );
 
@@ -185,12 +213,11 @@ function MembersList(params) {
       setLoading4,
       setFriends
     );
-    console.log(friends);
     setShow(true);
   };
   const inviteButton = generateInviteButton(
     username,
-    params.group.ownerUsername,
+    ownerUsername,
     useHandleShow
   );
 
@@ -209,11 +236,7 @@ function MembersList(params) {
           <div className="col-1"></div>
           {inviteButton}
         </div>
-        {members}
-        <Friend userName={"test1"} link={photo2} />
-        <Friend userName={"test2"} link={photo3} />
-        <Friend userName={"test3"} link={photo4} />
-        <Friend userName={"test4"} link={photo5} />
+        {displayMembers(loading3, members)}
       </div>
 
       <div>
@@ -222,19 +245,24 @@ function MembersList(params) {
           <Modal.Header closeButton>
             <Modal.Title>Add Friends to Group</Modal.Title>
           </Modal.Header>
-          {modalBody(loading4, friends)}
+          <Modal.Body>
+            {/** List the friends below */}
+            <Form
+              id="member-form"
+              onSubmit={(event) => {
+                addMembers(event, friends, params.group.id);
+                handleClose();
+              }}
+            >
+              {displayModalBody(loading4, friends)}
+            </Form>
+          </Modal.Body>
+
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button
-              form="my-form"
-              variant="primary"
-              onClick={(event) => {
-                addMembers(event);
-                handleClose();
-              }}
-            >
+            <Button form="member-form" variant="primary" type="submit">
               Add Friends
             </Button>
           </Modal.Footer>

@@ -3,9 +3,15 @@ import {
   createGroup as createGroupMutation,
   updateGroup as updateGroupMutation,
   createMembers,
+  createMemberRequests,
+  deleteMemberRequests
 } from "../graphql/mutations";
-import { getGroup as getGroupQuery,
-        listGroups as listGroupQuery, } from "../graphql/queries";
+import {
+  getGroup as getGroupQuery,
+  listGroups as listGroupQuery,
+  getMemberRequests,
+  listMemberRequests,
+} from "../graphql/queries";
 
 import { getUser } from "./users";
 
@@ -48,7 +54,7 @@ export async function createGroup(params) {
         },
       },
     });
-    //if we updated the profile picture, the object is under updateGroup 
+    //if we updated the profile picture, the object is under updateGroup
     return res.data.updateGroup;
   }
   //return the created group object
@@ -101,11 +107,11 @@ export async function getGroup(id) {
   return result.data.getGroup;
 }
 
-export async function getGroups(){
+export async function getGroups() {
   let params = {
     limit: 20,
     //filter: {
-     // Visibility: "public",
+    // Visibility: "public",
     //},
   };
   let result = await API.graphql({
@@ -125,6 +131,50 @@ export async function addMemberToGroup(memberID, groupID) {
     variables: { input: params },
   });
   return res;
+}
+
+export async function requestMemberToGroup(memberID, groupID) {
+  let params = {
+    userID: memberID,
+    groupID: groupID,
+  };
+  let res = await API.graphql({
+    query: createMemberRequests,
+    variables: { input: params },
+  });
+  return res;
+}
+
+export async function addMemberfromRequestList(memberID, groupID) {
+  //first find the memberRequest id
+  let filter = {
+    and: [
+      {
+        userID: {
+          eq: memberID, // filter userID == memberID
+        },
+      },
+      {
+        groupID: {
+          eq: groupID, // filter groupID == groupID
+        },
+      },
+    ],
+  };
+  let res = await API.graphql({
+    query: listMemberRequests,
+    variables: { filter: filter },
+  });
+  //then delete the memberRequest
+  console.log(res.data.listMemberRequests.items[0].id);
+  
+  let params = {id: res.data.listMemberRequests.items[0].id}
+  await API.graphql({
+    query: deleteMemberRequests,
+    variables: { input: params },
+  });
+  //then create a member entry
+  addMemberToGroup(memberID, groupID)
 }
 
 export async function recommendGroups(friendList, userGroups) {

@@ -53,7 +53,7 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
             <QuizAnswer
               index={index}
               answer={answer}
-              handleUpdateAnswer={this.updateAnswer}
+              handleUpdateAnswer={this.passAddAnswer}
             />
           );
         })} */}

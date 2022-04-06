@@ -9,7 +9,7 @@ import {
   Accordion,
 } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
-import { QuizQuestion, QuizResult } from "../components";
+import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
 
 import Amplify, { Hub } from "aws-amplify";
@@ -27,7 +27,7 @@ class CreateQuiz extends React.Component {
       owner: null,
       ownerUsername: "",
       results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "" }],
+      questions: [{ name: "", img: "", answers: [{ name: "" }] }],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -35,6 +35,8 @@ class CreateQuiz extends React.Component {
     this.updateAttributes = this.updateAttributes.bind(this);
     this.addResult = this.addResult.bind(this);
     this.updateResult = this.updateResult.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
+    this.updateQuestion = this.updateQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
   }
@@ -94,7 +96,7 @@ class CreateQuiz extends React.Component {
 
   addQuestion() {
     const questions = this.state.questions;
-    questions.push({ name: "", img: "" });
+    questions.push({ name: "", img: "", answers: [{ name: "" }] });
     this.setState({ questions });
   }
 
@@ -103,6 +105,18 @@ class CreateQuiz extends React.Component {
     questions.splice(index, 1, updatedQuestion);
     this.setState({ questions });
   }
+
+  // addAnswer(question) {
+  //   const answers = question.answers;
+  //   answers.push({ name: "" });
+  //   this.setState({ answers });
+  // }
+
+  // updateAnswer(index, updatedAnswer) {
+  // const answers = this.state.answers;
+  // answers.splice(index, 1, updatedAnswer);
+  // this.setState({ answers });
+  // }
 
   render() {
     return (
@@ -155,15 +169,44 @@ class CreateQuiz extends React.Component {
             {/* Questions and Answers */}
             <div className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
-              {this.state.questions.map((result, index) => {
+              {this.state.questions.map((question, index) => {
+                return (
+                  <div>
+                    <QuizQuestion
+                      index={index}
+                      question={question}
+                      handleUpdateQuestion={this.updateQuestion}
+                    />
+                    {/* {question.answers.map((answers, subIndex) => {
+                      return (
+                        <div className="ps-5">
+                          <QuizAnswer
+                            index={index}
+                            answer={question}
+                            handleUpdateAnswer={this.updateAnswer}
+                          />
+                        </div>
+                      );
+                    })}
+                    <Button
+                      className="ms-5 mb-3"
+                      variant="outline-primary"
+                      onClick={this.addAnswer(question)}
+                    >
+                      Add Answer +
+                    </Button> */}
+                  </div>
+                );
+              })}
+              {/* {this.state.questions.map((question, index) => {
                 return (
                   <QuizQuestion
                     index={index}
-                    question={result}
+                    question={question}
                     handleUpdateQuestion={this.updateQuestion}
                   />
                 );
-              })}
+              })} */}
 
               <Button variant="outline-primary" onClick={this.addQuestion}>
                 Add Question +

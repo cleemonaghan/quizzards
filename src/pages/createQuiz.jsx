@@ -1,13 +1,7 @@
 import React from "react";
 import { createQuiz, updateQuiz, getQuiz } from "../databaseFunctions/quizzes";
 import "@aws-amplify/ui-react/styles.css";
-import {
-  Form,
-  Button,
-  FloatingLabel,
-  Dropdown,
-  Accordion,
-} from "react-bootstrap";
+import { Form, Button, FloatingLabel, Dropdown } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
@@ -68,7 +62,7 @@ class CreateQuiz extends React.Component {
 
   handleChange(event) {
     let target = event.target;
-    let value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === "text" ? target.checked : target.value;
     let quizName = target.quizName;
     this.setState({
       [quizName]: value,
@@ -177,7 +171,7 @@ class CreateQuiz extends React.Component {
                       question={question}
                       handleUpdateQuestion={this.updateQuestion}
                     />
-                    {/* {question.answers.map((answers, subIndex) => {
+                    {question.answers.map((answers, subIndex) => {
                       return (
                         <div className="ps-5">
                           <QuizAnswer
@@ -191,10 +185,10 @@ class CreateQuiz extends React.Component {
                     <Button
                       className="ms-5 mb-3"
                       variant="outline-primary"
-                      onClick={this.addAnswer(question)}
+                      // onClick={this.addAnswer(question)}
                     >
                       Add Answer +
-                    </Button> */}
+                    </Button>
                   </div>
                 );
               })}

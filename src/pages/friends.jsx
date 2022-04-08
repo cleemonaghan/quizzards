@@ -94,15 +94,14 @@ class Friends extends React.Component {
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
-      for (let i = 0; i < list.length; i++) {
-        console.log(list[i].username)
-        let friend = list[i];
+      list.forEach(element => {
+        console.log(element.username);
         result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
+          <div className="col-lg-3 col-sm-6" key={element.username}>
             <User
-              image={friend.image}
-              username={friend.username}
-              status={friend.status}
+              image={element.image}
+              username={element.username}
+              status={element.status}
               ourUser={this.state.username}
               lists={{
                 friends: this.state.friends,
@@ -114,7 +113,7 @@ class Friends extends React.Component {
             />
           </div>
         );
-      }
+      });
       return result;
     }
   }

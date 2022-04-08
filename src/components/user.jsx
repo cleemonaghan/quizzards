@@ -159,47 +159,15 @@ class User extends React.Component {
                 " " +
                 this.state.friendUsername
             );
-            //await requestFriend(this.state.ourUser, this.state.friendUsername);
-            /*const [oldList, newList, i] = this.updateList(
+            await requestFriend(this.state.ourUser, this.state.friendUsername);
+            const [oldList, newList] = this.updateList(
               this.state.lists.recommendations,
               this.state.lists.outgoingFriendReqs,
               "Waiting"
-            );*/
-            //console.log(oldList, newList)
-            this.state.lists.update((state) => {
-              console.log("Starting");
-              let i = 0;
-              while (i < state.recommendations.length) {
-                if (
-                  state.recommendations[i].username ===
-                  this.state.friendUsername
-                ) {
-                  console.log(i);
-                  break;
-                }
-                i++;
-              }
-              let element = state.recommendations[i];
-              console.log("Moving: ");
-              console.log(element);
-              console.log("OutgoingFriendReqs: ");
-              let second = [...state.outgoingFriendReqs];
-              second.push({
-                image: element.image,
-                status: "Waiting",
-                username: element.username,
-              });
-              console.log(second);
-
-              console.log("Recommendations: ");
-              let first = [...state.recommendations];
-              first.splice(i, 1);
-              console.log(first);
-              console.log("Ending");
-              return {
-                outgoingFriendReqs: second,
-                recommendations: first,
-              };
+            );
+            this.state.lists.update({
+              recommendations: oldList,
+              outgoingFriendReqs: newList,
             });
           }}
         >
@@ -222,19 +190,26 @@ class User extends React.Component {
         console.log(removedNode);
         removedNode.status = newStatus;
         newList.push({
+          username: removedNode[0].username,
           image: removedNode[0].image,
           status: newStatus,
-          username: removedNode[0].username,
         });
+        console.log("Here are the lists:")
+        console.log(oldList);
         console.log(newList);
+        
+        return [oldList, newList];
 
-        return [oldList, newList, i];
       } else {
         console.log("not " + oldList[i].username);
+        
       }
       i++;
     }
-    console.log("Error with updating lists");
+    console.log("Error! but here are the lists:")
+    console.log(oldList);
+    console.log(newList);
+    
     return [oldList, newList];
   }
 

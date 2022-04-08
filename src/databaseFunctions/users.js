@@ -115,7 +115,7 @@ export async function getUserGroups(username) {
   if (!username) return;
   let userVal = await getUser(username);
   //console.log("returning groups");
-  return userVal.groups.items;
+  return userVal.groupOwners.items;
 }
 
 // User Quizzes ---------------------------

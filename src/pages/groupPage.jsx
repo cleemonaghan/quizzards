@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Storage } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { Link, useParams } from "react-router-dom";
 import {
   Dropdown,
@@ -17,7 +17,8 @@ import {
   Loading,
 } from "../components";
 
-import { getGroup } from "../databaseFunctions/groups";
+import { getGroup} from "../databaseFunctions/groups";
+import {getUserGroups} from "../databaseFunctions/users.js";
 
 /** This function gathers the resources necessary to load the group page.
  *
@@ -29,6 +30,8 @@ function useGatherResources(groupID) {
   const [loading, setLoading] = useState(true);
   const [group, setGroup] = useState(null);
   const [groupImage, setGroupImage] = useState(null);
+  const [user, setUser] = useState(null);
+  const [userGroups, setUserGroups] = useState([]);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -44,6 +47,16 @@ function useGatherResources(groupID) {
       //get the group image
       res = await Storage.get(res.profilePicture);
       setGroupImage(res);
+      //get the user
+      res = await Auth.currentAuthenticatedUser();
+      setUser(res.username);
+      //get the user groups
+
+      console.log(res.username);
+      res = await getUserGroups(res.username);
+      console.log(res);
+      setUserGroups(res);
+
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -52,11 +65,55 @@ function useGatherResources(groupID) {
       setLoading(false);
     }
   }
+  
   useEffect(() => {
     getInfo();
   }, []);
 
-  return [group, groupImage, error, loading];
+  return [group, groupImage, error, loading, user, userGroups];
+}
+
+function userButton(groupID, user, userGroups){
+  console.log("group ID",groupID);
+  console.log("userGroups",userGroups);
+  console.log("userGroups length", userGroups.length);
+  //let response = await Auth.currentAuthenticatedUser();
+  //let user = response.username;
+  //console.log(user);
+  //const groupArr = await getUserGroups(user);
+  //console.log(groupArr.length);
+  let myGroup = false;
+
+  for(let i = 0; i< userGroups.length; i++){
+    console.log(userGroups[i]);
+    let group = userGroups[i].groupID;
+    console.log(groupID);
+    if(groupID == group){
+      myGroup = true;
+      break;
+    }
+  }
+
+  var result = [];
+
+  console.log(myGroup);
+
+  if(myGroup){
+    result.push(    
+      <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
+      <Button variant="outline-primary">Edit Group </Button>{" "}
+    </Link></div>        
+);
+  }
+  else{
+    // result.push(
+    //   <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
+    //   <Button variant="outline-primary">Edit Group </Button>{" "}
+    // </Link></div> 
+    // );
+  }
+  console.log(result);
+  return result;
 }
 
 /** This function loads a group page and returns the formatted html to display the page.
@@ -67,7 +124,10 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
 
-  const [group, groupImage, error, loading] = useGatherResources(groupID);
+  const [group, groupImage, error, loading, user, userGroups] = useGatherResources(groupID);
+  //console.log(userGroups);
+  let userB =  userButton(groupID, user, userGroups);
+  
 
   if (error) return failToLoad();
   return loading ? (
@@ -104,11 +164,7 @@ function GroupPage() {
               <Button variant="outline-primary">Add Quiz +</Button>{" "}
             </Link>
           </div>
-          <div className="col-2 px-0">
-            <Link to={{ pathname: "/groupEdit/" + groupID }}>
-              <Button variant="outline-primary">Edit Group </Button>{" "}
-            </Link>
-          </div>
+          {userB}
           <div className="col-5">
             <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
               <ToggleButton

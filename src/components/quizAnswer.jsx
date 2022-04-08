@@ -2,10 +2,10 @@ import React from "react";
 import { Form, FloatingLabel, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
-function QuizAnswer({ answer, index, handleUpdateQuestion }) {
+function QuizAnswer({ answer, index, handleUpdateAnswer }) {
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;
-    handleUpdateQuestion(index, {
+    handleUpdateAnswer(index, {
       ...answer,
       name: newName,
     });

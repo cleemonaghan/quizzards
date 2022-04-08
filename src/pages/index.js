@@ -9,5 +9,4 @@ export { default as QuizPage } from "./quizPage";
 export { default as CreateGroup } from "./createGroup";
 export { default as CreateQuiz } from "./createQuiz";
 export { default as GroupEdit } from "./groupEdit";
-export { default as AddResult } from "./addResult";
 export { default as Friends } from "./friends";

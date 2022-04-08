@@ -47,20 +47,20 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
             accept="image/png, image/jpeg"
           />
         </Form.Group>
-        <QuizAnswer index={0} />
+        {/* <QuizAnswer index={0} /> */}
         {/* {this.state.answers.map((answer, index) => {
           return (
             <QuizAnswer
               index={index}
               answer={answer}
-              handleUpdateAnswer={this.updateAnswer}
+              handleUpdateAnswer={this.passAddAnswer}
             />
           );
         })} */}
 
-        <Button className="mb-3" variant="outline-primary">
+        {/* <Button className="mb-3" variant="outline-primary">
           Add Answer +
-        </Button>
+        </Button> */}
         {/* <Button variant="outline-primary" onClick={this.addAnswer}>
           Add Answer +
         </Button> */}

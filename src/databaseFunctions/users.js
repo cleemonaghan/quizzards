@@ -195,9 +195,9 @@ export async function requestFriend(username, friendUsername) {
     let friendFriendReqList = friend.friendRequests;
 
     //add the users to the other user's friend request list
-    if (!friendFriendReqList.includes(username)) {
+    if (!userOutgoingFriendRequests.includes(friendUsername)) {
       //if our username is not in the friend's list, add it and update the db
-      friendFriendReqList.push(username);
+      userOutgoingFriendRequests.push(friendUsername);
       await API.graphql({
         query: updateUserMutation,
         variables: {
@@ -208,9 +208,9 @@ export async function requestFriend(username, friendUsername) {
         },
       });
     }
-    if (!userOutgoingFriendRequests.includes(friendUsername)) {
+    if (!friendFriendReqList.includes(username)) {
       //if our friend's username is not in our list, add it and update the db
-      userOutgoingFriendRequests.push(friendUsername);
+      friendFriendReqList.push(username);
       await API.graphql({
         query: updateUserMutation,
         variables: {

@@ -229,17 +229,21 @@ function useRequestButton(
   //let title = "Request to Join";
   const [disable, setDisable] = useState(false);
   const [title, setTitle] = useState("Request to Join");
-  if (currentUser === owner)
+  if (currentUser === owner){
+    let color = "outline-success";
+    if(members.length < 1) {
+      color = "outline-primary"
+    }
     return (
       <div className="float-end col-5 mt-2">
         <Button
-          variant="outline-primary"
+          variant={color}
           onClick={handleShow}
         >
-          Accept
+          Accept Requests
         </Button>{" "}
       </div>
-    );
+    );}
   else if (
     requested.filter(function (e) {
       return e.name === currentUser;

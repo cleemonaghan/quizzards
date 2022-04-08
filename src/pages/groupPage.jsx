@@ -19,7 +19,7 @@ import {
 } from "../components";
 
 import { getGroup} from "../databaseFunctions/groups";
-import {getUserGroups} from "../databaseFunctions/users.js";
+import {getUserOwnedGroups} from "../databaseFunctions/users.js";
 
 /** This function gathers the resources necessary to load the group page.
  *
@@ -54,7 +54,7 @@ function useGatherResources(groupID) {
       //get the user groups
 
       console.log(res.username);
-      res = await getUserGroups(res.username);
+      res = await getUserOwnedGroups(res.username);
       console.log(res);
       setUserGroups(res);
 

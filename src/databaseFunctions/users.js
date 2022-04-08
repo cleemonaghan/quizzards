@@ -115,6 +115,15 @@ export async function getUserGroups(username) {
   if (!username) return;
   let userVal = await getUser(username);
   //console.log("returning groups");
+  return userVal.items;
+}
+
+export async function getUserOwnedGroups(username) {
+  //console.log("in getUserGroups");
+  //let username = user.username;
+  if (!username) return;
+  let userVal = await getUser(username);
+  //console.log("returning groups");
   return userVal.groupOwners.items;
 }
 

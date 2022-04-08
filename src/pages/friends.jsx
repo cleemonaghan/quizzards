@@ -2,7 +2,11 @@ import React from "react";
 import { User, failToLoad, Loading } from "../components";
 import { MDBCol, MDBInput } from "mdbreact";
 
-import { getUser, listAllUsers, recommendFriends } from "../databaseFunctions/users.js";
+import {
+  getUser,
+  listAllUsers,
+  recommendFriends,
+} from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
 
@@ -11,15 +15,17 @@ class Friends extends React.Component {
     super();
     this.state = {
       username: "",
-      friendElements: null,
-      friendReqElements: null,
-      recommendationElements: null,
-      outgoingFriendReqElements: null,
-      searchBar: "",
+      friends: [],
+      friendReqs: [],
+      outgoingFriendReqs: [],
+      recommendations: [],
+      searchBar: [],
       error: null,
       loading: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.setState = this.setState.bind(this);
+    this.displayList = this.displayList.bind(this);
   }
 
   /** This method initalizes the state of the Group component.
@@ -47,10 +53,10 @@ class Friends extends React.Component {
 
       //update with the user's friends, friend reqs, and recommended friends
       this.setState({
-        friendElements: yourFriends,
-        friendReqElements: yourFriendReqs,
-        outgoingFriendReqElements: yourOutgoingFriendReqs,
-        recommendationElements: yourRecommendations,
+        friends: yourFriends,
+        friendReqs: yourFriendReqs,
+        outgoingFriendReqs: yourOutgoingFriendReqs,
+        recommendations: yourRecommendations,
       });
     } catch (err) {
       console.log(err);
@@ -61,29 +67,50 @@ class Friends extends React.Component {
     }
   }
 
-  /** This method fetches and returns the list of groups that the user is in
-   * formatted in html form.
-   *
-   * @param {JSON} groupArr the user's profile data
-   * @returns a list of the html for each of their groups
-   */
   async fetchYourFriends(userArr) {
-    // if there are no groups,
+    // if there are no friends,
     if (userArr.friends === undefined || userArr.friends.length < 1) {
-      return <p>You have no friends</p>;
+      return [];
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       for (let i = 0; i < userArr.friends.length; i++) {
         let friend = await getUser(userArr.friends[i]);
         let friendImage = await Storage.get(friend.profilePicture);
+        result.push({
+          username: friend.username,
+          image: friendImage,
+          status: "Friends",
+        });
+      }
+      return result;
+    }
+  }
+
+  displayList(list, emptyMessage) {
+    // if there are no groups,
+    if (list.length < 1) {
+      return <p>{emptyMessage}</p>;
+    } else {
+      //for each group we are in, fetch the group and add it to the result array
+      var result = [];
+      for (let i = 0; i < list.length; i++) {
+        console.log(list[i].username)
+        let friend = list[i];
         result.push(
           <div className="col-lg-3 col-sm-6" key={i}>
             <User
-              image={friendImage}
-              username={friend.name}
-              status={"Friends"}
-              ourUser={userArr.username}
+              image={friend.image}
+              username={friend.username}
+              status={friend.status}
+              ourUser={this.state.username}
+              lists={{
+                friends: this.state.friends,
+                friendReqs: this.state.friendReqs,
+                outgoingFriendReqs: this.state.outgoingFriendReqs,
+                recommendations: this.state.recommendations,
+                update: this.setState,
+              }}
             />
           </div>
         );
@@ -98,23 +125,18 @@ class Friends extends React.Component {
       userArr.friendRequests === undefined ||
       userArr.friendRequests.length < 1
     ) {
-      return <p>You have no Incoming Friend Requests</p>;
+      return [];
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       for (let i = 0; i < userArr.friendRequests.length; i++) {
-        let friendReq = await getUser(userArr.friendRequests[i]);
-        let friendImage = await Storage.get(friendReq.profilePicture);
-        result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
-            <User
-              image={friendImage}
-              username={friendReq.name}
-              status={"Requested"}
-              ourUser={userArr.username}
-            />
-          </div>
-        );
+        let friend = await getUser(userArr.friendRequests[i]);
+        let friendImage = await Storage.get(friend.profilePicture);
+        result.push({
+          username: friend.username,
+          image: friendImage,
+          status: "Requested",
+        });
       }
       return result;
     }
@@ -126,23 +148,18 @@ class Friends extends React.Component {
       userArr.outgoingFriendRequests === undefined ||
       userArr.outgoingFriendRequests.length < 1
     ) {
-      return <p>You have no Outgoing Friend Requests</p>;
+      return [];
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       for (let i = 0; i < userArr.outgoingFriendRequests.length; i++) {
         let friendReq = await getUser(userArr.outgoingFriendRequests[i]);
         let friendImage = await Storage.get(friendReq.profilePicture);
-        result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
-            <User
-              image={friendImage}
-              username={friendReq.name}
-              status={"Waiting"}
-              ourUser={userArr.username}
-            />
-          </div>
-        );
+        result.push({
+          username: friendReq.username,
+          image: friendImage,
+          status: "Waiting",
+        });
       }
       return result;
     }
@@ -168,56 +185,48 @@ class Friends extends React.Component {
 
     // if there are no groups,
     if (recommendations === undefined || recommendations.length < 1) {
-      return <p>You have no recommendations</p>;
+      return [];
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       for (let i = 0; i < recommendations.length; i++) {
         let friend = await getUser(recommendations[i]);
         let friendImage = await Storage.get(friend.profilePicture);
-        result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
-            <User
-              image={friendImage}
-              username={friend.name}
-              status={"Unconnected"}
-              ourUser={username}
-            />
-          </div>
-        );
+        result.push({
+          username: friend.username,
+          image: friendImage,
+          status: "Unconnected",
+        });
       }
+      console.log(result);
       return result;
     }
   }
 
   async getFriendBySearch(substr) {
     var allUsers = (await listAllUsers()).items;
-    console.log(allUsers)
     var result = [];
     for (let i = 0; i < allUsers.length; i++) {
       let user = allUsers[i];
-      if (user.name.includes(substr)) {
-        let userImage = await Storage.get(user.profilePicture);
-        result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
-            <User
-              image={userImage}
-              username={user.name}
-              status={"Friend"}
-              ourUser={this.state.username}
-            />
-          </div>
-        );
+      if (user.name.includes(substr) && user.username !== this.state.username) {
+        let image = await Storage.get(user.profilePicture);
+        result.push({
+          username: user.username,
+          image: image,
+          status: "Unknown",
+        });
       }
     }
     return result;
   }
 
-  async handleChange(e){
-    if(e.target.value === "") {
-      this.setState({searchBar: [] });
-    }
-    else this.setState({searchBar: await this.getFriendBySearch(e.target.value) });
+  async handleChange(e) {
+    if (e.target.value === "") {
+      this.setState({ searchBar: [] });
+    } else
+      this.setState({
+        searchBar: await this.getFriendBySearch(e.target.value),
+      });
   }
 
   render() {
@@ -241,31 +250,50 @@ class Friends extends React.Component {
               </MDBCol>
             </div>
           </div>
-          
-          <div className="row">{this.state.searchBar}</div>
+
+          <div className="row">
+            {this.displayList(this.state.searchBar, "")}
+          </div>
 
           {/* Display the user's friends */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Friends</h1>
           </div>
-          <div className="row">{this.state.friendElements}</div>
+          <div className="row">
+            {this.displayList(this.state.friends, "You have no friends")}
+          </div>
 
           {/* Display the user's friend requests */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Friend Requests</h1>
           </div>
           <h4 className="font-weight-bold">Incoming:</h4>
-          <div className="row">{this.state.friendReqElements}</div>
+          <div className="row">
+            {this.displayList(
+              this.state.friendReqs,
+              "You have no Incoming Friend Requests"
+            )}
+          </div>
 
           {/* Display the user's friend requests */}
           <h4 className="font-weight-bold">Outgoing:</h4>
-          <div className="row">{this.state.outgoingFriendReqElements}</div>
+          <div className="row">
+            {this.displayList(
+              this.state.outgoingFriendReqs,
+              "You have no Outgoing Friend Requests"
+            )}
+          </div>
 
           {/* Display the user's recommended friends */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Suggested Friends</h1>
           </div>
-          <div className="row">{this.state.recommendationElements}</div>
+          <div className="row">
+            {this.displayList(
+              this.state.recommendations,
+              "You have no Recommendations"
+            )}
+          </div>
         </div>
       </div>
     );

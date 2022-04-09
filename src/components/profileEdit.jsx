@@ -204,7 +204,7 @@ class ProfileEdit extends React.Component {
                 style={{ height: "200px", width: "200px" }}
               />
             </div>
-            {/* Color Theme */}
+            {/* Color Theme 
             <Form.Group className="mb-3" controlId="color_theme">
               <Form.Label>Theme Color</Form.Label>
               <Form.Control
@@ -214,6 +214,7 @@ class ProfileEdit extends React.Component {
                 title="Choose your color"
               />
             </Form.Group>
+            */}
             {/* Biography */}
             <Form.Group className="mb-3" controlId="biography">
               <FloatingLabel label="About me" className="mb-3">

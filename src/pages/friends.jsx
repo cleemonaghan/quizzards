@@ -95,7 +95,6 @@ class Friends extends React.Component {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       list.forEach(element => {
-        console.log(element.username);
         result.push(
           <div className="col-lg-3 col-sm-6" key={element.username}>
             <User
@@ -197,7 +196,6 @@ class Friends extends React.Component {
           status: "Unconnected",
         });
       }
-      console.log(result);
       return result;
     }
   }

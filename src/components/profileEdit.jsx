@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { photo as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
 
@@ -17,6 +17,7 @@ class ProfileEdit extends React.Component {
       color_theme: "blue",
       profile_pic: null,
       biography: "",
+      alert: false,
     };
 
     this.changedPhoto = false;
@@ -122,6 +123,7 @@ class ProfileEdit extends React.Component {
           this.tempPhoto = this.defaultImage;
           this.setState({
             profile_pic: this.defaultImageBlob,
+            alert: true
           });
         }
       }
@@ -134,6 +136,20 @@ class ProfileEdit extends React.Component {
     this.updateAttributes();
     //close the profile editor
     this.close();
+  }
+
+  displayAlert() {
+    if (this.state.alert) {
+      return (
+        <Alert variant="danger" onClose={() => this.setState({alert: false})} dismissible>
+          <Alert.Heading>Oh snap! That photo is too large!</Alert.Heading>
+          <p>
+            Try using a smaller photo 
+          </p>
+        </Alert>
+      );
+    }
+    return <div></div>;
   }
 
   render() {
@@ -226,6 +242,7 @@ class ProfileEdit extends React.Component {
                 />
               </FloatingLabel>
             </Form.Group>
+            <div>{this.displayAlert()}</div>
             {/* Submit Button */}
             <Button variant="primary" type="submit">
               Submit

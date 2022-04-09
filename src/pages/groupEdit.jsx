@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getGroup, updateGroup } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
-import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { Storage } from "aws-amplify";
 import { useParams, Navigate } from "react-router-dom";
 import { failToLoad, Loading } from "../components";
@@ -28,6 +28,8 @@ function GroupEdit() {
     changedImage,
     setChangedImage
   );
+
+  const [alert, setAlert] = useState(false);
 
   if (error) return failToLoad();
   else if (submit) {
@@ -76,7 +78,8 @@ function GroupEdit() {
                   setChangedImage,
                   setTempImage,
                   setGroupImage,
-                  groupImage
+                  groupImage,
+                  setAlert
                 )
               }
               accept="image/png, image/jpeg"
@@ -103,6 +106,7 @@ function GroupEdit() {
               />
             </FloatingLabel>
           </Form.Group>
+          <div>{displayAlert(alert, setAlert)}</div>
           {/* Submit Button */}
           <Button variant="primary" type="submit">
             Update Group
@@ -111,6 +115,20 @@ function GroupEdit() {
       </div>
     </div>
   );
+}
+
+function displayAlert(alert, setAlert) {
+  if (alert) {
+    return (
+      <Alert variant="danger" onClose={() => setAlert(false)} dismissible>
+        <Alert.Heading>Oh snap! That photo is too large!</Alert.Heading>
+        <p>
+          Try using a smaller photo 
+        </p>
+      </Alert>
+    );
+  }
+  return <div></div>;
 }
 
 /**
@@ -153,7 +171,8 @@ function changeImage(
   setChangedImage,
   setTempImage,
   setGroupImage,
-  groupImage
+  groupImage,
+  setAlert
 ) {
   //check if they they submitted files
   if (event.target.files) {
@@ -171,6 +190,7 @@ function changeImage(
       } else {
         //the file was too big, so revert to the default
         setTempImage(groupImage);
+        setAlert(true);
       }
     }
   }
@@ -224,7 +244,6 @@ function handleSubmit(
   setGroupImage,
   setSubmit
 ) {
-  
   event.preventDefault();
   //update the color scheme
   //update the user profile

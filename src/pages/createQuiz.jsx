@@ -6,25 +6,23 @@ import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
 
-import Amplify, { Hub } from "aws-amplify";
-import config from "../aws-exports";
-Amplify.configure(config);
-
 class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
     this.user = null;
     this.state = {
-      id: "",
       quizName: "",
       description: "",
-      owner: null,
       ownerUsername: "",
+      temp_picture: null,
+      quiz_picture: null,
       results: [{ name: "", img: "" }],
       questions: [{ name: "", img: "", answers: [{ name: "" }] }],
+      validated: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateAttributes = this.updateAttributes.bind(this);
     this.addResult = this.addResult.bind(this);
@@ -33,47 +31,82 @@ class CreateQuiz extends React.Component {
     this.updateQuestion = this.updateQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
+    this.publishQuiz = this.publishQuiz.bind(this);
   }
 
   async componentDidMount() {
     try {
       this.user = await Auth.currentAuthenticatedUser();
+      this.setState({ ownerUsername: this.user.username });
+
+      // get default file image
+      this.defaultImage = await Storage.get("default_group_image");
+      //load the image if there is one
+      this.setState({
+        temp_picture: this.defaultImage,
+        profile_pic: "default_group_image",
+      });
     } catch (err) {
-      console.log("There was an error logging: ", err);
+      console.log("There was an error: ", err);
     }
   }
 
   /**
-   * This method updates the user's attributes in AWS Cognito and in the database.
+   * This method updates the state
    */
   async updateAttributes() {
     let params = {
       quizName: this.state.quizName,
-    };
-    await Auth.updateQuizAttributes(this.user, params);
-
-    params = {
-      //highlightColor:  this.state.color_theme,
       description: this.state.description,
+      ownerUsername: this.state.ownerUsername,
+      results: [{ name: "", img: "" }],
+      questions: [{ name: "", img: "", answers: [{ name: "" }] }],
     };
 
     await updateQuiz(this.user, params);
   }
 
+  /**
+   * This method updates the quiz in the DB
+   */
+  async publishQuiz() {
+    console.log(this.state.quizName);
+    console.log(this.state.ownerUsername);
+    console.log(this.state.description);
+    console.log(this.state.picture);
+
+    //await createQuiz(quizName, username, description, picture)
+  }
+
   handleChange(event) {
     let target = event.target;
-    let value = target.type === "text" ? target.checked : target.value;
-    let quizName = target.quizName;
+    let value = target.value;
+    let name = target.name;
+    console.log("Event happened: " + value);
     this.setState({
-      [quizName]: value,
+      [name]: value,
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    //update the color scheme
-    //update the user profile
-    this.updateAttributes();
+  handleImageChange(event) {
+    //check if they they submitted files
+    console.log("Updating Picture");
+    if (event.target.files) {
+      if (event.target.files.length > 0 && event.target.files[0].size > 1) {
+        let file = event.target.files[0];
+        console.log(file);
+        this.setState({
+          temp_picture: URL.createObjectURL(file),
+          quiz_picture: file,
+        });
+      } else {
+        //no file was uploaded, so revert to the default
+        this.setState({
+          temp_picture: this.defaultImage,
+          quiz_picture: "default_group_image",
+        });
+      }
+    }
   }
 
   addResult() {
@@ -112,33 +145,83 @@ class CreateQuiz extends React.Component {
   // this.setState({ answers });
   // }
 
+  handleSubmit(event) {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      console.log("Failed");
+      event.stopPropagation();
+    } else {
+      this.publishQuiz();
+      console.log(this.state);
+    }
+    this.setState({ validated: true });
+  }
+
   render() {
     return (
       <div className="create_quiz">
         <div className="container">
           <h1 className="font-weight-light my-5">Create Quiz</h1>
-          <Form onSubmit={this.handleSubmit}>
+          <Form
+            noValidate
+            validated={this.state.validated}
+            onSubmit={this.handleSubmit}
+          >
             {/* Name */}
             <Form.Group className="mb-3" controlId="name">
-              <FloatingLabel label="Name" className="mb-3">
+              <FloatingLabel label="Title" className="mb-3">
                 <Form.Control
-                  name="name"
+                  required
+                  name="quizName"
                   type="text"
                   value={this.state.quizName}
                   onChange={this.handleChange}
                 />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a tile for the quiz.
+                </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
 
+            {/* Quiz Picture */}
+            <Form.Group controlId="quiz_pic" className="mb-3">
+              <Form.Label>Quiz Picture</Form.Label>
+              <Form.Control
+                required
+                type="file"
+                name="quiz_pic"
+                onChange={this.handleImageChange}
+                accept="image/png, image/jpeg"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a picture for the quiz.
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <div className="mb-3">
+              <img
+                id="quiz_pic_display"
+                className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
+                alt=""
+                src={this.state.temp_picture}
+                style={{ height: "200px", width: "400px" }}
+              />
+            </div>
+
             {/* Description */}
             <Form.Group className="mb-3" controlId="description">
-              <FloatingLabel label="Quiz description" className="mb-3">
+              <FloatingLabel label="Description" className="mb-3">
                 <Form.Control
+                  required
                   name="description"
                   type="text"
                   value={this.state.description}
                   onChange={this.handleChange}
                 />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a description for the quiz.
+                </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
 
@@ -175,8 +258,8 @@ class CreateQuiz extends React.Component {
                       return (
                         <div className="ps-5">
                           <QuizAnswer
-                            index={index}
-                            answer={question}
+                            index={subIndex}
+                            answer={answers}
                             handleUpdateAnswer={this.updateAnswer}
                           />
                         </div>

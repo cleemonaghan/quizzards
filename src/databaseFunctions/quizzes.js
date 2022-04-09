@@ -15,22 +15,24 @@ import { getQuiz as getQuizQuery } from "../graphql/queries";
  * @param {*} username the username of the user who created the quiz
  * @returns None
  */
-export async function createQuiz(id, quizName, User, username) {
-  //if the User did not enter a title, don't create a post
-  if (!id) return;
+export async function createQuiz(quizName, username, description, picture) {
+
 
   let params = {
-    id: id,
-    quizName: quizName,
-    owner: User,
+    title: quizName,
     ownerUsername: username,
+    description: description,
+    picture: picture,
+    //userQuizOwnersId: username,
   };
 
   //create a new Post using the form data
-  await API.graphql({
+  let res = await API.graphql({
     query: createQuizMutation,
     variables: { input: params },
   });
+
+  return res.data.createQuiz;
 }
 
 export async function updateQuiz(id, inputs) {

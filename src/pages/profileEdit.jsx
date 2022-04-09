@@ -2,13 +2,15 @@ import React from "react";
 import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { photo as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
+import {  Navigate } from "react-router-dom";
 
 import { updateUser, getUser } from "../databaseFunctions/users";
 
 class ProfileEdit extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.user = null;
+    
     this.state = {
       username: "",
       name: "",
@@ -18,6 +20,7 @@ class ProfileEdit extends React.Component {
       profile_pic: null,
       biography: "",
       alert: false,
+      submit:false,
     };
 
     this.changedPhoto = false;
@@ -29,8 +32,6 @@ class ProfileEdit extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     
-    //this is an inputted function that will close the ProfileEdit class
-    this.close = props.close.bind(this);
   }
 
   async componentDidMount() {
@@ -43,7 +44,6 @@ class ProfileEdit extends React.Component {
         name: userSettings.attributes.name,
         birthdate: userSettings.attributes.birthdate,
         email: userSettings.attributes.email,
-        color_theme: "blue", //we need to ensure this is updated
         profile_pic: userDatabase.profilePicture,
         biography: userDatabase.bio,
       });
@@ -130,12 +130,11 @@ class ProfileEdit extends React.Component {
     }
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     //update the attributes
-    this.updateAttributes();
-    //close the profile editor
-    this.close();
+    await this.updateAttributes();
+    this.setState({submit: true})
   }
 
   displayAlert() {
@@ -153,6 +152,10 @@ class ProfileEdit extends React.Component {
   }
 
   render() {
+    if (this.state.submit) {
+      //route to profile page
+      return <Navigate to={"/profile"} />;
+    }
     return (
       <div className="profile">
         <div className="container">

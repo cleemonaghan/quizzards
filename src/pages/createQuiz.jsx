@@ -1,7 +1,15 @@
 import React from "react";
 import { createQuiz, updateQuiz, getQuiz } from "../databaseFunctions/quizzes";
 import "@aws-amplify/ui-react/styles.css";
-import { Form, Button, FloatingLabel, Dropdown } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  FloatingLabel,
+  Dropdown,
+  Row,
+  Col,
+  Container,
+} from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
@@ -44,7 +52,7 @@ class CreateQuiz extends React.Component {
       //load the image if there is one
       this.setState({
         temp_picture: this.defaultImage,
-        profile_pic: "default_group_image",
+        quiz_picture: "default_group_image",
       });
     } catch (err) {
       console.log("There was an error: ", err);
@@ -73,7 +81,7 @@ class CreateQuiz extends React.Component {
     console.log(this.state.quizName);
     console.log(this.state.ownerUsername);
     console.log(this.state.description);
-    console.log(this.state.picture);
+    console.log(this.state.quiz_picture);
 
     //await createQuiz(quizName, username, description, picture)
   }
@@ -82,7 +90,6 @@ class CreateQuiz extends React.Component {
     let target = event.target;
     let value = target.value;
     let name = target.name;
-    console.log("Event happened: " + value);
     this.setState({
       [name]: value,
     });
@@ -149,9 +156,11 @@ class CreateQuiz extends React.Component {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
+      // if they have not filled all the fields, don't let them publish the quiz
       console.log("Failed");
       event.stopPropagation();
     } else {
+      //if they did properly fill out the quiz, let them publish the quiz
       this.publishQuiz();
       console.log(this.state);
     }
@@ -168,62 +177,75 @@ class CreateQuiz extends React.Component {
             validated={this.state.validated}
             onSubmit={this.handleSubmit}
           >
-            {/* Name */}
-            <Form.Group className="mb-3" controlId="name">
-              <FloatingLabel label="Title" className="mb-3">
-                <Form.Control
-                  required
-                  name="quizName"
-                  type="text"
-                  value={this.state.quizName}
-                  onChange={this.handleChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a tile for the quiz.
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Form.Group>
+            <Container>
+              <Row>
+                <Col>
+                  {/* Name */}
+                  <Form.Group className="mb-3" controlId="name">
+                    <FloatingLabel label="Title" className="mb-3">
+                      <Form.Control
+                        required
+                        name="quizName"
+                        type="text"
+                        value={this.state.quizName}
+                        onChange={this.handleChange}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Please provide a tile for the quiz.
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
+                </Col>
+                <Col md="auto">
+                  {/* Quiz Picture */}
+                  <Form.Group controlId="quiz_pic" className="mb-3">
+                    {/* <Form.Label>Quiz Picture</Form.Label> */}
+                    <Form.Control
+                      required
+                      type="file"
+                      name="quiz_pic"
+                      onChange={this.handleImageChange}
+                      accept="image/png, image/jpeg"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a picture for the quiz.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+              </Row>
 
-            {/* Quiz Picture */}
-            <Form.Group controlId="quiz_pic" className="mb-3">
-              <Form.Label>Quiz Picture</Form.Label>
-              <Form.Control
-                required
-                type="file"
-                name="quiz_pic"
-                onChange={this.handleImageChange}
-                accept="image/png, image/jpeg"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a picture for the quiz.
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <div className="mb-3">
-              <img
-                id="quiz_pic_display"
-                className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
-                alt=""
-                src={this.state.temp_picture}
-                style={{ height: "200px", width: "400px" }}
-              />
-            </div>
-
-            {/* Description */}
-            <Form.Group className="mb-3" controlId="description">
-              <FloatingLabel label="Description" className="mb-3">
-                <Form.Control
-                  required
-                  name="description"
-                  type="text"
-                  value={this.state.description}
-                  onChange={this.handleChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a description for the quiz.
-                </Form.Control.Feedback>
-              </FloatingLabel>
-            </Form.Group>
+              <Row className="mb-3">
+                <Col>
+                  {/* Description */}
+                  <Form.Group className="mb-3" controlId="description">
+                    <FloatingLabel label="Description" className="mb-3">
+                      <Form.Control
+                        required
+                        name="description"
+                        type="text"
+                        as="textarea" 
+                        rows={3}
+                        style={{height: 196,resize: "none"}}
+                        value={this.state.description}
+                        onChange={this.handleChange}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Please provide a description for the quiz.
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
+                </Col>
+                <Col md="auto">
+                  <img
+                    id="quiz_pic_display"
+                    className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
+                    alt=""
+                    src={this.state.temp_picture}
+                    style={{ height: "200px", width: "400px" }}
+                  />
+                </Col>
+              </Row>
+            </Container>
 
             {/* Results */}
             <div className="results">

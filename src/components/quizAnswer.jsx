@@ -9,13 +9,18 @@ import {
 } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
-function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
+function QuizAnswer({ answer, index, handleUpdateAnswer, handleUpdateWeight, results }) {
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;
     handleUpdateAnswer(index, {
       ...answer,
       name: newName,
     });
+  }
+
+  function handleWeightChange(evt, resultIndex) {
+    const newValue = parseInt(evt.nativeEvent.target.value);
+    handleUpdateWeight(index, resultIndex, newValue);
   }
 
   return (
@@ -56,7 +61,7 @@ function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
             return (
               <Form.Group as={Col}>
                 <Form.Label><strong>{(index + 1)+". "+result.name}</strong></Form.Label>
-                <Form.Select label="weight">
+                <Form.Select label="weight" onChange={(event) => handleWeightChange(event, index)}>
                   <option value="0"> 0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>

@@ -272,7 +272,7 @@ class CreateQuiz extends React.Component {
             </Container>
 
             {/* Questions and Answers */}
-            
+
             <Container className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
               {this.state.questions.map((question, index) => {
@@ -290,6 +290,7 @@ class CreateQuiz extends React.Component {
                             index={subIndex}
                             answer={answer}
                             handleUpdateAnswer={this.updateAnswer}
+                            results={this.state.results}
                           />
                         </div>
                       );

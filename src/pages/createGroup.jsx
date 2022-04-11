@@ -88,6 +88,7 @@ class CreateGroup extends React.Component {
             profile_pic: "default_group_image",
           });
         }
+        console.log(file);
       }
     }
   }

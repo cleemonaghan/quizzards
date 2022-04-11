@@ -49,66 +49,6 @@ function QuizAnswer({ answer, index, handleUpdateAnswer }) {
               <option value="3"> 3</option>
             </select>
           </div>
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
         </form>
       </div>
     </div>

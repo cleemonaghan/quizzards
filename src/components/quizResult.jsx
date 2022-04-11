@@ -12,7 +12,6 @@ function QuizResult({ result, index, handleUpdateResult }) {
   const [temp, setTemp] = useState(null);
 
   function handleNameChange(evt) {
-    // console.log(evt.nativeEvent.target.value);
     const newName = evt.nativeEvent.target.value;
     handleUpdateResult(index, {
       ...result,

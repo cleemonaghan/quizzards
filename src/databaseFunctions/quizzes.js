@@ -68,7 +68,7 @@ export async function createQuiz(quizName, username, questions, results, descrip
   }
 
   //store the question list and the result list for the quiz
-  let params = ({
+  params = ({
     questions: questionList,
     results: resultList,
   });
@@ -108,7 +108,7 @@ export async function createQuestion(question, quiz, quizID){
   }
 
   //get the updated answer list
-  let params = {
+  params = {
     answers: questionAnswerList,
   }
 

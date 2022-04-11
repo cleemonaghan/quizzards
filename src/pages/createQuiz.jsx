@@ -24,12 +24,14 @@ class CreateQuiz extends React.Component {
       questions: [{ name: "", img: "", answers: [{ name: "" }] }],
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeDescription = this.handleChangeDescription.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateAttributes = this.updateAttributes.bind(this);
     this.addResult = this.addResult.bind(this);
     this.updateResult = this.updateResult.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.addAnswer = this.addAnswer.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
@@ -60,15 +62,14 @@ class CreateQuiz extends React.Component {
     await updateQuiz(this.user, params);
   }
 
-  handleChange(event) {
-    let target = event.target;
-    let value = target.type === "text" ? target.checked : target.value;
-    let quizName = target.quizName;
-    this.setState({
-      [quizName]: value,
-    });
+  handleChangeName(event) {
+    let value = event.target.value;
+    this.setState({ quizName: value });
   }
-
+  handleChangeDescription(event) {
+    let value = event.target.value;
+    this.setState({ description: value });
+  }
   handleSubmit(event) {
     event.preventDefault();
     //update the color scheme
@@ -100,11 +101,13 @@ class CreateQuiz extends React.Component {
     this.setState({ questions });
   }
 
-  // addAnswer(question) {
-  //   const answers = question.answers;
-  //   answers.push({ name: "" });
-  //   this.setState({ answers });
-  // }
+  addAnswer(index) {
+    console.log("hi");
+    console.log("index: " + index);
+    //const answers = question.answers;
+    //answers.push({ name: "" });
+    // this.setState({ answers });
+  }
 
   // updateAnswer(index, updatedAnswer) {
   // const answers = this.state.answers;
@@ -125,7 +128,7 @@ class CreateQuiz extends React.Component {
                   name="name"
                   type="text"
                   value={this.state.quizName}
-                  onChange={this.handleChange}
+                  onChange={this.handleChangeName}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -137,7 +140,7 @@ class CreateQuiz extends React.Component {
                   name="description"
                   type="text"
                   value={this.state.description}
-                  onChange={this.handleChange}
+                  onChange={this.handleChangeDescription}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -171,12 +174,12 @@ class CreateQuiz extends React.Component {
                       question={question}
                       handleUpdateQuestion={this.updateQuestion}
                     />
-                    {question.answers.map((answers, subIndex) => {
+                    {question.answers.map((answer, subIndex) => {
                       return (
                         <div className="ps-5">
                           <QuizAnswer
-                            index={index}
-                            answer={question}
+                            index={subIndex}
+                            answer={answer}
                             handleUpdateAnswer={this.updateAnswer}
                           />
                         </div>
@@ -185,7 +188,7 @@ class CreateQuiz extends React.Component {
                     <Button
                       className="ms-5 mb-3"
                       variant="outline-primary"
-                      // onClick={this.addAnswer(question)}
+                      onClick={this.addAnswer(index)}
                     >
                       Add Answer +
                     </Button>

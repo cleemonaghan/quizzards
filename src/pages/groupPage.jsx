@@ -87,8 +87,9 @@ function userButton(groupID, user, userGroups){
 
   for(let i = 0; i< userGroups.length; i++){
     console.log(userGroups[i]);
-    let group = userGroups[i].groupID;
+    let group = userGroups[i].id;
     console.log(groupID);
+    
     if(groupID == group){
       myGroup = true;
       break;

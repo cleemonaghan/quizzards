@@ -4,7 +4,8 @@ import {
   FloatingLabel,
   OverlayTrigger,
   Tooltip,
-  Row, Col,
+  Row,
+  Col,
 } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
@@ -50,26 +51,21 @@ function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
             </h4>
           )}
         </OverlayTrigger>
-        <form className="ps-3">
+        <Row className="ps-3 mb-3">
           {results.map((result, index) => {
             return (
-              <div>
-                <label>
-                  {" "}
-                  <h5 className="pe-2">
-                    Result {index + 1}: {result.name}
-                  </h5>{" "}
-                </label>
-                <select>
+              <Form.Group as={Col}>
+                <Form.Label><strong>{(index + 1)+". "+result.name}</strong></Form.Label>
+                <Form.Select label="weight">
                   <option value="0"> 0</option>
-                  <option value="1"> 1</option>
-                  <option value="2"> 2</option>
-                  <option value="3"> 3</option>
-                </select>
-              </div>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </Form.Select>
+              </Form.Group>
             );
           })}
-        </form>
+        </Row>
       </Row>
     </div>
   );

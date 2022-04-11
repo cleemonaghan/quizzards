@@ -23,7 +23,7 @@ class CreateQuiz extends React.Component {
       description: "",
       ownerUsername: "",
       temp_picture: null,
-      quiz_picture: null,
+      quiz_picture: "default_group_image",
       results: [{ name: "", img: "" }],
       questions: [{ name: "", img: "", answers: [{ name: "" }] }],
       validated: false,
@@ -46,14 +46,6 @@ class CreateQuiz extends React.Component {
     try {
       this.user = await Auth.currentAuthenticatedUser();
       this.setState({ ownerUsername: this.user.username });
-
-      // get default file image
-      this.defaultImage = await Storage.get("default_group_image");
-      //load the image if there is one
-      this.setState({
-        temp_picture: this.defaultImage,
-        quiz_picture: "default_group_image",
-      });
     } catch (err) {
       console.log("There was an error: ", err);
     }
@@ -109,11 +101,26 @@ class CreateQuiz extends React.Component {
       } else {
         //no file was uploaded, so revert to the default
         this.setState({
-          temp_picture: this.defaultImage,
+          temp_picture: null,
           quiz_picture: "default_group_image",
         });
       }
     }
+  }
+
+  displayImage(image) {
+    if (image === null) {
+      return <div></div>;
+    } else
+      return (
+        <img
+          id="quiz_pic_display"
+          className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
+          alt=""
+          src={image}
+          style={{ height: "200px", width: "400px" }}
+        />
+      );
   }
 
   addResult() {
@@ -155,6 +162,7 @@ class CreateQuiz extends React.Component {
   handleSubmit(event) {
     const form = event.currentTarget;
     event.preventDefault();
+    console.log(form);
     if (form.checkValidity() === false) {
       // if they have not filled all the fields, don't let them publish the quiz
       console.log("Failed");
@@ -223,9 +231,9 @@ class CreateQuiz extends React.Component {
                         required
                         name="description"
                         type="text"
-                        as="textarea" 
+                        as="textarea"
                         rows={3}
-                        style={{height: 196,resize: "none"}}
+                        style={{ height: 196, resize: "none" }}
                         value={this.state.description}
                         onChange={this.handleChange}
                       />
@@ -236,19 +244,13 @@ class CreateQuiz extends React.Component {
                   </Form.Group>
                 </Col>
                 <Col md="auto">
-                  <img
-                    id="quiz_pic_display"
-                    className="img-fluid" // col-2 ms-4 mt-2 mb-0 px-2 py-2"
-                    alt=""
-                    src={this.state.temp_picture}
-                    style={{ height: "200px", width: "400px" }}
-                  />
+                  {this.displayImage(this.state.temp_picture)}
                 </Col>
               </Row>
             </Container>
 
             {/* Results */}
-            <div className="results">
+            <Container className="results mb-3">
               <h2 className="font-weight-light mt-5">Results</h2>
               {this.state.results.map((result, index) => {
                 return (
@@ -263,10 +265,11 @@ class CreateQuiz extends React.Component {
               <Button variant="outline-primary" onClick={this.addResult}>
                 Add Result +
               </Button>
-            </div>
+            </Container>
 
             {/* Questions and Answers */}
-            <div className="questions">
+            
+            <Container className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
               {this.state.questions.map((question, index) => {
                 return (
@@ -310,7 +313,7 @@ class CreateQuiz extends React.Component {
               <Button variant="outline-primary" onClick={this.addQuestion}>
                 Add Question +
               </Button>
-            </div>
+            </Container>
 
             {/* Submit Button */}
             <Button className="my-5 me-5" variant="primary" type="submit">

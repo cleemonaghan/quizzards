@@ -272,7 +272,7 @@ class CreateQuiz extends React.Component {
             </Container>
 
             {/* Questions and Answers */}
-            
+
             <Container className="questions">
               <h2 className="font-weight-light mt-5">Questions</h2>
               {this.state.questions.map((question, index) => {
@@ -283,17 +283,19 @@ class CreateQuiz extends React.Component {
                       question={question}
                       handleUpdateQuestion={this.updateQuestion}
                     />
-                    {question.answers.map((answer, subIndex) => {
-                      return (
-                        <div className="ps-5">
-                          <QuizAnswer
-                            index={subIndex}
-                            answer={answer}
-                            handleUpdateAnswer={this.updateAnswer}
-                          />
-                        </div>
-                      );
-                    })}
+                    <Row>
+                      {question.answers.map((answer, subIndex) => {
+                        return (
+                          <Col md="auto" className="ps-5">
+                            <QuizAnswer
+                              index={subIndex}
+                              answer={answer}
+                              handleUpdateAnswer={this.updateAnswer}
+                            />
+                          </Col>
+                        );
+                      })}
+                    </Row>
                     <Button
                       className="ms-5 mb-3"
                       variant="outline-primary"

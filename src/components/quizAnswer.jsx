@@ -1,5 +1,11 @@
 import React from "react";
-import { Form, FloatingLabel, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Form,
+  FloatingLabel,
+  OverlayTrigger,
+  Tooltip,
+  Row, Col,
+} from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
 function QuizAnswer({ answer, index, handleUpdateAnswer }) {
@@ -14,12 +20,20 @@ function QuizAnswer({ answer, index, handleUpdateAnswer }) {
   return (
     <div className="answer">
       <h4>Answer {index + 1}</h4>
-      <Form.Group className="mb-3" controlId="answer">
-        <FloatingLabel label="Answer" className="mb-3">
-          <Form.Control name="name" type="text" onChange={handleNameChange} />
-        </FloatingLabel>
-      </Form.Group>
-      <div className="ps-5">
+      <Row className="result mb-3">
+        <Col>
+          <Form.Group className="mb-3" controlId="answer">
+            <FloatingLabel label="Answer" className="mb-3">
+              <Form.Control
+                name="name"
+                type="text"
+                onChange={handleNameChange}
+              />
+            </FloatingLabel>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="ps-5">
         <OverlayTrigger
           placement="right"
           overlay={
@@ -50,7 +64,7 @@ function QuizAnswer({ answer, index, handleUpdateAnswer }) {
             </select>
           </div>
         </form>
-      </div>
+      </Row>
     </div>
   );
 }

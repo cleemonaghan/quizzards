@@ -75,11 +75,12 @@ class CreateGroup extends React.Component {
         });
       } else if (event.target.files[0]) {
         // Update the temp photo and the state.profile_pic
-        let file = event.target.files[0];
-        if (file.size < 10000000) {
-          this.tempPhoto = URL.createObjectURL(file);
+        //let file = event.target.files[0];
+        let imageFile = event.target.files[0];
+        if (imageFile.size < 10000000) {
+          this.tempPhoto = URL.createObjectURL(imageFile);
           this.setState({
-            profile_pic: file,
+            profile_pic: imageFile,
           });
         } else {
           //the file was too big, so revert to the default
@@ -88,7 +89,7 @@ class CreateGroup extends React.Component {
             profile_pic: "default_group_image",
           });
         }
-        console.log(file);
+        // console.log(file);
       }
     }
   }

@@ -137,13 +137,13 @@ function GroupPage() {
   ) : (
     <div className="group-page">
       <div className="row m-0">
-        <img className="col-5 mb-5 px-0" src={groupImage} alt="" width="100%" />
+        <img className="col-5 mb-5 px-0" src={groupImage} alt="" width="100%" height="300vh"/>
         <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
           <h1 className="px-5">
             {group.name}
-            <Link to={{ pathname: "/groupEdit/" + groupID }}>
-              <PencilSquare className="p-2" color="#292b2c" />{" "}
-            </Link>
+            {/* <Link to={{ pathname: "/groupEdit/" + groupID }}> */}
+              {/* <PencilSquare className="p-2" color="#292b2c" />{" "} */}
+            {/* </Link> */}
           </h1>
           <p className="px-5">{group.bio}</p>
         </div>

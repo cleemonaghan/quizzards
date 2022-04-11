@@ -30,13 +30,15 @@ class GroupStats extends React.Component {
           {
             data: this.props.barData,
             backgroundColor: [
+              "#db278d",
               "#f14e48",
               "#ff9038",
               "#feca1d",
               "#43c12c",
+              "#27dbae",
               "#0273e9",
-              "#8d48f1",
-              "#de35e7",
+              "#7248f1",
+              "#c035e7",
             ],
           },
         ],
@@ -45,8 +47,21 @@ class GroupStats extends React.Component {
   }
 
   static defaultProps = {
-    barLabels: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"],
-    barData: [3, 9, 18, 13, 7, 2, 14],
+    barLabels: [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "Q5",
+      "Q6",
+      "Q7",
+      "Q8",
+      "Q9",
+      "Q10",
+      "Q11",
+      "Q12",
+    ],
+    barData: [3, 9, 18, 13, 7, 2, 14, 22, 8, 12, 17, 5],
   };
 
   render() {

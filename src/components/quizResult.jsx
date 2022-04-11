@@ -3,7 +3,6 @@ import { Form, Button, FloatingLabel, Dropdown } from "react-bootstrap";
 
 function QuizResult({ result, index, handleUpdateResult }) {
   function handleNameChange(evt) {
-    // console.log(evt.nativeEvent.target.value);
     const newName = evt.nativeEvent.target.value;
     handleUpdateResult(index, {
       ...result,

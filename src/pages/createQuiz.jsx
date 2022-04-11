@@ -24,8 +24,6 @@ class CreateQuiz extends React.Component {
       results: [{ name3: "", img: "" }],
       questions: [{ name4: "", img: "", answers: [{ name2: "b" }] }],
     };
-    // console.log(this.state.results);
-    console.log(this.state.questions);
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDescription = this.handleChangeDescription.bind(this);
@@ -98,8 +96,6 @@ class CreateQuiz extends React.Component {
     const questions = this.state.questions;
     questions.push({ name4: "", img: "", answers: [{ name2: "a" }] });
     this.setState({ questions });
-    console.log("add question");
-    console.log(this.state.questions);
   }
 
   updateQuestion(index, updatedQuestion) {
@@ -109,18 +105,15 @@ class CreateQuiz extends React.Component {
   }
 
   addAnswer(i) {
-    // const answers = this.state.questions[i];
-    console.log("add answer");
-    console.log(i);
-    // console.log(answers);
-    // answers.push({ name: "" });
-    // this.setState({ answers });
+    const answers = this.state.questions[i].answers;
+    answers.push({ name: "" });
+    this.setState({ answers });
   }
 
   updateAnswer(index, updatedAnswer) {
-    // const answers = this.state.questions;
-    // answers.splice(index, 1, updatedAnswer);
-    // this.setState({ answers });
+    const answers = this.state.questions;
+    answers.splice(index, 1, updatedAnswer);
+    this.setState({ answers });
   }
 
   render() {
@@ -196,22 +189,13 @@ class CreateQuiz extends React.Component {
                     <Button
                       className="ms-5 mb-3"
                       variant="outline-primary"
-                      onClick={this.addAnswer(0)}
+                      onClick={() => this.addAnswer(index)}
                     >
                       Add Answer +
                     </Button>
                   </div>
                 );
               })}
-              {/* {this.state.questions.map((question, index) => {
-                return (
-                  <QuizQuestion
-                    index={index}
-                    question={question}
-                    handleUpdateQuestion={this.updateQuestion}
-                  />
-                );
-              })} */}
 
               <Button variant="outline-primary" onClick={this.addQuestion}>
                 Add Question +

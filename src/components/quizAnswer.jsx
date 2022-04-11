@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
-function QuizAnswer({ answer, index, handleUpdateAnswer }) {
+function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;
     handleUpdateAnswer(index, {
@@ -46,23 +46,29 @@ function QuizAnswer({ answer, index, handleUpdateAnswer }) {
         >
           {({ ref, ...triggerHandler }) => (
             <h4 {...triggerHandler}>
-              Weights <InfoCircle className="py-1" ref={ref} />
+              Points <InfoCircle className="py-1" ref={ref} />
             </h4>
           )}
         </OverlayTrigger>
         <form className="ps-3">
-          <div>
-            <label>
-              {" "}
-              <h5 className="pe-2">Result 1</h5>{" "}
-            </label>
-            <select>
-              <option value="0"> 0</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-            </select>
-          </div>
+          {results.map((result, index) => {
+            return (
+              <div>
+                <label>
+                  {" "}
+                  <h5 className="pe-2">
+                    Result {index + 1}: {result.name}
+                  </h5>{" "}
+                </label>
+                <select>
+                  <option value="0"> 0</option>
+                  <option value="1"> 1</option>
+                  <option value="2"> 2</option>
+                  <option value="3"> 3</option>
+                </select>
+              </div>
+            );
+          })}
         </form>
       </Row>
     </div>

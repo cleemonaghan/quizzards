@@ -291,6 +291,7 @@ class CreateQuiz extends React.Component {
                               index={subIndex}
                               answer={answer}
                               handleUpdateAnswer={this.updateAnswer}
+                              results={this.state.results}
                             />
                           </Col>
                         );

@@ -12,8 +12,6 @@ class Quiz extends React.Component {
     super(props);
     this.user = null;
     this.state = {
-      results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "", weights: [] }] }],
       colors: [
         "#db278d",
         "#f14e48",

@@ -25,8 +25,8 @@ class CreateQuiz extends React.Component {
       ownerUsername: "",
       temp_picture: null,
       quiz_picture: "default_group_image",
-      results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "" }] }],
+      results: [{ name: "", img: ""}],
+      questions: [{ name: "", img: "", answers: [{ name: "", weights: [] }] }],
       validated: false,
     };
 

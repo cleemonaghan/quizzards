@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 
 class CreateQuiz extends React.Component {
   constructor(props) {
-    console.log("hi");
     super(props);
     this.user = null;
     this.state = {
@@ -25,7 +24,7 @@ class CreateQuiz extends React.Component {
       ownerUsername: "",
       temp_picture: null,
       quiz_picture: "default_group_image",
-      results: [{ name: "", img: ""}],
+      results: [{ name: "", img: "" }],
       questions: [{ name: "", img: "", answers: [{ name: "", weights: [] }] }],
       validated: false,
     };

@@ -1,14 +1,16 @@
 import React from "react";
-import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { photo as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
+import {  Navigate } from "react-router-dom";
 
 import { updateUser, getUser } from "../databaseFunctions/users";
 
 class ProfileEdit extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.user = null;
+    
     this.state = {
       username: "",
       name: "",
@@ -17,6 +19,8 @@ class ProfileEdit extends React.Component {
       color_theme: "blue",
       profile_pic: null,
       biography: "",
+      alert: false,
+      submit:false,
     };
 
     this.changedPhoto = false;
@@ -28,8 +32,6 @@ class ProfileEdit extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     
-    //this is an inputted function that will close the ProfileEdit class
-    this.close = props.close.bind(this);
   }
 
   async componentDidMount() {
@@ -42,7 +44,6 @@ class ProfileEdit extends React.Component {
         name: userSettings.attributes.name,
         birthdate: userSettings.attributes.birthdate,
         email: userSettings.attributes.email,
-        color_theme: "blue", //we need to ensure this is updated
         profile_pic: userDatabase.profilePicture,
         biography: userDatabase.bio,
       });
@@ -122,21 +123,39 @@ class ProfileEdit extends React.Component {
           this.tempPhoto = this.defaultImage;
           this.setState({
             profile_pic: this.defaultImageBlob,
+            alert: true
           });
         }
       }
     }
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     //update the attributes
-    this.updateAttributes();
-    //close the profile editor
-    this.close();
+    await this.updateAttributes();
+    this.setState({submit: true})
+  }
+
+  displayAlert() {
+    if (this.state.alert) {
+      return (
+        <Alert variant="danger" onClose={() => this.setState({alert: false})} dismissible>
+          <Alert.Heading>Oh snap! That photo is too large!</Alert.Heading>
+          <p>
+            Try using a smaller photo 
+          </p>
+        </Alert>
+      );
+    }
+    return <div></div>;
   }
 
   render() {
+    if (this.state.submit) {
+      //route to profile page
+      return <Navigate to={"/profile"} />;
+    }
     return (
       <div className="profile">
         <div className="container">
@@ -204,7 +223,7 @@ class ProfileEdit extends React.Component {
                 style={{ height: "200px", width: "200px" }}
               />
             </div>
-            {/* Color Theme */}
+            {/* Color Theme 
             <Form.Group className="mb-3" controlId="color_theme">
               <Form.Label>Theme Color</Form.Label>
               <Form.Control
@@ -214,6 +233,7 @@ class ProfileEdit extends React.Component {
                 title="Choose your color"
               />
             </Form.Group>
+            */}
             {/* Biography */}
             <Form.Group className="mb-3" controlId="biography">
               <FloatingLabel label="About me" className="mb-3">
@@ -225,6 +245,7 @@ class ProfileEdit extends React.Component {
                 />
               </FloatingLabel>
             </Form.Group>
+            <div>{this.displayAlert()}</div>
             {/* Submit Button */}
             <Button variant="primary" type="submit">
               Submit

@@ -39,7 +39,6 @@ class User extends React.Component {
     } else if (status === "Unconnected") {
       button = this.unconnectedButton();
     }
-
     this.state = {
       ourUser: ourUser,
       friendUsername: username,
@@ -48,39 +47,40 @@ class User extends React.Component {
       button: button,
       lists: lists,
     };
+    // if the status is unknown, figure it out
+    if (status === "Unknown") {
+      this.determineStatus(ourUser, username);
+    }
   }
 
-  async componentDidMount() {
-    try {
+  async determineStatus(ourUser, friendUsername) {
+    
       //if we don't know what our relationship is, figure it out
-      if (this.state.friendStatus === "Unknown") {
-        let status = "Unknown";
-        let button = null;
-        //find the user's status
-        let res = await getUser(this.state.ourUser);
-        if (res.friends.includes(this.state.friendUsername)) {
-          status = "Friends";
-          button = this.friendButton();
-        } else if (res.outgoingFriends.includes(this.state.friendUsername)) {
-          status = "Waiting";
-          button = this.waitingButton();
-        } else if (res.friendRequests.includes(this.state.friendUsername)) {
-          status = "Requested";
-          button = this.requestedButton();
-        } else {
-          status = "Unconnected";
-          button = this.unconnectedButton();
-        }
 
-        // set the state with the user info
-        this.setState({
-          friendStatus: status,
-          button: button,
-        });
+      let status = "Unknown";
+      let button = null;
+      //find the user's status
+      let res = await getUser(ourUser);
+      if (res.friends.includes(friendUsername)) {
+        status = "Friends";
+        button = this.friendButton();
+      } else if (res.outgoingFriendRequests.includes(friendUsername)) {
+        status = "Waiting";
+        button = this.waitingButton();
+      } else if (res.friendRequests.includes(friendUsername)) {
+        status = "Requested";
+        button = this.requestedButton();
+      } else {
+        status = "Unconnected";
+        button = this.unconnectedButton();
       }
-    } catch (err) {
-      console.log(err);
-    }
+
+      // set the state with the user info
+      this.setState({
+        friendStatus: status,
+        button: button,
+      });
+     
   }
 
   friendButton() {
@@ -107,7 +107,7 @@ class User extends React.Component {
           variant="outline-success"
           size="sm"
           onClick={async () => {
-            console.log(this.state.ourUser, this.state.friendUsername);
+            this.setState({button: this.friendButton()})
             await acceptFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.friendReqs,
@@ -126,6 +126,7 @@ class User extends React.Component {
           variant="outline-danger"
           size="sm"
           onClick={async () => {
+            this.setState({button: this.unconnectedButton()})
             await rejectFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.friendReqs,
@@ -136,7 +137,6 @@ class User extends React.Component {
               friendReqs: oldList,
               recommendations: newList,
             });
-            console.log(this.state.lists);
           }}
         >
           Deny
@@ -153,12 +153,7 @@ class User extends React.Component {
           variant="outline-primary"
           size="sm"
           onClick={async () => {
-            console.log(
-              "requesting " +
-                this.state.ourUser +
-                " " +
-                this.state.friendUsername
-            );
+            this.setState({button: this.waitingButton()})
             await requestFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.recommendations,
@@ -180,51 +175,26 @@ class User extends React.Component {
   updateList(oldList, newList, newStatus) {
     //remove username from old list
     let i = 0;
-    console.log("looking for " + this.state.friendUsername);
     while (i < oldList.length) {
       if (oldList[i].username === this.state.friendUsername) {
         //found it
-        console.log("found " + oldList[i].username + " at index " + i);
         let removedNode = oldList.splice(i, 1); // something is wrong here
-        console.log(oldList);
-        console.log(removedNode);
         removedNode.status = newStatus;
         newList.push({
           username: removedNode[0].username,
           image: removedNode[0].image,
           status: newStatus,
         });
-        console.log("Here are the lists:")
-        console.log(oldList);
-        console.log(newList);
-        
-        return [oldList, newList];
 
-      } else {
-        console.log("not " + oldList[i].username);
-        
+        return [oldList, newList];
       }
       i++;
     }
-    console.log("Error! but here are the lists:")
-    console.log(oldList);
-    console.log(newList);
-    
+
     return [oldList, newList];
   }
 
   render() {
-    let button = null;
-    //then assign the proper button for the friend
-    if (this.state.friendStatus === "Friends") {
-      button = this.friendButton();
-    } else if (this.state.friendStatus === "Waiting") {
-      button = this.waitingButton();
-    } else if (this.state.friendStatus === "Requested") {
-      button = this.requestedButton();
-    } else if (this.state.friendStatus === "Unconnected") {
-      button = this.unconnectedButton();
-    }
 
     return (
       <div className="user">
@@ -247,7 +217,7 @@ class User extends React.Component {
             </div>
           </Link>
 
-          {button}
+          {this.state.button}
         </div>
       </div>
     );

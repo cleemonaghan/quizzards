@@ -14,7 +14,6 @@ class FriendsList extends Friends {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       list.forEach(element => {
-        console.log(element.username);
         result.push(
           <div key={element.username}>
             <User
@@ -40,7 +39,6 @@ class FriendsList extends Friends {
     if (this.state.error) return failToLoad();
     else if (this.state.loading) return Loading();
     else {
-      console.log(this.state)
       return (
         <div className="friends-list">
           <Link to="/friends">

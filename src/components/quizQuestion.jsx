@@ -3,25 +3,6 @@ import { Form, Button, FloatingLabel, Accordion } from "react-bootstrap";
 import { QuizAnswer } from "../components";
 
 function QuizQuestion({ question, index, handleUpdateQuestion }) {
-  // this.state = {
-  //   answers: [{ name: "", weights: "" }],
-  // };
-
-  // this.addQuestion = this.addQuestion.bind(this);
-  // this.updateQuestion = this.updateQuestion.bind(this);
-
-  // function addAnswer() {
-  //   const answers = this.state.answers;
-  //   answers.push({ name: "", img: "" });
-  //   this.setState({ answers });
-  // }
-
-  // function updateAnswer(index, updatedAnswer) {
-  //   const answers = this.state.answers;
-  //   answers.splice(index, 1, updatedAnswer);
-  //   this.setState({ answers });
-  // }
-
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;
     handleUpdateQuestion(index, {

@@ -25,7 +25,7 @@ class CreateQuiz extends React.Component {
       temp_picture: null,
       quiz_picture: "default_group_image",
       results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "", weights: [] }] }],
+      questions: [{ name: "", img: "", answers: [{ name: "", weights: [0] }] }],
       validated: false,
     };
 
@@ -62,8 +62,6 @@ class CreateQuiz extends React.Component {
       quizName: this.state.quizName,
       description: this.state.description,
       ownerUsername: this.state.ownerUsername,
-      results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "" }] }],
     };
 
     await updateQuiz(this.user, params);
@@ -92,11 +90,9 @@ class CreateQuiz extends React.Component {
 
   handleImageChange(event) {
     //check if they they submitted files
-    console.log("Updating Picture");
     if (event.target.files) {
       if (event.target.files.length > 0 && event.target.files[0].size > 1) {
         let file = event.target.files[0];
-        console.log(file);
         this.setState({
           temp_picture: URL.createObjectURL(file),
           quiz_picture: file,
@@ -127,9 +123,16 @@ class CreateQuiz extends React.Component {
   }
 
   addResult() {
+    // first push a new result
     const results = this.state.results;
     results.push({ name: "", img: "" });
     this.setState({ results });
+    //then push a new weight for each question's answers
+    this.state.questions.forEach((question) => {
+      question.answers.forEach((answer) => {
+        answer.weights.push(0);
+      });
+    });
   }
 
   updateResult(index, updatedResult) {
@@ -140,7 +143,9 @@ class CreateQuiz extends React.Component {
 
   addQuestion() {
     const questions = this.state.questions;
-    questions.push({ name4: "", img: "", answers: [{ name2: "a" }] });
+    let weights = [];
+    this.state.results.forEach(() => weights.push(0));
+    questions.push({ name: "", img: "", answers: [{ name: "" , weights: weights}] });
     this.setState({ questions });
   }
 
@@ -152,20 +157,25 @@ class CreateQuiz extends React.Component {
 
   addAnswer(i) {
     const answers = this.state.questions[i].answers;
-    answers.push({ name: "" });
-    this.setState({ answers });
+    let weights = [];
+    this.state.results.forEach(() => weights.push(0));
+    answers.push({ name: "" , weights: weights});
+    this.setState((state) => { return state });
   }
 
-  updateAnswer(index, updatedAnswer) {
-    const answers = this.state.questions;
-    answers.splice(index, 1, updatedAnswer);
-    this.setState({ answers });
+  updateAnswer(index, subindex, updatedAnswer) {
+    const answers = this.state.questions[index].answers;
+    answers.splice(subindex, 1, updatedAnswer);
+  }
+
+  updateWeight(index, subindex, resultIndex, newWeight) {
+    const weights = this.state.questions[index].answers[subindex].weights;
+    weights.splice(resultIndex, 1, newWeight);
   }
 
   handleSubmit(event) {
     const form = event.currentTarget;
     event.preventDefault();
-    console.log(form);
     if (form.checkValidity() === false) {
       // if they have not filled all the fields, don't let them publish the quiz
       console.log("Failed");
@@ -282,18 +292,25 @@ class CreateQuiz extends React.Component {
                       question={question}
                       handleUpdateQuestion={this.updateQuestion}
                     />
-                    {question.answers.map((answer, subIndex) => {
-                      return (
-                        <div className="ps-5">
-                          <QuizAnswer
-                            index={subIndex}
-                            answer={answer}
-                            handleUpdateAnswer={this.updateAnswer}
-                            results={this.state.results}
-                          />
-                        </div>
-                      );
-                    })}
+                    <Row>
+                      {question.answers.map((answer, subIndex) => {
+                        return (
+                          <Col md="auto" className="ps-5">
+                            <QuizAnswer
+                              index={subIndex}
+                              answer={answer}
+                              handleUpdateAnswer={(a, b) =>
+                                this.updateAnswer(index, a, b)
+                              }
+                              handleUpdateWeight={(a, b, c) =>
+                                this.updateWeight(index, a, b, c)
+                              }
+                              results={this.state.results}
+                            />
+                          </Col>
+                        );
+                      })}
+                    </Row>
                     <Button
                       className="ms-5 mb-3"
                       variant="outline-primary"

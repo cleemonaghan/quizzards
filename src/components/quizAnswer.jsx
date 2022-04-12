@@ -59,7 +59,7 @@ function QuizAnswer({ answer, index, handleUpdateAnswer, handleUpdateWeight, res
         <Row className="ps-3 mb-3">
           {results.map((result, index) => {
             return (
-              <Form.Group as={Col}>
+              <Form.Group as={Col} key={index}>
                 <Form.Label><strong>{(index + 1)+". "+result.name}</strong></Form.Label>
                 <Form.Select label="weight" onChange={(event) => handleWeightChange(event, index)}>
                   <option value="0"> 0</option>

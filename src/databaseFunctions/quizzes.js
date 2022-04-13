@@ -10,33 +10,38 @@ import {
   updateQuestion as updateQuestionMutation,
   createAnswer as createAnswerMutation,
   updateAnswer as updateAnswerMutation,
-
 } from "../graphql/mutations";
-import { 
+import {
   getQuiz as getQuizQuery,
   getQuestion as getQuestionQuery,
   getResult as getResultQuery,
 } from "../graphql/queries";
 
 /**
-* Create functions
-*/
+ * Create functions
+ */
 
 /** This method creates a new quiz with the specified name.
- * 
+ *
  * @param {*} id the ID of the new quiz
  * @param {*} quizName the name of the new quiz
  * @param {*} User the user who created the quiz
  * @param {*} username the username of the user who created the quiz
  * @returns None
  */
-export async function createQuiz(quizName, username, questions, results, description, picture) {
-
+export async function createQuiz(
+  quizName,
+  username,
+  questions,
+  results,
+  description,
+  picture
+) {
   let params = {
     title: quizName,
     ownerUsername: username,
     description: description,
-    picture: picture,
+    picture: "null",
     userQuizOwnersId: username,
   };
   console.log(params);
@@ -51,21 +56,40 @@ export async function createQuiz(quizName, username, questions, results, descrip
   let quiz = res.data.createQuiz;
   let quizID = quiz.id;
 
+  //update the quiz with the quiz image
+  const fileName = quizID + "_quiz_pic";
+  await Storage.put(fileName, picture);
+  params["profilePicture"] = fileName;
+  res = await API.graphql({
+    query: updateQuizMutation,
+    variables: {
+      input: {
+        id: quizID,
+        picture: fileName,
+      },
+    },
+  });
+  console.log(res);
+
   //grab the question list from the quiz object (should be empty)
   //let questionList = quiz.questions;
 
+  console.log("Created Question");
+
   //create all the questions for this quiz
-  for(let i = 0; i < questions.length; i++){
-    await createQuestion(questions[i],quiz, quizID);
+  for (let i = 0; i < questions.length; i++) {
+    await createQuestion(questions[i], quizID);
     //questionList.push(newQuestion);
   }
 
   //grab the result list from the quiz object (should be empty)
-  let resultList = quiz.results;
+  //let resultList = quiz.results;
+
+  console.log("Created Results");
 
   //push all results from the quiz onto this new list
-  for(let i = 0; i < results.length; i++){
-    await createResult(results[i],quizID);
+  for (let i = 0; i < results.length; i++) {
+    await createResult(results[i], quizID);
     //resultList.push(newResult);
   }
 
@@ -84,30 +108,51 @@ export async function createQuiz(quizName, username, questions, results, descrip
   //return res.data.createQuiz;
 }
 
-export async function createQuestion(question, quiz, quizID){
+export async function createQuestion(question, quizID) {
   let answerList = question.answers;
 
   //make params for new question
   let params = {
-    quiz: quiz,
     quizID: quizID,
     name: question.name,
-    picture: question.img,
-  }
+    picture: "null",
+    quizQuestionsId: quizID,
+  };
   // put the question into the db
   let res = await API.graphql({
     query: createQuestionMutation,
-    variables: {input: params},
+    variables: { input: params },
   });
+
+  console.log(res);
 
   // grab the empty question
   let quest = res.data.createQuestion;
   let questID = quest.id;
 
+  //update the question with the question image
+  if (question.img !== null) {
+    const fileName = quizID + "_quiz_" + questID + "_question_pic";
+    await Storage.put(fileName, question.img);
+    params["profilePicture"] = fileName;
+    res = await API.graphql({
+      query: updateQuestionMutation,
+      variables: {
+        input: {
+          id: questID,
+          picture: fileName,
+        },
+      },
+    });
+  }
+
   // make answers for new question
   //let questionAnswerList = quest.answers;
-  for(let i = 0; i< answerList; i++){
-    await createAnswer(answerList[i],question, questID);
+
+  console.log("Creating Answers");
+
+  for (let i = 0; i < answerList; i++) {
+    await createAnswer(answerList[i], question, questID);
     //questionAnswerList.push(newAnswer);
   }
 
@@ -122,72 +167,94 @@ export async function createQuestion(question, quiz, quizID){
   */
 }
 
-export async function createAnswer(answerObj, question, questionID){
+export async function createAnswer(answerObj, question, questionID) {
   let answerName = answerObj.name;
   let answerWeights = answerObj.weights;
 
   //make params for new answer
-  let params = ({
+  let params = {
     question: question,
     questionID: questionID,
     name: answerName,
     weights: answerWeights,
-  });
+    questionAnswersId: questionID,
+  };
 
   //put answer into the db
   let res = await API.graphql({
     query: createAnswerMutation,
-    variables: {input: params},
+    variables: { input: params },
   });
+  console.log("Created Answer");
+  console.log(res);
 
   //return answer
   return res.data.createAnswer;
 }
 
-export async function createResult(result, quiz, quizID){
+export async function createResult(result, quizID) {
   //make params for new result
-  let  params = ({
+  let params = {
     name: result.name,
-    picture: result.img,
-    quiz: quiz,
+    picture: "null",
     quizID: quizID,
-  });
+    quizResultsId: quizID,
+  };
 
   //put result into the db
   let res = await API.graphql({
     query: createResultMutation,
-    variables: {input: params},
+    variables: { input: params },
   });
+  res = res.data.createResult;
+  let resultID = res.id;
+  console.log("Created Result");
+  console.log(res);
 
-  //return result
-  return res.data.createResult;
+  //update the quiz with the quiz image
+  if (result.img !== null) {
+  const fileName = quizID + "_quiz_" + resultID + "_result_pic";
+  await Storage.put(fileName, result.img);
+  params["profilePicture"] = fileName;
+  res = await API.graphql({
+    query: updateResultMutation,
+    variables: {
+      input: {
+        id: resultID,
+        picture: fileName,
+      },
+    },
+  });
+}
+  console.log("Updated Result");
+  console.log(res);
 }
 
 /**
- * 
+ *
  * Update functions
  *
-*/
+ */
 
-export async function updateQuestion(id, inputs){
+export async function updateQuestion(id, inputs) {
   //if the was no id specified, don't update the quiz
   if (!id) return;
   let params = {
     id: id,
   };
-    //add each key-value pair in the inputs to the params
-    let keys = Object.keys(inputs);
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      params[key] = inputs[key];
-    }
-    //update the  a new Post using the form data
-    let res = await API.graphql({
-      query: updateQuestionMutation,
-      variables: { input: params },
-    });
+  //add each key-value pair in the inputs to the params
+  let keys = Object.keys(inputs);
+  for (let i = 0; i < keys.length; i++) {
+    let key = keys[i];
+    params[key] = inputs[key];
+  }
+  //update the  a new Post using the form data
+  let res = await API.graphql({
+    query: updateQuestionMutation,
+    variables: { input: params },
+  });
 
-    return res.data.updateQuestion;
+  return res.data.updateQuestion;
 }
 
 export async function updateQuiz(id, inputs) {
@@ -211,54 +278,51 @@ export async function updateQuiz(id, inputs) {
   return res.data.updateQuiz;
 }
 
-export async function updateAnswer(id, inputs){
+export async function updateAnswer(id, inputs) {
   //if the was no id specified, don't update the quiz
   if (!id) return;
   let params = {
     id: id,
   };
-    //add each key-value pair in the inputs to the params
-    let keys = Object.keys(inputs);
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      params[key] = inputs[key];
-    }
-    //update the  a new Post using the form data
-    let res = await API.graphql({
-      query: updateAnswerMutation,
-      variables: { input: params },
-    });
+  //add each key-value pair in the inputs to the params
+  let keys = Object.keys(inputs);
+  for (let i = 0; i < keys.length; i++) {
+    let key = keys[i];
+    params[key] = inputs[key];
+  }
+  //update the  a new Post using the form data
+  let res = await API.graphql({
+    query: updateAnswerMutation,
+    variables: { input: params },
+  });
 
-    return res.data.updateAnswer;
+  return res.data.updateAnswer;
 }
 
-export async function updateResult(id, inputs){
+export async function updateResult(id, inputs) {
   //if the was no id specified, don't update the quiz
   if (!id) return;
   let params = {
     id: id,
   };
-    //add each key-value pair in the inputs to the params
-    let keys = Object.keys(inputs);
-    for (let i = 0; i < keys.length; i++) {
-      let key = keys[i];
-      params[key] = inputs[key];
-    }
-    //update the  a new Post using the form data
-    let res = await API.graphql({
-      query: updateResultMutation,
-      variables: { input: params },
-    });
+  //add each key-value pair in the inputs to the params
+  let keys = Object.keys(inputs);
+  for (let i = 0; i < keys.length; i++) {
+    let key = keys[i];
+    params[key] = inputs[key];
+  }
+  //update the  a new Post using the form data
+  let res = await API.graphql({
+    query: updateResultMutation,
+    variables: { input: params },
+  });
 
-    return res.data.updateResult;
+  return res.data.updateResult;
 }
-
-
-
 
 /**
-* Getter functions
-*/
+ * Getter functions
+ */
 
 export async function getQuiz(id) {
   //if the was no username specified, don't update the user
@@ -271,23 +335,23 @@ export async function getQuiz(id) {
   return result.data.getQuiz;
 }
 
-export async function getQuestion(id){
-  if( !id) return;
+export async function getQuestion(id) {
+  if (!id) return;
 
   let res = await API.graphql({
     query: getQuestionQuery,
-    variables: {id: id},
+    variables: { id: id },
   });
 
   return res.data.getQuestion;
 }
 
-export async function getresult(id){
-  if( !id) return;
+export async function getresult(id) {
+  if (!id) return;
 
   let res = await API.graphql({
     query: getResultQuery,
-    variables: {id: id},
+    variables: { id: id },
   });
 
   return res.data.getResult;

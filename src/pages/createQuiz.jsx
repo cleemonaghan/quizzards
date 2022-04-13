@@ -23,9 +23,9 @@ class CreateQuiz extends React.Component {
       description: "",
       ownerUsername: "",
       temp_picture: null,
-      quiz_picture: "default_group_image",
-      results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "", weights: [0] }] }],
+      quiz_picture: null,
+      results: [{ name: "", img: null }],
+      questions: [{ name: "", img: null, answers: [{ name: "", weights: [0] }] }],
       validated: false,
     };
 
@@ -104,7 +104,7 @@ class CreateQuiz extends React.Component {
         //no file was uploaded, so revert to the default
         this.setState({
           temp_picture: null,
-          quiz_picture: "default_group_image",
+          quiz_picture: null,
         });
       }
     }

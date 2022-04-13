@@ -1,6 +1,6 @@
 import React from "react";
-import ProfilePhoto from "../images/photo12.png";
-import BackgroundImage from "../images/photo15.png"; //what is this?
+import ProfilePhoto from "../images/photo9.png";
+import BackgroundImage from "../images/photo10.png"; //what is this?
 //import FirstResultImage from "../images/logo.png";
 //import SecondResultImage from "../images/logo.png";
 //Format: JSON with

@@ -1,4 +1,4 @@
-export { default as logo } from "./logo3.png";
+export { default as logo } from "./logo.png";
 export { default as default_group } from "./default_group.png";
 export { default as photo } from "./photo.png";
 export { default as photo2 } from "./photo2.png";
@@ -10,10 +10,3 @@ export { default as photo7 } from "./photo7.png";
 export { default as photo8 } from "./photo8.png";
 export { default as photo9 } from "./photo9.png";
 export { default as photo10 } from "./photo10.png";
-export { default as photo11 } from "./photo11.png";
-export { default as photo12 } from "./photo12.png";
-export { default as photo13 } from "./photo13.png";
-export { default as photo14 } from "./photo14.png";
-export { default as photo15 } from "./photo15.png";
-export { default as photo16 } from "./photo16.png";
-export { default as photo17 } from "./photo17.png";

@@ -75,16 +75,11 @@ class CreateQuiz extends React.Component {
     console.log(this.state.ownerUsername);
     console.log(this.state.description);
     console.log(this.state.quiz_picture);
-    console.log(this.state.questions);
-    console.log(this.state.results);
-    try{
-      let quiz = await createQuiz(this.state.quizName, this.state.ownerUsername, this.state.questions, this.state.results, this.state.description, this.state.quiz_picture);
-      //console.log(quiz);
-      return quiz;
-    }
-    catch(err){
-      console.log("there was an error: ",err);
-    }
+
+    let quizID = await createQuiz(this.state.quizName, this.state.ownerUsername, this.state.questions, this.state.results, this.state.description, this.state.quiz_picture);
+    console.log(quizID);
+    let quiz = await getQuiz(quizID);
+    console.log(quiz);
   }
 
   handleChange(event) {
@@ -275,11 +270,13 @@ class CreateQuiz extends React.Component {
               <h2 className="font-weight-light mt-5">Results</h2>
               {this.state.results.map((result, index) => {
                 return (
+                  <div key={index}>
                   <QuizResult
                     index={index}
                     result={result}
                     handleUpdateResult={this.updateResult}
                   />
+                  </div>
                 );
               })}
 
@@ -294,7 +291,7 @@ class CreateQuiz extends React.Component {
               <h2 className="font-weight-light mt-5">Questions</h2>
               {this.state.questions.map((question, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <QuizQuestion
                       index={index}
                       question={question}
@@ -303,7 +300,7 @@ class CreateQuiz extends React.Component {
                     <Row>
                       {question.answers.map((answer, subIndex) => {
                         return (
-                          <Col md="auto" className="ps-5">
+                          <Col md="auto" className="ps-5" key={subIndex}>
                             <QuizAnswer
                               index={subIndex}
                               answer={answer}

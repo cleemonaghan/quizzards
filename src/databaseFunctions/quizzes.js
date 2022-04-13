@@ -44,14 +44,12 @@ export async function createQuiz(
     picture: "null",
     userQuizOwnersId: username,
   };
-  console.log(params);
 
   //create a new Post using the form data
   let res = await API.graphql({
     query: createQuizMutation,
     variables: { input: params },
   });
-  console.log(res);
 
   let quiz = res.data.createQuiz;
   let quizID = quiz.id;
@@ -69,43 +67,17 @@ export async function createQuiz(
       },
     },
   });
-  console.log(res);
-
-  //grab the question list from the quiz object (should be empty)
-  //let questionList = quiz.questions;
-
-  console.log("Created Question");
 
   //create all the questions for this quiz
   for (let i = 0; i < questions.length; i++) {
     await createQuestion(questions[i], quizID);
-    //questionList.push(newQuestion);
   }
-
-  //grab the result list from the quiz object (should be empty)
-  //let resultList = quiz.results;
-
-  console.log("Created Results");
 
   //push all results from the quiz onto this new list
   for (let i = 0; i < results.length; i++) {
     await createResult(results[i], quizID);
-    //resultList.push(newResult);
   }
-
-  //store the question list and the result list for the quiz
-  /*
-  params = ({
-    questions: questionList,
-    results: resultList,
-  });
-  //update Quiz to hold new questions and results
-  let finalQuiz = await updateQuiz(quizID, params);
-  return finalQuiz;
-  */
   return quizID;
-
-  //return res.data.createQuiz;
 }
 
 export async function createQuestion(question, quizID) {
@@ -124,7 +96,6 @@ export async function createQuestion(question, quizID) {
     variables: { input: params },
   });
 
-  console.log(res);
 
   // grab the empty question
   let quest = res.data.createQuestion;
@@ -147,24 +118,9 @@ export async function createQuestion(question, quizID) {
   }
 
   // make answers for new question
-  //let questionAnswerList = quest.answers;
-
-  console.log("Creating Answers");
-
   for (let i = 0; i < answerList; i++) {
     await createAnswer(answerList[i], question, questID);
-    //questionAnswerList.push(newAnswer);
   }
-
-  //get the updated answer list
-  /*
-  params = {
-    answers: questionAnswerList,
-  }
-
-  let completedQuestion = await updateQuestion(questID, params);
-  return completedQuestion;
-  */
 }
 
 export async function createAnswer(answerObj, question, questionID) {
@@ -185,8 +141,6 @@ export async function createAnswer(answerObj, question, questionID) {
     query: createAnswerMutation,
     variables: { input: params },
   });
-  console.log("Created Answer");
-  console.log(res);
 
   //return answer
   return res.data.createAnswer;
@@ -208,8 +162,6 @@ export async function createResult(result, quizID) {
   });
   res = res.data.createResult;
   let resultID = res.id;
-  console.log("Created Result");
-  console.log(res);
 
   //update the quiz with the quiz image
   if (result.img !== null) {
@@ -226,8 +178,6 @@ export async function createResult(result, quizID) {
     },
   });
 }
-  console.log("Updated Result");
-  console.log(res);
 }
 
 /**

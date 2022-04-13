@@ -137,7 +137,13 @@ export async function getUserOwnedGroups(username) {
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  return userVal.quizOwners.data;
+  //return userVal.quiz.data;
+}
+
+export async function getUserOwnedQuizzes(username) {
+  if (!username) return;
+  let userVal = await getUser(username);
+  return userVal.quizOwners.items;
 }
 
 // User Friends ---------------------------

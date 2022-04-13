@@ -17,6 +17,10 @@ import {
   getQuestion as getQuestionQuery,
   getResult as getResultQuery,
 } from "../graphql/queries";
+import {   
+  updateUser as updateUserMutation,
+  getUserOwnedQuizzes 
+} from "./users";
 
 /**
 * Create functions
@@ -48,7 +52,15 @@ export async function createQuiz(quizName, username, questions, results, descrip
 
   let quiz = res.data.createQuiz;
   let quizID = quiz.id;
-
+  console.log("initial quiz created: ",quiz);
+  
+  let currQuizList = await getUserOwnedQuizzes(username);
+  currQuizList.push(quiz);
+  params = ({
+    quizOwners: currQuizList,
+  })
+  let addToUser = await updateUserMutation(username,params);
+  console.log("added to user list: ",currQuizList);
   //grab the question list from the quiz object (should be empty)
   let questionList = quiz.questions;
 
@@ -57,7 +69,7 @@ export async function createQuiz(quizName, username, questions, results, descrip
     let newQuestion = await createQuestion(questions[i],quiz, quizID);
     questionList.push(newQuestion);
   }
-
+  console.log("question list: ",questionList);
   //grab the result list from the quiz object (should be empty)
   let resultList = quiz.results;
 
@@ -66,7 +78,7 @@ export async function createQuiz(quizName, username, questions, results, descrip
     let newResult = await createResult(results[i],quizID);
     resultList.push(newResult);
   }
-
+  console.log("result List: ",resultList);
   //store the question list and the result list for the quiz
   params = ({
     questions: questionList,
@@ -74,6 +86,7 @@ export async function createQuiz(quizName, username, questions, results, descrip
   });
   //update Quiz to hold new questions and results
   let finalQuiz = await updateQuiz(quizID, params);
+  console.log("FINAL QUIZ: ",finalQuiz);
   return finalQuiz;
 
 

@@ -9,6 +9,7 @@ import {
   getUser,
   getUserGroups,
   getUserQuizzes,
+  getUserOwnedQuizzes,
   acceptFriend,
   requestFriend,
 } from "../databaseFunctions/users.js";
@@ -90,7 +91,7 @@ class Home extends React.Component {
   }
 
   async displayQuizzesElement() {
-    const quizArr = await getUserQuizzes(this.state.username);
+    const quizArr = await getUserOwnedQuizzes(this.state.username);
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
       return <p>You have no quizzes</p>;

@@ -1,6 +1,6 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
+import { BorderLeft } from "react-bootstrap-icons";
 import { photo3 as profileImage } from "../images";
 
 function answerBox(
@@ -16,16 +16,21 @@ function answerBox(
 ) {
   let answer = question.answers[answerIndex];
   let displayColor = color;
+  let opacity = 1;
   let fontSize = 43;
+  let fontWeight = 900;
   if (question.answered && answerIndex !== question.selected) {
     //if this question has been answered and it wasn't this answer, make the color faded
-    displayColor = "#CCCCCC";
+    opacity = 0.3;
   }
   if (window.innerWidth < 770) {
     fontSize = 15;
   }
   return (
-    <Card className="text-center" style={{ backgroundColor: displayColor }}>
+    <Card
+      className="text-center py-4 border-0"
+      style={{ backgroundColor: displayColor, opacity: opacity }}
+    >
       <Card.Title
         style={{
           display: "flex",
@@ -59,7 +64,11 @@ function answerBox(
         >
           <div
             className="rbq_answer_text text-center"
-            style={{ color: "#FFFFFF", fontSize: fontSize }}
+            style={{
+              color: "#FFFFFF",
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+            }}
           >
             <div className="rbq_answer_text">{answer.name}</div>
           </div>
@@ -85,7 +94,7 @@ function questionSection(
 ) {
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">
-      <Card className="bg-dark text-white text-center mb-3">
+      <Card className="bg-dark text-white text-center mb-4">
         <Card.Img src={question.img} alt={"Question " + index + " Image"} />
         <Card.ImgOverlay>
           <span
@@ -97,11 +106,11 @@ function questionSection(
         </Card.ImgOverlay>
       </Card>
 
-      <Container>
+      <Container className="mb-5 p-0">
         <Row>
           {question.answers.map((answer, subindex) => {
             return (
-              <Col className="mb-3" xs={6} md={4} key={answer.name + subindex}>
+              <Col className="mb-4" xs={6} md={4} key={answer.name + subindex}>
                 {answerBox(
                   index,
                   subindex,
@@ -122,18 +131,26 @@ function questionSection(
   );
 }
 
-function displayResult(completed, scores, results, quizTitle, questionRefs, setCompleted, questions, setScore) {
+function displayResult(
+  completed,
+  scores,
+  results,
+  quizTitle,
+  questionRefs,
+  setCompleted,
+  questions,
+  setScore
+) {
   //find the best result
   let bestScore = 0;
   let bestIndex = 0;
-  for(let i = 0; i < scores.length; i++) {
-    if(bestScore < scores[i]) {
+  for (let i = 0; i < scores.length; i++) {
+    if (bestScore < scores[i]) {
       //update the best
       bestScore = scores[i];
       bestIndex = i;
     }
   }
-
 
   let visibility = "visible";
   if (!completed) {
@@ -151,9 +168,9 @@ function displayResult(completed, scores, results, quizTitle, questionRefs, setC
       <div className="rbq_result_inner_container">
         <div className="rbq_result_inner_description_container">
           <h3 className="rbq_result_inner_description_header">
-          {results[bestIndex].name}
+            {results[bestIndex].name}
           </h3>
-          <p className="rbq_result_inner_description">Result Description</p>
+          {/* <p className="rbq_result_inner_description">Result Description</p> */}
         </div>
         <div className="rbq_result_inner_image_container">
           <img
@@ -164,10 +181,15 @@ function displayResult(completed, scores, results, quizTitle, questionRefs, setC
         </div>
       </div>
       <div className="rbq_result_footer">
-        <button className="rbq_retake_quiz_button" onClick={() => {
-          //retake the quiz
-          resetQuiz(questionRefs, setCompleted, questions, results, setScore)
-        }}>Retake</button>
+        <button
+          className="rbq_retake_quiz_button"
+          onClick={() => {
+            //retake the quiz
+            resetQuiz(questionRefs, setCompleted, questions, results, setScore);
+          }}
+        >
+          Retake
+        </button>
       </div>
     </div>
   );
@@ -175,13 +197,13 @@ function displayResult(completed, scores, results, quizTitle, questionRefs, setC
 
 function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
   //scroll to the top
-  handleBackClick(questionRefs.current[0])
+  handleBackClick(questionRefs.current[0]);
 
   //reset the result
   setCompleted(false);
 
   //reset the questions
-  for(let i = 0 ; i < questions.length; i++) {
+  for (let i = 0; i < questions.length; i++) {
     let res = questions[i];
     //set answered to true
     res.answered = false;
@@ -291,13 +313,48 @@ function Quiz() {
   return (
     <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
       <div className="rbq_inner_quiz_container">
-        <Card className="bg-dark text-white mb-3">
+        <Card className="bg-dark text-white mb-5">
           <Card.Img
             variant="top"
+            height="200px"
             src={database.quiz_picture}
             alt={database.title}
           />
+          <Card.ImgOverlay className="overlap_text">
+            <Card.Title>
+              <h1 style={{ fontWeight: "bold" }}>{database.title}</h1>
+            </Card.Title>
+            <Card.Text>
+              <p style={{ fontSize: "20px" }}>{database.description}</p>
+            </Card.Text>
+            {/* <Stack direction="horizontal" gap={3}>
+              <img
+                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                alt={database.author}
+                src={profileImage}
+              />
+              <span>
+                <p style={{ fontSize: "25px" }}>
+                  by <strong>{database.author}</strong>
+                </p>
+              </span>
+            </Stack> */}
+          </Card.ImgOverlay>
           <Card.Body>
+            <Stack direction="horizontal" gap={3}>
+              <img
+                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                alt={database.author}
+                src={profileImage}
+              />
+              <span>
+                <p>
+                  by <strong>{database.author}</strong>
+                </p>
+              </span>
+            </Stack>
+          </Card.Body>
+          {/* <Card.Body>
             <Card.Title>
               <h1>{database.title}</h1>
             </Card.Title>
@@ -314,7 +371,7 @@ function Quiz() {
                 </p>
               </span>
             </Stack>
-          </Card.Body>
+          </Card.Body> */}
         </Card>
 
         <div id="main_questions_container">
@@ -338,10 +395,22 @@ function Quiz() {
             );
           })}
         </div>
-      </div>
 
-      <div ref={(el) => (itemsRef.current[questions.length + 1] = el)}>
-        {displayResult(completed, score, database.results, database.title, itemsRef, setCompleted, questions, setScore)}
+        <div
+          className="mt-0 mb-5"
+          ref={(el) => (itemsRef.current[questions.length + 1] = el)}
+        >
+          {displayResult(
+            completed,
+            score,
+            database.results,
+            database.title,
+            itemsRef,
+            setCompleted,
+            questions,
+            setScore
+          )}
+        </div>
       </div>
     </div>
   );

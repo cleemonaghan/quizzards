@@ -1,7 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
-import "react-buzzfeed-quiz/lib/styles.css";
 import { photo3 as profileImage } from "../images";
 
 function answerBox(

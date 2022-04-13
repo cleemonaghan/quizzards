@@ -18,8 +18,8 @@ import {
   Loading,
 } from "../components";
 
-import { getGroup} from "../databaseFunctions/groups";
-import {getUserOwnedGroups} from "../databaseFunctions/users.js";
+import { getGroup } from "../databaseFunctions/groups";
+import { getUserOwnedGroups } from "../databaseFunctions/users.js";
 
 /** This function gathers the resources necessary to load the group page.
  *
@@ -57,7 +57,6 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(res.username);
       console.log(res);
       setUserGroups(res);
-
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -66,7 +65,7 @@ function useGatherResources(groupID) {
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     getInfo();
   }, []);
@@ -74,9 +73,9 @@ function useGatherResources(groupID) {
   return [group, groupImage, error, loading, user, userGroups];
 }
 
-function userButton(groupID, user, userGroups){
-  console.log("group ID",groupID);
-  console.log("userGroups",userGroups);
+function userButton(groupID, user, userGroups) {
+  console.log("group ID", groupID);
+  console.log("userGroups", userGroups);
   console.log("userGroups length", userGroups.length);
   //let response = await Auth.currentAuthenticatedUser();
   //let user = response.username;
@@ -85,12 +84,12 @@ function userButton(groupID, user, userGroups){
   //console.log(groupArr.length);
   let myGroup = false;
 
-  for(let i = 0; i< userGroups.length; i++){
+  for (let i = 0; i < userGroups.length; i++) {
     console.log(userGroups[i]);
     let group = userGroups[i].id;
     console.log(groupID);
-    
-    if(groupID == group){
+
+    if (groupID == group) {
       myGroup = true;
       break;
     }
@@ -100,18 +99,20 @@ function userButton(groupID, user, userGroups){
 
   console.log(myGroup);
 
-  if(myGroup){
-    result.push(    
-      <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
-      <Button variant="outline-primary">Edit Group </Button>{" "}
-    </Link></div>        
-);
-  }
-  else{
+  if (myGroup) {
+    result.push(
+      <div className="col-2 px-0">
+        {" "}
+        <Link to={{ pathname: "/groupEdit/" + groupID }}>
+          <Button variant="outline-primary">Edit Group </Button>{" "}
+        </Link>
+      </div>
+    );
+  } else {
     // result.push(
     //   <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
     //   <Button variant="outline-primary">Edit Group </Button>{" "}
-    // </Link></div> 
+    // </Link></div>
     // );
   }
   console.log(result);
@@ -126,10 +127,10 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
 
-  const [group, groupImage, error, loading, user, userGroups] = useGatherResources(groupID);
+  const [group, groupImage, error, loading, user, userGroups] =
+    useGatherResources(groupID);
   //console.log(userGroups);
-  let userB =  userButton(groupID, user, userGroups);
-  
+  let userB = userButton(groupID, user, userGroups);
 
   if (error) return failToLoad();
   return loading ? (
@@ -137,12 +138,18 @@ function GroupPage() {
   ) : (
     <div className="group-page">
       <div className="row m-0">
-        <img className="col-5 mb-5 px-0" src={groupImage} alt="" width="100%" height="300vh"/>
+        <img
+          className="col-5 mb-5 px-0"
+          src={groupImage}
+          alt=""
+          width="100%"
+          height="300vh"
+        />
         <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
           <h1 className="px-5">
             {group.name}
             {/* <Link to={{ pathname: "/groupEdit/" + groupID }}> */}
-              {/* <PencilSquare className="p-2" color="#292b2c" />{" "} */}
+            {/* <PencilSquare className="p-2" color="#292b2c" />{" "} */}
             {/* </Link> */}
           </h1>
           <p className="px-5">{group.bio}</p>

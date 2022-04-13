@@ -231,7 +231,7 @@ function useRequestButton(
   const [title, setTitle] = useState("Request to Join");
   if (currentUser === owner){
     let color = "outline-success";
-    if(members.length < 1) {
+    if(requested.length < 1) {
       color = "outline-primary"
     }
     return (
@@ -417,11 +417,15 @@ function MembersList(params) {
                 for (let i = 0; i < friends.length; i++) {
                   // if friend is checked, add them to the group
                   if (event.target[i].checked) {
-                    await addMemberToGroup(target[i].id, params.group.id);
+                    let res = await addMemberToGroup(target[i].id, params.group.id);
+                    console.log("Adding member to group:");
+                    console.log(res);
                   }
                 }
                 // update the members list
                 let res = await getGroup(params.group.id);
+                console.log("Fetched group:");
+                console.log(res);
                 refreshMembers(
                   ownerUsername,
                   res.members.items,

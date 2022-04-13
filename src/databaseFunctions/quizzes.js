@@ -37,25 +37,27 @@ export async function createQuiz(quizName, username, questions, results, descrip
     ownerUsername: username,
     description: description,
     picture: picture,
-    //userQuizOwnersId: username,
+    userQuizOwnersId: username,
   };
+  console.log(params);
 
   //create a new Post using the form data
   let res = await API.graphql({
     query: createQuizMutation,
     variables: { input: params },
   });
+  console.log(res);
 
   let quiz = res.data.createQuiz;
   let quizID = quiz.id;
 
   //grab the question list from the quiz object (should be empty)
-  let questionList = quiz.questions;
+  //let questionList = quiz.questions;
 
-  //push all questions from the quiz onto this new list
+  //create all the questions for this quiz
   for(let i = 0; i < questions.length; i++){
-    let newQuestion = await createQuestion(questions[i],quiz, quizID);
-    questionList.push(newQuestion);
+    await createQuestion(questions[i],quiz, quizID);
+    //questionList.push(newQuestion);
   }
 
   //grab the result list from the quiz object (should be empty)
@@ -63,11 +65,12 @@ export async function createQuiz(quizName, username, questions, results, descrip
 
   //push all results from the quiz onto this new list
   for(let i = 0; i < results.length; i++){
-    let newResult = await createResult(results[i],quizID);
-    resultList.push(newResult);
+    await createResult(results[i],quizID);
+    //resultList.push(newResult);
   }
 
   //store the question list and the result list for the quiz
+  /*
   params = ({
     questions: questionList,
     results: resultList,
@@ -75,13 +78,14 @@ export async function createQuiz(quizName, username, questions, results, descrip
   //update Quiz to hold new questions and results
   let finalQuiz = await updateQuiz(quizID, params);
   return finalQuiz;
-
+  */
+  return quizID;
 
   //return res.data.createQuiz;
 }
 
 export async function createQuestion(question, quiz, quizID){
-  let answerList = question.answers();
+  let answerList = question.answers;
 
   //make params for new question
   let params = {
@@ -90,30 +94,32 @@ export async function createQuestion(question, quiz, quizID){
     name: question.name,
     picture: question.img,
   }
-  //put default question into the db
+  // put the question into the db
   let res = await API.graphql({
     query: createQuestionMutation,
     variables: {input: params},
   });
 
-  //grab the empty question
+  // grab the empty question
   let quest = res.data.createQuestion;
   let questID = quest.id;
 
-  //make answers for new question
-  let questionAnswerList = quest.answers;
+  // make answers for new question
+  //let questionAnswerList = quest.answers;
   for(let i = 0; i< answerList; i++){
-    let newAnswer = await createAnswer(answerList[i],question, questID);
-    questionAnswerList.push(newAnswer);
+    await createAnswer(answerList[i],question, questID);
+    //questionAnswerList.push(newAnswer);
   }
 
   //get the updated answer list
+  /*
   params = {
     answers: questionAnswerList,
   }
 
   let completedQuestion = await updateQuestion(questID, params);
   return completedQuestion;
+  */
 }
 
 export async function createAnswer(answerObj, question, questionID){

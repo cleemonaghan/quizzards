@@ -76,7 +76,10 @@ class CreateQuiz extends React.Component {
     console.log(this.state.description);
     console.log(this.state.quiz_picture);
 
-    //await createQuiz(quizName, username, description, picture)
+    let quizID = await createQuiz(this.state.quizName, this.state.ownerUsername, this.state.questions, this.state.results, this.state.description, this.state.quiz_picture);
+    console.log(quizID);
+    let quiz = await getQuiz(quizID);
+    console.log(quiz);
   }
 
   handleChange(event) {

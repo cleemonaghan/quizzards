@@ -2,16 +2,16 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function QuizBox({ name, description }) {
+function QuizBox({ title, author ,id }) {
   return (
     <div className="quiz-box mb-4">
-      <Link to="/quizPage" style={{ textDecoration: "none" }}>
+      <Link to={"/quizPage/"+id} style={{ textDecoration: "none" }}>
         <Card className="text-center py-3" bg="dark" text="white">
           <Card.Body>
             <Card.Title>
-              <h2>{name}</h2>
+              <h2>{title}</h2>
             </Card.Title>
-            <Card.Text>{description}</Card.Text>
+            <Card.Text>{"By: "+author}</Card.Text>
           </Card.Body>
         </Card>
       </Link>

@@ -16,6 +16,10 @@ import {
   getQuestion as getQuestionQuery,
   getResult as getResultQuery,
 } from "../graphql/queries";
+import {
+  getQuiz as getQuizCustom,
+  listQuizzes as listQuizzesCustom,
+} from "../graphql/custom";
 
 /**
  * Create functions
@@ -75,7 +79,7 @@ export async function createQuiz(
 
   //push all results from the quiz onto this new list
   for (let i = 0; i < results.length; i++) {
-    await createResult(results[i], quizID);
+    await createResult(results[i], quizID, i);
   }
   return quizID;
 }
@@ -95,7 +99,6 @@ export async function createQuestion(question, quizID) {
     query: createQuestionMutation,
     variables: { input: params },
   });
-
 
   // grab the empty question
   let quest = res.data.createQuestion;
@@ -118,18 +121,17 @@ export async function createQuestion(question, quizID) {
   }
 
   // make answers for new question
-  for (let i = 0; i < answerList; i++) {
-    await createAnswer(answerList[i], question, questID);
+  for (let i = 0; i < answerList.length; i++) {
+    await createAnswer(answerList[i], questID);
   }
 }
 
-export async function createAnswer(answerObj, question, questionID) {
+export async function createAnswer(answerObj, questionID) {
   let answerName = answerObj.name;
   let answerWeights = answerObj.weights;
 
   //make params for new answer
   let params = {
-    question: question,
     questionID: questionID,
     name: answerName,
     weights: answerWeights,
@@ -146,12 +148,13 @@ export async function createAnswer(answerObj, question, questionID) {
   return res.data.createAnswer;
 }
 
-export async function createResult(result, quizID) {
+export async function createResult(result, quizID, index) {
   //make params for new result
   let params = {
     name: result.name,
     picture: "null",
     quizID: quizID,
+    index: index,
     quizResultsId: quizID,
   };
 
@@ -165,19 +168,19 @@ export async function createResult(result, quizID) {
 
   //update the quiz with the quiz image
   if (result.img !== null) {
-  const fileName = quizID + "_quiz_" + resultID + "_result_pic";
-  await Storage.put(fileName, result.img);
-  params["profilePicture"] = fileName;
-  res = await API.graphql({
-    query: updateResultMutation,
-    variables: {
-      input: {
-        id: resultID,
-        picture: fileName,
+    const fileName = quizID + "_quiz_" + resultID + "_result_pic";
+    await Storage.put(fileName, result.img);
+    params["profilePicture"] = fileName;
+    res = await API.graphql({
+      query: updateResultMutation,
+      variables: {
+        input: {
+          id: resultID,
+          picture: fileName,
+        },
       },
-    },
-  });
-}
+    });
+  }
 }
 
 /**
@@ -279,10 +282,56 @@ export async function getQuiz(id) {
   if (!id) return;
   //update the  a new Post using the form data
   let result = await API.graphql({
-    query: getQuizQuery,
+    query: getQuizCustom,
     variables: { id: id },
   });
+  console.log("fetched quiz from DB");
+  console.log(result.data.getQuiz);
+
   return result.data.getQuiz;
+}
+
+export async function listAllQuizzes() {
+  //first find the memberRequest id
+  let params = {
+    limit: 20,
+  }
+  let result = await API.graphql({
+    query: listQuizzesCustom,
+    variables: params,
+  });
+  //then delete the memberRequest
+  console.log(result.data.listQuizzes);
+
+  return result.data.listQuizzes.items;
+}
+
+export async function listQuizzesOfGroup(username, groupID) {
+  //first find the memberRequest id
+  let params = {
+    limit: 20,
+    filter: {
+    and: [
+      {
+        ownerUsername: {
+          eq: username, // filter ownerUsername == username
+        },
+      }/*,
+      {
+        groupID: {
+          eq: groupID, // filter groupID == groupID
+        },
+      }*/,
+    ],
+  }};
+  let result = await API.graphql({
+    query: listQuizzesCustom,
+    variables: params,
+  });
+  //then delete the memberRequest
+  console.log(result.data.listQuizzes);
+
+  return result.data.listQuizzes;
 }
 
 export async function getQuestion(id) {
@@ -296,7 +345,7 @@ export async function getQuestion(id) {
   return res.data.getQuestion;
 }
 
-export async function getresult(id) {
+export async function getResult(id) {
   if (!id) return;
 
   let res = await API.graphql({

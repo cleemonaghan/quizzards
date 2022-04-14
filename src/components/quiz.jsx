@@ -3,9 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
 import { failToLoad, Loading } from "../components";
 import { getQuiz } from "../databaseFunctions/quizzes";
-import {
-  default_group as spareBackground,
-} from "../images";
+import { default_group as spareBackground } from "../images";
+import { photo3 as profileImage } from "../images";
 
 function answerBox(
   questionIndex,
@@ -18,19 +17,23 @@ function answerBox(
   questionRefs,
   completed
 ) {
-  console.log("Creating answer");
   let answer = question.answers.items[answerIndex];
   let displayColor = color;
+  let opacity = 1;
   let fontSize = 43;
+  let fontWeight = 900;
   if (question.answered && answerIndex !== question.selected) {
     //if this question has been answered and it wasn't this answer, make the color faded
-    displayColor = "#CCCCCC";
+    opacity = 0.3;
   }
   if (window.innerWidth < 770) {
     fontSize = 15;
   }
   return (
-    <Card className="text-center" style={{ backgroundColor: displayColor }}>
+    <Card
+      className="text-center py-4 border-0"
+      style={{ backgroundColor: displayColor, opacity: opacity }}
+    >
       <Card.Title
         style={{
           display: "flex",
@@ -64,7 +67,11 @@ function answerBox(
         >
           <div
             className="rbq_answer_text text-center"
-            style={{ color: "#FFFFFF", fontSize: fontSize }}
+            style={{
+              color: "#FFFFFF",
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+            }}
           >
             <div className="rbq_answer_text">{answer.name}</div>
           </div>
@@ -95,23 +102,20 @@ function questionSection(
   }
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">
-      <Card className="bg-dark text-white text-center mb-3">
+      <Card className="bg-dark text-white text-center mb-4">
         <Card.Img src={background} alt={"Question " + index + " Image"} />
         <Card.ImgOverlay>
-          <span
-            className="rbq_question_overlap_text"
-            style={{ fontSize: 80 }}
-          >
+          <span className="rbq_question_overlap_text" style={{ fontSize: 80 }}>
             {question.name}
           </span>
         </Card.ImgOverlay>
       </Card>
 
-      <Container>
+      <Container className="mb-5 p-0">
         <Row>
           {question.answers.items.map((answer, subindex) => {
             return (
-              <Col className="mb-3" xs={6} md={4} key={answer.name + subindex}>
+              <Col className="mb-4" xs={6} md={4} key={answer.name + subindex}>
                 {answerBox(
                   index,
                   subindex,
@@ -142,7 +146,6 @@ function displayResult(
   questions,
   setScore
 ) {
-  console.log("Creating result");
   //find the best score
   let bestScore = 0;
   let bestIndex = 0;
@@ -163,16 +166,12 @@ function displayResult(
     }
   }
 
-
   let visibility = "visible";
   if (!completed) {
     visibility = "hidden";
   }
   let background = result.picture;
-  if (
-    result.picture === undefined ||
-    result.picture === null
-  ) {
+  if (result.picture === undefined || result.picture === null) {
     //if there is no picture, then use a blank color
     background = spareBackground;
   }
@@ -187,10 +186,8 @@ function displayResult(
       </div>
       <div className="rbq_result_inner_container">
         <div className="rbq_result_inner_description_container">
-          <h3 className="rbq_result_inner_description_header">
-            {result.name}
-          </h3>
-          <p className="rbq_result_inner_description">Result Description</p>
+          <h3 className="rbq_result_inner_description_header">{result.name}</h3>
+          {/* <p className="rbq_result_inner_description">Result Description</p> */}
         </div>
         <div className="rbq_result_inner_image_container">
           <img
@@ -279,8 +276,6 @@ function useGatherResources(quizID) {
         res.questions.items[i].selected = null;
       }
 
-      console.log("Saving quiz");
-      console.log(res);
       setQuiz(res);
       //get the user
       res = await Auth.currentAuthenticatedUser();
@@ -325,7 +320,6 @@ function Quiz({ quizID }) {
 
   useEffect(() => {
     if (!loading1) {
-      console.log("Done loading");
       //questions = quiz.questions.items;
       //results = quiz.results.items;
       // init the score array for the quiz
@@ -346,14 +340,9 @@ function Quiz({ quizID }) {
     }
   }, [loading1]);
 
-  console.log("Rendering");
-  console.log("score is");
-  console.log(score);
-
   if (error) return failToLoad();
   else if (loading1 || loading2) return Loading();
   else {
-    console.log("Checking if we are finished");
     if (!loading2 && quiz.questions !== undefined) {
       //check if we have answered all the questions
       let change = true;
@@ -368,22 +357,45 @@ function Quiz({ quizID }) {
         // Save the results
         console.log("Results are");
         console.log(quiz.results);
+        
+        console.log("Score is");
+        console.log(score);
 
         // Diplay the results
         setCompleted(true);
       }
     }
-    console.log("Completed is " + completed);
     return (
       <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
         <div className="rbq_inner_quiz_container">
-          <Card className="bg-dark text-white mb-3">
-            <Card.Img variant="top" src={quiz.picture} alt={quiz.title} />
-            <Card.Body>
+          <Card className="bg-dark text-white mb-5">
+            <Card.Img
+              variant="top"
+              height="200px"
+              src={quiz.picture}
+              alt={quiz.title}
+            />
+            <Card.ImgOverlay className="overlap_text">
               <Card.Title>
-                <h1>{quiz.title}</h1>
+                <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
               </Card.Title>
-              <Card.Text>{quiz.description}</Card.Text>
+              <Card.Text style={{ fontSize: "20px" }}>
+                {quiz.description}
+              </Card.Text>
+              {/* <Stack direction="horizontal" gap={3}>
+              <img
+                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                alt={database.author}
+                src={profileImage}
+              />
+              <span>
+                <p style={{ fontSize: "25px" }}>
+                  by <strong>{database.author}</strong>
+                </p>
+              </span>
+            </Stack> */}
+            </Card.ImgOverlay>
+            <Card.Body>
               <Stack direction="horizontal" gap={3}>
                 <img
                   className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
@@ -397,6 +409,24 @@ function Quiz({ quizID }) {
                 </span>
               </Stack>
             </Card.Body>
+            {/* <Card.Body>
+            <Card.Title>
+              <h1>{database.title}</h1>
+            </Card.Title>
+            <Card.Text>{database.description}</Card.Text>
+            <Stack direction="horizontal" gap={3}>
+              <img
+                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                alt={database.author}
+                src={profileImage}
+              />
+              <span>
+                <p>
+                  by <strong>{database.author}</strong>
+                </p>
+              </span>
+            </Stack>
+          </Card.Body> */}
           </Card>
 
           <div id="main_questions_container">

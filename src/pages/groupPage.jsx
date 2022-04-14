@@ -143,7 +143,7 @@ function GroupPage() {
           src={groupImage}
           alt=""
           width="100%"
-          height="300vh"
+          height="350vh"
         />
         <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
           <h1 className="px-5">

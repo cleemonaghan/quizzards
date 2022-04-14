@@ -166,7 +166,7 @@ class Groups extends React.Component {
         );
       }
     }
-    if (result.length == 0) {
+    if (result.length === 0) {
       return <p> No groups match your search</p>;
     }
     return result;

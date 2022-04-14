@@ -301,7 +301,7 @@ export async function listAllQuizzes() {
     variables: params,
   });
   //then delete the memberRequest
-  console.log(result.data.listQuizzes);
+  //console.log(result.data.listQuizzes);
 
   return result.data.listQuizzes.items;
 }
@@ -331,7 +331,30 @@ export async function listQuizzesOfGroup(username, groupID) {
   //then delete the memberRequest
   console.log(result.data.listQuizzes);
 
-  return result.data.listQuizzes;
+  return result.data.listQuizzes.items;
+}
+
+export async function listQuizzesByTitle(title) {
+  //first find the memberRequest id
+  let params = {
+    limit: 20,
+    filter: {
+    and: [
+      {
+        title: {
+          eq: title, // filter title == title
+        },
+      }
+    ],
+  }};
+  let result = await API.graphql({
+    query: listQuizzesCustom,
+    variables: params,
+  });
+  //then delete the memberRequest
+  console.log(result.data.listQuizzes);
+
+  return result.data.listQuizzes.items;
 }
 
 export async function getQuestion(id) {

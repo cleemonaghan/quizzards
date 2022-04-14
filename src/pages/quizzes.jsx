@@ -5,7 +5,7 @@ import { MDBCol, MDBInput } from "mdbreact";
 import { Link } from "react-router-dom";
 
 import { Auth, Storage } from "aws-amplify";
-import { listAllQuizzes } from "../databaseFunctions/quizzes";
+import { listAllQuizzes, listQuizzesByTitle } from "../databaseFunctions/quizzes";
 
 class Quizzes extends React.Component {
   constructor() {
@@ -15,10 +15,10 @@ class Quizzes extends React.Component {
       quizzes: [],
       error: null,
       loading: true,
-      searchBar: "",
+      searchBar: [],
     };
 
-    //this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
@@ -67,6 +67,37 @@ class Quizzes extends React.Component {
     return result;
   }
 
+  async getQuizBySearch(substr) {
+    var quizData = await listAllQuizzes();
+    var result = [];
+    for (let i = 0; i < quizData.length; i++) {
+      let quiz = quizData[i];
+      if (quiz.title.includes(substr)) {
+        //let groupImage = await Storage.get(group.profilePicture);
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={quiz.id}>
+          <QuizBox
+            title={quiz.title}
+            author={quiz.ownerUsername}
+            id={quiz.id}
+          />
+        </div>
+        );
+      }
+    }
+    if (result.length === 0) {
+      return <p> No quizzes match your search</p>;
+    }
+    return result;
+  }
+
+  async handleChange(e) {
+    if (e.target.value === "") {
+      this.setState({ searchBar: [] });
+    } else
+      this.setState({ searchBar: await this.getQuizBySearch(e.target.value) });
+  }
+
   render() {
     if (this.state.error) return failToLoad();
     if (this.state.loading) return Loading();
@@ -85,6 +116,7 @@ class Quizzes extends React.Component {
                       containerClass="active-pink active-pink-2 mt-0 mb-3"
                       variant="outline-primary"
                       size="lg"
+                      onChange={this.handleChange}
                     />
                   </MDBCol>
                 </div>
@@ -97,6 +129,8 @@ class Quizzes extends React.Component {
                   </Link>
                 </div>
               </div>
+              
+          <div className="row">{this.state.searchBar}</div>
               {/* <hr /> */}
               <div className="row align-items-center mt-5 mb-2">
                 <h1 className="font-weight-bold col-4">Suggested Quizzes</h1>

@@ -75,18 +75,18 @@ function QuizResult({ result, index, handleUpdateResult }) {
           </Form.Group>
         </Col>
         <Col md="auto">
-            <Form.Group controlId="result_pic" className="mb-3">
-              {/*<Form.Label>Result Picture</Form.Label>*/}
-              <Form.Control
-                type="file"
-                name="result_pic"
-                accept="image/png, image/jpeg"
-                onChange={handleImageChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide an image for the result.
-              </Form.Control.Feedback>
-            </Form.Group>
+          <Form.Group controlId="result_pic" className="mb-3">
+            {/*<Form.Label>Result Picture</Form.Label>*/}
+            <Form.Control
+              type="file"
+              name="result_pic"
+              accept="image/png, image/jpeg"
+              onChange={handleImageChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please provide an image for the result.
+            </Form.Control.Feedback>
+          </Form.Group>
           {displayImage(temp)}
         </Col>
       </Row>

@@ -200,9 +200,10 @@ class CreateQuiz extends React.Component {
   removeAnswer(i) {
     const answers = this.state.questions[i].answers;
     answers.pop();
-    this.setState((state) => {
-      return state;
-    });
+    this.setState({ answers });
+    // this.setState((state) => {
+    //   return state;
+    // });
   }
 
   updateAnswer(index, subindex, updatedAnswer) {
@@ -320,7 +321,7 @@ class CreateQuiz extends React.Component {
               })}
 
               <Button
-                className="me-5"
+                className="me-2"
                 variant="outline-primary"
                 onClick={this.addResult}
               >
@@ -347,7 +348,7 @@ class CreateQuiz extends React.Component {
                     <Row>
                       {question.answers.map((answer, subIndex) => {
                         return (
-                          <Col md="auto" className="ps-5" key={subIndex}>
+                          <Col md="auto" key={subIndex}>
                             <QuizAnswer
                               index={subIndex}
                               answer={answer}
@@ -364,7 +365,7 @@ class CreateQuiz extends React.Component {
                       })}
                     </Row>
                     <Button
-                      className="ms-5 mb-3 me-5"
+                      className="mb-3 me-2"
                       variant="outline-primary"
                       onClick={() => this.addAnswer(index)}
                     >
@@ -373,7 +374,7 @@ class CreateQuiz extends React.Component {
                     <Button
                       className="mb-3"
                       variant="outline-danger"
-                      onClick={this.removeAnswer}
+                      onClick={() => this.removeAnswer(index)}
                     >
                       Remove Answer -
                     </Button>
@@ -382,7 +383,7 @@ class CreateQuiz extends React.Component {
               })}
 
               <Button
-                className="me-5"
+                className="me-2"
                 variant="outline-primary"
                 onClick={this.addQuestion}
               >
@@ -398,9 +399,9 @@ class CreateQuiz extends React.Component {
             <Button className="my-5 me-5" variant="primary" type="submit">
               Create Quiz
             </Button>
-            <Button className="my-5" variant="primary" type="submit">
+            {/* <Button className="my-5" variant="primary" type="submit">
               Publish Quiz
-            </Button>
+            </Button> */}
           </Form>
         </div>
       </div>

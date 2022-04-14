@@ -93,6 +93,7 @@ type Result @model @auth(rules: [{allow: public}]){
 	name: String!
 	description: String
 	picture: String
+	index: Int!
 }
 
 type UserAnswers @model @auth(rules: [{allow: public}]){

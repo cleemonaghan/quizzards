@@ -559,6 +559,7 @@ export const createQuiz = /* GraphQL */ `
           name
           description
           picture
+          index
           createdAt
           updatedAt
           quizResultsId
@@ -655,6 +656,7 @@ export const updateQuiz = /* GraphQL */ `
           name
           description
           picture
+          index
           createdAt
           updatedAt
           quizResultsId
@@ -751,6 +753,7 @@ export const deleteQuiz = /* GraphQL */ `
           name
           description
           picture
+          index
           createdAt
           updatedAt
           quizResultsId
@@ -1135,6 +1138,7 @@ export const createResult = /* GraphQL */ `
       name
       description
       picture
+      index
       createdAt
       updatedAt
       quizResultsId
@@ -1189,6 +1193,7 @@ export const updateResult = /* GraphQL */ `
       name
       description
       picture
+      index
       createdAt
       updatedAt
       quizResultsId
@@ -1243,6 +1248,7 @@ export const deleteResult = /* GraphQL */ `
       name
       description
       picture
+      index
       createdAt
       updatedAt
       quizResultsId

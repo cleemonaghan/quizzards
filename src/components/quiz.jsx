@@ -357,7 +357,7 @@ function Quiz({ quizID }) {
         // Save the results
         console.log("Results are");
         console.log(quiz.results);
-        
+
         console.log("Score is");
         console.log(score);
 
@@ -450,21 +450,23 @@ function Quiz({ quizID }) {
               );
             })}
           </div>
-        </div>
 
-        <div
-          ref={(el) => (itemsRef.current[quiz.questions.items.length + 1] = el)}
-        >
-          {displayResult(
-            completed,
-            score,
-            quiz.results.items,
-            quiz.title,
-            itemsRef,
-            setCompleted,
-            quiz.questions.items,
-            setScore
-          )}
+          <div
+            ref={(el) =>
+              (itemsRef.current[quiz.questions.items.length + 1] = el)
+            }
+          >
+            {displayResult(
+              completed,
+              score,
+              quiz.results.items,
+              quiz.title,
+              itemsRef,
+              setCompleted,
+              quiz.questions.items,
+              setScore
+            )}
+          </div>
         </div>
       </div>
     );

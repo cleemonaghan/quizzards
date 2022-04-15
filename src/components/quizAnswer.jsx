@@ -1,8 +1,21 @@
 import React from "react";
-import { Form, FloatingLabel, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Form,
+  FloatingLabel,
+  OverlayTrigger,
+  Tooltip,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 
-function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
+function QuizAnswer({
+  answer,
+  index,
+  handleUpdateAnswer,
+  handleUpdateWeight,
+  results,
+}) {
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;
     handleUpdateAnswer(index, {
@@ -11,15 +24,28 @@ function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
     });
   }
 
+  function handleWeightChange(evt, resultIndex) {
+    const newValue = parseInt(evt.nativeEvent.target.value);
+    handleUpdateWeight(index, resultIndex, newValue);
+  }
+
   return (
     <div className="answer">
       <h4>Answer {index + 1}</h4>
-      <Form.Group className="mb-3" controlId="answer">
-        <FloatingLabel label="Answer" className="mb-3">
-          <Form.Control name="name" type="text" onChange={handleNameChange} />
-        </FloatingLabel>
-      </Form.Group>
-      <div className="ps-5">
+      <Row className="result mb-3">
+        <Col>
+          <Form.Group className="mb-3" controlId="answer">
+            <FloatingLabel label="Answer" className="mb-3">
+              <Form.Control
+                name="name"
+                type="text"
+                onChange={handleNameChange}
+              />
+            </FloatingLabel>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
         <OverlayTrigger
           placement="right"
           overlay={
@@ -36,27 +62,27 @@ function QuizAnswer({ answer, index, handleUpdateAnswer, results }) {
             </h4>
           )}
         </OverlayTrigger>
-        <form className="ps-3">
+        <Row className="ps-3 mb-3">
           {results.map((result, index) => {
             return (
-              <div>
-                <label>
-                  {" "}
-                  <h5 className="pe-2">
-                    Result {index + 1}: {result.name}
-                  </h5>{" "}
-                </label>
-                <select>
+              <Form.Group as={Col} key={index}>
+                <Form.Label>
+                  <strong>{index + 1 + ". " + result.name}</strong>
+                </Form.Label>
+                <Form.Select
+                  label="weight"
+                  onChange={(event) => handleWeightChange(event, index)}
+                >
                   <option value="0"> 0</option>
-                  <option value="1"> 1</option>
-                  <option value="2"> 2</option>
-                  <option value="3"> 3</option>
-                </select>
-              </div>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </Form.Select>
+              </Form.Group>
             );
           })}
-        </form>
-      </div>
+        </Row>
+      </Row>
     </div>
   );
 }

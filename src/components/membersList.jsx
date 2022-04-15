@@ -67,7 +67,7 @@ async function refreshMembers(
   memberList,
   requestedMemList,
   setMembers,
-  setMemberRequests,
+  setMemberRequests
 ) {
   try {
     let result = [];
@@ -104,16 +104,17 @@ function useGatherMembers(
   setMemberRequests
 ) {
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-    refreshMembers(ownername,
+    refreshMembers(
+      ownername,
       memberList,
       requestedMemList,
       setMembers,
-      setMemberRequests);
+      setMemberRequests
+    );
     //we are finished loading, so set loading to false
     setLoading(false);
-    
   }, []);
   return [loading, refreshMembers];
 }
@@ -171,7 +172,12 @@ async function gatherFriends(username, memberList, setLoading, setFriends) {
   return true;
 }
 
-async function gatherMemberReqs(memberReqList, memberList, setLoading, setFriends) {
+async function gatherMemberReqs(
+  memberReqList,
+  memberList,
+  setLoading,
+  setFriends
+) {
   try {
     setLoading(true);
     let result = [];
@@ -229,35 +235,27 @@ function useRequestButton(
   //let title = "Request to Join";
   const [disable, setDisable] = useState(false);
   const [title, setTitle] = useState("Request to Join");
-  if (currentUser === owner){
+  if (currentUser === owner) {
     let color = "outline-success";
-    if(members.length < 1) {
-      color = "outline-primary"
+    if (requested.length < 1) {
+      color = "outline-primary";
     }
     return (
       <div className="float-end col-5 mt-2">
-        <Button
-          variant={color}
-          onClick={handleShow}
-        >
+        <Button variant={color} onClick={handleShow}>
           Accept Requests
         </Button>{" "}
       </div>
-    );}
-  else if (
+    );
+  } else if (
     requested.filter(function (e) {
       return e.name === currentUser;
     }).length > 0
   ) {
-    
-    
     //we have requested to join, but have not been accepted yet
     return (
       <div className="float-end col-5 mt-2">
-        <Button
-          variant="outline-primary"
-          disabled
-        >
+        <Button variant="outline-primary" disabled>
           Requested
         </Button>{" "}
       </div>
@@ -268,10 +266,10 @@ function useRequestButton(
     }).length > 0
   ) {
     //we are already a member
-    return (<div></div>)
+    return <div></div>;
   } else {
     //we are not in the group, we have not requested to join yet
-    
+
     return (
       <div className="float-end col-5 mt-2">
         <Button
@@ -280,20 +278,16 @@ function useRequestButton(
           onClick={async () => {
             //request to join
             let x = await requestMemberToGroup(currentUser, groupID);
-            //update button 
+            //update button
             setDisable(true);
             setTitle("Requested");
-            
           }}
         >
           {title}
         </Button>{" "}
       </div>
     );
-    
   }
-  
-  
 }
 
 function displayModalBody(loading, friends) {
@@ -349,12 +343,7 @@ function MembersList(params) {
     setShowRequests(false);
   };
   const useHandleShowFriends = async () => {
-    let res = await gatherFriends(
-      username,
-      members,
-      setLoading4,
-      setFriends
-    );
+    let res = await gatherFriends(username, members, setLoading4, setFriends);
     setShowFriends(true);
   };
   const useHandleShowRequests = async () => {
@@ -372,7 +361,7 @@ function MembersList(params) {
     ownerUsername,
     useHandleShowFriends
   );
-  
+
   const requestButton = useRequestButton(
     username,
     ownerUsername,
@@ -386,17 +375,16 @@ function MembersList(params) {
     <div>Loading...</div>
   ) : (
     <div className="members-list">
-      <div className="outline ms-3 mb-5">
+      <div className="outline mb-5">
         <div className="row">
-          <h4 className="col-5 mx-2 my-2"> Owner: </h4>
+          <h4 className="col-5 ms-2 my-2"> Owner: </h4>
         </div>
         {ownerProfile}
         <div className="row">
-          <h4 className="col-5 mx-2 my-2"> Members: </h4>
-          <div className="col-1"></div>
-          {inviteButton}
-          {requestButton}
+          <h4 className="col-5 ms-2 me-0 my-2"> Members: </h4>
+          <div className="col-3"> {inviteButton} </div>
         </div>
+        <div className="row col-12"> {requestButton} </div>
         {displayMembers(loading3, members)}
       </div>
 
@@ -417,11 +405,18 @@ function MembersList(params) {
                 for (let i = 0; i < friends.length; i++) {
                   // if friend is checked, add them to the group
                   if (event.target[i].checked) {
-                    await addMemberToGroup(target[i].id, params.group.id);
+                    let res = await addMemberToGroup(
+                      target[i].id,
+                      params.group.id
+                    );
+                    console.log("Adding member to group:");
+                    console.log(res);
                   }
                 }
                 // update the members list
                 let res = await getGroup(params.group.id);
+                console.log("Fetched group:");
+                console.log(res);
                 refreshMembers(
                   ownerUsername,
                   res.members.items,
@@ -463,7 +458,10 @@ function MembersList(params) {
                 for (let i = 0; i < memberRequests.length; i++) {
                   // if friend is checked, add them to the group
                   if (event.target[i].checked) {
-                    await addMemberfromRequestList(target[i].id, params.group.id);
+                    await addMemberfromRequestList(
+                      target[i].id,
+                      params.group.id
+                    );
                   }
                 }
                 // update the members list

@@ -8,6 +8,7 @@ import {
   Button,
   ToggleButton,
   ToggleButtonGroup,
+  Container,
 } from "react-bootstrap";
 import {
   MembersList,
@@ -18,8 +19,8 @@ import {
   Loading,
 } from "../components";
 
-import { getGroup} from "../databaseFunctions/groups";
-import {getUserOwnedGroups} from "../databaseFunctions/users.js";
+import { getGroup } from "../databaseFunctions/groups";
+import { getUserOwnedGroups } from "../databaseFunctions/users.js";
 
 /** This function gathers the resources necessary to load the group page.
  *
@@ -57,7 +58,6 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(res.username);
       console.log(res);
       setUserGroups(res);
-
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -66,7 +66,7 @@ function useGatherResources(groupID) {
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     getInfo();
   }, []);
@@ -74,9 +74,9 @@ function useGatherResources(groupID) {
   return [group, groupImage, error, loading, user, userGroups];
 }
 
-function userButton(groupID, user, userGroups){
-  console.log("group ID",groupID);
-  console.log("userGroups",userGroups);
+function userButton(groupID, user, userGroups) {
+  console.log("group ID", groupID);
+  console.log("userGroups", userGroups);
   console.log("userGroups length", userGroups.length);
   //let response = await Auth.currentAuthenticatedUser();
   //let user = response.username;
@@ -85,12 +85,12 @@ function userButton(groupID, user, userGroups){
   //console.log(groupArr.length);
   let myGroup = false;
 
-  for(let i = 0; i< userGroups.length; i++){
+  for (let i = 0; i < userGroups.length; i++) {
     console.log(userGroups[i]);
     let group = userGroups[i].id;
     console.log(groupID);
-    
-    if(groupID == group){
+
+    if (groupID == group) {
       myGroup = true;
       break;
     }
@@ -100,18 +100,23 @@ function userButton(groupID, user, userGroups){
 
   console.log(myGroup);
 
-  if(myGroup){
-    result.push(    
-      <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
-      <Button variant="outline-primary">Edit Group </Button>{" "}
-    </Link></div>        
-);
-  }
-  else{
+  if (myGroup) {
+    result.push(
+      <Link to={{ pathname: "/groupEdit/" + groupID }}>
+        <PencilSquare className="p-2" color="white" />{" "}
+      </Link>
+      // <div className="col-2 px-0">
+      //   {" "}
+      //   <Link to={{ pathname: "/groupEdit/" + groupID }}>
+      //     <Button variant="outline-primary">Edit Group </Button>{" "}
+      //   </Link>
+      // </div>
+    );
+  } else {
     // result.push(
     //   <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
     //   <Button variant="outline-primary">Edit Group </Button>{" "}
-    // </Link></div> 
+    // </Link></div>
     // );
   }
   console.log(result);
@@ -126,10 +131,10 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
 
-  const [group, groupImage, error, loading, user, userGroups] = useGatherResources(groupID);
+  const [group, groupImage, error, loading, user, userGroups] =
+    useGatherResources(groupID);
   //console.log(userGroups);
-  let userB =  userButton(groupID, user, userGroups);
-  
+  let userB = userButton(groupID, user, userGroups);
 
   if (error) return failToLoad();
   return loading ? (
@@ -137,85 +142,91 @@ function GroupPage() {
   ) : (
     <div className="group-page">
       <div className="row m-0">
-        <img className="col-5 mb-5 px-0" src={groupImage} alt="" width="100%" height="300vh"/>
-        <div className="description col-7 mb-5 py-5 px-0 bg-secondary">
-          <h1 className="px-5">
+        <img
+          className="col-5 mb-5 px-0"
+          src={groupImage}
+          alt=""
+          width="100%"
+          height="350vh"
+        />
+        <div className="description col-7 mb-5 py-5 px-0 bg-dark-grey">
+          <h1 className="px-5 text-light">
             {group.name}
-            {/* <Link to={{ pathname: "/groupEdit/" + groupID }}> */}
-              {/* <PencilSquare className="p-2" color="#292b2c" />{" "} */}
-            {/* </Link> */}
+            {userB}
           </h1>
-          <p className="px-5">{group.bio}</p>
+          <p className="px-5 text-light">{group.bio}</p>
         </div>
       </div>
+
       <div className="container">
-        <div className="float-end col-3">
-          <MembersList group={group} />
-        </div>
-        <div className="row mb-5">
-          <div className="col-1 px-0">
-            <DropdownButton
-              id="dropdown-basic-button"
-              title="Filter"
-              variant="outline-primary"
-            >
-              <Dropdown.Item href="#/action-1">New Quizzes</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
-              <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
-            </DropdownButton>
-          </div>
-          <div className="col-1"></div>
-          <div className="col-3 px-0">
-            <Link to="/createQuiz">
-              <Button variant="outline-primary">Add Quiz +</Button>{" "}
-            </Link>
-          </div>
-          {userB}
-          <div className="col-5">
-            <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-              <ToggleButton
-                id="tbg-group-stats"
-                value={1}
+        <div className="row">
+          <div className="quizzes col-3">
+            <div className="row mb-3">
+              <DropdownButton
+                className="col-6"
+                id="dropdown-basic-button"
+                title="Filter"
                 variant="outline-primary"
               >
-                Group Stats
-              </ToggleButton>
-              <ToggleButton
-                id="tbg-compare-results"
-                value={2}
-                variant="outline-primary"
-              >
-                Compare Results
-              </ToggleButton>
-            </ToggleButtonGroup>
+                <Dropdown.Item href="#/action-1">New Quizzes</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
+                <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
+              </DropdownButton>
+
+              <Link className="col-6" to="/createQuiz">
+                <Button variant="outline-primary">Add Quiz +</Button>{" "}
+              </Link>
+            </div>
+
+            <QuizBox
+              name="Hogwarts House"
+              description="Find out which Hogwarts House you belong to :)"
+            />
+            <QuizBox
+              name="Hogwarts House"
+              description="Find out which Hogwarts House you belong to :)"
+            />
+            <QuizBox
+              name="Hogwarts House"
+              description="Find out which Hogwarts House you belong to :)"
+            />
+            <QuizBox
+              name="Hogwarts House"
+              description="Find out which Hogwarts House you belong to :)"
+            />
           </div>
-          <div className="col-1"></div>
-        </div>
-        <div className="float-end col-5 mx-5">
-          <StatsBox />
-          <CompareBox />
-        </div>
-        <div className="col-3 mt-5">
-          <QuizBox
-            name="Hogwarts House"
-            description="Find out which Hogwarts House you belong to :)"
-          />
-        </div>
-        <div className="col-3 mt-5">
-          <QuizBox
-            name="Pets"
-            description="Which pet should you get in the wizarding world?"
-          />
-        </div>
-        <div className="col-3 mt-5">
-          <QuizBox name="Wands" description="Description of quiz goes here." />
-        </div>
-        <div className="col-3 mt-5">
-          <QuizBox
-            name="Patronus"
-            description="Description of quiz goes here."
-          />
+          <div className="stats-compare col-6">
+            <div className="mb-3 align-items-center d-flex justify-content-center">
+              <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
+                <ToggleButton
+                  id="tbg-group-stats"
+                  value={1}
+                  variant="outline-primary"
+                >
+                  Group Stats
+                </ToggleButton>
+                <ToggleButton
+                  id="tbg-compare-results"
+                  value={2}
+                  variant="outline-primary"
+                >
+                  Compare Results
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+
+            <StatsBox />
+            <CompareBox />
+          </div>
+          <div className="members col-3">
+            <div className="row mb-3">
+              <Button variant="invisible" disabled>
+                x
+              </Button>{" "}
+            </div>
+            <MembersList group={group} />
+          </div>
         </div>
       </div>
     </div>

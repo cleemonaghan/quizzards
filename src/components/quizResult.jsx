@@ -37,7 +37,7 @@ function QuizResult({ result, index, handleUpdateResult }) {
         //no file was uploaded, so revert to the default
         handleUpdateResult(index, {
           ...result,
-          img: "default_group_image",
+          img: null,
         });
         setTemp(null);
       }
@@ -78,18 +78,18 @@ function QuizResult({ result, index, handleUpdateResult }) {
           </Form.Group>
         </Col>
         <Col md="auto">
-            <Form.Group controlId="result_pic" className="mb-3">
-              {/*<Form.Label>Result Picture</Form.Label>*/}
-              <Form.Control
-                type="file"
-                name="result_pic"
-                accept="image/png, image/jpeg"
-                onChange={handleImageChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide an image for the result.
-              </Form.Control.Feedback>
-            </Form.Group>
+          <Form.Group controlId="result_pic" className="mb-3">
+            {/*<Form.Label>Result Picture</Form.Label>*/}
+            <Form.Control
+              type="file"
+              name="result_pic"
+              accept="image/png, image/jpeg"
+              onChange={handleImageChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please provide an image for the result.
+            </Form.Control.Feedback>
+          </Form.Group>
           {displayImage(temp)}
         </Col>
       </Row>

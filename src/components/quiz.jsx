@@ -1,6 +1,9 @@
-
+import { Auth, Storage } from "aws-amplify";
 import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
+import { failToLoad, Loading } from "../components";
+import { getQuiz } from "../databaseFunctions/quizzes";
+import { default_group as spareBackground } from "../images";
 import { photo3 as profileImage } from "../images";
 
 function answerBox(
@@ -14,18 +17,23 @@ function answerBox(
   questionRefs,
   completed
 ) {
-  let answer = question.answers[answerIndex];
+  let answer = question.answers.items[answerIndex];
   let displayColor = color;
+  let opacity = 1;
   let fontSize = 43;
+  let fontWeight = 900;
   if (question.answered && answerIndex !== question.selected) {
     //if this question has been answered and it wasn't this answer, make the color faded
-    displayColor = "#CCCCCC";
+    opacity = 0.3;
   }
   if (window.innerWidth < 770) {
     fontSize = 15;
   }
   return (
-    <Card className="text-center" style={{ backgroundColor: displayColor }}>
+    <Card
+      className="text-center py-4 border-0"
+      style={{ backgroundColor: displayColor, opacity: opacity }}
+    >
       <Card.Title
         style={{
           display: "flex",
@@ -59,7 +67,11 @@ function answerBox(
         >
           <div
             className="rbq_answer_text text-center"
-            style={{ color: "#FFFFFF", fontSize: fontSize }}
+            style={{
+              color: "#FFFFFF",
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+            }}
           >
             <div className="rbq_answer_text">{answer.name}</div>
           </div>
@@ -83,25 +95,27 @@ function questionSection(
   colors,
   completed
 ) {
+  let background = question.picture;
+  if (question.picture === undefined || question.picture === null) {
+    //if there is no picture, then use a blank color
+    background = spareBackground;
+  }
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">
-      <Card className="bg-dark text-white text-center mb-3">
-        <Card.Img src={question.img} alt={"Question " + index + " Image"} />
+      <Card className="bg-dark text-white text-center mb-4">
+        <Card.Img src={background} alt={"Question " + index + " Image"} />
         <Card.ImgOverlay>
-          <span
-            className="rbq_question_overlap_text"
-            style={{ fontSize: 107.8 }}
-          >
+          <span className="rbq_question_overlap_text" style={{ fontSize: 80 }}>
             {question.name}
           </span>
         </Card.ImgOverlay>
       </Card>
 
-      <Container>
+      <Container className="mb-5 p-0">
         <Row>
-          {question.answers.map((answer, subindex) => {
+          {question.answers.items.map((answer, subindex) => {
             return (
-              <Col className="mb-3" xs={6} md={4} key={answer.name + subindex}>
+              <Col className="mb-4" xs={6} md={4} key={answer.name + subindex}>
                 {answerBox(
                   index,
                   subindex,
@@ -122,22 +136,44 @@ function questionSection(
   );
 }
 
-function displayResult(completed, scores, results, quizTitle, questionRefs, setCompleted, questions, setScore) {
-  //find the best result
+function displayResult(
+  completed,
+  scores,
+  results,
+  quizTitle,
+  questionRefs,
+  setCompleted,
+  questions,
+  setScore
+) {
+  //find the best score
   let bestScore = 0;
   let bestIndex = 0;
-  for(let i = 0; i < scores.length; i++) {
-    if(bestScore < scores[i]) {
+  for (let i = 0; i < scores.length; i++) {
+    if (bestScore < scores[i]) {
       //update the best
       bestScore = scores[i];
       bestIndex = i;
     }
   }
 
+  //find the best result
+  let result = results[0];
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].index === bestIndex) {
+      result = results[i];
+      break;
+    }
+  }
 
   let visibility = "visible";
   if (!completed) {
     visibility = "hidden";
+  }
+  let background = result.picture;
+  if (result.picture === undefined || result.picture === null) {
+    //if there is no picture, then use a blank color
+    background = spareBackground;
   }
   return (
     <div
@@ -150,24 +186,27 @@ function displayResult(completed, scores, results, quizTitle, questionRefs, setC
       </div>
       <div className="rbq_result_inner_container">
         <div className="rbq_result_inner_description_container">
-          <h3 className="rbq_result_inner_description_header">
-          {results[bestIndex].name}
-          </h3>
-          <p className="rbq_result_inner_description">Result Description</p>
+          <h3 className="rbq_result_inner_description_header">{result.name}</h3>
+          {/* <p className="rbq_result_inner_description">Result Description</p> */}
         </div>
         <div className="rbq_result_inner_image_container">
           <img
             className="rbq_result_inner_image"
             alt="Result Image"
-            src={results[bestIndex].img}
+            src={background}
           ></img>
         </div>
       </div>
       <div className="rbq_result_footer">
-        <button className="rbq_retake_quiz_button" onClick={() => {
-          //retake the quiz
-          resetQuiz(questionRefs, setCompleted, questions, results, setScore)
-        }}>Retake</button>
+        <button
+          className="rbq_retake_quiz_button"
+          onClick={() => {
+            //retake the quiz
+            resetQuiz(questionRefs, setCompleted, questions, results, setScore);
+          }}
+        >
+          Retake
+        </button>
       </div>
     </div>
   );
@@ -175,13 +214,13 @@ function displayResult(completed, scores, results, quizTitle, questionRefs, setC
 
 function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
   //scroll to the top
-  handleBackClick(questionRefs.current[0])
+  handleBackClick(questionRefs.current[0]);
 
   //reset the result
   setCompleted(false);
 
   //reset the questions
-  for(let i = 0 ; i < questions.length; i++) {
+  for (let i = 0; i < questions.length; i++) {
     let res = questions[i];
     //set answered to true
     res.answered = false;
@@ -198,7 +237,66 @@ function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
   setScore(temp);
 }
 
-function Quiz() {
+function useGatherResources(quizID) {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [quiz, setQuiz] = useState({});
+  const [username, setUsername] = useState(null);
+
+  /** This function is called upon initialization to fetch all the
+   * information essential to displaying the page. Once all the
+   * information is gathered, it sets the loading state var to false
+   * so that the component will re-render with the information.
+   */
+  async function getInfo() {
+    try {
+      //get the quiz
+      let res = await getQuiz(quizID);
+      //get the quiz image
+      let image = await Storage.get(res.owner.profilePicture);
+      res.owner_picture = image;
+      //get the quiz image
+      image = await Storage.get(res.picture);
+      res.picture = image;
+      //get all the results images
+      for (let i = 0; i < res.results.items.length; i++) {
+        if (res.results.items[i].picture !== "null") {
+          image = await Storage.get(res.results.items[i].picture);
+          res.results.items[i].picture = image;
+        } else res.results.items[i].picture = null;
+      }
+      //get all the question images
+      for (let i = 0; i < res.questions.items.length; i++) {
+        if (res.questions.items[i].picture !== "null") {
+          image = await Storage.get(res.questions.items[i].picture);
+          res.questions.items[i].picture = image;
+        } else res.questions.items[i].picture = null;
+        //create and initialize status variables for later
+        res.questions.items[i].answered = false;
+        res.questions.items[i].selected = null;
+      }
+
+      setQuiz(res);
+      //get the user
+      res = await Auth.currentAuthenticatedUser();
+      setUsername(res.username);
+    } catch (e) {
+      //there was an error, so save it
+      setError(e);
+    } finally {
+      //we are finished loading, so set loading to false
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  return [quiz, username, error, loading];
+}
+
+function Quiz({ quizID }) {
   let colors = [
     "#db278d",
     "#f14e48",
@@ -211,93 +309,107 @@ function Quiz() {
     "#c035e7",
   ];
 
-  let database = {
-    title: "Your title goes here.",
-    description: "Your description goes here.",
-    author: "cleemonaghan",
-    quiz_picture: "/static/media/photo15.329b750b9600c1113932.png",
-    results: [
-      { name: "Yes", img: "/static/media/photo15.329b750b9600c1113932.png" },
-      { name: "No", img: "/static/media/photo15.329b750b9600c1113932.png" },
-    ],
-  };
-
-  // init the questions for the quiz
-  const [questions, setQuestions] = useState([
-    {
-      name: "Question One",
-      img: "/static/media/photo15.329b750b9600c1113932.png",
-      answered: false, //this is important
-      selected: null,
-      answers: [
-        { name: "Answer One", weights: [3, 0] },
-        { name: "Answer Two", weights: [0, 3] },
-        { name: "Answer Three", weights: [2, 0] },
-        { name: "Answer Four", weights: [0, 2] },
-        { name: "Answer Five", weights: [1, 0] },
-        { name: "Answer Six", weights: [0, 1] },
-        { name: "Answer Seven", weights: [0, 0] },
-        { name: "Answer Eight", weights: [0, 0] },
-        { name: "Answer Nine", weights: [0, 0] },
-      ],
-    },
-    {
-      name: "Question Two",
-      img: "/static/media/photo15.329b750b9600c1113932.png",
-      answered: false, //this is important
-      selected: null,
-      answers: [
-        { name: "Answer One", weights: [3, 0] },
-        { name: "Answer Two", weights: [0, 3] },
-        { name: "Answer Three", weights: [2, 0] },
-        { name: "Answer Four", weights: [0, 2] },
-      ],
-    },
-  ]);
-
-  // init the score array for the quiz
-  let temp = [];
-  database.results.forEach(() => {
-    temp.push(0);
-  });
-  const [score, setScore] = useState(temp);
-
-  //check if we have answered all the questions
-  let [completed, setCompleted] = useState(false);
-  let change = true;
-  for (let i = 0; i < questions.length; i++) {
-    //if they haven't answered a question, set completed to false
-    if (!questions[i].answered) {
-      change = false;
-    }
-  }
-  if (change && !completed) {
-    // We have finished the quiz!
-    // Save the results
-
-    // Diplay the results
-    setCompleted(true);
-  }
-
-  //check if we have finished the quiz
-
+  const [score, setScore] = useState([]);
+  const [completed, setCompleted] = useState(false);
   const itemsRef = useRef([]);
-  // you can access the elements with itemsRef.current[n]
+  const [quiz, username, error, loading1] = useGatherResources(quizID);
+  const [loading2, setLoading2] = useState(true);
+
+  //var questions = [];
+  //var results = [];
 
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, questions.length + 2);
-  }, [questions.length]);
+    if (!loading1) {
+      //questions = quiz.questions.items;
+      //results = quiz.results.items;
+      // init the score array for the quiz
+      let temp = [];
+      quiz.results.items.forEach(() => {
+        temp.push(0);
+      });
+      setScore(temp);
 
-  return (
-    <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
-      <div className="rbq_inner_quiz_container">
-        <Card className="bg-dark text-white mb-3">
-          <Card.Img
-            variant="top"
-            src={database.quiz_picture}
-            alt={database.title}
-          />
-          <Card.Body>
+      //check if we have finished the quiz
+
+      // you can access the elements with itemsRef.current[n]
+      itemsRef.current = itemsRef.current.slice(
+        0,
+        quiz.questions.items.length + 2
+      );
+      setLoading2(false);
+    }
+  }, [loading1]);
+
+  if (error) return failToLoad();
+  else if (loading1 || loading2) return Loading();
+  else {
+    if (!loading2 && quiz.questions !== undefined) {
+      //check if we have answered all the questions
+      let change = true;
+      for (let i = 0; i < quiz.questions.items.length; i++) {
+        //if they haven't answered a question, set completed to false
+        if (!quiz.questions.items[i].answered) {
+          change = false;
+        }
+      }
+      if (change && !completed) {
+        // We have finished the quiz!
+        // Save the results
+        console.log("Results are");
+        console.log(quiz.results);
+
+        console.log("Score is");
+        console.log(score);
+
+        // Diplay the results
+        setCompleted(true);
+      }
+    }
+    return (
+      <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
+        <div className="rbq_inner_quiz_container">
+          <Card className="bg-dark text-white mb-5">
+            <Card.Img
+              variant="top"
+              height="200px"
+              src={quiz.picture}
+              alt={quiz.title}
+            />
+            <Card.ImgOverlay className="overlap_text">
+              <Card.Title>
+                <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
+              </Card.Title>
+              <Card.Text style={{ fontSize: "20px" }}>
+                {quiz.description}
+              </Card.Text>
+              {/* <Stack direction="horizontal" gap={3}>
+              <img
+                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                alt={database.author}
+                src={profileImage}
+              />
+              <span>
+                <p style={{ fontSize: "25px" }}>
+                  by <strong>{database.author}</strong>
+                </p>
+              </span>
+            </Stack> */}
+            </Card.ImgOverlay>
+            <Card.Body>
+              <Stack direction="horizontal" gap={3}>
+                <img
+                  className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+                  alt={quiz.ownerUsername}
+                  src={quiz.owner_picture}
+                />
+                <span>
+                  <p>
+                    by <strong>{quiz.ownerUsername}</strong>
+                  </p>
+                </span>
+              </Stack>
+            </Card.Body>
+            {/* <Card.Body>
             <Card.Title>
               <h1>{database.title}</h1>
             </Card.Title>
@@ -314,37 +426,51 @@ function Quiz() {
                 </p>
               </span>
             </Stack>
-          </Card.Body>
-        </Card>
+          </Card.Body> */}
+          </Card>
 
-        <div id="main_questions_container">
-          {questions.map((question, index) => {
-            return (
-              <div
-                ref={(el) => (itemsRef.current[index + 1] = el)}
-                key={"Question" + index}
-              >
-                {questionSection(
-                  index,
-                  question,
-                  questions,
-                  score,
-                  setScore,
-                  itemsRef,
-                  colors,
-                  completed
-                )}
-              </div>
-            );
-          })}
+          <div id="main_questions_container">
+            {quiz.questions.items.map((question, index) => {
+              return (
+                <div
+                  ref={(el) => (itemsRef.current[index + 1] = el)}
+                  key={"Question" + index}
+                >
+                  {questionSection(
+                    index,
+                    question,
+                    quiz.questions.items,
+                    score,
+                    setScore,
+                    itemsRef,
+                    colors,
+                    completed
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div
+            ref={(el) =>
+              (itemsRef.current[quiz.questions.items.length + 1] = el)
+            }
+          >
+            {displayResult(
+              completed,
+              score,
+              quiz.results.items,
+              quiz.title,
+              itemsRef,
+              setCompleted,
+              quiz.questions.items,
+              setScore
+            )}
+          </div>
         </div>
       </div>
-
-      <div ref={(el) => (itemsRef.current[questions.length + 1] = el)}>
-        {displayResult(completed, score, database.results, database.title, itemsRef, setCompleted, questions, setScore)}
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Quiz;

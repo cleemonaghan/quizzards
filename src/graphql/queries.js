@@ -320,6 +320,7 @@ export const getQuiz = /* GraphQL */ `
           name
           description
           picture
+          index
           createdAt
           updatedAt
           quizResultsId
@@ -599,6 +600,7 @@ export const getResult = /* GraphQL */ `
       name
       description
       picture
+      index
       createdAt
       updatedAt
       quizResultsId
@@ -628,6 +630,7 @@ export const listResults = /* GraphQL */ `
         name
         description
         picture
+        index
         createdAt
         updatedAt
         quizResultsId

@@ -93,7 +93,7 @@ ReactDOM.render(
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:username" element={<ViewProfile />} />
             <Route path="/groupPage/:id" element={<GroupPage />} />
-            <Route path="/quizPage" element={<QuizPage />} />
+            <Route path="/quizPage/:id" element={<QuizPage />} />
             <Route path="/createGroup" element={<CreateGroup />} />
             <Route path="/createQuiz" element={<CreateQuiz />} />
             <Route path="/groupEdit/:id" element={<GroupEdit />} />

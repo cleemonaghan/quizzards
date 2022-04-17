@@ -9,10 +9,13 @@ import {
   Row,
   Col,
   Container,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
+import { InfoCircle } from "react-bootstrap-icons";
 
 class CreateQuiz extends React.Component {
   constructor(props) {
@@ -23,9 +26,11 @@ class CreateQuiz extends React.Component {
       description: "",
       ownerUsername: "",
       temp_picture: null,
-      quiz_picture: "default_group_image",
-      results: [{ name: "", img: "" }],
-      questions: [{ name: "", img: "", answers: [{ name: "", weights: [0] }] }],
+      quiz_picture: null,
+      results: [{ name: "", img: null }],
+      questions: [
+        { name: "", img: null, answers: [{ name: "", weights: [0] }] },
+      ],
       validated: false,
     };
 
@@ -34,14 +39,17 @@ class CreateQuiz extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateAttributes = this.updateAttributes.bind(this);
     this.addResult = this.addResult.bind(this);
+    this.removeResult = this.removeResult.bind(this);
     this.updateResult = this.updateResult.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.removeQuestion = this.removeQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
     this.publishQuiz = this.publishQuiz.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
+    this.removeAnswer = this.removeAnswer.bind(this);
     this.updateAnswer = this.updateAnswer.bind(this);
   }
 
@@ -76,7 +84,14 @@ class CreateQuiz extends React.Component {
     console.log(this.state.description);
     console.log(this.state.quiz_picture);
 
-    let quizID = await createQuiz(this.state.quizName, this.state.ownerUsername, this.state.questions, this.state.results, this.state.description, this.state.quiz_picture);
+    let quizID = await createQuiz(
+      this.state.quizName,
+      this.state.ownerUsername,
+      this.state.questions,
+      this.state.results,
+      this.state.description,
+      this.state.quiz_picture
+    );
     console.log(quizID);
     let quiz = await getQuiz(quizID);
     console.log(quiz);
@@ -104,7 +119,7 @@ class CreateQuiz extends React.Component {
         //no file was uploaded, so revert to the default
         this.setState({
           temp_picture: null,
-          quiz_picture: "default_group_image",
+          quiz_picture: null,
         });
       }
     }
@@ -138,6 +153,13 @@ class CreateQuiz extends React.Component {
     });
   }
 
+  removeResult() {
+    // pop off the last result
+    const results = this.state.results;
+    results.pop();
+    this.setState({ results });
+  }
+
   updateResult(index, updatedResult) {
     const results = this.state.results;
     results.splice(index, 1, updatedResult);
@@ -148,7 +170,17 @@ class CreateQuiz extends React.Component {
     const questions = this.state.questions;
     let weights = [];
     this.state.results.forEach(() => weights.push(0));
-    questions.push({ name: "", img: "", answers: [{ name: "" , weights: weights}] });
+    questions.push({
+      name: "",
+      img: "",
+      answers: [{ name: "", weights: weights }],
+    });
+    this.setState({ questions });
+  }
+
+  removeQuestion() {
+    const questions = this.state.questions;
+    questions.pop();
     this.setState({ questions });
   }
 
@@ -162,8 +194,19 @@ class CreateQuiz extends React.Component {
     const answers = this.state.questions[i].answers;
     let weights = [];
     this.state.results.forEach(() => weights.push(0));
-    answers.push({ name: "" , weights: weights});
-    this.setState((state) => { return state });
+    answers.push({ name: "", weights: weights });
+    this.setState((state) => {
+      return state;
+    });
+  }
+
+  removeAnswer(i) {
+    const answers = this.state.questions[i].answers;
+    answers.pop();
+    this.setState({ answers });
+    // this.setState((state) => {
+    //   return state;
+    // });
   }
 
   updateAnswer(index, subindex, updatedAnswer) {
@@ -267,28 +310,67 @@ class CreateQuiz extends React.Component {
 
             {/* Results */}
             <Container className="results mb-3">
-              <h2 className="font-weight-light mt-5">Results</h2>
+              {/* <h2 className="font-weight-light mt-5">Results</h2> */}
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip id="button-tooltip-2">
+                    Results are the possible outcomes of the Quiz. 
+                    You can have up to 12 results per quiz. Results 
+                    will be weighted based on answers to questions.{" "}
+                  </Tooltip>
+                 }
+              >
+                {({ ref, ...triggerHandler }) => (
+                  <h2 {...triggerHandler}>
+                    Results  <InfoCircle className="py-1" ref={ref} />
+                  </h2>
+                )}
+              </OverlayTrigger>
               {this.state.results.map((result, index) => {
                 return (
                   <div key={index}>
-                  <QuizResult
-                    index={index}
-                    result={result}
-                    handleUpdateResult={this.updateResult}
-                  />
+                    <QuizResult
+                      index={index}
+                      result={result}
+                      handleUpdateResult={this.updateResult}
+                    />
                   </div>
                 );
               })}
 
-              <Button variant="outline-primary" onClick={this.addResult}>
+              <Button
+                className="me-2"
+                variant="outline-primary"
+                onClick={this.addResult}
+              >
                 Add Result +
+              </Button>
+
+              <Button variant="outline-danger" onClick={this.removeResult}>
+                Remove Result -
               </Button>
             </Container>
 
             {/* Questions and Answers */}
 
             <Container className="questions">
-              <h2 className="font-weight-light mt-5">Questions</h2>
+              {/* <h2 className="font-weight-light mt-5">Questions</h2> */}
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip id="button-tooltip-2">
+                    Questions are mulitple choice and can have up tp 9 possible anwsers.
+                    There can be up to 15 questions per Quiz.{" "}
+                  </Tooltip>
+                 }
+              >
+                {({ ref, ...triggerHandler }) => (
+                  <h2 {...triggerHandler}>
+                    Questions <InfoCircle className="py-1" ref={ref} />
+                  </h2>
+                )}
+              </OverlayTrigger>
               {this.state.questions.map((question, index) => {
                 return (
                   <div key={index}>
@@ -300,7 +382,7 @@ class CreateQuiz extends React.Component {
                     <Row>
                       {question.answers.map((answer, subIndex) => {
                         return (
-                          <Col md="auto" className="ps-5" key={subIndex}>
+                          <Col md="auto" key={subIndex}>
                             <QuizAnswer
                               index={subIndex}
                               answer={answer}
@@ -317,18 +399,33 @@ class CreateQuiz extends React.Component {
                       })}
                     </Row>
                     <Button
-                      className="ms-5 mb-3"
+                      className="mb-3 me-2"
                       variant="outline-primary"
                       onClick={() => this.addAnswer(index)}
                     >
                       Add Answer +
                     </Button>
+                    <Button
+                      className="mb-3"
+                      variant="outline-danger"
+                      onClick={() => this.removeAnswer(index)}
+                    >
+                      Remove Answer -
+                    </Button>
                   </div>
                 );
               })}
 
-              <Button variant="outline-primary" onClick={this.addQuestion}>
+              <Button
+                className="me-2"
+                variant="outline-primary"
+                onClick={this.addQuestion}
+              >
                 Add Question +
+              </Button>
+
+              <Button variant="outline-danger" onClick={this.removeQuestion}>
+                Remove Question -
               </Button>
             </Container>
 
@@ -336,9 +433,9 @@ class CreateQuiz extends React.Component {
             <Button className="my-5 me-5" variant="primary" type="submit">
               Create Quiz
             </Button>
-            <Button className="my-5" variant="primary" type="submit">
+            {/* <Button className="my-5" variant="primary" type="submit">
               Publish Quiz
-            </Button>
+            </Button> */}
           </Form>
         </div>
       </div>

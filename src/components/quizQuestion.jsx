@@ -37,7 +37,7 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
         //no file was uploaded, so revert to the default
         handleUpdateQuestion(index, {
           ...question,
-          img: "default_group_image",
+          img: null,
         });
         setTemp(null);
       }

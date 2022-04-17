@@ -71,16 +71,16 @@ export async function createQuiz(quizName, username, questions, results, descrip
     await createQuestion(questions[i],quiz, quizID);
     //questionList.push(newQuestion);
   }
-  console.log("question list: ",questionList);
+  //console.log("question list: ",questionList);
   //grab the result list from the quiz object (should be empty)
-  let resultList = quiz.results;
+  //let resultList = quiz.results;
 
   //push all results from the quiz onto this new list
   for(let i = 0; i < results.length; i++){
     await createResult(results[i],quizID);
     //resultList.push(newResult);
   }
-  console.log("result List: ",resultList);
+  //console.log("result List: ",resultList);
   //store the question list and the result list for the quiz
   /*
   params = ({

@@ -50,7 +50,7 @@ function useGatherResources(quizID) {
   return [quiz,  error, loading, user, userQuizzes];
 }
 
-function userButton(quizID,  userQuizzes) {
+function userButton(quizID,  user, userQuizzes) {
   console.log(userQuizzes);
   console.log(quizID);
   let myQuiz = false;

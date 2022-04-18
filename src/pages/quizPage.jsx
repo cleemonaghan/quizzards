@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../components";
-import{getQuiz} from "../databaseFunctions/quizzes";
-import{ getUserOwnedQuizzes } from "../databaseFunctions/users";
+import { getQuiz } from "../databaseFunctions/quizzes";
+import { getUserOwnedQuizzes } from "../databaseFunctions/users";
 import Button from "react-bootstrap/Button";
 
 function useGatherResources(quizID) {
@@ -47,10 +47,10 @@ function useGatherResources(quizID) {
     getInfo();
   }, []);
 
-  return [quiz,  error, loading, user, userQuizzes];
+  return [quiz, error, loading, user, userQuizzes];
 }
 
-function userButton(quizID,  user, userQuizzes) {
+function userButton(quizID, user, userQuizzes) {
   console.log(userQuizzes);
   console.log(quizID);
   let myQuiz = false;
@@ -72,32 +72,27 @@ function userButton(quizID,  user, userQuizzes) {
 
   if (myQuiz) {
     result.push(
-      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz()} className="btn">
-           Delete Quiz +
-       </Button>
+      <Button variant="outline-danger" size="lg" onClick={() => deleteQuiz()}>
+        Delete Quiz
+      </Button>
     );
-  } 
+  }
   console.log(result);
   return result;
 }
 
-function deleteQuiz(){
-
-}
+function deleteQuiz() {}
 function QuizPage() {
   let info = useParams();
   let quizID = info.id;
-  const [quiz,  error, loading, user, userQuizzes] =
-  useGatherResources(quizID);
+  const [quiz, error, loading, user, userQuizzes] = useGatherResources(quizID);
   console.log(userQuizzes);
-  let userB = userButton(quizID, user,userQuizzes);
+  let userB = userButton(quizID, user, userQuizzes);
 
   return (
     <div className="quiz-page">
       <div className="container">
-      <div className="text-center">
-          {userB}
-          </div>
+        <div class="mt-5">{userB}</div>
         <Quiz quizID={quizID} />
       </div>
     </div>

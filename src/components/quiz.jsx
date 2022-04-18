@@ -20,7 +20,7 @@ function answerBox(
   let answer = question.answers.items[answerIndex];
   let displayColor = color;
   let opacity = 1;
-  let fontSize = 43;
+  let fontSize = 30;
   let fontWeight = 900;
   if (question.answered && answerIndex !== question.selected) {
     //if this question has been answered and it wasn't this answer, make the color faded
@@ -31,8 +31,12 @@ function answerBox(
   }
   return (
     <Card
-      className="text-center py-4 border-0"
-      style={{ backgroundColor: displayColor, opacity: opacity }}
+      className="text-center py-4 border-0 align-items-center d-flex justify-content-center"
+      style={{
+        height: "150px",
+        backgroundColor: displayColor,
+        opacity: opacity,
+      }}
     >
       <Card.Title
         style={{
@@ -177,7 +181,7 @@ function displayResult(
   }
   return (
     <div
-      className="rbq_result_outer_container"
+      className="rbq_result_outer_container mb-4"
       name="Result"
       style={{ visibility: visibility }}
     >
@@ -465,7 +469,6 @@ function Quiz({ quizID }) {
           </div>
 
           <div
-            style={{ height: "500px" }}
             ref={(el) =>
               (itemsRef.current[quiz.questions.items.length + 1] = el)
             }

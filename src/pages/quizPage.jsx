@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
+import { Navigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../components";
-import{getQuiz} from "../databaseFunctions/quizzes";
+import{getQuiz,
+   deleteQuiz as deleteQuizMutation,
+  } from "../databaseFunctions/quizzes";
 import{ getUserOwnedQuizzes } from "../databaseFunctions/users";
 import Button from "react-bootstrap/Button";
 
@@ -12,6 +15,8 @@ function useGatherResources(quizID) {
   const [quiz, setQuiz] = useState(null);
   const [user, setUser] = useState(null);
   const [userQuizzes, setUserQuizzes] = useState([]);
+  const [userB, setUserButton] = useState(null);
+  const [hasDeleted, setHasDeleted] = useState(null);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -23,17 +28,28 @@ function useGatherResources(quizID) {
       setLoading(true);
       //get the group
       let res = await getQuiz(quizID);
+      let tempQuiz = res;
+      let tempQuizID = res.id;
       setQuiz(res);
+
+
 
       //get the user
       res = await Auth.currentAuthenticatedUser();
+      let tempUser = res;
       setUser(res.username);
-      //get the user groups
 
+      //set user quizzes
       console.log(res.username);
       res = await getUserOwnedQuizzes(res.username);
+      let tempUserQuizzes = res;
       console.log(res);
       setUserQuizzes(res);
+
+      setHasDeleted(false);
+
+      res =  userButton(tempQuizID, tempUser, tempQuiz, tempUserQuizzes,setHasDeleted);
+      setUserButton(res);
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -47,13 +63,16 @@ function useGatherResources(quizID) {
     getInfo();
   }, []);
 
-  return [quiz,  error, loading, user, userQuizzes];
+  return [quiz,  error, loading, user, userQuizzes, userB, hasDeleted];
 }
 
-function userButton(quizID,  user, userQuizzes) {
-  console.log(userQuizzes);
+function userButton(quizID,  user, quiz, userQuizzes, setHasDeleted) {
   console.log(quizID);
+  console.log(user);
+  console.log(quiz);
+  console.log(userQuizzes);
   let myQuiz = false;
+  let title = quiz.title;
 
   for (let i = 0; i < userQuizzes.length; i++) {
     console.log(userQuizzes[i]);
@@ -72,8 +91,8 @@ function userButton(quizID,  user, userQuizzes) {
 
   if (myQuiz) {
     result.push(
-      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz()} class="btn btn-primary">
-           Delete Quiz +
+      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz(quizID, setHasDeleted)} class="btn btn-primary">
+         Delete Quiz
        </Button>
     );
   } 
@@ -81,16 +100,24 @@ function userButton(quizID,  user, userQuizzes) {
   return result;
 }
 
-function deleteQuiz(){
-
+async function deleteQuiz(quizID, setHasDeleted){
+  console.log(quizID);
+  var res = await deleteQuizMutation(quizID);
+  console.log("returned");
+  setHasDeleted(true);
+  return;
 }
+
 function QuizPage() {
   let info = useParams();
   let quizID = info.id;
-  const [quiz,  error, loading, user, userQuizzes] =
+  console.log(quizID);
+  const [quiz,  error, loading, user, userQuizzes, userB, hasDeleted] =
   useGatherResources(quizID);
-  console.log(userQuizzes);
-  let userB = userButton(quizID, user,userQuizzes);
+  if(hasDeleted){
+    return  <Navigate to={"/quizzes"} />;
+  }
+  //let userB = userButton(quizID, user, quiz, userQuizzes);
 
   return (
     <div className="quiz-page">

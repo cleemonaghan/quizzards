@@ -157,7 +157,7 @@ class Groups extends React.Component {
     var result = [];
     for (let i = 0; i < allGroups.length; i++) {
       let group = allGroups[i];
-      if (group.name.includes(substr)) {
+      if (group.name.toLowerCase().includes(substr.toLowerCase())) {
         let groupImage = await Storage.get(group.profilePicture);
         result.push(
           <div className="col-lg-3 col-sm-6" key={i}>

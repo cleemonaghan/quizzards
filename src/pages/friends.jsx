@@ -205,7 +205,7 @@ class Friends extends React.Component {
     var result = [];
     for (let i = 0; i < allUsers.length; i++) {
       let user = allUsers[i];
-      if (user.name.includes(substr) && user.username !== this.state.username) {
+      if (user.name.toLowerCase().includes(substr.toLowerCase()) && user.username !== this.state.username) {
         let image = await Storage.get(user.profilePicture);
         result.push({
           username: user.username,

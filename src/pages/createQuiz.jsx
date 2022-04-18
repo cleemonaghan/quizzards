@@ -153,14 +153,16 @@ class CreateQuiz extends React.Component {
   addResult() {
     // first push a new result
     const results = this.state.results;
-    results.push({ name: "", img: "" });
-    this.setState({ results });
-    //then push a new weight for each question's answers
-    this.state.questions.forEach((question) => {
-      question.answers.forEach((answer) => {
-        answer.weights.push(0);
+    if (results.length < 12) {
+      results.push({ name: "", img: "" });
+      this.setState({ results });
+      //then push a new weight for each question's answers
+      this.state.questions.forEach((question) => {
+        question.answers.forEach((answer) => {
+          answer.weights.push(0);
+        });
       });
-    });
+    }
   }
 
   removeResult() {
@@ -180,14 +182,16 @@ class CreateQuiz extends React.Component {
 
   addQuestion() {
     const questions = this.state.questions;
-    let weights = [];
-    this.state.results.forEach(() => weights.push(0));
-    questions.push({
-      name: "",
-      img: "",
-      answers: [{ name: "", weights: weights }],
-    });
-    this.setState({ questions });
+    if (questions.length < 15) {
+      let weights = [];
+      this.state.results.forEach(() => weights.push(0));
+      questions.push({
+        name: "",
+        img: "",
+        answers: [{ name: "", weights: weights }],
+      });
+      this.setState({ questions });
+    }
   }
 
   removeQuestion() {
@@ -206,12 +210,14 @@ class CreateQuiz extends React.Component {
 
   addAnswer(i) {
     const answers = this.state.questions[i].answers;
-    let weights = [];
-    this.state.results.forEach(() => weights.push(0));
-    answers.push({ name: "", weights: weights });
-    this.setState((state) => {
-      return state;
-    });
+    if (answers.length < 9) {
+      let weights = [];
+      this.state.results.forEach(() => weights.push(0));
+      answers.push({ name: "", weights: weights });
+      this.setState((state) => {
+        return state;
+      });
+    }
   }
 
   removeAnswer(i) {
@@ -246,14 +252,13 @@ class CreateQuiz extends React.Component {
       //if they did properly fill out the quiz, let them publish the quiz
       this.publishQuiz();
       console.log(this.state);
-      this.setState({submit: true});
+      this.setState({ submit: true });
     }
-    this.setState({validated: true});
-
+    this.setState({ validated: true });
   }
 
   render() {
-    if(this.state.submit){
+    if (this.state.submit) {
       return <Navigate to={"/quizzes"} />;
     }
 

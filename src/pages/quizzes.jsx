@@ -72,7 +72,7 @@ class Quizzes extends React.Component {
     var result = [];
     for (let i = 0; i < quizData.length; i++) {
       let quiz = quizData[i];
-      if (quiz.title.includes(substr)) {
+      if (quiz.title.toLowerCase().includes(substr.toLowerCase())) {
         //let groupImage = await Storage.get(group.profilePicture);
         result.push(
           <div className="col-lg-3 col-sm-6" key={quiz.id}>

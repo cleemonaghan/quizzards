@@ -52,6 +52,7 @@
 
 .outline {
   border: 3px solid #292b2c;
+  /* border-radius: 5px; */
 }
 
 hr:not([size]) {

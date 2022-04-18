@@ -95,7 +95,7 @@ function userButton(quizID,  user, quiz, userQuizzes, setHasDeleted) {
          Delete Quiz
        </Button>
     );
-  } 
+  }
   console.log(result);
   return result;
 }
@@ -122,9 +122,7 @@ function QuizPage() {
   return (
     <div className="quiz-page">
       <div className="container">
-      <div class="text-center">
-          {userB}
-          </div>
+        <div class="mt-5">{userB}</div>
         <Quiz quizID={quizID} />
       </div>
     </div>

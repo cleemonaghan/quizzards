@@ -29,6 +29,7 @@ class CreateQuiz extends React.Component {
       temp_picture: null,
       quiz_picture: null,
       validated: false,
+      submit: false,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
@@ -95,16 +96,15 @@ class CreateQuiz extends React.Component {
     );
     console.log(quizID);
 
-    this.setState({validated:true,});
+    this.setState({ validated: true });
     let quiz = await getQuiz(quizID);
     console.log(quiz.id);
     // this.setState({
     //   id:quiz.id,
     // });
     console.log(quiz);
-   // console.log(this.state.id);
+    // console.log(this.state.id);
     return quizID;
-
   }
 
   handleChange(event) {
@@ -246,11 +246,14 @@ class CreateQuiz extends React.Component {
       //if they did properly fill out the quiz, let them publish the quiz
       this.publishQuiz();
       console.log(this.state);
+      this.setState({submit: true});
     }
+    this.setState({validated: true});
+
   }
 
   render() {
-    if(this.state.validated){
+    if(this.state.submit){
       return <Navigate to={"/quizzes"} />;
     }
 
@@ -282,10 +285,9 @@ class CreateQuiz extends React.Component {
                     </FloatingLabel>
                   </Form.Group>
                 </Col>
-                <Col md="auto">
-                  {/* Quiz Picture */}
+                {/* <Col md="auto">
+                  {/* Quiz Picture 
                   <Form.Group controlId="quiz_pic" className="mb-3">
-                    {/* <Form.Label>Quiz Picture</Form.Label> */}
                     <Form.Control
                       type="file"
                       name="quiz_pic"
@@ -297,7 +299,7 @@ class CreateQuiz extends React.Component {
                       Please provide a picture for the quiz.
                     </Form.Control.Feedback>
                   </Form.Group>
-                </Col>
+                </Col> */}
               </Row>
 
               <Row className="mb-3">
@@ -321,9 +323,9 @@ class CreateQuiz extends React.Component {
                     </FloatingLabel>
                   </Form.Group>
                 </Col>
-                <Col md="auto">
+                {/* <Col md="auto">
                   {this.displayImage(this.state.temp_picture)}
-                </Col>
+                </Col> */}
               </Row>
             </Container>
 
@@ -334,15 +336,15 @@ class CreateQuiz extends React.Component {
                 placement="right"
                 overlay={
                   <Tooltip id="button-tooltip-2">
-                    Results are the possible outcomes of the Quiz. 
-                    You can have up to 12 results per quiz. Results 
-                    will be weighted based on answers to questions.{" "}
+                    Results are the possible outcomes of the Quiz. You can have
+                    up to 12 results per quiz. Results will be weighted based on
+                    answers to questions.{" "}
                   </Tooltip>
-                 }
+                }
               >
                 {({ ref, ...triggerHandler }) => (
                   <h2 {...triggerHandler}>
-                    Results  <InfoCircle className="py-1" ref={ref} />
+                    Results <InfoCircle className="py-1" ref={ref} />
                   </h2>
                 )}
               </OverlayTrigger>
@@ -379,10 +381,10 @@ class CreateQuiz extends React.Component {
                 placement="right"
                 overlay={
                   <Tooltip id="button-tooltip-2">
-                    Questions are mulitple choice and can have up tp 9 possible anwsers.
-                    There can be up to 15 questions per Quiz.{" "}
+                    Questions are mulitple choice and can have up to 9 possible
+                    anwsers. There can be up to 15 questions per Quiz.{" "}
                   </Tooltip>
-                 }
+                }
               >
                 {({ ref, ...triggerHandler }) => (
                   <h2 {...triggerHandler}>

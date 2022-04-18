@@ -101,11 +101,26 @@ function userButton(groupID, user, userGroups) {
         <PencilSquare className="p-2" color="white" />{" "}
       </Link>
     );
-  } 
+  }
   console.log(result);
   return result;
 }
-
+function handleStatsToggle(index) {
+  if (index === 1) {
+    return (
+      <div>
+        <StatsBox />
+      </div>
+    );
+  } else if (index === 2) {
+    return (
+      <div>
+        <CompareBox />
+      </div>
+    );
+  }
+  return <div></div>;
+}
 /** This function loads a group page and returns the formatted html to display the page.
  *
  * @returns the group page with the specified ID
@@ -113,7 +128,7 @@ function userButton(groupID, user, userGroups) {
 function GroupPage() {
   let info = useParams();
   let groupID = info.id;
-
+  const [toggleVal, setToggleVal] = useState(1);
   const [group, groupImage, error, loading, user, userGroups] =
     useGatherResources(groupID);
   //console.log(userGroups);
@@ -126,13 +141,13 @@ function GroupPage() {
     <div className="group-page">
       <div className="row m-0">
         <img
-          className="col-5 mb-5 px-0"
+          className="col-4 mb-5 px-0"
           src={groupImage}
           alt=""
           width="100%"
-          height="350vh"
+          height="325vh"
         />
-        <div className="description col-7 mb-5 py-5 px-0 bg-dark-grey">
+        <div className="description col-8 mb-5 py-5 px-0 bg-dark-grey">
           <h1 className="px-5 text-light">
             {group.name}
             {userB}
@@ -146,7 +161,7 @@ function GroupPage() {
           <div className="quizzes col-3">
             <div className="row mb-3">
               <DropdownButton
-                className="col-6"
+                className="col-auto"
                 id="dropdown-basic-button"
                 title="Filter"
                 variant="outline-primary"
@@ -157,26 +172,30 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
               </DropdownButton>
 
-              <Link className="col-6" to="/createQuiz">
+              <Link className="col-5" to="/createQuiz">
                 <Button variant="outline-primary">Add Quiz +</Button>{" "}
               </Link>
             </div>
 
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
+            />
+            <QuizBox
+              title="This is a sample title for a quiz"
+              author="Author"
             />
           </div>
           <div className="stats-compare col-6">
@@ -186,6 +205,7 @@ function GroupPage() {
                   id="tbg-group-stats"
                   value={1}
                   variant="outline-primary"
+                  onClick={() => setToggleVal(1)}
                 >
                   Group Stats
                 </ToggleButton>
@@ -193,14 +213,13 @@ function GroupPage() {
                   id="tbg-compare-results"
                   value={2}
                   variant="outline-primary"
+                  onClick={() => setToggleVal(2)}
                 >
                   Compare Results
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-
-            <StatsBox />
-            <CompareBox />
+            <div>{handleStatsToggle(toggleVal)}</div>
           </div>
           <div className="members col-3">
             <div className="row mb-3">

@@ -3,11 +3,16 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { default_group } from "../images";
 
-function QuizBox({ title, author ,id }) {
+function QuizBox({ title, author, id }) {
   return (
     <div className="quiz-box mb-4">
-      <Link to={"/quizPage/"+id} style={{ textDecoration: "none" }}>
-        <Card className="text-center py-3" bg="dark" text="white">
+      <Link to={"/quizPage/" + id} style={{ textDecoration: "none" }}>
+        <Card
+          className="text-center"
+          style={{ height: "250px" }}
+          bg="dark"
+          text="white"
+        >
           {/* <Card.Img
             variant="top"
             // src={database.quiz_picture}
@@ -24,15 +29,17 @@ function QuizBox({ title, author ,id }) {
             }}
           >
             <div>
-              <h2>{name}</h2>
-              <p>{description}</p>
+              <h2>{title}</h2>
+              <p>{"By: " + author}</p>
             </div>
           </Card.ImgOverlay> */}
-          <Card.Body>
-            <Card.Title>
-              <h2>{title}</h2>
-            </Card.Title>
-            <Card.Text>{"By: "+author}</Card.Text>
+          <Card.Body className="align-items-center d-flex justify-content-center">
+            <div>
+              <Card.Title>
+                <h2>{title}</h2>
+              </Card.Title>
+              <Card.Text>{"By: " + author}</Card.Text>
+            </div>
           </Card.Body>
         </Card>
       </Link>

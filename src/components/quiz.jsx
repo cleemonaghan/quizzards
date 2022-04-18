@@ -28,8 +28,12 @@ function answerBox(
 
   return (
     <Card
-      className="text-center py-4 border-0"
-      style={{ backgroundColor: displayColor, opacity: opacity }}
+      className="text-center py-4 border-0 align-items-center d-flex justify-content-center"
+      style={{
+        height: "150px",
+        backgroundColor: displayColor,
+        opacity: opacity,
+      }}
     >
       <Card.Title
         style={{
@@ -174,7 +178,7 @@ function displayResult(
   }
   return (
     <div
-      className="rbq_result_outer_container"
+      className="rbq_result_outer_container mb-4"
       name="Result"
       style={{ visibility: visibility }}
     >
@@ -372,7 +376,20 @@ function Quiz({ quizID }) {
     return (
       <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
         <div className="rbq_inner_quiz_container">
-          <Card className="bg-dark text-white mb-5">
+          <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
+          <p> {quiz.description} </p>
+          <div className="row">
+            <img
+              className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
+              alt={quiz.owner_picture}
+              src={profileImage}
+            />
+            <p className="col-5 my-auto" style={{ fontSize: "25px" }}>
+              by <strong>{quiz.ownerUsername}</strong>
+            </p>
+          </div>
+
+          {/* <Card className="bg-dark text-white mb-5">
             <Card.Img
               variant="top"
               height="200px"
@@ -386,7 +403,7 @@ function Quiz({ quizID }) {
               <Card.Text style={{ fontSize: "20px" }}>
                 {quiz.description}
               </Card.Text>
-              {/* <Stack direction="horizontal" gap={3}>
+              <Stack direction="horizontal" gap={3}>
               <img
                 className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
                 alt={database.author}
@@ -397,7 +414,7 @@ function Quiz({ quizID }) {
                   by <strong>{database.author}</strong>
                 </p>
               </span>
-            </Stack> */}
+            </Stack>
             </Card.ImgOverlay>
             <Card.Body>
               <Stack direction="horizontal" gap={3}>
@@ -413,7 +430,7 @@ function Quiz({ quizID }) {
                 </span>
               </Stack>
             </Card.Body>
-            {/* <Card.Body>
+            <Card.Body>
             <Card.Title>
               <h1>{database.title}</h1>
             </Card.Title>
@@ -430,8 +447,8 @@ function Quiz({ quizID }) {
                 </p>
               </span>
             </Stack>
-          </Card.Body> */}
-          </Card>
+          </Card.Body>
+          </Card> */}
 
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {

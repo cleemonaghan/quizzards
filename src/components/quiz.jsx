@@ -382,7 +382,7 @@ function Quiz({ quizID }) {
             <img
               className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
               alt={quiz.owner_picture}
-              src={profileImage}
+              src={quiz.owner_picture}
             />
             <p className="col-5 my-auto" style={{ fontSize: "25px" }}>
               by <strong>{quiz.ownerUsername}</strong>

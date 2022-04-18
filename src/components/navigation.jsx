@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import {
   HouseFill,
   PeopleFill,
-  SendFill,
+  SuitHeartFill,
   PersonCircle,
   PatchQuestionFill,
 } from "react-bootstrap-icons";
@@ -45,9 +45,9 @@ class Navigation extends React.Component {
               <PeopleFill className="mx-1 mb-1" />
               Groups
             </Nav.Link>
-            <Nav.Link href="/messages">
-              <SendFill className="mx-1 mb-1" />
-              Messages
+            <Nav.Link href="/friends">
+              <SuitHeartFill className="mx-1 mb-1" />
+              Friends
             </Nav.Link>
             <Nav.Link href="/profile">
               <PersonCircle className="mx-1 mb-1" />

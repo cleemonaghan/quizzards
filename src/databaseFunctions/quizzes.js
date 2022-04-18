@@ -382,11 +382,10 @@ export async function getResult(id) {
 
 export async function deleteQuiz(id){
   if (!id) return;
-
+  console.log(id);
   let res = await API.graphql({
     query: deleteQuizMutation,
-    variables: {id: id},
+    variables:{input: {id: id}},
   });
-
-  return res;
+  return;
 }

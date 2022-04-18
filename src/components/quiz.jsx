@@ -4,7 +4,16 @@ import { Col, Container, Row, Stack, Card } from "react-bootstrap";
 import { failToLoad, Loading } from "../components";
 import { getQuiz } from "../databaseFunctions/quizzes";
 import { default_group as spareBackground } from "../images";
-import { photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9} from "../images";
+import {
+  photo2,
+  photo3,
+  photo4,
+  photo5,
+  photo6,
+  photo7,
+  photo8,
+  photo9,
+} from "../images";
 
 function answerBox(
   questionIndex,
@@ -70,6 +79,7 @@ function answerBox(
             className="rbq_answer_text text-center"
             style={{
               color: "#FFFFFF",
+              fontSize: "30px",
               fontWeight: fontWeight,
             }}
           >
@@ -314,7 +324,14 @@ function Quiz({ quizID }) {
   ];
 
   let lizards = [
-    photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9,
+    photo2,
+    photo3,
+    photo4,
+    photo5,
+    photo6,
+    photo7,
+    photo8,
+    photo9,
   ];
 
   const [score, setScore] = useState([]);

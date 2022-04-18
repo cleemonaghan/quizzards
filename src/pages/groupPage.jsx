@@ -101,7 +101,7 @@ function userButton(groupID, user, userGroups) {
         <PencilSquare className="p-2" color="white" />{" "}
       </Link>
     );
-  } 
+  }
   console.log(result);
   return result;
 }
@@ -145,7 +145,7 @@ function GroupPage() {
           src={groupImage}
           alt=""
           width="100%"
-          height="300vh"
+          height="325vh"
         />
         <div className="description col-8 mb-5 py-5 px-0 bg-dark-grey">
           <h1 className="px-5 text-light">
@@ -161,7 +161,7 @@ function GroupPage() {
           <div className="quizzes col-3">
             <div className="row mb-3">
               <DropdownButton
-                className="col-6"
+                className="col-auto"
                 id="dropdown-basic-button"
                 title="Filter"
                 variant="outline-primary"
@@ -172,26 +172,30 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
               </DropdownButton>
 
-              <Link className="col-6" to="/createQuiz">
+              <Link className="col-5" to="/createQuiz">
                 <Button variant="outline-primary">Add Quiz +</Button>{" "}
               </Link>
             </div>
 
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
             />
             <QuizBox
-              name="Hogwarts House"
-              description="Find out which Hogwarts House you belong to :)"
+              title="This is a sample title for a quiz"
+              author="Author"
+            />
+            <QuizBox
+              title="This is a sample title for a quiz"
+              author="Author"
             />
           </div>
           <div className="stats-compare col-6">

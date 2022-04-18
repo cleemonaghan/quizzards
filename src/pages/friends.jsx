@@ -94,7 +94,7 @@ class Friends extends React.Component {
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
-      list.forEach(element => {
+      list.forEach((element) => {
         result.push(
           <div className="col-lg-3 col-sm-6" key={element.username}>
             <User
@@ -205,7 +205,10 @@ class Friends extends React.Component {
     var result = [];
     for (let i = 0; i < allUsers.length; i++) {
       let user = allUsers[i];
-      if (user.name.toLowerCase().includes(substr.toLowerCase()) && user.username !== this.state.username) {
+      if (
+        user.name.toLowerCase().includes(substr.toLowerCase()) &&
+        user.username !== this.state.username
+      ) {
         let image = await Storage.get(user.profilePicture);
         result.push({
           username: user.username,
@@ -265,7 +268,7 @@ class Friends extends React.Component {
             <h1 className="font-weight-bold">Your Friend Requests</h1>
           </div>
           <h4 className="font-weight-bold">Incoming:</h4>
-          <div className="row">
+          <div className="row mb-4">
             {this.displayList(
               this.state.friendReqs,
               "You have no Incoming Friend Requests"

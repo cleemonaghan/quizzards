@@ -153,8 +153,10 @@ class CreateQuiz extends React.Component {
   removeResult() {
     // pop off the last result
     const results = this.state.results;
-    results.pop();
-    this.setState({ results });
+    if (results.length > 1) {
+      results.pop();
+      this.setState({ results });
+    }
   }
 
   updateResult(index, updatedResult) {
@@ -177,8 +179,10 @@ class CreateQuiz extends React.Component {
 
   removeQuestion() {
     const questions = this.state.questions;
-    questions.pop();
-    this.setState({ questions });
+    if (questions.length > 1) {
+      questions.pop();
+      this.setState({ questions });
+    }
   }
 
   updateQuestion(index, updatedQuestion) {
@@ -199,8 +203,10 @@ class CreateQuiz extends React.Component {
 
   removeAnswer(i) {
     const answers = this.state.questions[i].answers;
-    answers.pop();
-    this.setState({ answers });
+    if (answers.length > 1) {
+      answers.pop();
+      this.setState({ answers });
+    }
     // this.setState((state) => {
     //   return state;
     // });
@@ -248,11 +254,11 @@ class CreateQuiz extends React.Component {
                   <Form.Group className="mb-3" controlId="name">
                     <FloatingLabel label="Title" className="mb-3">
                       <Form.Control
-                        required
                         name="quizName"
                         type="text"
                         value={this.state.quizName}
                         onChange={this.handleChange}
+                        required
                       />
                       <Form.Control.Feedback type="invalid">
                         Please provide a tile for the quiz.
@@ -265,11 +271,11 @@ class CreateQuiz extends React.Component {
                   <Form.Group controlId="quiz_pic" className="mb-3">
                     {/* <Form.Label>Quiz Picture</Form.Label> */}
                     <Form.Control
-                      required
                       type="file"
                       name="quiz_pic"
                       onChange={this.handleImageChange}
                       accept="image/png, image/jpeg"
+                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       Please provide a picture for the quiz.
@@ -284,7 +290,6 @@ class CreateQuiz extends React.Component {
                   <Form.Group className="mb-3" controlId="description">
                     <FloatingLabel label="Description" className="mb-3">
                       <Form.Control
-                        required
                         name="description"
                         type="text"
                         as="textarea"
@@ -292,6 +297,7 @@ class CreateQuiz extends React.Component {
                         style={{ height: 196, resize: "none" }}
                         value={this.state.description}
                         onChange={this.handleChange}
+                        required
                       />
                       <Form.Control.Feedback type="invalid">
                         Please provide a description for the quiz.

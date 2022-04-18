@@ -70,6 +70,7 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
                 name="name"
                 type="text"
                 onChange={handleNameChange}
+                required
               />
             </FloatingLabel>
           </Form.Group>
@@ -82,6 +83,7 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
               name="question_pic"
               accept="image/png, image/jpeg"
               onChange={handleImageChange}
+              required
             />
             <Form.Control.Feedback type="invalid">
               Please provide an image for the result.

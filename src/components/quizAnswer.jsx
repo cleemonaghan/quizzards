@@ -40,6 +40,7 @@ function QuizAnswer({
                 name="name"
                 type="text"
                 onChange={handleNameChange}
+                required
               />
             </FloatingLabel>
           </Form.Group>

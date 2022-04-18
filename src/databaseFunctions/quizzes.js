@@ -62,7 +62,7 @@ export async function createQuiz(
   //update the quiz with the quiz image
   const fileName = quizID + "_quiz_pic";
   await Storage.put(fileName, picture);
-  params["profilePicture"] = fileName;
+  params["picture"] = fileName;
   res = await API.graphql({
     query: updateQuizMutation,
     variables: {
@@ -106,10 +106,10 @@ export async function createQuestion(question, quizID) {
   let questID = quest.id;
 
   //update the question with the question image
-  if (question.img !== null) {
+  if (question.img !== null || question.img === "") {
+    console.log("'"+question.img+"'");
     const fileName = quizID + "_quiz_" + questID + "_question_pic";
     await Storage.put(fileName, question.img);
-    params["profilePicture"] = fileName;
     res = await API.graphql({
       query: updateQuestionMutation,
       variables: {

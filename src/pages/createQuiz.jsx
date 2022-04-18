@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
-import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
+import { QuizQuestion, QuizResult, QuizAnswer, Loading } from "../components";
 import { Link } from "react-router-dom";
 import { InfoCircle } from "react-bootstrap-icons";
 import { Navigate } from "react-router";
@@ -30,6 +30,7 @@ class CreateQuiz extends React.Component {
       quiz_picture: null,
       validated: false,
       submit: false,
+      isSubmitting: false,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
@@ -81,10 +82,9 @@ class CreateQuiz extends React.Component {
    * This method updates the quiz in the DB
    */
   async publishQuiz() {
-    console.log(this.state.quizName);
-    console.log(this.state.ownerUsername);
-    console.log(this.state.description);
-    console.log(this.state.quiz_picture);
+    console.log("Publishing Quiz");
+
+    console.log(this.state)
 
     let quizID = await createQuiz(
       this.state.quizName,
@@ -95,16 +95,10 @@ class CreateQuiz extends React.Component {
       this.state.quiz_picture
     );
     console.log(quizID);
-
-    this.setState({ validated: true });
-    let quiz = await getQuiz(quizID);
-    console.log(quiz.id);
-    // this.setState({
-    //   id:quiz.id,
-    // });
-    console.log(quiz);
-    // console.log(this.state.id);
-    return quizID;
+    //let quiz = await getQuiz(quizID);
+    //console.log(quiz.id);
+    //console.log(quiz);
+    //return quizID;
   }
 
   handleChange(event) {
@@ -154,7 +148,7 @@ class CreateQuiz extends React.Component {
     // first push a new result
     const results = this.state.results;
     if (results.length < 12) {
-      results.push({ name: "", img: "" });
+      results.push({ name: "", img: null });
       this.setState({ results });
       //then push a new weight for each question's answers
       this.state.questions.forEach((question) => {
@@ -187,7 +181,7 @@ class CreateQuiz extends React.Component {
       this.state.results.forEach(() => weights.push(0));
       questions.push({
         name: "",
-        img: "",
+        img: null,
         answers: [{ name: "", weights: weights }],
       });
       this.setState({ questions });
@@ -241,25 +235,29 @@ class CreateQuiz extends React.Component {
     weights.splice(resultIndex, 1, newWeight);
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     const form = event.currentTarget;
     event.preventDefault();
+    console.log("Here");
+    this.setState({ validated: true });
     if (form.checkValidity() === false) {
       // if they have not filled all the fields, don't let them publish the quiz
-      console.log("Failed");
+      console.log("Failed to submit");
       event.stopPropagation();
     } else {
       //if they did properly fill out the quiz, let them publish the quiz
-      this.publishQuiz();
-      console.log(this.state);
-      this.setState({ submit: true });
+      this.setState({ isSubmitting: true });
+      await this.publishQuiz();
+      this.setState({ submit: true, isSubmitting: false });
     }
-    this.setState({ validated: true });
   }
 
   render() {
     if (this.state.submit) {
       return <Navigate to={"/quizzes"} />;
+    }
+    if( this.state.isSubmitting) {
+      return Loading();
     }
 
     return (
@@ -456,8 +454,13 @@ class CreateQuiz extends React.Component {
             </Container>
 
             {/* Submit Button */}
-            <Button className="my-5 me-5" variant="primary" type="submit">
-              Create Quiz
+            <Button
+              className="my-5 me-5"
+              variant="primary"
+              type="submit"
+              disabled={this.state.isSubmitting}
+            >
+              {this.state.isSubmitting ? "Creating..." : "Create Quiz"}
             </Button>
             {/* <Button className="my-5" variant="primary" type="submit">
               Publish Quiz

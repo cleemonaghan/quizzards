@@ -10,6 +10,7 @@ import {
   updateQuestion as updateQuestionMutation,
   createAnswer as createAnswerMutation,
   updateAnswer as updateAnswerMutation,
+  deleteQuiz as deleteQuizMutation,
 } from "../graphql/mutations";
 import {
   getQuiz as getQuizQuery,
@@ -377,4 +378,15 @@ export async function getResult(id) {
   });
 
   return res.data.getResult;
+}
+
+export async function deleteQuiz(id){
+  if (!id) return;
+
+  let res = await API.graphql({
+    query: deleteQuizMutation,
+    variables: {id: id},
+  });
+
+  return res;
 }

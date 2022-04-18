@@ -96,13 +96,17 @@ class Home extends React.Component {
     if (quizArr === undefined || quizArr.length < 1) {
       return <p>You have no quizzes</p>;
     } else {
+      console.log(quizArr);
+      console.log(quizArr.length);
+
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
-        let quiz = await getQuiz(quizArr[i].quizID);
+        console.log(quizArr[i]);
+        let quiz = await getQuiz(quizArr[i].id);
         result.push(
           <div className="col-4" key={i}>
-            <QuizBox name={quiz.quizname} description={quiz.description} />
+            <QuizBox title={quiz.title} author={this.state.username} id={quiz.id} />
           </div>
         );
       }

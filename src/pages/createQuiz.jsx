@@ -16,6 +16,7 @@ import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
 import { InfoCircle } from "react-bootstrap-icons";
+import { Navigate } from "react-router";
 
 class CreateQuiz extends React.Component {
   constructor(props) {
@@ -27,11 +28,11 @@ class CreateQuiz extends React.Component {
       ownerUsername: "",
       temp_picture: null,
       quiz_picture: null,
+      validated: false,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
       ],
-      validated: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -93,8 +94,17 @@ class CreateQuiz extends React.Component {
       this.state.quiz_picture
     );
     console.log(quizID);
+
+    this.setState({validated:true,});
     let quiz = await getQuiz(quizID);
+    console.log(quiz.id);
+    // this.setState({
+    //   id:quiz.id,
+    // });
     console.log(quiz);
+   // console.log(this.state.id);
+    return quizID;
+
   }
 
   handleChange(event) {
@@ -231,10 +241,13 @@ class CreateQuiz extends React.Component {
       this.publishQuiz();
       console.log(this.state);
     }
-    this.setState({ validated: true });
   }
 
   render() {
+    if(this.state.validated){
+      return <Navigate to={"/quizzes"} />;
+    }
+
     return (
       <div className="create_quiz">
         <div className="container">

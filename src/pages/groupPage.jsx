@@ -141,13 +141,13 @@ function GroupPage() {
     <div className="group-page">
       <div className="row m-0">
         <img
-          className="col-5 mb-5 px-0"
+          className="col-4 mb-5 px-0"
           src={groupImage}
           alt=""
           width="100%"
-          height="350vh"
+          height="300vh"
         />
-        <div className="description col-7 mb-5 py-5 px-0 bg-dark-grey">
+        <div className="description col-8 mb-5 py-5 px-0 bg-dark-grey">
           <h1 className="px-5 text-light">
             {group.name}
             {userB}

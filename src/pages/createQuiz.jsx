@@ -29,6 +29,7 @@ class CreateQuiz extends React.Component {
       temp_picture: null,
       quiz_picture: null,
       validated: false,
+      submit: false,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
@@ -246,11 +247,14 @@ class CreateQuiz extends React.Component {
       //if they did properly fill out the quiz, let them publish the quiz
       this.publishQuiz();
       console.log(this.state);
+      this.setState({submit: true});
     }
+    this.setState({validated: true});
+
   }
 
   render() {
-    if(this.state.validated){
+    if(this.state.submit){
       return <Navigate to={"/quizzes"} />;
     }
 

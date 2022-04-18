@@ -4,7 +4,7 @@ import { Col, Container, Row, Stack, Card } from "react-bootstrap";
 import { failToLoad, Loading } from "../components";
 import { getQuiz } from "../databaseFunctions/quizzes";
 import { default_group as spareBackground } from "../images";
-import { photo3 as profileImage } from "../images";
+import { photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9} from "../images";
 
 function answerBox(
   questionIndex,
@@ -20,15 +20,12 @@ function answerBox(
   let answer = question.answers.items[answerIndex];
   let displayColor = color;
   let opacity = 1;
-  let fontSize = 43;
   let fontWeight = 900;
   if (question.answered && answerIndex !== question.selected) {
     //if this question has been answered and it wasn't this answer, make the color faded
     opacity = 0.3;
   }
-  if (window.innerWidth < 770) {
-    fontSize = 15;
-  }
+
   return (
     <Card
       className="text-center py-4 border-0"
@@ -69,7 +66,6 @@ function answerBox(
             className="rbq_answer_text text-center"
             style={{
               color: "#FFFFFF",
-              fontSize: fontSize,
               fontWeight: fontWeight,
             }}
           >
@@ -93,12 +89,13 @@ function questionSection(
   setScore,
   questionRefs,
   colors,
-  completed
+  completed,
+  lizards
 ) {
   let background = question.picture;
   if (question.picture === undefined || question.picture === null) {
     //if there is no picture, then use a blank color
-    background = spareBackground;
+    background = lizards[index];
   }
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">
@@ -307,6 +304,13 @@ function Quiz({ quizID }) {
     "#0273e9",
     "#7248f1",
     "#c035e7",
+    "#db278d",
+    "#f14e48",
+    "#ff9038",
+  ];
+
+  let lizards = [
+    photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9,
   ];
 
   const [score, setScore] = useState([]);
@@ -444,7 +448,8 @@ function Quiz({ quizID }) {
                     setScore,
                     itemsRef,
                     colors,
-                    completed
+                    completed,
+                    lizards
                   )}
                 </div>
               );

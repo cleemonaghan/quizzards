@@ -83,11 +83,7 @@ function QuizQuestion({ question, index, handleUpdateQuestion }) {
               name="question_pic"
               accept="image/png, image/jpeg"
               onChange={handleImageChange}
-              required
             />
-            <Form.Control.Feedback type="invalid">
-              Please provide an image for the result.
-            </Form.Control.Feedback>
           </Form.Group>
           {displayImage(temp)}
         </Col>

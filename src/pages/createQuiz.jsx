@@ -9,10 +9,14 @@ import {
   Row,
   Col,
   Container,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer } from "../components";
 import { Link } from "react-router-dom";
+import { InfoCircle } from "react-bootstrap-icons";
+import { Navigate } from "react-router";
 
 class CreateQuiz extends React.Component {
   constructor(props) {
@@ -24,11 +28,11 @@ class CreateQuiz extends React.Component {
       ownerUsername: "",
       temp_picture: null,
       quiz_picture: null,
+      validated: false,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
       ],
-      validated: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -90,8 +94,17 @@ class CreateQuiz extends React.Component {
       this.state.quiz_picture
     );
     console.log(quizID);
+
+    this.setState({validated:true,});
     let quiz = await getQuiz(quizID);
+    console.log(quiz.id);
+    // this.setState({
+    //   id:quiz.id,
+    // });
     console.log(quiz);
+   // console.log(this.state.id);
+    return quizID;
+
   }
 
   handleChange(event) {
@@ -234,10 +247,13 @@ class CreateQuiz extends React.Component {
       this.publishQuiz();
       console.log(this.state);
     }
-    this.setState({ validated: true });
   }
 
   render() {
+    if(this.state.validated){
+      return <Navigate to={"/quizzes"} />;
+    }
+
     return (
       <div className="create_quiz">
         <div className="container">
@@ -313,7 +329,23 @@ class CreateQuiz extends React.Component {
 
             {/* Results */}
             <Container className="results mb-3">
-              <h2 className="font-weight-light mt-5">Results</h2>
+              {/* <h2 className="font-weight-light mt-5">Results</h2> */}
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip id="button-tooltip-2">
+                    Results are the possible outcomes of the Quiz. 
+                    You can have up to 12 results per quiz. Results 
+                    will be weighted based on answers to questions.{" "}
+                  </Tooltip>
+                 }
+              >
+                {({ ref, ...triggerHandler }) => (
+                  <h2 {...triggerHandler}>
+                    Results  <InfoCircle className="py-1" ref={ref} />
+                  </h2>
+                )}
+              </OverlayTrigger>
               {this.state.results.map((result, index) => {
                 return (
                   <div key={index}>
@@ -342,7 +374,22 @@ class CreateQuiz extends React.Component {
             {/* Questions and Answers */}
 
             <Container className="questions">
-              <h2 className="font-weight-light mt-5">Questions</h2>
+              {/* <h2 className="font-weight-light mt-5">Questions</h2> */}
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip id="button-tooltip-2">
+                    Questions are mulitple choice and can have up tp 9 possible anwsers.
+                    There can be up to 15 questions per Quiz.{" "}
+                  </Tooltip>
+                 }
+              >
+                {({ ref, ...triggerHandler }) => (
+                  <h2 {...triggerHandler}>
+                    Questions <InfoCircle className="py-1" ref={ref} />
+                  </h2>
+                )}
+              </OverlayTrigger>
               {this.state.questions.map((question, index) => {
                 return (
                   <div key={index}>

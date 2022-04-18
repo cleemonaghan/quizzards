@@ -6,7 +6,10 @@ import {
   Dropdown,
   Row,
   Col,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
+import { InfoCircle } from "react-bootstrap-icons";
 
 function QuizResult({ result, index, handleUpdateResult }) {
   const [temp, setTemp] = useState(null);
@@ -58,7 +61,7 @@ function QuizResult({ result, index, handleUpdateResult }) {
 
   return (
     <div>
-      <h4>Result {index + 1}</h4>
+       <h4>Result {index + 1}</h4>
       <Row className="result mb-3">
         <Col>
           <Form.Group className="mb-3" controlId="result-name">

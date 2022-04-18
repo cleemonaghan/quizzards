@@ -9,6 +9,7 @@ import {
   getUser,
   getUserGroups,
   getUserQuizzes,
+  getUserOwnedQuizzes,
   acceptFriend,
   requestFriend,
 } from "../databaseFunctions/users.js";
@@ -90,18 +91,22 @@ class Home extends React.Component {
   }
 
   async displayQuizzesElement() {
-    const quizArr = await getUserQuizzes(this.state.username);
+    const quizArr = await getUserOwnedQuizzes(this.state.username);
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
       return <p>You have no quizzes</p>;
     } else {
+      console.log(quizArr);
+      console.log(quizArr.length);
+
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
-        let quiz = await getQuiz(quizArr[i].quizID);
+        console.log(quizArr[i]);
+        let quiz = await getQuiz(quizArr[i].id);
         result.push(
           <div className="col-4" key={i}>
-            <QuizBox name={quiz.quizname} description={quiz.description} />
+            <QuizBox title={quiz.title} author={this.state.username} id={quiz.id} />
           </div>
         );
       }

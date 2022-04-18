@@ -4,6 +4,7 @@ import { API, Storage } from "aws-amplify";
 import {
   createUser as createUserMutation,
   updateUser as updateUserMutation,
+  createUserAnswers,
 } from "../graphql/mutations";
 import { getUser as getUserQuery, listUsers } from "../graphql/queries";
 
@@ -137,7 +138,22 @@ export async function getUserOwnedGroups(username) {
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  return userVal.quizOwners.data;
+  //return userVal.quiz.data;
+}
+
+export async function getUserOwnedQuizzes(username) {
+  if (!username) return;
+  let userVal = await getUser(username);
+  return userVal.quizOwners.items;
+}
+
+export async function inputUserQuiz(params){
+  let res = await API.graphql({
+    query: createUserAnswers,
+    variables: {input: params},
+  });
+
+  return res.data.createUserAnswers;
 }
 
 // User Friends ---------------------------

@@ -78,11 +78,6 @@ function userButton(groupID, user, userGroups) {
   console.log("group ID", groupID);
   console.log("userGroups", userGroups);
   console.log("userGroups length", userGroups.length);
-  //let response = await Auth.currentAuthenticatedUser();
-  //let user = response.username;
-  //console.log(user);
-  //const groupArr = await getUserGroups(user);
-  //console.log(groupArr.length);
   let myGroup = false;
 
   for (let i = 0; i < userGroups.length; i++) {
@@ -105,20 +100,8 @@ function userButton(groupID, user, userGroups) {
       <Link to={{ pathname: "/groupEdit/" + groupID }}>
         <PencilSquare className="p-2" color="white" />{" "}
       </Link>
-      // <div className="col-2 px-0">
-      //   {" "}
-      //   <Link to={{ pathname: "/groupEdit/" + groupID }}>
-      //     <Button variant="outline-primary">Edit Group </Button>{" "}
-      //   </Link>
-      // </div>
     );
-  } else {
-    // result.push(
-    //   <div className="col-2 px-0"> <Link to={{ pathname: "/groupEdit/" + groupID }}>
-    //   <Button variant="outline-primary">Edit Group </Button>{" "}
-    // </Link></div>
-    // );
-  }
+  } 
   console.log(result);
   return result;
 }

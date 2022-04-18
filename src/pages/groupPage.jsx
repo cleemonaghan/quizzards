@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import {
   MembersList,
-  QuizBox,
+  QuizStatsBox,
   StatsBox,
   CompareBox,
   failToLoad,
@@ -177,23 +177,23 @@ function GroupPage() {
               </Link>
             </div>
 
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />

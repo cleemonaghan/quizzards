@@ -41,7 +41,7 @@ class Navigation extends React.Component {
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
-          <Navbar.Collapse>
+          <Navbar.Collapse className="justify-content-end">
             <Nav>
               <Nav.Link href="/">
                 <HouseFill className="mx-1 mb-1" />

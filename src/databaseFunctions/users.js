@@ -6,7 +6,11 @@ import {
   updateUser as updateUserMutation,
   createUserAnswers,
 } from "../graphql/mutations";
-import { getUser as getUserQuery, listUsers } from "../graphql/queries";
+import { 
+  getUser as getUserQuery, 
+  listUsers, 
+  listUserAnswers as listUserAnswersQuery,
+ } from "../graphql/queries";
 
 /** This method creates a default user with the specified username.
  *
@@ -137,13 +141,23 @@ export async function getUserOwnedGroups(username) {
  */
 export async function getUserQuizzes(username) {
   if (!username) return;
-  let userVal = await getUser(username);
+  let userAnswers = await getUserAnswers(username);
+  console.log(userAnswers);
+  let quizzes = [];
+  for(let i = 0; i < userAnswers.items.length; i++){
+    if(!quizzes.includes(userAnswers.items[i].quiz)){
+      quizzes.push(userAnswers.items[i].quiz);
+    }
+  }
+  console.log(quizzes);
+  return quizzes;
   //return userVal.quiz.data;
 }
 
 export async function getUserOwnedQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
+  console.log(userVal.quizOwners.items);
   return userVal.quizOwners.items;
 }
 
@@ -154,6 +168,18 @@ export async function inputUserQuiz(params){
   });
 
   return res.data.createUserAnswers;
+}
+
+export async function getUserAnswers(username){
+  if(!username) return;
+  console.log("get user answers");
+  console.log(username);
+  let res = await API.graphql({
+    query: listUserAnswersQuery,
+    variables:{input: {username: username}},
+  });
+  console.log(res);
+  return res.data.listUserAnswers;
 }
 
 // User Friends ---------------------------

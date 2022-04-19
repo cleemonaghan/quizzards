@@ -5,6 +5,7 @@ import {
   createMembers,
   createMemberRequests,
   deleteMemberRequests,
+  createQuizToGroup
 } from "../graphql/mutations";
 import {
   getGroup as getGroupQuery,
@@ -231,6 +232,20 @@ export async function recommendGroups(friendList, userGroups) {
 
   return result;
 }
+
+
+export async function addQuizToGroup(quizID, groupID) {
+  let params = {
+    quizID: quizID,
+    groupID: groupID,
+  };
+  let res = await API.graphql({
+    query: createQuizToGroup,
+    variables: { input: params },
+  });
+  return res;
+}
+
 //returns a groups quizzes
 export async function getGroupsQuizzes(groupID) {
   if (!groupID) return;

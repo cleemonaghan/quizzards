@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import { Navigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { Quiz } from "../components";
-import{getQuiz,
-   deleteQuiz as deleteQuizMutation,
-  } from "../databaseFunctions/quizzes";
-import{ getUserOwnedQuizzes } from "../databaseFunctions/users";
-import Button from "react-bootstrap/Button";
+import { Loading, Quiz } from "../components";
+import {
+  getQuiz,
+  deleteQuiz as deleteQuizMutation,
+} from "../databaseFunctions/quizzes";
+import { getUserOwnedQuizzes } from "../databaseFunctions/users";
+import { Button, Modal } from "react-bootstrap";
 
-function useGatherResources(quizID) {
+function useGatherResources(quizID, setModalShow) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState(null);
   const [user, setUser] = useState(null);
   const [userQuizzes, setUserQuizzes] = useState([]);
   const [userB, setUserButton] = useState(null);
-  const [hasDeleted, setHasDeleted] = useState(null);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -32,8 +32,6 @@ function useGatherResources(quizID) {
       let tempQuizID = res.id;
       setQuiz(res);
 
-
-
       //get the user
       res = await Auth.currentAuthenticatedUser();
       let tempUser = res;
@@ -46,9 +44,13 @@ function useGatherResources(quizID) {
       console.log(res);
       setUserQuizzes(res);
 
-      setHasDeleted(false);
-
-      res =  userButton(tempQuizID, tempUser, tempQuiz, tempUserQuizzes,setHasDeleted);
+      res = userButton(
+        tempQuizID,
+        tempUser,
+        tempQuiz,
+        tempUserQuizzes,
+        setModalShow
+      );
       setUserButton(res);
     } catch (e) {
       //there was an error, so save it
@@ -63,10 +65,10 @@ function useGatherResources(quizID) {
     getInfo();
   }, []);
 
-  return [quiz,  error, loading, user, userQuizzes, userB, hasDeleted];
+  return [quiz, error, loading, user, userQuizzes, userB];
 }
 
-function userButton(quizID,  user, quiz, userQuizzes, setHasDeleted) {
+function userButton(quizID, user, quiz, userQuizzes, setModalShow) {
   console.log(quizID);
   console.log(user);
   console.log(quiz);
@@ -85,44 +87,91 @@ function userButton(quizID,  user, quiz, userQuizzes, setHasDeleted) {
     }
   }
 
-  var result = [];
-
   console.log(myQuiz);
 
   if (myQuiz) {
-    result.push(
-      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz(quizID, setHasDeleted)} className="btn">
-         Delete Quiz
-       </Button>
+    return (
+      <Button variant="danger" size="lg" onClick={() => setModalShow(true)}>
+        Delete Quiz
+      </Button>
     );
-  }
-  console.log(result);
-  return result;
+  } else return <div></div>;
 }
 
-async function deleteQuiz(quizID, setHasDeleted){
-  console.log(quizID);
-  var res = await deleteQuizMutation(quizID);
-  console.log("returned");
-  setHasDeleted(true);
-  return;
+function DeleteQuizWarning(
+  quizID,
+  deleting,
+  setDeleting,
+  setHasDeleted,
+  show,
+  onHide
+) {
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Delete Quiz
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>About to delete quiz</h4>
+        <p>You are about to delete this quiz. This action cannot be undone.</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onHide}>Cancel</Button>
+        <Button
+          disabled={deleting}
+          variant="danger"
+          onClick={async () => {
+            setDeleting(true);
+            //delete the quiz
+            await deleteQuizMutation(quizID);
+            setHasDeleted(true);
+          }}
+        >
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
 function QuizPage() {
   let info = useParams();
   let quizID = info.id;
   console.log(quizID);
-  const [quiz,  error, loading, user, userQuizzes, userB, hasDeleted] =
-  useGatherResources(quizID);
-  if(hasDeleted){
-    return  <Navigate to={"/quizzes"} />;
+  const [modalShow, setModalShow] = useState(false);
+  //boolean for tracking when we are currently deleting
+  const [deleting, setDeleting] = useState(false);
+  //boolean for when we are done deleting
+  const [hasDeleted, setHasDeleted] = useState(false);
+
+  const [quiz, error, loading, user, userQuizzes, deleteButton] =
+    useGatherResources(quizID, setModalShow);
+
+
+  if (hasDeleted) {
+    return <Navigate to={"/quizzes"} />;
+  }  
+  else if (deleting) {
+    return Loading();
   }
-  //let userB = userButton(quizID, user, quiz, userQuizzes);
+  //let deleteButton = userButton(quizID, user, quiz, userQuizzes);
 
   return (
     <div className="quiz-page">
       <div className="container">
-        <div className="mt-5">{userB}</div>
+        {DeleteQuizWarning(quizID, 
+  deleting, setDeleting, setHasDeleted, modalShow, () =>
+          setModalShow(false)
+        )}
+        <div className="mt-5">{deleteButton}</div>
         <Quiz quizID={quizID} />
       </div>
     </div>

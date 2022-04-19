@@ -151,7 +151,7 @@ class Home extends React.Component {
             <div className="col-4" key={i}>
               <QuizBox
                 title={quiz.title}
-                author={this.state.username}
+                author={quiz.ownerUsername}
                 id={quiz.id}
               />
             </div>

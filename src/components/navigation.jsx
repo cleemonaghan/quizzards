@@ -20,7 +20,14 @@ class Navigation extends React.Component {
   }
   render() {
     return (
-      <Navbar bg="dark" variant="dark" sticky="top" className="mx0">
+      <Navbar
+        collapseOnSelect
+        expand="sm"
+        bg="dark"
+        variant="dark"
+        sticky="top"
+        className="mx0"
+      >
         <Container>
           <Navbar.Brand href="/">
             <img
@@ -32,31 +39,35 @@ class Navigation extends React.Component {
             />{" "}
             Quizzards
           </Navbar.Brand>
-          <Nav>
-            <Nav.Link href="/">
-              <HouseFill className="mx-1 mb-1" />
-              Home
-            </Nav.Link>
-            <Nav.Link href="/quizzes">
-              <PatchQuestionFill className="mx-1 mb-1" />
-              Quizzes
-            </Nav.Link>
-            <Nav.Link href="/groups">
-              <PeopleFill className="mx-1 mb-1" />
-              Groups
-            </Nav.Link>
-            <Nav.Link href="/friends">
-              <SuitHeartFill className="mx-1 mb-1" />
-              Friends
-            </Nav.Link>
-            <Nav.Link href="/profile">
-              <PersonCircle className="mx-1 mb-1" />
-              Profile
-            </Nav.Link>
-            <Button variant="light" onClick={this.signout}>
-              Signout
-            </Button>
-          </Nav>
+
+          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          <Navbar.Collapse>
+            <Nav>
+              <Nav.Link href="/">
+                <HouseFill className="mx-1 mb-1" />
+                Home
+              </Nav.Link>
+              <Nav.Link href="/quizzes">
+                <PatchQuestionFill className="mx-1 mb-1" />
+                Quizzes
+              </Nav.Link>
+              <Nav.Link href="/groups">
+                <PeopleFill className="mx-1 mb-1" />
+                Groups
+              </Nav.Link>
+              <Nav.Link href="/friends">
+                <SuitHeartFill className="mx-1 mb-1" />
+                Friends
+              </Nav.Link>
+              <Nav.Link href="/profile">
+                <PersonCircle className="mx-1 mb-1" />
+                Profile
+              </Nav.Link>
+              <Button variant="light" onClick={this.signout}>
+                Signout
+              </Button>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     );

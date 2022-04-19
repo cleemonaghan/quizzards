@@ -123,7 +123,6 @@ class Quizzes extends React.Component {
                     />
                   </MDBCol>
                 </div>
-                <div className="col-1"></div>
                 <div className="col-3 mt-5 mb-4 float-end">
                   <Link to="/createQuiz">
                     <Button variant="outline-primary" size="lg">

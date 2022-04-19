@@ -229,7 +229,6 @@ function GroupPage() {
               </Link>
             </div>
 
-<<<<<<< Updated upstream
             <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
@@ -250,9 +249,7 @@ function GroupPage() {
               title="This is a sample title for a quiz"
               author="Author"
             />
-=======
             {displayQuizElements(quizzes)}
->>>>>>> Stashed changes
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">

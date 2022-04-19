@@ -10,6 +10,7 @@ export { default as OldQuiz } from "./oldQuiz";
 export { default as Quiz } from "./quiz";
 export { default as User } from "./user";
 export { default as QuizBox } from "./quizBox";
+export { default as QuizStatsBox } from "./quizStatsBox";
 export { default as GroupStats } from "./groupStats";
 export { default as StatsBox } from "./statsBox";
 export { default as CompareBox } from "./compareBox";

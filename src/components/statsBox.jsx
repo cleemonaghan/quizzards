@@ -13,10 +13,10 @@ function StatsBox({ name, result, labels, data }) {
         </div>
         <hr />
         <div className="row mx-auto">
-          <h4 className="col-7 ms-2 my-2"> My Results: {result}</h4>
-          <div className="col-4">
+          <h4 className="col-auto ms-2 my-2"> My Results: {result}</h4>
+          <div className="col-auto my-auto">
             <Link to="/quizPage">
-              <Button variant="outline-primary">Take this Quiz</Button>{" "}
+              <Button variant="outline-primary">Go to Quiz</Button>{" "}
             </Link>
           </div>
         </div>

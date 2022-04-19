@@ -1,11 +1,14 @@
 import React from "react";
-import { QuizBox , failToLoad, Loading} from "../components";
+import { QuizBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput } from "mdbreact";
 import { Link } from "react-router-dom";
 
 import { Auth, Storage } from "aws-amplify";
-import { listAllQuizzes, listQuizzesByTitle } from "../databaseFunctions/quizzes";
+import {
+  listAllQuizzes,
+  listQuizzesByTitle,
+} from "../databaseFunctions/quizzes";
 
 class Quizzes extends React.Component {
   constructor() {
@@ -55,12 +58,12 @@ class Quizzes extends React.Component {
       //let quizImage = await Storage.get(quiz.picture);
       result.push(
         <div className="col-lg-3 col-sm-6" key={quiz.id}>
-        <QuizBox
-          title={quiz.title}
-          author={quiz.ownerUsername}
-          id={quiz.id}
-        />
-      </div>
+          <QuizBox
+            title={quiz.title}
+            author={quiz.ownerUsername}
+            id={quiz.id}
+          />
+        </div>
       );
     }
 
@@ -76,12 +79,12 @@ class Quizzes extends React.Component {
         //let groupImage = await Storage.get(group.profilePicture);
         result.push(
           <div className="col-lg-3 col-sm-6" key={quiz.id}>
-          <QuizBox
-            title={quiz.title}
-            author={quiz.ownerUsername}
-            id={quiz.id}
-          />
-        </div>
+            <QuizBox
+              title={quiz.title}
+              author={quiz.ownerUsername}
+              id={quiz.id}
+            />
+          </div>
         );
       }
     }
@@ -129,16 +132,22 @@ class Quizzes extends React.Component {
                   </Link>
                 </div>
               </div>
-              
-          <div className="row">{this.state.searchBar}</div>
-              {/* <hr /> */}
+
+              <div className="row">{this.state.searchBar}</div>
+              <div className="row align-items-center mt-5 mb-2">
+                <h1 className="font-weight-bold col-4">Quizzes You Made</h1>
+              </div>
+              <div className="row">{this.displayQuizzes()}</div>
+
+              <div className="row align-items-center mt-5 mb-2">
+                <h1 className="font-weight-bold col-4">Quizzes You've Taken</h1>
+              </div>
+              <div className="row">{this.displayQuizzes()}</div>
+
               <div className="row align-items-center mt-5 mb-2">
                 <h1 className="font-weight-bold col-4">Suggested Quizzes</h1>
               </div>
-              <div className="row">
-                {this.displayQuizzes()}
-              </div>
-              
+              <div className="row">{this.displayQuizzes()}</div>
             </div>
           </div>
         </div>

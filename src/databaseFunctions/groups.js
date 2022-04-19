@@ -4,7 +4,8 @@ import {
   updateGroup as updateGroupMutation,
   createMembers,
   createMemberRequests,
-  deleteMemberRequests
+  deleteMemberRequests,
+  createQuizToGroup
 } from "../graphql/mutations";
 import {
   getGroup as getGroupQuery,
@@ -230,4 +231,17 @@ export async function recommendGroups(friendList, userGroups) {
   }
 
   return result;
+}
+
+
+export async function addQuizToGroup(quizID, groupID) {
+  let params = {
+    quizID: quizID,
+    groupID: groupID,
+  };
+  let res = await API.graphql({
+    query: createQuizToGroup,
+    variables: { input: params },
+  });
+  return res;
 }

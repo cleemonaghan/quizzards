@@ -11,11 +11,16 @@ import {
   createAnswer as createAnswerMutation,
   updateAnswer as updateAnswerMutation,
   deleteQuiz as deleteQuizMutation,
+  deleteAnswer as deleteAnswerMutation,
+  deleteUserAnswers as deleteUserAnswerMutation,
+  deleteResult as deleteResultMutation,
+  deleteQuestion as deleteQuestionMutation,
 } from "../graphql/mutations";
 import {
   getQuiz as getQuizQuery,
   getQuestion as getQuestionQuery,
   getResult as getResultQuery,
+  getUserAnswers,
 } from "../graphql/queries";
 import {
   getQuiz as getQuizCustom,
@@ -382,9 +387,74 @@ export async function getResult(id) {
 
 export async function deleteQuiz(id){
   if (!id) return;
+  let quiz = await getQuiz(id);
+  console.log(quiz);
+  console.log(quiz.questions);
+  let deletedValue = null;
+  for(let i = 0; i < quiz.questions.items.length; i++){
+    console.log(quiz.questions.items[i]);
+    deletedValue = await deleteQuestion(quiz.questions.items[i].id);
+  }
+
+  for(let i = 0; i<quiz.results.items.length; i++){
+    console.log(quiz.results.items[i]);
+    deletedValue = await deleteResult(quiz.results.items[i].id);
+  }
+
+  for(let i = 0; i < quiz.userAnswers.items.length; i++){
+    console.log(quiz.userAnswers.items[i]);
+    deletedValue = await deleteUserAnswer(quiz.userAnswers.items[i].id);
+  }
   console.log(id);
   let res = await API.graphql({
     query: deleteQuizMutation,
+    variables:{input: {id: id}},
+  });
+  return;
+}
+
+export async function deleteUserAnswer(id){
+  if (!id) return;
+  console.log(id);
+  let res = await API.graphql({
+    query: deleteUserAnswerMutation,
+    variables:{input: {id: id}},
+  });
+  return;
+}
+
+export async function deleteAnswer(id){
+  if (!id) return;
+  console.log(id);
+  let res = await API.graphql({
+    query: deleteAnswerMutation,
+    variables:{input: {id: id}},
+  });
+  return;
+}
+
+export async function deleteQuestion(id){
+  if (!id) return;
+  console.log(id);
+  let question = await getQuestion(id);
+  console.log(question);
+  let deletedValue = null;
+  for(let i =  0; i<question.answers.items.length; i++){
+    console.log(question.answers.items[i]);
+    deletedValue = await deleteAnswer(question.answers.items[i].id);
+  }
+  let res = await API.graphql({
+    query: deleteQuestionMutation,
+    variables:{input: {id: id}},
+  });
+  return;
+}
+
+export async function deleteResult(id){
+  if (!id) return;
+  console.log(id);
+  let res = await API.graphql({
+    query: deleteResultMutation,
     variables:{input: {id: id}},
   });
   return;

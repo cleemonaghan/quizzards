@@ -12,16 +12,18 @@ import {
 } from "react-bootstrap";
 import {
   MembersList,
-  QuizBox,
+  QuizStatsBox,
   StatsBox,
   CompareBox,
+  PickAQuiz,
   failToLoad,
   Loading,
+  QuizBox,
 } from "../components";
 
-import { getGroup } from "../databaseFunctions/groups";
+import { getGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
 import { getUserOwnedGroups } from "../databaseFunctions/users.js";
-
+import { getQuiz } from "../databaseFunctions/quizzes.js";
 /** This function gathers the resources necessary to load the group page.
  *
  * @param {String} groupID the id of the group to load
@@ -34,6 +36,7 @@ function useGatherResources(groupID) {
   const [groupImage, setGroupImage] = useState(null);
   const [user, setUser] = useState(null);
   const [userGroups, setUserGroups] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -49,6 +52,9 @@ function useGatherResources(groupID) {
       //get the group image
       res = await Storage.get(res.profilePicture);
       setGroupImage(res);
+      //get quizzes
+      res = await getGroupsQuizzes(groupID);
+      setQuizzes(res);
       //get the user
       res = await Auth.currentAuthenticatedUser();
       setUser(res.username);
@@ -71,7 +77,7 @@ function useGatherResources(groupID) {
     getInfo();
   }, []);
 
-  return [group, groupImage, error, loading, user, userGroups];
+  return [group, groupImage, error, loading, user, userGroups, quizzes];
 }
 
 function userButton(groupID, user, userGroups) {
@@ -105,21 +111,66 @@ function userButton(groupID, user, userGroups) {
   console.log(result);
   return result;
 }
-function handleStatsToggle(index) {
-  if (index === 1) {
+/* 
+This function displays the group stats, pick a quiz for stats, 
+and compare your stats components based on if a quiz is selected
+and what side the toggle menu is on
+ */
+function handleStatsToggle(quizID, indexOfToggle) {
+  if (quizID === null) {
     return (
       <div>
-        <StatsBox />
+        <PickAQuiz />
       </div>
     );
-  } else if (index === 2) {
-    return (
-      <div>
-        <CompareBox />
-      </div>
-    );
+  } else {
+    if (indexOfToggle === 1) {
+      //group stats
+      return (
+        <div>
+          <StatsBox />
+        </div>
+      );
+    } else if (indexOfToggle === 2) {
+      //compare stats
+      return (
+        <div>
+          <CompareBox />
+        </div>
+      );
+    } else {
+      return <div></div>; //should never reach this
+    }
   }
-  return <div></div>;
+}
+//todo: invite button as group owner: for pop up window.....quizzes, addQuiz to group
+//create new function...createquizto group
+//groups folder
+/* 
+This function creates and returns the list of quizzes
+associated with the group in the format to be displayed
+on the left side of the page
+ */
+function displayQuizElements(quizzes) {
+  console.log(quizzes);
+  if (quizzes === undefined || quizzes.length < 1) {
+    return <p>This group has no quizzes yet</p>;
+  } else {
+    var result = [];
+    for (let i = 0; i < quizzes.length; i++) {
+      let quiz = quizzes[i]; //title,author,ID
+      result.push(
+        <div className="col-4 mb-4" key={i}>
+          <QuizStatsBox
+            title={quiz.title}
+            author={quiz.author}
+            groupID={quiz.quizID}
+          />
+        </div>
+      );
+    }
+    return result;
+  }
 }
 /** This function loads a group page and returns the formatted html to display the page.
  *
@@ -129,11 +180,13 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
   const [toggleVal, setToggleVal] = useState(1);
-  const [group, groupImage, error, loading, user, userGroups] =
+  const [quizIDSelected, setQuizIDSelected] = useState(null);
+  const [group, groupImage, error, loading, user, userGroups, quizzes] =
     useGatherResources(groupID);
+
+  //TODO: do i need await here?
   //console.log(userGroups);
   let userB = userButton(groupID, user, userGroups);
-
   if (error) return failToLoad();
   return loading ? (
     Loading()
@@ -169,7 +222,7 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-1">New Quizzes</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
                 <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
-                <Dropdown.Item href="#/action-4">Quizes Taken</Dropdown.Item>
+                <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
               </DropdownButton>
 
               <Link className="col-5" to="/createQuiz">
@@ -177,26 +230,27 @@ function GroupPage() {
               </Link>
             </div>
 
-            <QuizBox
+            {/* <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
-            <QuizBox
+            <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
-            />
+            /> */}
+            {displayQuizElements(quizzes)}
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">
@@ -219,7 +273,7 @@ function GroupPage() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <div>{handleStatsToggle(toggleVal)}</div>
+            <div>{handleStatsToggle(quizIDSelected, toggleVal)}</div>
           </div>
           <div className="members col-3">
             <div className="row mb-3">

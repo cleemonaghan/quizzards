@@ -168,14 +168,14 @@ export async function addMemberfromRequestList(memberID, groupID) {
   });
   //then delete the memberRequest
   console.log(res.data.listMemberRequests.items[0].id);
-  
-  let params = {id: res.data.listMemberRequests.items[0].id}
+
+  let params = { id: res.data.listMemberRequests.items[0].id };
   await API.graphql({
     query: deleteMemberRequests,
     variables: { input: params },
   });
   //then create a member entry
-  addMemberToGroup(memberID, groupID)
+  addMemberToGroup(memberID, groupID);
 }
 
 export async function recommendGroups(friendList, userGroups) {
@@ -244,4 +244,12 @@ export async function addQuizToGroup(quizID, groupID) {
     variables: { input: params },
   });
   return res;
+}
+
+//returns a groups quizzes
+export async function getGroupsQuizzes(groupID) {
+  if (!groupID) return;
+  let groupVal = await getGroup(groupID);
+  console.log(groupVal);
+  return groupVal.quizzes.items; //.items[0]....
 }

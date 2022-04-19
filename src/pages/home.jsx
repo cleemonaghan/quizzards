@@ -106,7 +106,11 @@ class Home extends React.Component {
         let quiz = await getQuiz(quizArr[i].id);
         result.push(
           <div className="col-4" key={i}>
-            <QuizBox title={quiz.title} author={this.state.username} id={quiz.id} />
+            <QuizBox
+              title={quiz.title}
+              author={this.state.username}
+              id={quiz.id}
+            />
           </div>
         );
       }
@@ -139,7 +143,7 @@ class Home extends React.Component {
             </h3>
           </div>
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold col-4">Your Groups</h1>
+            <h1 className="font-weight-bold">Your Groups</h1>
           </div>
           <div className="row col-9 pb-5">
             {/* Display the user's groups */}
@@ -147,12 +151,21 @@ class Home extends React.Component {
           </div>
 
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold col-4">Your Quizzes</h1>
+            <h1 className="font-weight-bold">Quizzes You Made</h1>
           </div>
           <div className="row col-9 pb-5">
-            {/* Display the user's quizzes */}
+            {/* Display the user's made quizzes */}
             {this.state.quizElements}
           </div>
+
+          <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">Quizzes You've Taken</h1>
+          </div>
+          <div className="row col-9 pb-5">
+            {/* Display the user's taken quizzes */}
+            {this.state.quizElements}
+          </div>
+
           <div className="row align-items-center mt-5 mb-2">
             <h1>Make a Friend!</h1>
           </div>
@@ -195,7 +208,7 @@ class Home extends React.Component {
                     username: this.state.username,
                     friends: user.friends,
                     friendRequests: user.friendRequests,
-                    outgoingFriendRequests: user.outgoingFriendRequests
+                    outgoingFriendRequests: user.outgoingFriendRequests,
                   },
                 },
               });

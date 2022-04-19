@@ -18,6 +18,7 @@ import {
   PickAQuiz,
   failToLoad,
   Loading,
+  QuizBox,
 } from "../components";
 
 import { getGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
@@ -229,7 +230,7 @@ function GroupPage() {
               </Link>
             </div>
 
-            <QuizStatsBox
+            {/* <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
@@ -248,7 +249,7 @@ function GroupPage() {
             <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
-            />
+            /> */}
             {displayQuizElements(quizzes)}
           </div>
           <div className="stats-compare col-6">

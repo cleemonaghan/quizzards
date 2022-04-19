@@ -18,6 +18,7 @@ import {
   PickAQuiz,
   failToLoad,
   Loading,
+  QuizBox,
 } from "../components";
 
 import { getGroup, getGroupsQuizzes } from "../databaseFunctions/groups";

@@ -160,7 +160,7 @@ function displayQuizElements(quizzes) {
       let quiz = quizzes[i]; //title,author,ID
       result.push(
         <div className="col-4 mb-4" key={i}>
-          <QuizBox
+          <QuizStatsBox
             title={quiz.title}
             author={quiz.author}
             groupID={quiz.quizID}
@@ -229,7 +229,7 @@ function GroupPage() {
               </Link>
             </div>
 
-            <QuizStatsBox
+            {/* <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
             />
@@ -248,7 +248,7 @@ function GroupPage() {
             <QuizStatsBox
               title="This is a sample title for a quiz"
               author="Author"
-            />
+            /> */}
             {displayQuizElements(quizzes)}
           </div>
           <div className="stats-compare col-6">

@@ -91,7 +91,7 @@ function userButton(quizID,  user, quiz, userQuizzes, setHasDeleted) {
 
   if (myQuiz) {
     result.push(
-      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz(quizID, setHasDeleted)} class="btn btn-primary">
+      <Button variant="outline-primary" size="lg" onClick={() => deleteQuiz(quizID, setHasDeleted)} className="btn">
          Delete Quiz
        </Button>
     );
@@ -122,7 +122,7 @@ function QuizPage() {
   return (
     <div className="quiz-page">
       <div className="container">
-        <div class="mt-5">{userB}</div>
+        <div className="mt-5">{userB}</div>
         <Quiz quizID={quizID} />
       </div>
     </div>

@@ -1,8 +1,9 @@
 import { Auth, Storage } from "aws-amplify";
 import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
+import { X } from "react-bootstrap-icons";
 import { failToLoad, Loading } from "../components";
-import { getQuiz } from "../databaseFunctions/quizzes";
+import { createUserAnswer, getQuiz } from "../databaseFunctions/quizzes";
 import { default_group as spareBackground } from "../images";
 import {
   photo2,
@@ -147,16 +148,7 @@ function questionSection(
   );
 }
 
-function displayResult(
-  completed,
-  scores,
-  results,
-  quizTitle,
-  questionRefs,
-  setCompleted,
-  questions,
-  setScore
-) {
+function selectResult(results, scores) {
   //find the best score
   let bestScore = 0;
   let bestIndex = 0;
@@ -176,6 +168,22 @@ function displayResult(
       break;
     }
   }
+  return result;
+}
+
+function displayResult(
+  completed,
+  scores,
+  results,
+  quizTitle,
+  questionRefs,
+  setCompleted,
+  questions,
+  setScore
+) {
+
+  //find the best result
+  let result = selectResult(results, scores)
 
   let visibility = "visible";
   if (!completed) {
@@ -247,6 +255,25 @@ function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
   });
   setScore(temp);
 }
+
+async function submitAnswer(username, quizID, quiz, score) {
+  let answers = [];
+  for(let i = 0; i < quiz.questions.items.length; i++) {
+    let selected = quiz.questions.items[i].selected;
+    answers.push(quiz.questions.items[i].answers.items[selected].id);
+  }
+  let result = selectResult(quiz.results.items, score).id;
+  
+  console.log(username);
+  console.log(quizID);
+  console.log(answers);
+  console.log(result);
+  let res = await createUserAnswer(username, quizID, answers, result);
+  console.log("RES: ")
+  console.log(res);
+
+}
+
 
 function useGatherResources(quizID) {
   const [error, setError] = useState(null);
@@ -380,11 +407,7 @@ function Quiz({ quizID }) {
       if (change && !completed) {
         // We have finished the quiz!
         // Save the results
-        console.log("Results are");
-        console.log(quiz.results);
-
-        console.log("Score is");
-        console.log(score);
+        submitAnswer(username, quizID, quiz, score)
 
         // Diplay the results
         setCompleted(true);

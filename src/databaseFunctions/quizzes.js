@@ -465,17 +465,7 @@ export async function deleteResult(id) {
 }
 
 // ---- User Answers to Quizzes Section ---- //
-
-/** This method stores the user's answer to a quiz in the DB
- *
- * @param {String} username the username of the user who took the quiz
- * @param {ID} quizID the ID of the quiz
- * @param {[ID]} answers a list of the IDs of the answers the user selected
- * @param {ID} result the ID of the result
- * @returns the created userAnswers object
- */
-export async function createUserAnswer(username, quizID, answers, result) {
-  //query the DB to see if a User Answer already exists
+export async function fetchUserAnswer(username, quizID) {
   let params = {
     limit: 5,
     filter: {
@@ -497,17 +487,31 @@ export async function createUserAnswer(username, quizID, answers, result) {
     query: listUserAnswers,
     variables: params,
   });
-  console.log(res.data.listUserAnswers);  
+  return res.data.listUserAnswers.items;
+}
+
+
+/** This method stores the user's answer to a quiz in the DB
+ *
+ * @param {String} username the username of the user who took the quiz
+ * @param {ID} quizID the ID of the quiz
+ * @param {[ID]} answers a list of the IDs of the answers the user selected
+ * @param {ID} result the ID of the result
+ * @returns the created userAnswers object
+ */
+export async function createUserAnswer(username, quizID, answers, result) {
+  //query the DB to see if a User Answer already exists
+  let fetched = await fetchUserAnswer(username, quizID);
 
   //if there is already a User Answer, update it with the new data
-  if (res.data.listUserAnswers.items.length > 0) {
-    let id = res.data.listUserAnswers.items[0].id;
+  if (fetched.length > 0) {
+    let id = fetched[0].id;
     let inputs = {
       id: id,
       answers: answers,
       result: result,
     };
-    res = await API.graphql({
+    let res = await API.graphql({
       query: updateUserAnswersMutation,
       variables: { input: inputs },
     });
@@ -523,7 +527,7 @@ export async function createUserAnswer(username, quizID, answers, result) {
       userQuizAnswersId: username,
       quizUserAnswersId: quizID,
     };
-    res = await API.graphql({
+    let res = await API.graphql({
       query: createUserAnswersMutation,
       variables: { input: inputs },
     });

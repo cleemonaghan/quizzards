@@ -161,6 +161,10 @@ export async function getUserOwnedQuizzes(username) {
   return userVal.quizOwners.items;
 }
 
+export async function getUserSuggestedQuizzes(username){
+  return [];
+}
+
 export async function inputUserQuiz(params){
   let res = await API.graphql({
     query: createUserAnswers,

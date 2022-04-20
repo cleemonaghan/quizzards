@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function QuizBox({ title, author, id }) {
   return (
-    <div className="quiz-box mb-4">
+    <div className="quiz-box mb-3">
       <Link to={"/quizPage/" + id} style={{ textDecoration: "none" }}>
         <Card
           className="text-center"

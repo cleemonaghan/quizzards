@@ -200,12 +200,11 @@ class Groups extends React.Component {
                 />
               </MDBCol>
             </div>
-
-
             <div className="col-3 mt-5 mb-4">
               <div className="d-flex justify-content-end">
                 <Link to="/createGroup">
                   <Button variant="outline-primary" size="lg">
+                    {" "}
                     Create New Group +
                   </Button>{" "}
                 </Link>

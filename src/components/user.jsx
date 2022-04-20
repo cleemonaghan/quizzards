@@ -54,33 +54,31 @@ class User extends React.Component {
   }
 
   async determineStatus(ourUser, friendUsername) {
-    
-      //if we don't know what our relationship is, figure it out
+    //if we don't know what our relationship is, figure it out
 
-      let status = "Unknown";
-      let button = null;
-      //find the user's status
-      let res = await getUser(ourUser);
-      if (res.friends.includes(friendUsername)) {
-        status = "Friends";
-        button = this.friendButton();
-      } else if (res.outgoingFriendRequests.includes(friendUsername)) {
-        status = "Waiting";
-        button = this.waitingButton();
-      } else if (res.friendRequests.includes(friendUsername)) {
-        status = "Requested";
-        button = this.requestedButton();
-      } else {
-        status = "Unconnected";
-        button = this.unconnectedButton();
-      }
+    let status = "Unknown";
+    let button = null;
+    //find the user's status
+    let res = await getUser(ourUser);
+    if (res.friends.includes(friendUsername)) {
+      status = "Friends";
+      button = this.friendButton();
+    } else if (res.outgoingFriendRequests.includes(friendUsername)) {
+      status = "Waiting";
+      button = this.waitingButton();
+    } else if (res.friendRequests.includes(friendUsername)) {
+      status = "Requested";
+      button = this.requestedButton();
+    } else {
+      status = "Unconnected";
+      button = this.unconnectedButton();
+    }
 
-      // set the state with the user info
-      this.setState({
-        friendStatus: status,
-        button: button,
-      });
-     
+    // set the state with the user info
+    this.setState({
+      friendStatus: status,
+      button: button,
+    });
   }
 
   friendButton() {
@@ -91,7 +89,7 @@ class User extends React.Component {
   waitingButton() {
     //if (status === "Waiting") {
     return (
-      <div className="ms-5 ps-5">
+      <div className="ms-5 ps-4">
         <Button variant="primary" size="sm" disabled={true}>
           Requested
         </Button>{" "}
@@ -102,12 +100,12 @@ class User extends React.Component {
   requestedButton() {
     //if (status === "Requested") {
     return (
-      <div className="ms-5 ps-5">
+      <div className="ms-5 ps-4">
         <Button
           variant="outline-success"
           size="sm"
           onClick={async () => {
-            this.setState({button: this.friendButton()})
+            this.setState({ button: this.friendButton() });
             await acceptFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.friendReqs,
@@ -126,7 +124,7 @@ class User extends React.Component {
           variant="outline-danger"
           size="sm"
           onClick={async () => {
-            this.setState({button: this.unconnectedButton()})
+            this.setState({ button: this.unconnectedButton() });
             await rejectFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.friendReqs,
@@ -153,7 +151,7 @@ class User extends React.Component {
           variant="outline-primary"
           size="sm"
           onClick={async () => {
-            this.setState({button: this.waitingButton()})
+            this.setState({ button: this.waitingButton() });
             await requestFriend(this.state.ourUser, this.state.friendUsername);
             const [oldList, newList] = this.updateList(
               this.state.lists.recommendations,
@@ -195,7 +193,6 @@ class User extends React.Component {
   }
 
   render() {
-
     return (
       <div className="user">
         <div className="row">

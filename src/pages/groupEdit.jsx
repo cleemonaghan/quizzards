@@ -111,6 +111,10 @@ function GroupEdit() {
           <Button variant="primary" type="submit">
             Update Group
           </Button>
+          {/* Delete Group */}
+          <Button className="ms-2" variant="danger">
+            Delete Group
+          </Button>
         </Form>
       </div>
     </div>
@@ -122,9 +126,7 @@ function displayAlert(alert, setAlert) {
     return (
       <Alert variant="danger" onClose={() => setAlert(false)} dismissible>
         <Alert.Heading>Oh snap! That photo is too large!</Alert.Heading>
-        <p>
-          Try using a smaller photo 
-        </p>
+        <p>Try using a smaller photo</p>
       </Alert>
     );
   }

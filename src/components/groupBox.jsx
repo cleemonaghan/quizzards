@@ -7,12 +7,12 @@ function GroupBox({ link, name, groupID }) {
     <div className="group-box mb-4">
       <Link
         to={{
-          pathname:"/groupPage/"+groupID,
+          pathname: "/groupPage/" + groupID,
         }}
         style={{ textDecoration: "none" }}
       >
-        <Card bg="dark" text="white">
-          <Card.Img variant="top" src={link} style={{ height: "10rem" }} />
+        <Card bg="dark" text="white" style={{ height: "250px" }}>
+          <Card.Img variant="top" src={link} style={{ height: "10vw" }} />
           <Card.Body className="py-2">
             <Card.Title>
               <h2>{name}</h2>

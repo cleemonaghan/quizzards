@@ -62,7 +62,9 @@ class Home extends React.Component {
 
       console.log(this.state.myQuizzes);
       this.setState({
-        quizTakenElements: await this.displayQuizzesTakenElement(this.state.myQuizzes),
+        quizTakenElements: await this.displayQuizzesTakenElement(
+          this.state.myQuizzes
+        ),
       });
     } catch (err) {
       this.setState({ error: err });
@@ -102,7 +104,7 @@ class Home extends React.Component {
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
-      this.setState({myQuizzes: [],});
+      this.setState({ myQuizzes: [] });
       return <p>You have no quizzes</p>;
     } else {
       console.log(quizArr);
@@ -124,7 +126,7 @@ class Home extends React.Component {
           </div>
         );
       }
-      this.setState({myQuizzes: quizIDArr});
+      this.setState({ myQuizzes: quizIDArr });
       console.log(result);
       return result;
     }
@@ -145,7 +147,7 @@ class Home extends React.Component {
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         console.log(quizArr[i]);
-        if(!quizElements.includes(quizArr[i].id)){
+        if (!quizElements.includes(quizArr[i].id)) {
           let quiz = await getQuiz(quizArr[i].id);
           result.push(
             <div className="col-4" key={i}>
@@ -157,7 +159,6 @@ class Home extends React.Component {
             </div>
           );
         }
-
       }
       console.log(result);
       return result;
@@ -191,7 +192,7 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Groups</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's groups */}
             {this.state.groupElements}
           </div>
@@ -199,7 +200,7 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Quizzes You Made</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's made quizzes */}
             {this.state.quizElements}
           </div>
@@ -207,7 +208,7 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Quizzes You've Taken</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's taken quizzes */}
             {this.state.quizTakenElements}
           </div>

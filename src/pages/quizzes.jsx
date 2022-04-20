@@ -14,6 +14,7 @@ import {
   getUserQuizzes as getUserQuizzesQuery,
   getUserOwnedQuizzes as getUserOwnedQuizzesQuery,
   getUserSuggestedQuizzes as getUserSuggestedQuizzesQuery,
+  getUser,
 } from "../databaseFunctions/users";
 //import { includes } from "core-js/core/array";
 //
@@ -45,7 +46,11 @@ class Quizzes extends React.Component {
       //get the quiz information
       let tempOwned = await getUserOwnedQuizzesQuery(username);
       let tempTaken = await getUserQuizzesQuery(username);
-      let tempSuggest = await getUserSuggestedQuizzesQuery(username);
+      let user = await getUser(username);
+      let friendList = user.friends;
+      console.log(response);
+      console.log(friendList);
+      let tempSuggest = await getUserSuggestedQuizzesQuery(username,friendList, tempOwned,tempTaken);
 
       // set the state with the user info
       this.setState({
@@ -135,6 +140,7 @@ class Quizzes extends React.Component {
   }
 
   async displaySuggestedQuizzes(quizArr) {
+    console.log(quizArr);
     //if they have no suggested quizzes, print message
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
@@ -144,24 +150,24 @@ class Quizzes extends React.Component {
       or 
       <Link to = "/groups"> join new groups </Link></p>;
     } else {
-      //grab the ids of the quizzes they've created
-      let ownedQuizzes = this.state.ownedQuizzes; 
-      let ownedQuizID = [];
-      for(let i = 0; i< ownedQuizzes.length; i++){
-        ownedQuizID.push(ownedQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've created
+      // let ownedQuizzes = this.state.ownedQuizzes; 
+      // let ownedQuizID = [];
+      // for(let i = 0; i< ownedQuizzes.length; i++){
+      //   ownedQuizID.push(ownedQuizzes[i].id);
+      // }
 
-      //grab the ids of the quizzes they've taken
-      let takenQuizzes = this.state.takenQuizzes;
-      let takenQuizID = [];
-      for(let i = 0; i< takenQuizzes.length; i++){
-        takenQuizID.push(takenQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've taken
+      // let takenQuizzes = this.state.takenQuizzes;
+      // let takenQuizID = [];
+      // for(let i = 0; i< takenQuizzes.length; i++){
+      //   takenQuizID.push(takenQuizzes[i].id);
+      // }
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         //only add quizzes they haven't seen yet
-        if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
+        //if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
           result.push(
             <div className="col-4" key={i}>
               <QuizBox
@@ -173,7 +179,7 @@ class Quizzes extends React.Component {
           );
         }
 
-      }
+      //}
       console.log(result);
     }
     return result;

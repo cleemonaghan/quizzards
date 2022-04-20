@@ -161,9 +161,7 @@ export async function getUserOwnedQuizzes(username) {
   return userVal.quizOwners.items;
 }
 
-export async function getUserSuggestedQuizzes(username){
-  return [];
-}
+
 
 export async function inputUserQuiz(params){
   let res = await API.graphql({
@@ -381,6 +379,70 @@ export async function rejectFriend(username, friendUsername) {
     console.error(error);
     return;
   }
+}
+
+export async function getUserSuggestedQuizzes(username, friendList, userQuizzes, userOwnedQuizzes){
+  const shuffleArray = function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
+  let ownedArr = [];
+  for(let i = 0; i<userOwnedQuizzes.length; i++){
+    ownedArr.push(userOwnedQuizzes[i].id);
+  }
+
+  let quizArr = [];
+  for(let i = 0; i<userQuizzes; i++){
+    quizArr.push(userQuizzes[i].id);
+  }
+  const MAX_PER_FRIEND = 2;
+  const MAX_TOTAL = 6;
+  console.log(friendList);
+  let shuffled = shuffleArray(friendList);
+  var result = [];
+  //go through each friend
+  for (let index in shuffled) {
+    //get the quizzes that the friend has taken and add them to the list
+    let friendQuizzes = await getUserQuizzes(shuffled[index]);
+    console.log(friendQuizzes);
+    //added tracks the number of groups we have added from this user's group list
+    let added = 0;
+    let quizzes = shuffleArray(friendQuizzes);
+    for (let i in quizzes) {
+      if (!ownedArr.includes(quizzes[i].id) && !quizArr.includes(quizzes[i].id)) {
+        console.log(quizzes[i])
+        //if the quiz has not already been seen by the user
+        result.push(quizzes[i]);
+        added++;
+      }
+      //if we added more than 2 groups, move onto the next friend
+      if (added >= MAX_PER_FRIEND) break;
+    }
+    //if we have 4 or more results in our list, we have enough, so break
+    if (result.length >= MAX_TOTAL){
+      console.log(result);
+      return result;
+    }
+      
+  }
+  console.log(result);
+  return result;
 }
 
 export async function recommendFriends(

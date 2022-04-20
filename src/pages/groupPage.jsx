@@ -14,13 +14,13 @@ import {
 } from "react-bootstrap";
 import {
   MembersList,
+  QuizBox,
   QuizStatsBox,
   StatsBox,
   CompareBox,
   PickAQuiz,
   failToLoad,
   Loading,
-  QuizBox,
 } from "../components";
 
 import {
@@ -48,6 +48,7 @@ function useGatherResources(groupID) {
   const [user, setUser] = useState(null);
   const [userGroups, setUserGroups] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
+  const [quizElement, setQuizElement] = useState([]);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -67,14 +68,17 @@ function useGatherResources(groupID) {
       res = await getGroupsQuizzes(groupID);
       setQuizzes(res);
       //get the user
-      res = await Auth.currentAuthenticatedUser();
-      setUser(res.username);
+      let username = (await Auth.currentAuthenticatedUser()).username;
+      setUser(username);
       //get the user groups
 
-      console.log(res.username);
-      res = await getUserOwnedGroups(res.username);
+      console.log(username);
+      res = await getUserOwnedGroups(username);
       console.log(res);
       setUserGroups(res);
+
+      res = await gatherQuizzes(username);
+      setQuizElement(res);
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -88,7 +92,16 @@ function useGatherResources(groupID) {
     getInfo();
   }, []);
 
-  return [group, groupImage, error, loading, user, userGroups, quizzes];
+  return [
+    group,
+    groupImage,
+    error,
+    loading,
+    user,
+    userGroups,
+    quizzes,
+    quizElement,
+  ];
 }
 
 function userButton(groupID, user, userGroups) {
@@ -172,7 +185,7 @@ function displayQuizElements(quizzes) {
       let quiz = quizzes[i]; //title,author,ID
       result.push(
         <div className="col-4 mb-4" key={i}>
-          <QuizStatsBox
+          <QuizBox
             title={quiz.title}
             author={quiz.author}
             groupID={quiz.quizID}
@@ -190,13 +203,13 @@ TODO: add checks that the user clicking is a
 group member?
  */
 function generateAddQuizButton(showQuizzes) {
-  //TODO:check if they are member
+  //TODO:check if they are the owner of the group
   if (true) {
     return (
       <Button
         className="col-auto"
         variant="outline-primary"
-        onClick={showQuizzes}
+        onClick={() => showQuizzes(true)}
       >
         Add Quiz +
       </Button>
@@ -205,66 +218,69 @@ function generateAddQuizButton(showQuizzes) {
     return <div></div>;
   }
 }
-
-/*  */
-async function gatherQuizzes(username, setLoading) {
+/* 
+gather quizzes returns all the quizzes in div form
+ */
+async function gatherQuizzes(username) {
   try {
-    setLoading(true);
     let yourQuizzes = await getUserQuizzes(username);
     let allQuizzes = await listAllQuizzes();
     let takenQuizzes = await getUserQuizzes(username);
     let result = [];
     result.push(
       <div className="row align-items-center mt-5 mb-2">
-        <h1 className="font-weight-bold col-4">Quizzes You Made</h1>
+        <h1 className="font-weight-bold col-12">Quizzes You Made</h1>
       </div>
     );
     for (let yourQuiz in yourQuizzes) {
       result.push(
-        <QuizStatsBox
-          title={yourQuiz.title}
-          author={username}
-          id={yourQuiz.id}
-        />
+        <div className="col-12">
+          <QuizStatsBox
+            title={yourQuizzes[yourQuiz].title}
+            author={username}
+            id={yourQuizzes[yourQuiz].id}
+          />
+        </div>
       );
     }
     result.push(
       <div className="row align-items-center mt-5 mb-2">
-        <h1 className="font-weight-bold col-4">Quizzes You've Taken</h1>
+        <h1 className="font-weight-bold col-12">Quizzes You've Taken</h1>
       </div>
     );
     for (let takenQuiz in takenQuizzes) {
       result.push(
-        <QuizStatsBox
-          title={takenQuiz.title}
-          author={takenQuiz.ownerUsername}
-          id={takenQuiz.id}
-        />
+        <div className="col-12">
+          <QuizStatsBox
+            title={takenQuizzes[takenQuiz].title}
+            author={takenQuizzes[takenQuiz].ownerUsername}
+            id={takenQuizzes[takenQuiz].id}
+          />
+        </div>
       );
     }
     result.push(
       <div className="row align-items-center mt-5 mb-2">
-        <h1 className="font-weight-bold col-4">Other Quizzes</h1>
+        <h1 className="font-weight-bold col-12">Other Quizzes</h1>
       </div>
     );
     for (let aQuiz in allQuizzes) {
       result.push(
-        <QuizStatsBox
-          title={aQuiz.title}
-          author={aQuiz.ownerUsername}
-          id={aQuiz.id}
-        />
+        <div className="col-12">
+          <QuizStatsBox
+            title={allQuizzes[aQuiz].title}
+            author={allQuizzes[aQuiz].ownerUsername}
+            id={allQuizzes[aQuiz].id}
+          />
+        </div>
       );
     }
     return result;
   } catch (e) {
     //there was an error, so print it
     console.log(e);
-  } finally {
-    //we are finished loading, so set loading to false
-    setLoading(false);
+    return [];
   }
-  return true;
 }
 /*  */
 function displayModalBody(loading, quizzesToAdd) {
@@ -304,18 +320,25 @@ function GroupPage() {
   const [toggleVal, setToggleVal] = useState(1);
   const [quizIDSelected, setQuizIDSelected] = useState(null);
   const [showQuizzes, setShowQuizzes] = useState(false);
-  const [group, groupImage, error, loading, user, userGroups, quizzes] =
-    useGatherResources(groupID);
+  const [
+    group,
+    groupImage,
+    error,
+    loading,
+    user,
+    userGroups,
+    quizzes,
+    quizElement,
+  ] = useGatherResources(groupID);
   const handleClose = () => {
     setShowQuizzes(false);
   };
   const [loading4, setLoading4] = useState(true);
-  const useHandleShowQuizzes = async () => {
 
-    let res = await gatherQuizzes(user, setLoading4);
-    setShowQuizzes(true);
-  };
-  const addQuizButton = generateAddQuizButton(useHandleShowQuizzes);
+  // const useHandleShowQuizzes = async () => {
+  //   let res = await gatherQuizzes(user, setLoading4);//HERE
+  //   setShowQuizzes(true);
+  // };
   //TODO: do i need await here?
   //console.log(userGroups);
   let userB = userButton(groupID, user, userGroups);
@@ -357,7 +380,7 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
               </DropdownButton>
 
-              {addQuizButton}
+              {generateAddQuizButton(setShowQuizzes)}
             </div>
             {displayQuizElements(quizzes)}
           </div>
@@ -426,7 +449,7 @@ function GroupPage() {
                 handleClose();
               }}
             >
-              {displayModalBody(loading4, quizzes)}
+              {quizElement}
             </Form>
           </Modal.Body>
 
@@ -435,7 +458,7 @@ function GroupPage() {
               Close
             </Button>
             <Button form="member-form" variant="primary" type="submit">
-              Add Quizes
+              Add Quizzes
             </Button>
           </Modal.Footer>
         </Modal>

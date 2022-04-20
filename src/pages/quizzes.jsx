@@ -14,6 +14,7 @@ import {
   getUserQuizzes as getUserQuizzesQuery,
   getUserOwnedQuizzes as getUserOwnedQuizzesQuery,
   getUserSuggestedQuizzes as getUserSuggestedQuizzesQuery,
+  getUser,
 } from "../databaseFunctions/users";
 //import { includes } from "core-js/core/array";
 
@@ -45,7 +46,15 @@ class Quizzes extends React.Component {
       //get the quiz information
       let tempOwned = await getUserOwnedQuizzesQuery(username);
       let tempTaken = await getUserQuizzesQuery(username);
-      let tempSuggest = await getUserSuggestedQuizzesQuery(username);
+      let user = await getUser(username);
+      let friendList = user.friends;
+      console.log(response);
+      console.log(friendList);
+      let tempSuggest = await getUserSuggestedQuizzesQuery(
+        friendList,
+        tempOwned,
+        tempTaken
+      );
 
       // set the state with the user info
       this.setState({
@@ -56,15 +65,9 @@ class Quizzes extends React.Component {
       });
 
       this.setState({
-        ownedQuizElements: await this.displayOwnedQuizzes(
-          this.state.ownedQuizzes
-        ),
-        takenQuizElements: await this.displayTakenQuizzes(
-          this.state.takenQuizzes
-        ),
-        suggestedQuizElements: await this.displaySuggestedQuizzes(
-          this.state.suggestedQuizzes
-        ),
+        ownedQuizElements: await this.displayOwnedQuizzes(tempOwned),
+        takenQuizElements: await this.displayTakenQuizzes(tempTaken),
+        suggestedQuizElements: await this.displaySuggestedQuizzes(tempSuggest),
       });
       console.log(this.state.ownedQuizElements);
       //update with the user's groups and user's recommended groups
@@ -144,6 +147,7 @@ class Quizzes extends React.Component {
   }
 
   async displaySuggestedQuizzes(quizArr) {
+    console.log(quizArr);
     //if they have no suggested quizzes, print message
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
@@ -157,38 +161,36 @@ class Quizzes extends React.Component {
         </p>
       );
     } else {
-      //grab the ids of the quizzes they've created
-      let ownedQuizzes = this.state.ownedQuizzes;
-      let ownedQuizID = [];
-      for (let i = 0; i < ownedQuizzes.length; i++) {
-        ownedQuizID.push(ownedQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've created
+      // let ownedQuizzes = this.state.ownedQuizzes;
+      // let ownedQuizID = [];
+      // for(let i = 0; i< ownedQuizzes.length; i++){
+      //   ownedQuizID.push(ownedQuizzes[i].id);
+      // }
 
-      //grab the ids of the quizzes they've taken
-      let takenQuizzes = this.state.takenQuizzes;
-      let takenQuizID = [];
-      for (let i = 0; i < takenQuizzes.length; i++) {
-        takenQuizID.push(takenQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've taken
+      // let takenQuizzes = this.state.takenQuizzes;
+      // let takenQuizID = [];
+      // for(let i = 0; i< takenQuizzes.length; i++){
+      //   takenQuizID.push(takenQuizzes[i].id);
+      // }
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         //only add quizzes they haven't seen yet
-        if (
-          !ownedQuizID.includes(quizArr[i].id) &&
-          !takenQuizID.includes(quizArr[i].id)
-        ) {
-          result.push(
-            <div className="col-lg-3 col-sm-6" key={i}>
-              <QuizBox
-                title={quizArr[i].title}
-                author={quizArr[i].ownerUsername}
-                id={quizArr[i].id}
-              />
-            </div>
-          );
-        }
+        //if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <QuizBox
+              title={quizArr[i].title}
+              author={quizArr[i].ownerUsername}
+              id={quizArr[i].id}
+            />
+          </div>
+        );
       }
+
+      //}
       console.log(result);
     }
     return result;

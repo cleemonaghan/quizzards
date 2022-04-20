@@ -6,11 +6,12 @@ import {
   updateUser as updateUserMutation,
   createUserAnswers,
 } from "../graphql/mutations";
-import { 
-  getUser as getUserQuery, 
-  listUsers, 
+import {
+  getUser as getUserQuery,
+  listUsers,
   listUserAnswers as listUserAnswersQuery,
  } from "../graphql/queries";
+import { listAllQuizzes } from "./quizzes";
 
 /** This method creates a default user with the specified username.
  *
@@ -134,56 +135,58 @@ export async function getUserOwnedGroups(username) {
 
 // User Quizzes ---------------------------
 
-/** This method fetches and returns the specified user's quizzes.
+/** This method fetches and returns the quizzes that the specified user has taken.
  *
  * @param {String} username the username of the user
- * @returns an array of the user's quizzes
+ * @returns an array of the user's taken quizzes
  */
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userAnswers = await getUserAnswers(username);
-  console.log(userAnswers);
   let quizzes = [];
-  for(let i = 0; i < userAnswers.items.length; i++){
-    if(!quizzes.includes(userAnswers.items[i].quiz)){
-      quizzes.push(userAnswers.items[i].quiz);
+  for (let i = 0; i < userAnswers.length; i++) {
+    if (!quizzes.includes(userAnswers[i].quiz)) {
+      quizzes.push(userAnswers[i].quiz);
     }
   }
-  console.log(quizzes);
   return quizzes;
   //return userVal.quiz.data;
 }
 
+/** This method fetches and returns the quizzes that the specified user has created.
+ *
+ * @param {String} username the username of the user
+ * @returns an array of the user's created quizzes
+ */
 export async function getUserOwnedQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  console.log(userVal.quizOwners.items);
   return userVal.quizOwners.items;
 }
 
-export async function getUserSuggestedQuizzes(username){
-  return [];
-}
 
-export async function inputUserQuiz(params){
+export async function inputUserQuiz(params) {
   let res = await API.graphql({
     query: createUserAnswers,
-    variables: {input: params},
+    variables: { input: params },
   });
 
   return res.data.createUserAnswers;
 }
 
-export async function getUserAnswers(username){
-  if(!username) return;
-  console.log("get user answers");
-  console.log(username);
+export async function getUserAnswers(username) {
+  let params = {
+    filter: {
+      username: {
+        eq: username, // filter username == username
+      },
+    },
+  };
   let res = await API.graphql({
     query: listUserAnswersQuery,
-    variables:{input: {username: username}},
+    variables: params,
   });
-  console.log(res);
-  return res.data.listUserAnswers;
+  return res.data.listUserAnswers.items;
 }
 
 // User Friends ---------------------------
@@ -381,6 +384,83 @@ export async function rejectFriend(username, friendUsername) {
     console.error(error);
     return;
   }
+}
+
+export async function getUserSuggestedQuizzes(friendList, userQuizzes, userOwnedQuizzes){
+  const shuffleArray = function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
+  let ownedArr = [];
+  for(let i = 0; i<userOwnedQuizzes.length; i++){
+    ownedArr.push(userOwnedQuizzes[i].id);
+  }
+
+  let quizArr = [];
+  for(let i = 0; i<userQuizzes.length; i++){
+    quizArr.push(userQuizzes[i].id);
+  }
+  const MAX_PER_FRIEND = 2;
+  const MAX_TOTAL = 10;
+  let shuffled = shuffleArray(friendList);
+  var result = [];
+  let newQuizID = [];
+  //go through each friend
+  for (let index in shuffled) {
+    //get the quizzes that the friend has taken and add them to the list
+    let friendQuizzes = await getUserOwnedQuizzes(shuffled[index]);
+    //added tracks the number of groups we have added from this user's group list
+    let added = 0;
+    let quizzes = shuffleArray(friendQuizzes);
+    for (let i in quizzes) {
+      if (!ownedArr.includes(quizzes[i].id) && !quizArr.includes(quizzes[i].id) && !newQuizID.includes(quizzes[i].id)) {
+        //if the quiz has not already been seen by the user
+        result.push(quizzes[i]);
+        newQuizID.push(quizzes[i].id);
+        added++;
+      }
+      //if we added more than 2 groups, move onto the next friend
+      if (added >= MAX_PER_FRIEND) break;
+    }
+    //if we have 4 or more results in our list, we have enough, so break
+    if (result.length >= MAX_TOTAL){
+      return result;
+    }
+      
+  }
+
+  //if we still do not have enough suggested quizzes, just add random quizzes from the list
+  let allQuizzes = await listAllQuizzes();
+  for(let i = 0; i < allQuizzes.length; i++){
+    //if you don't have enough suggested quizzes, continue
+    if(result.length >= MAX_TOTAL){
+      return result;
+    }
+    //if there is a quiz you have not come across, add to the list
+    if (!ownedArr.includes(allQuizzes[i].id) && !quizArr.includes(allQuizzes[i].id) && !newQuizID.includes(allQuizzes[i].id)) {
+        result.push(allQuizzes[i]);
+        newQuizID.push(allQuizzes[i].id);
+    }
+
+  }
+
+  return result;
 }
 
 export async function recommendFriends(

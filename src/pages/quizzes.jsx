@@ -50,7 +50,7 @@ class Quizzes extends React.Component {
       let friendList = user.friends;
       console.log(response);
       console.log(friendList);
-      let tempSuggest = await getUserSuggestedQuizzesQuery(username,friendList, tempOwned,tempTaken);
+      let tempSuggest = await getUserSuggestedQuizzesQuery(friendList, tempOwned,tempTaken);
 
       // set the state with the user info
       this.setState({

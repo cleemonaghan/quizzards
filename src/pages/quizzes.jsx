@@ -6,16 +6,28 @@ import { Link } from "react-router-dom";
 
 import { Auth, Storage } from "aws-amplify";
 import {
+  getQuiz,
   listAllQuizzes,
   listQuizzesByTitle,
 } from "../databaseFunctions/quizzes";
-
+import {
+  getUserQuizzes as getUserQuizzesQuery,
+  getUserOwnedQuizzes as getUserOwnedQuizzesQuery,
+  getUserSuggestedQuizzes as getUserSuggestedQuizzesQuery,
+} from "../databaseFunctions/users";
+//import { includes } from "core-js/core/array";
+//
 class Quizzes extends React.Component {
   constructor() {
     super();
     this.state = {
       username: "",
-      quizzes: [],
+      ownedQuizzes: [],
+      ownedQuizElements: null,
+      takenQuizzes: [],
+      takenQuizElements: null,
+      suggestedQuizzes: [],
+      suggestedQuizElements: null,
       error: null,
       loading: true,
       searchBar: [],
@@ -29,18 +41,30 @@ class Quizzes extends React.Component {
       //get the user information
       const response = await Auth.currentAuthenticatedUser();
       const username = response.username;
-      const quizzes = await listAllQuizzes(username);
-      console.log(quizzes);
+
+      //get the quiz information
+      let tempOwned = await getUserOwnedQuizzesQuery(username);
+      let tempTaken = await getUserQuizzesQuery(username);
+      let tempSuggest = await getUserSuggestedQuizzesQuery(username);
 
       // set the state with the user info
       this.setState({
         username: username,
+        ownedQuizzes: tempOwned,
+        takenQuizzes: tempTaken,
+        suggestedQuizzes:tempSuggest,
       });
 
-      //update with the user's groups and user's recommended groups
       this.setState({
-        quizzes: quizzes,
-      });
+        ownedQuizElements: await this.displayOwnedQuizzes(this.state.ownedQuizzes),
+        takenQuizElements: await this.displayTakenQuizzes(this.state.takenQuizzes),
+        suggestedQuizElements: await this.displaySuggestedQuizzes(this.state.suggestedQuizzes),
+      })
+      console.log(this.state.ownedQuizElements);
+      //update with the user's groups and user's recommended groups
+      // this.setState({
+      //   allQuizzes: allQuizzes,
+      // });
     } catch (err) {
       console.log(err);
       this.setState({ error: err });
@@ -50,23 +74,108 @@ class Quizzes extends React.Component {
     }
   }
 
-  displayQuizzes() {
-    let result = [];
-
-    for (let i = 0; i < this.state.quizzes.length; i++) {
-      let quiz = this.state.quizzes[i];
-      //let quizImage = await Storage.get(quiz.picture);
-      result.push(
-        <div className="col-lg-3 col-sm-6" key={quiz.id}>
-          <QuizBox
-            title={quiz.title}
-            author={quiz.ownerUsername}
-            id={quiz.id}
-          />
-        </div>
-      );
+  async displayOwnedQuizzes(quizArr){
+    //if they have made no quizzes return a message
+    if (quizArr === undefined || quizArr.length < 1) {
+      console.log("you have made no quizzes");
+      return <p>You have made no quizzes. <br></br>
+      <Link to="/createQuiz">Create a Quiz</Link></p>;
+    } else {
+      //for each quiz we are in, fetch the quiz and add it to the result array
+      var result = [];
+      for (let i = 0; i < quizArr.length; i++) {
+        result.push(
+          <div className="col-4" key={i}>
+            <QuizBox
+              title={quizArr[i].title}
+              author={quizArr[i].ownerUsername}
+              id={quizArr[i].id}
+            />
+          </div>
+        );
+      }
+      console.log(result);
     }
+    return result;
+  }
 
+  async displayTakenQuizzes(quizArr){
+    //if they have taken no quizzes, return a message.
+    if (quizArr === undefined || quizArr.length < 1) {
+      console.log("you have made no quizzes");
+      return <p>You have taken no quizzes</p>;
+    } else {
+      //grab the ids of the quizzes they've made to filter with
+      let ownedQuizzes = this.state.ownedQuizzes;
+      let ownedQuizID = [];
+      for(let i = 0; i< ownedQuizzes.length; i++){
+        ownedQuizID.push(ownedQuizzes[i].id);
+      }
+
+      //for each quiz we are in, fetch the quiz and add it to the result array
+      var result = [];
+      for (let i = 0; i < quizArr.length; i++) {
+        //only add quizzes that they've taken but haven't made
+        if(!ownedQuizID.includes(quizArr[i].id)){
+          result.push(
+            <div className="col-4" key={i}>
+              <QuizBox
+                title={quizArr[i].title}
+                author={quizArr[i].ownerUsername}
+                id={quizArr[i].id}
+              />
+            </div>
+          );
+        }
+
+      }
+      console.log(result);
+    }
+    return result;
+  }
+
+  async displaySuggestedQuizzes(quizArr) {
+    //if they have no suggested quizzes, print message
+    if (quizArr === undefined || quizArr.length < 1) {
+      console.log("you have made no quizzes");
+     return <p>There are no suggested quizzes at this time. <br></br> 
+     To get suggested quizzes, 
+     <Link to="/friends"> add new friends </Link> 
+      or 
+      <Link to = "/groups"> join new groups </Link></p>;
+    } else {
+      //grab the ids of the quizzes they've created
+      let ownedQuizzes = this.state.ownedQuizzes; 
+      let ownedQuizID = [];
+      for(let i = 0; i< ownedQuizzes.length; i++){
+        ownedQuizID.push(ownedQuizzes[i].id);
+      }
+
+      //grab the ids of the quizzes they've taken
+      let takenQuizzes = this.state.takenQuizzes;
+      let takenQuizID = [];
+      for(let i = 0; i< takenQuizzes.length; i++){
+        takenQuizID.push(takenQuizzes[i].id);
+      }
+      //for each quiz we are in, fetch the quiz and add it to the result array
+      var result = [];
+      for (let i = 0; i < quizArr.length; i++) {
+        //only add quizzes they haven't seen yet
+        if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
+          result.push(
+            <div className="col-4" key={i}>
+              <QuizBox
+                title={quizArr[i].title}
+                author={quizArr[i].ownerUsername}
+                id={quizArr[i].id}
+              />
+            </div>
+          );
+        }
+
+      }
+      console.log(result);
+    }
     return result;
   }
 
@@ -138,17 +247,17 @@ class Quizzes extends React.Component {
               <div className="row align-items-center mt-5 mb-2">
                 <h1 className="font-weight-bold col-4">Quizzes You Made</h1>
               </div>
-              <div className="row">{this.displayQuizzes()}</div>
+              <div className="row">{this.state.ownedQuizElements}</div>
 
               <div className="row align-items-center mt-5 mb-2">
                 <h1 className="font-weight-bold col-4">Quizzes You've Taken</h1>
               </div>
-              <div className="row">{this.displayQuizzes()}</div>
+              <div className="row">{this.state.takenQuizElements}</div>
 
               <div className="row align-items-center mt-5 mb-2">
                 <h1 className="font-weight-bold col-4">Suggested Quizzes</h1>
               </div>
-              <div className="row">{this.displayQuizzes()}</div>
+              <div className="row">{this.state.suggestedQuizElements}</div>
             </div>
           </div>
         </div>

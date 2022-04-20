@@ -6,9 +6,9 @@ import {
   updateUser as updateUserMutation,
   createUserAnswers,
 } from "../graphql/mutations";
-import { 
-  getUser as getUserQuery, 
-  listUsers, 
+import {
+  getUser as getUserQuery,
+  listUsers,
   listUserAnswers as listUserAnswersQuery,
  } from "../graphql/queries";
 import { listAllQuizzes } from "./quizzes";
@@ -135,54 +135,58 @@ export async function getUserOwnedGroups(username) {
 
 // User Quizzes ---------------------------
 
-/** This method fetches and returns the specified user's quizzes.
+/** This method fetches and returns the quizzes that the specified user has taken.
  *
  * @param {String} username the username of the user
- * @returns an array of the user's quizzes
+ * @returns an array of the user's taken quizzes
  */
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userAnswers = await getUserAnswers(username);
-  console.log(userAnswers);
   let quizzes = [];
-  for(let i = 0; i < userAnswers.items.length; i++){
-    if(!quizzes.includes(userAnswers.items[i].quiz)){
-      quizzes.push(userAnswers.items[i].quiz);
+  for (let i = 0; i < userAnswers.length; i++) {
+    if (!quizzes.includes(userAnswers[i].quiz)) {
+      quizzes.push(userAnswers[i].quiz);
     }
   }
-  console.log(quizzes);
   return quizzes;
   //return userVal.quiz.data;
 }
 
+/** This method fetches and returns the quizzes that the specified user has created.
+ *
+ * @param {String} username the username of the user
+ * @returns an array of the user's created quizzes
+ */
 export async function getUserOwnedQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  console.log(userVal.quizOwners.items);
   return userVal.quizOwners.items;
 }
 
 
-
-export async function inputUserQuiz(params){
+export async function inputUserQuiz(params) {
   let res = await API.graphql({
     query: createUserAnswers,
-    variables: {input: params},
+    variables: { input: params },
   });
 
   return res.data.createUserAnswers;
 }
 
-export async function getUserAnswers(username){
-  if(!username) return;
-  console.log("get user answers");
-  console.log(username);
+export async function getUserAnswers(username) {
+  let params = {
+    filter: {
+      username: {
+        eq: username, // filter username == username
+      },
+    },
+  };
   let res = await API.graphql({
     query: listUserAnswersQuery,
-    variables:{input: {username: username}},
+    variables: params,
   });
-  console.log(res);
-  return res.data.listUserAnswers;
+  return res.data.listUserAnswers.items;
 }
 
 // User Friends ---------------------------

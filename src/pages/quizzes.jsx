@@ -61,9 +61,9 @@ class Quizzes extends React.Component {
       });
 
       this.setState({
-        ownedQuizElements: await this.displayOwnedQuizzes(this.state.ownedQuizzes),
-        takenQuizElements: await this.displayTakenQuizzes(this.state.takenQuizzes),
-        suggestedQuizElements: await this.displaySuggestedQuizzes(this.state.suggestedQuizzes),
+        ownedQuizElements: await this.displayOwnedQuizzes(tempOwned),
+        takenQuizElements: await this.displayTakenQuizzes(tempTaken),
+        suggestedQuizElements: await this.displaySuggestedQuizzes(tempSuggest),
       })
       console.log(this.state.ownedQuizElements);
       //update with the user's groups and user's recommended groups

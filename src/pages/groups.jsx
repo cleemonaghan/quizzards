@@ -4,7 +4,11 @@ import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput, MDBIcon } from "mdbreact";
 import { Link } from "react-router-dom";
 
-import { getUser, getUserGroups } from "../databaseFunctions/users.js";
+import {
+  getUser,
+  getUserGroups,
+  getUserOwnedGroups,
+} from "../databaseFunctions/users.js";
 
 import { Auth, Storage } from "aws-amplify";
 import {
@@ -18,6 +22,7 @@ class Groups extends React.Component {
     super();
     this.state = {
       username: "",
+      ownedElements: null,
       groupElements: null,
       recommendationElements: null,
       error: null,
@@ -39,7 +44,10 @@ class Groups extends React.Component {
       const response = await Auth.currentAuthenticatedUser();
       const username = response.username;
       const groupArr = await getUserGroups(username);
-      const yourGroups = await this.fetchYourGroups(groupArr);
+      const ownedGroupsArr = await getUserOwnedGroups(username);
+
+      const yourOwnedGroups = await this.fetchYourOwnedGroups(ownedGroupsArr);
+      const yourGroups = await this.fetchYourGroups(groupArr, ownedGroupsArr);
       const yourRecommendations = await this.fetchRecommendedGroups(
         username,
         groupArr
@@ -52,6 +60,7 @@ class Groups extends React.Component {
 
       //update with the user's groups and user's recommended groups
       this.setState({
+        ownedElements: yourOwnedGroups,
         groupElements: yourGroups,
         recommendationElements: yourRecommendations,
       });
@@ -64,13 +73,43 @@ class Groups extends React.Component {
     }
   }
 
-  /** This method fetches and returns the list of groups that the user is in
+  /** This method fetches and returns the list of groups that the user owns
+   * formatted in html form.
+   *
+   * @param {JSON}
+   * @returns a list of the html for each of their groups
+   */
+  async fetchYourOwnedGroups(yourOwnedGroups) {
+    // if there are no groups,
+    if (yourOwnedGroups === null || yourOwnedGroups.length < 1) {
+      return <p>You do not own any groups</p>;
+    } else {
+      //for each group we are in, fetch the group and add it to the result array
+      var result = [];
+      for (let i = 0; i < yourOwnedGroups.length; i++) {
+        let group = yourOwnedGroups[i];
+        let groupImage = await Storage.get(group.profilePicture);
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <GroupBox
+              link={groupImage}
+              name={group.name}
+              groupID={yourOwnedGroups[i].id}
+            />
+          </div>
+        );
+      }
+      return result;
+    }
+  }
+
+  /** This method fetches and returns the list of groups that the user is in (that they don't own)
    * formatted in html form.
    *
    * @param {JSON} groupArr the user's profile data
    * @returns a list of the html for each of their groups
    */
-  async fetchYourGroups(groupArr) {
+  async fetchYourGroups(groupArr, ownedGroupsArr) {
     // if there are no groups,
     if (groupArr === undefined || groupArr.length < 1) {
       return <p>You have no groups</p>;
@@ -78,17 +117,28 @@ class Groups extends React.Component {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
       for (let i = 0; i < groupArr.length; i++) {
-        let group = await getGroup(groupArr[i].groupID);
-        let groupImage = await Storage.get(group.profilePicture);
-        result.push(
-          <div className="col-lg-3 col-sm-6" key={i}>
-            <GroupBox
-              link={groupImage}
-              name={group.name}
-              groupID={groupArr[i].groupID}
-            />
-          </div>
-        );
+        let repeat = false;
+        //check if this group is one we own (if so, don't display it)
+        for (let j = 0; j < ownedGroupsArr.length; j++) {
+          if (groupArr[i].groupID === ownedGroupsArr[j].id) {
+            //this group is one of our owned groups, 
+            // so we don't need to display it
+            repeat = true;
+          }
+        }
+        if (!repeat) {
+          let group = await getGroup(groupArr[i].groupID);
+          let groupImage = await Storage.get(group.profilePicture);
+          result.push(
+            <div className="col-lg-3 col-sm-6" key={i}>
+              <GroupBox
+                link={groupImage}
+                name={group.name}
+                groupID={groupArr[i].groupID}
+              />
+            </div>
+          );
+        }
       }
       return result;
     }
@@ -105,7 +155,7 @@ class Groups extends React.Component {
     let recommendations = await recommendGroups(friendList, groupArr);
 
     // if there are no groups,
-    if (recommendations === undefined || recommendations.length < 1) {
+    if (recommendations === null || recommendations.length < 1) {
       console.log("no groups");
       return this.fetchGroups(username);
     } else {
@@ -137,6 +187,7 @@ class Groups extends React.Component {
 
     for (let i = 0; i < allGroups.length; i++) {
       let group = allGroups[i];
+      console.log(group)
       if (group.ownerUsername === username) {
         continue;
       }
@@ -201,7 +252,6 @@ class Groups extends React.Component {
               </MDBCol>
             </div>
 
-
             <div className="col-3 mt-5 mb-4">
               <div className="d-flex justify-content-end">
                 <Link to="/createGroup">
@@ -213,6 +263,13 @@ class Groups extends React.Component {
             </div>
           </div>
           <div className="row">{this.state.searchBar}</div>
+
+          {/* Display the user's owned groups */}
+          <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">Your Owned Groups</h1>
+          </div>
+          <div className="row">{this.state.ownedElements}</div>
+
           {/* Display the user's groups */}
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Groups</h1>

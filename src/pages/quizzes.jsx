@@ -143,7 +143,6 @@ class Quizzes extends React.Component {
     console.log(quizArr);
     //if they have no suggested quizzes, print message
     if (quizArr === undefined || quizArr.length < 1) {
-      console.log("you have made no quizzes");
      return <p>There are no suggested quizzes at this time. <br></br> 
      To get suggested quizzes, 
      <Link to="/friends"> add new friends </Link> 

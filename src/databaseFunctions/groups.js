@@ -5,13 +5,14 @@ import {
   createMembers,
   createMemberRequests,
   deleteMemberRequests,
-  createQuizToGroup
+  createQuizToGroup,
 } from "../graphql/mutations";
 import {
   getGroup as getGroupQuery,
   listGroups as listGroupQuery,
   getMemberRequests,
   listMemberRequests,
+  listGroups,
 } from "../graphql/queries";
 
 import { getUser } from "./users";
@@ -211,28 +212,69 @@ export async function recommendGroups(friendList, userGroups) {
     let added = 0;
     let groups = shuffleArray(friendInfo.groupOwners.items);
     for (let i in groups) {
-      let match = false;
-      for (let j in userGroups) {
-        if (userGroups[j].id === groups[i].id) {
-          match = true;
-          break;
-        }
-      }
-      if (!match) {
+      //console.log("Trying to add: ")
+      //console.log(groups[i])
+      //console.log("Already have: ")
+      //console.log(result)
+      let currentID = groups[i].id;
+      if (
+        !result.some((item) => item === currentID) &&
+        !userGroups.some((item) => item.groupID === currentID)
+      ) {
         //if there was not a match, we found a group to add
         result.push(groups[i].id);
         added++;
       }
+
       //if we added more than 2 groups, move onto the next friend
       if (added >= MAX_PER_FRIEND) break;
     }
+    console.log(result.length);
     //if we have 4 or more results in our list, we have enough, so break
     if (result.length >= MAX_TOTAL) return result;
   }
+  console.log(result.length);
 
+  let listAllGroups = await API.graphql({
+    query: listGroups,
+    variables: { limit: 30 },
+  });
+  listAllGroups = shuffleArray(listAllGroups.data.listGroups.items);
+
+  let i = 0;
+  while (result.length < MAX_TOTAL) {
+    //add random friends until we reach the expected number
+    if (listAllGroups[i] === undefined) {
+      return result;
+    }
+    let currentID = listAllGroups[i].id;
+    if (
+      !result.some((item) => item === currentID) &&
+      !userGroups.some((item) => item.groupID === currentID)
+    ) {
+      //if there was not a match, we found a group to add
+      //add the user to the recommended list
+      result.push(currentID);
+    }
+    /*
+    if (!result.includes(currentID)) {
+      let doNotAdd = false;
+      for (let j in userGroups) {
+        if (userGroups[j].id === currentID) {
+          doNotAdd = true;
+          break;
+        }
+      }
+      if (!doNotAdd) {
+        //add the user to the recommended list
+        result.push(currentID);
+      }
+    }*/
+
+    i++;
+  }
   return result;
 }
-
 
 export async function addQuizToGroup(quizID, groupID) {
   let params = {

@@ -490,67 +490,6 @@ function Quiz({ quizID }) {
             </p>
           </div>
 
-          {/* <Card className="bg-dark text-white mb-5">
-            <Card.Img
-              variant="top"
-              height="200px"
-              src={quiz.picture}
-              alt={quiz.title}
-            />
-            <Card.ImgOverlay className="overlap_text">
-              <Card.Title>
-                <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
-              </Card.Title>
-              <Card.Text style={{ fontSize: "20px" }}>
-                {quiz.description}
-              </Card.Text>
-              <Stack direction="horizontal" gap={3}>
-              <img
-                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                alt={database.author}
-                src={profileImage}
-              />
-              <span>
-                <p style={{ fontSize: "25px" }}>
-                  by <strong>{database.author}</strong>
-                </p>
-              </span>
-            </Stack>
-            </Card.ImgOverlay>
-            <Card.Body>
-              <Stack direction="horizontal" gap={3}>
-                <img
-                  className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                  alt={quiz.ownerUsername}
-                  src={quiz.owner_picture}
-                />
-                <span>
-                  <p>
-                    by <strong>{quiz.ownerUsername}</strong>
-                  </p>
-                </span>
-              </Stack>
-            </Card.Body>
-            <Card.Body>
-            <Card.Title>
-              <h1>{database.title}</h1>
-            </Card.Title>
-            <Card.Text>{database.description}</Card.Text>
-            <Stack direction="horizontal" gap={3}>
-              <img
-                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                alt={database.author}
-                src={profileImage}
-              />
-              <span>
-                <p>
-                  by <strong>{database.author}</strong>
-                </p>
-              </span>
-            </Stack>
-          </Card.Body>
-          </Card> */}
-
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {
               return (

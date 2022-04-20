@@ -3,7 +3,6 @@ import { Storage, Auth } from "aws-amplify";
 import Friend from "./friend";
 import Member from "./member";
 import { Button, Form, Modal } from "react-bootstrap";
-import { photo2, photo3, photo4, photo5 } from "../images";
 import { getUser } from "../databaseFunctions/users";
 import {
   getGroup,
@@ -260,7 +259,7 @@ function useRequestButton(
     }).length > 0
   ) {
     //we are already a member
-    return <div></div>;
+    return <Button variant="outline-danger">Leave Group</Button>;
   } else {
     //we are not in the group, we have not requested to join yet
 
@@ -374,8 +373,8 @@ function MembersList(params) {
         {ownerProfile}
         <h4 className="ms-2 me-0 my-2"> Members: </h4>
         <div className="row mx-auto">
-          <div className="col-auto"> {inviteButton} </div>
           <div className="col-auto"> {requestButton} </div>
+          <div className="col-auto"> {inviteButton} </div>
         </div>
 
         {displayMembers(loading3, members)}

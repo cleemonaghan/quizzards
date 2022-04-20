@@ -10,6 +10,7 @@ import {
   ToggleButtonGroup,
   Container,
   Form,
+  Modal,
 } from "react-bootstrap";
 import {
   MembersList,
@@ -22,12 +23,18 @@ import {
   QuizBox,
 } from "../components";
 
-import { getGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
+import {
+  getGroup,
+  getGroupsQuizzes,
+  addQuizToGroup,
+} from "../databaseFunctions/groups";
 import {
   getUserOwnedGroups,
   getUserOwnedQuizzes,
+  getUserQuizzes,
 } from "../databaseFunctions/users.js";
 import { getQuiz, listAllQuizzes } from "../databaseFunctions/quizzes.js";
+import { getUser } from "../graphql/queries";
 /** This function gathers the resources necessary to load the group page.
  *
  * @param {String} groupID the id of the group to load
@@ -186,40 +193,70 @@ function generateAddQuizButton(showQuizzes) {
   //TODO:check if they are member
   if (true) {
     return (
-      <div>
-        <Button variant="outline-primary" onClick={showQuizzes}>
-          Add Quiz +
-        </Button>
-      </div>
+      <Button
+        className="col-auto"
+        variant="outline-primary"
+        onClick={showQuizzes}
+      >
+        Add Quiz +
+      </Button>
     );
   } else {
     return <div></div>;
   }
 }
-/*  
-async function gatherQuizzes(username, setLoading, setQuizzes) {
+
+/*  */
+async function gatherQuizzes(username, setLoading) {
   try {
     setLoading(true);
-    let yourQuizList = (await getUser(username)).quizOwners;
+    let yourQuizzes = await getUserQuizzes(username);
     let allQuizzes = await listAllQuizzes();
+    let takenQuizzes = await getUserQuizzes(username);
     let result = [];
-    for (let yourQuiz in yourQuizList) {
-      let match = false;
-      for (let mem in memberList) {
-        if (memberList[mem].name === yourQuizList[yourQuiz]) {
-          match = true;
-          break;
-        }
-      }
-      if (!match) {
-        let image = await getUserImage(friendList[friend]);
-        result.push({
-          name: friendList[friend],
-          image: image,
-        });
-      }
+    result.push(
+      <div className="row align-items-center mt-5 mb-2">
+        <h1 className="font-weight-bold col-4">Quizzes You Made</h1>
+      </div>
+    );
+    for (let yourQuiz in yourQuizzes) {
+      result.push(
+        <QuizStatsBox
+          title={yourQuiz.title}
+          author={username}
+          id={yourQuiz.id}
+        />
+      );
     }
-    setFriends(result);
+    result.push(
+      <div className="row align-items-center mt-5 mb-2">
+        <h1 className="font-weight-bold col-4">Quizzes You've Taken</h1>
+      </div>
+    );
+    for (let takenQuiz in takenQuizzes) {
+      result.push(
+        <QuizStatsBox
+          title={takenQuiz.title}
+          author={takenQuiz.ownerUsername}
+          id={takenQuiz.id}
+        />
+      );
+    }
+    result.push(
+      <div className="row align-items-center mt-5 mb-2">
+        <h1 className="font-weight-bold col-4">Other Quizzes</h1>
+      </div>
+    );
+    for (let aQuiz in allQuizzes) {
+      result.push(
+        <QuizStatsBox
+          title={aQuiz.title}
+          author={aQuiz.ownerUsername}
+          id={aQuiz.id}
+        />
+      );
+    }
+    return result;
   } catch (e) {
     //there was an error, so print it
     console.log(e);
@@ -227,13 +264,12 @@ async function gatherQuizzes(username, setLoading, setQuizzes) {
     //we are finished loading, so set loading to false
     setLoading(false);
   }
-
   return true;
 }
-*/
 /*  */
 function displayModalBody(loading, quizzesToAdd) {
   if (loading) return <p>loading...</p>;
+  //TODO
   else {
     let list = [];
     for (let i in quizzesToAdd) {
@@ -275,7 +311,8 @@ function GroupPage() {
   };
   const [loading4, setLoading4] = useState(true);
   const useHandleShowQuizzes = async () => {
-    //let res = await gatherQuizzes(username, setLoading4, setQuizzes);
+
+    let res = await gatherQuizzes(user, setLoading4);
     setShowQuizzes(true);
   };
   const addQuizButton = generateAddQuizButton(useHandleShowQuizzes);
@@ -320,7 +357,7 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
               </DropdownButton>
 
-              {generateAddQuizButton}
+              {addQuizButton}
             </div>
             {displayQuizElements(quizzes)}
           </div>
@@ -359,44 +396,37 @@ function GroupPage() {
       </div>
 
       <div>
-        {/* * Modal for adding qu to the Group
         <Modal show={showQuizzes} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add Quizzes to Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
-              id="member-form"
+              id="quiz-form"
               onSubmit={async (event) => {
-                //addMembers
-                event.preventDefault();
+                //addQuizzes
+                event.preventDefault(); ///addQuizToGroup(quizID, groupID)
                 let target = event.target;
-                for (let i = 0; i < friends.length; i++) {
+                for (let i = 0; i < quizzes.length; i++) {
                   // if friend is checked, add them to the group
                   if (event.target[i].checked) {
-                    let res = await addMemberToGroup(
-                      target[i].id,
-                      params.group.id
-                    );
-                    console.log("Adding member to group:");
+                    let res = await addQuizToGroup(target[i].id, group.groupID);
+                    console.log("Adding quiz to group:");
                     console.log(res);
                   }
                 }
-                // update the members list
-                let res = await getGroup(params.group.id);
-                console.log("Fetched group:");
-                console.log(res);
-                refreshMembers(
-                  ownerUsername,
-                  res.members.items,
-                  res.memberRequests.items,
-                  setMembers,
-                  setMemberRequests
-                );
+                // update the quiz list
+                // refreshMembers(
+                //   ownerUsername,
+                //   res.members.items,
+                //   res.memberRequests.items,
+                //   setMembers,
+                //   setMemberRequests
+                // );
                 handleClose();
               }}
             >
-              {displayModalBody(loading4, friends)}
+              {displayModalBody(loading4, quizzes)}
             </Form>
           </Modal.Body>
 
@@ -408,7 +438,7 @@ function GroupPage() {
               Add Quizes
             </Button>
           </Modal.Footer>
-        </Modal> */}
+        </Modal>
       </div>
     </div>
   );

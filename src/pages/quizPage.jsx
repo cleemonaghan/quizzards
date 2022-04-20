@@ -69,6 +69,7 @@ function useGatherResources(quizID, setModalShow) {
 }
 
 function userButton(quizID, user, quiz, userQuizzes, setModalShow) {
+
   console.log(quizID);
   console.log(user);
   console.log(quiz);
@@ -92,6 +93,7 @@ function userButton(quizID, user, quiz, userQuizzes, setModalShow) {
   if (myQuiz) {
     return (
       <Button variant="danger" size="lg" onClick={() => setModalShow(true)}>
+
         Delete Quiz
       </Button>
     );

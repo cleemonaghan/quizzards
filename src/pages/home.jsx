@@ -28,6 +28,8 @@ class Home extends React.Component {
       profile_pic: null,
       groupElements: null,
       quizElements: null,
+      quizTakenElements: null,
+      myQuizzes: null,
       error: null,
       loading: true,
     };
@@ -55,7 +57,14 @@ class Home extends React.Component {
       //fetch the user's groups and quizzes
       this.setState({
         groupElements: await this.displayGroupsElement(),
-        quizElements: await this.displayQuizzesElement(),
+        quizElements: await this.displayQuizzesOwnedElement(),
+      });
+
+      console.log(this.state.myQuizzes);
+      this.setState({
+        quizTakenElements: await this.displayQuizzesTakenElement(
+          this.state.myQuizzes
+        ),
       });
     } catch (err) {
       this.setState({ error: err });
@@ -90,19 +99,22 @@ class Home extends React.Component {
     }
   }
 
-  async displayQuizzesElement() {
+  async displayQuizzesOwnedElement() {
     const quizArr = await getUserOwnedQuizzes(this.state.username);
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
+      console.log("you have made no quizzes");
+      this.setState({ myQuizzes: [] });
       return <p>You have no quizzes</p>;
     } else {
       console.log(quizArr);
       console.log(quizArr.length);
-
+      let quizIDArr = [];
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         console.log(quizArr[i]);
+        quizIDArr.push(quizArr[i].id);
         let quiz = await getQuiz(quizArr[i].id);
         result.push(
           <div className="col-4" key={i}>
@@ -114,6 +126,41 @@ class Home extends React.Component {
           </div>
         );
       }
+      this.setState({ myQuizzes: quizIDArr });
+      console.log(result);
+      return result;
+    }
+  }
+
+  async displayQuizzesTakenElement(quizElements) {
+    console.log(quizElements);
+    const quizArr = await getUserQuizzes(this.state.username);
+    // if there are no quizzes, display message
+    if (quizArr === undefined || quizArr.length < 1) {
+      console.log("you have taken no quizzes");
+      return <p>You have no quizzes</p>;
+    } else {
+      console.log(quizArr);
+      console.log(quizArr.length);
+
+      //for each quiz we are in, fetch the quiz and add it to the result array
+      var result = [];
+      for (let i = 0; i < quizArr.length; i++) {
+        console.log(quizArr[i]);
+        if (!quizElements.includes(quizArr[i].id)) {
+          let quiz = await getQuiz(quizArr[i].id);
+          result.push(
+            <div className="col-4" key={i}>
+              <QuizBox
+                title={quiz.title}
+                author={quiz.ownerUsername}
+                id={quiz.id}
+              />
+            </div>
+          );
+        }
+      }
+      console.log(result);
       return result;
     }
   }
@@ -145,7 +192,7 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Your Groups</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's groups */}
             {this.state.groupElements}
           </div>
@@ -153,7 +200,7 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Quizzes You Made</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's made quizzes */}
             {this.state.quizElements}
           </div>
@@ -161,9 +208,9 @@ class Home extends React.Component {
           <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Quizzes You've Taken</h1>
           </div>
-          <div className="row col-9 pb-5">
+          <div className="row col-9">
             {/* Display the user's taken quizzes */}
-            {this.state.quizElements}
+            {this.state.quizTakenElements}
           </div>
 
           <div className="row align-items-center mt-5 mb-2">

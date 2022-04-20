@@ -212,10 +212,6 @@ export async function recommendGroups(friendList, userGroups) {
     let added = 0;
     let groups = shuffleArray(friendInfo.groupOwners.items);
     for (let i in groups) {
-      //console.log("Trying to add: ")
-      //console.log(groups[i])
-      //console.log("Already have: ")
-      //console.log(result)
       let currentID = groups[i].id;
       if (
         !result.some((item) => item === currentID) &&
@@ -229,11 +225,9 @@ export async function recommendGroups(friendList, userGroups) {
       //if we added more than 2 groups, move onto the next friend
       if (added >= MAX_PER_FRIEND) break;
     }
-    console.log(result.length);
     //if we have 4 or more results in our list, we have enough, so break
     if (result.length >= MAX_TOTAL) return result;
   }
-  console.log(result.length);
 
   let listAllGroups = await API.graphql({
     query: listGroups,
@@ -256,20 +250,6 @@ export async function recommendGroups(friendList, userGroups) {
       //add the user to the recommended list
       result.push(currentID);
     }
-    /*
-    if (!result.includes(currentID)) {
-      let doNotAdd = false;
-      for (let j in userGroups) {
-        if (userGroups[j].id === currentID) {
-          doNotAdd = true;
-          break;
-        }
-      }
-      if (!doNotAdd) {
-        //add the user to the recommended list
-        result.push(currentID);
-      }
-    }*/
 
     i++;
   }

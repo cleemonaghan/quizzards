@@ -142,15 +142,12 @@ export async function getUserOwnedGroups(username) {
 export async function getUserQuizzes(username) {
   if (!username) return;
   let userAnswers = await getUserAnswers(username);
-  console.log("List of quizzes taken");
-  console.log(userAnswers);
   let quizzes = [];
   for (let i = 0; i < userAnswers.length; i++) {
     if (!quizzes.includes(userAnswers[i].quiz)) {
       quizzes.push(userAnswers[i].quiz);
     }
   }
-  console.log(quizzes);
   return quizzes;
   //return userVal.quiz.data;
 }
@@ -163,7 +160,6 @@ export async function getUserQuizzes(username) {
 export async function getUserOwnedQuizzes(username) {
   if (!username) return;
   let userVal = await getUser(username);
-  console.log(userVal.quizOwners.items);
   return userVal.quizOwners.items;
 }
 

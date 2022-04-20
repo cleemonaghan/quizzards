@@ -94,7 +94,7 @@ class Groups extends React.Component {
             <GroupBox
               link={groupImage}
               name={group.name}
-              groupID={yourOwnedGroups[i].groupID}
+              groupID={yourOwnedGroups[i].id}
             />
           </div>
         );

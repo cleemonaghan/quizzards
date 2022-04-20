@@ -1,19 +1,8 @@
-import React, { useState }  from "react";
-import {
-  Form,
-  Button,
-  FloatingLabel,
-  Accordion,
-  Row,
-  Col,
-} from "react-bootstrap";
-import { QuizAnswer } from "../components";
+import React, { useState } from "react";
+import { Form, FloatingLabel, Row, Col } from "react-bootstrap";
 
 function QuizQuestion({ question, index, handleUpdateQuestion }) {
-
-  
   const [temp, setTemp] = useState(null);
-
 
   function handleNameChange(evt) {
     const newName = evt.nativeEvent.target.value;

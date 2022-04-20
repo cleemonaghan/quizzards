@@ -111,7 +111,7 @@ class Quizzes extends React.Component {
             <div className="row">
               <div className="col-2"></div>
               <div className="row">
-                <div className="col-8 mt-5">
+                <div className="col-9 mt-5">
                   <MDBCol>
                     <MDBInput
                       hint="Search Quizzes"
@@ -123,13 +123,14 @@ class Quizzes extends React.Component {
                     />
                   </MDBCol>
                 </div>
-                <div className="col-1"></div>
-                <div className="col-3 mt-5 mb-4 float-end">
-                  <Link to="/createQuiz">
-                    <Button variant="outline-primary" size="lg">
-                      Create New Quiz +
-                    </Button>{" "}
-                  </Link>
+                <div className="col-3 mt-5 mb-4">
+                  <div className="d-flex justify-content-end">
+                    <Link to="/createQuiz">
+                      <Button variant="outline-primary" size="lg">
+                        Create New Quiz +
+                      </Button>{" "}
+                    </Link>
+                  </div>
                 </div>
               </div>
 

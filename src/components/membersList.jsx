@@ -3,7 +3,6 @@ import { Storage, Auth } from "aws-amplify";
 import Friend from "./friend";
 import Member from "./member";
 import { Button, Form, Modal } from "react-bootstrap";
-import { photo2, photo3, photo4, photo5 } from "../images";
 import { getUser } from "../databaseFunctions/users";
 import {
   getGroup,

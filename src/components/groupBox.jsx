@@ -12,7 +12,7 @@ function GroupBox({ link, name, groupID }) {
         style={{ textDecoration: "none" }}
       >
         <Card bg="dark" text="white" style={{ height: "250px" }}>
-          <Card.Img variant="top" src={link} style={{ height: "10vw" }} />
+          <Card.Img variant="top" src={link} style={{ height: "150px" }} />
           <Card.Body className="py-2">
             <Card.Title>
               <h2>{name}</h2>

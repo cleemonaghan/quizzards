@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import {
   HouseFill,
   PeopleFill,
@@ -53,9 +53,14 @@ class Navigation extends React.Component {
               <PersonCircle className="mx-1 mb-1" />
               Profile
             </Nav.Link>
-            <Button variant="light" onClick={this.signout}>
+            <NavDropdown>
+              <NavDropdown.Item onClick={this.signout}>
+                Log Out
+              </NavDropdown.Item>
+            </NavDropdown>
+            {/* <Button variant="light" onClick={this.signout}>
               Signout
-            </Button>
+            </Button> */}
           </Nav>
         </Container>
       </Navbar>

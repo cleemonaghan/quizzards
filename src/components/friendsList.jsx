@@ -1,7 +1,5 @@
 import React from "react";
 import { User, failToLoad, Loading } from "../components";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import Friends from "../pages/friends";
 
 class FriendsList extends Friends {
@@ -40,11 +38,6 @@ class FriendsList extends Friends {
     else {
       return (
         <div className="friends-list">
-          {/* <Link to="/friends">
-            <Button variant="outline-primary" size="lg">
-              Search For Friends
-            </Button>{" "}
-          </Link> */}
           <h4 className="mb-2"> Friends: </h4>
           <div className="row">
             {this.displayList(this.state.friends, "You have no Friends")}

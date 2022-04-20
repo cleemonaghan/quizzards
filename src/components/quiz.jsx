@@ -1,8 +1,13 @@
 import { Auth, Storage } from "aws-amplify";
 import { useState, useRef, useEffect } from "react";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
+import { X } from "react-bootstrap-icons";
 import { failToLoad, Loading } from "../components";
-import { getQuiz } from "../databaseFunctions/quizzes";
+import {
+  createUserAnswer,
+  getQuiz,
+  fetchUserAnswer,
+} from "../databaseFunctions/quizzes";
 import { default_group as spareBackground } from "../images";
 import {
   photo2,
@@ -147,6 +152,41 @@ function questionSection(
   );
 }
 
+function selectResult(results, scores, existingResult) {
+  if (existingResult === null) {
+    //find the best score
+    let bestScore = 0;
+    let bestIndex = 0;
+    for (let i = 0; i < scores.length; i++) {
+      if (bestScore < scores[i]) {
+        //update the best
+        bestScore = scores[i];
+        bestIndex = i;
+      }
+    }
+
+    //find the best result
+    let result = results[0];
+    for (let i = 0; i < results.length; i++) {
+      if (results[i].index === bestIndex) {
+        result = results[i];
+        break;
+      }
+    }
+    return result;
+  } else {
+    // if there is an existing result, select the result that matches
+    let result = results[0];
+    for (let i = 0; i < results.length; i++) {
+      if (results[i].id === existingResult) {
+        result = results[i];
+        break;
+      }
+    }
+    return result;
+  }
+}
+
 function displayResult(
   completed,
   scores,
@@ -155,27 +195,12 @@ function displayResult(
   questionRefs,
   setCompleted,
   questions,
-  setScore
+  setScore,
+  existingResult,
+  setExistingResult
 ) {
-  //find the best score
-  let bestScore = 0;
-  let bestIndex = 0;
-  for (let i = 0; i < scores.length; i++) {
-    if (bestScore < scores[i]) {
-      //update the best
-      bestScore = scores[i];
-      bestIndex = i;
-    }
-  }
-
   //find the best result
-  let result = results[0];
-  for (let i = 0; i < results.length; i++) {
-    if (results[i].index === bestIndex) {
-      result = results[i];
-      break;
-    }
-  }
+  let result = selectResult(results, scores, existingResult);
 
   let visibility = "visible";
   if (!completed) {
@@ -213,7 +238,14 @@ function displayResult(
           className="rbq_retake_quiz_button"
           onClick={() => {
             //retake the quiz
-            resetQuiz(questionRefs, setCompleted, questions, results, setScore);
+            resetQuiz(
+              questionRefs,
+              setCompleted,
+              questions,
+              results,
+              setScore,
+              setExistingResult
+            );
           }}
         >
           Retake
@@ -223,12 +255,20 @@ function displayResult(
   );
 }
 
-function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
+function resetQuiz(
+  questionRefs,
+  setCompleted,
+  questions,
+  results,
+  setScore,
+  setExistingResult
+) {
   //scroll to the top
   handleBackClick(questionRefs.current[0]);
 
   //reset the result
   setCompleted(false);
+  setExistingResult(null);
 
   //reset the questions
   for (let i = 0; i < questions.length; i++) {
@@ -248,7 +288,24 @@ function resetQuiz(questionRefs, setCompleted, questions, results, setScore) {
   setScore(temp);
 }
 
-function useGatherResources(quizID) {
+async function submitAnswer(username, quizID, quiz, score) {
+  let answers = [];
+  for (let i = 0; i < quiz.questions.items.length; i++) {
+    let selected = quiz.questions.items[i].selected;
+    answers.push(quiz.questions.items[i].answers.items[selected].id);
+  }
+  let result = selectResult(quiz.results.items, score, null).id;
+
+  console.log(username);
+  console.log(quizID);
+  console.log(answers);
+  console.log(result);
+  let res = await createUserAnswer(username, quizID, answers, result);
+  console.log("RES: ");
+  console.log(res);
+}
+
+function useGatherResources(quizID, setCompleted, setExistingResult) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState({});
@@ -261,8 +318,13 @@ function useGatherResources(quizID) {
    */
   async function getInfo() {
     try {
+      //get the user
+      let username = (await Auth.currentAuthenticatedUser()).username;
+      setUsername(username);
       //get the quiz
       let res = await getQuiz(quizID);
+      let userAnswers = await fetchUserAnswer(username, quizID);
+
       //get the quiz image
       let image = await Storage.get(res.owner.profilePicture);
       res.owner_picture = image;
@@ -282,15 +344,36 @@ function useGatherResources(quizID) {
           image = await Storage.get(res.questions.items[i].picture);
           res.questions.items[i].picture = image;
         } else res.questions.items[i].picture = null;
-        //create and initialize status variables for later
-        res.questions.items[i].answered = false;
-        res.questions.items[i].selected = null;
+        if (userAnswers.length > 0) {
+          // if we already answered this quiz, fill in the answers
+          res.questions.items[i].answered = true;
+          res.questions.items[i].selected = 0;
+          for (
+            let j = 0;
+            j < res.questions.items[i].answers.items.length;
+            j++
+          ) {
+            if (
+              userAnswers[0].answers[i] ===
+              res.questions.items[i].answers.items[j].id
+            ) {
+              res.questions.items[i].selected = j;
+              break;
+            }
+          }
+        } else {
+          //create and initialize status variables for later
+          res.questions.items[i].answered = false;
+          res.questions.items[i].selected = null;
+        }
       }
 
       setQuiz(res);
-      //get the user
-      res = await Auth.currentAuthenticatedUser();
-      setUsername(res.username);
+      // if we already answered this quiz, set it to completed
+      if (userAnswers.length > 0) {
+        setExistingResult(userAnswers[0].result);
+        setCompleted(true);
+      }
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -337,7 +420,12 @@ function Quiz({ quizID }) {
   const [score, setScore] = useState([]);
   const [completed, setCompleted] = useState(false);
   const itemsRef = useRef([]);
-  const [quiz, username, error, loading1] = useGatherResources(quizID);
+  const [existingResult, setExistingResult] = useState(null);
+  const [quiz, username, error, loading1] = useGatherResources(
+    quizID,
+    setCompleted,
+    setExistingResult
+  );
   const [loading2, setLoading2] = useState(true);
 
   //var questions = [];
@@ -380,11 +468,7 @@ function Quiz({ quizID }) {
       if (change && !completed) {
         // We have finished the quiz!
         // Save the results
-        console.log("Results are");
-        console.log(quiz.results);
-
-        console.log("Score is");
-        console.log(score);
+        submitAnswer(username, quizID, quiz, score);
 
         // Diplay the results
         setCompleted(true);
@@ -405,67 +489,6 @@ function Quiz({ quizID }) {
               by <strong>{quiz.ownerUsername}</strong>
             </p>
           </div>
-
-          {/* <Card className="bg-dark text-white mb-5">
-            <Card.Img
-              variant="top"
-              height="200px"
-              src={quiz.picture}
-              alt={quiz.title}
-            />
-            <Card.ImgOverlay className="overlap_text">
-              <Card.Title>
-                <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
-              </Card.Title>
-              <Card.Text style={{ fontSize: "20px" }}>
-                {quiz.description}
-              </Card.Text>
-              <Stack direction="horizontal" gap={3}>
-              <img
-                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                alt={database.author}
-                src={profileImage}
-              />
-              <span>
-                <p style={{ fontSize: "25px" }}>
-                  by <strong>{database.author}</strong>
-                </p>
-              </span>
-            </Stack>
-            </Card.ImgOverlay>
-            <Card.Body>
-              <Stack direction="horizontal" gap={3}>
-                <img
-                  className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                  alt={quiz.ownerUsername}
-                  src={quiz.owner_picture}
-                />
-                <span>
-                  <p>
-                    by <strong>{quiz.ownerUsername}</strong>
-                  </p>
-                </span>
-              </Stack>
-            </Card.Body>
-            <Card.Body>
-            <Card.Title>
-              <h1>{database.title}</h1>
-            </Card.Title>
-            <Card.Text>{database.description}</Card.Text>
-            <Stack direction="horizontal" gap={3}>
-              <img
-                className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
-                alt={database.author}
-                src={profileImage}
-              />
-              <span>
-                <p>
-                  by <strong>{database.author}</strong>
-                </p>
-              </span>
-            </Stack>
-          </Card.Body>
-          </Card> */}
 
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {
@@ -503,7 +526,9 @@ function Quiz({ quizID }) {
               itemsRef,
               setCompleted,
               quiz.questions.items,
-              setScore
+              setScore,
+              existingResult,
+              setExistingResult
             )}
           </div>
         </div>

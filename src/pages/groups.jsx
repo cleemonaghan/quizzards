@@ -187,7 +187,7 @@ class Groups extends React.Component {
       <div className="groups mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-8 mt-5">
+            <div className="col-9 mt-5">
               <MDBCol>
                 <MDBInput
                   hint="Search Groups"
@@ -201,13 +201,15 @@ class Groups extends React.Component {
               </MDBCol>
             </div>
 
-            <div className="col-1"></div>
-            <div className="col-3 mt-5 mb-4 float-end">
-              <Link to="/createGroup">
-                <Button variant="outline-primary" size="lg">
-                  Create New Group +
-                </Button>{" "}
-              </Link>
+
+            <div className="col-3 mt-5 mb-4">
+              <div className="d-flex justify-content-end">
+                <Link to="/createGroup">
+                  <Button variant="outline-primary" size="lg">
+                    Create New Group +
+                  </Button>{" "}
+                </Link>
+              </div>
             </div>
           </div>
           <div className="row">{this.state.searchBar}</div>

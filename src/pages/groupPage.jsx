@@ -205,6 +205,7 @@ function generateAddQuizButton(showQuizzes) {
     return <div></div>;
   }
 }
+
 /*  */
 async function gatherQuizzes(username, setLoading) {
   try {
@@ -265,7 +266,6 @@ async function gatherQuizzes(username, setLoading) {
   }
   return true;
 }
-
 /*  */
 function displayModalBody(loading, quizzesToAdd) {
   if (loading) return <p>loading...</p>;
@@ -311,6 +311,7 @@ function GroupPage() {
   };
   const [loading4, setLoading4] = useState(true);
   const useHandleShowQuizzes = async () => {
+
     let res = await gatherQuizzes(user, setLoading4);
     setShowQuizzes(true);
   };

@@ -192,7 +192,6 @@ and compare your stats components based on if a quiz is selected
 and what side the toggle menu is on
  */
 function handleStatsToggle(group, quizID, username, indexOfToggle) {
-  quizID = "72656443-1a79-443c-92c3-1a5586966df5"; // Need to delete this !!!!!!!--------------------------------
   if (quizID === null) {
     return (
       <div>
@@ -227,7 +226,7 @@ This function creates and returns the list of quizzes
 associated with the group in the format to be displayed
 on the left side of the page
  */
-function displayQuizElements(groupQuizzes,username,owner) {
+function displayQuizElements(groupQuizzes,setQuizIDSelectedForStats,username,owner) {
   console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
     console.log("returning no quizzes");
@@ -245,7 +244,11 @@ function displayQuizElements(groupQuizzes,username,owner) {
       //let quiz = await getQuiz(groupQuizzes[i].id); //title,author,ID
       console.log(quiz);
       result.push(
-        <div className="col-4 mb-4" key={i}>
+        <div
+          className="col-auto"
+          key={i}
+          onClick={() => setQuizIDSelectedForStats(quiz.id)}
+        >
           <QuizStatsBox
             title={quiz.title}
             author={quiz.ownerUsername}
@@ -398,6 +401,7 @@ function GroupPage() {
   const [toggleVal, setToggleVal] = useState(1);
   const [showQuizzes, setShowQuizzes] = useState(false);
   const [quizIDSelectedForStats, setQuizIDSelectedForStats] = useState(null);
+
   const [
     group,
     groupImage,
@@ -468,7 +472,7 @@ function GroupPage() {
 
               {generateAddQuizButton(setShowQuizzes)}
             </div>
-            {displayQuizElements(groupQuizzes,group.ownerUsername,user)}
+            {displayQuizElements(groupQuizzes,setQuizIDSelectedForStats,group.ownerUsername,user)}
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">

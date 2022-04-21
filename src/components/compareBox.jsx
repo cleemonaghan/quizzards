@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, DropdownButton, Dropdown, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  DropdownButton,
+  Dropdown,
+  Button,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   getQuiz,
@@ -107,11 +114,11 @@ function compareMembers(
   } else {
     let result1 = 0;
     let result2 = 0;
-    for(let i = 0; i < quiz.results.items.length; i++) {
-      if(quiz.results.items[i].id === userResult.result) {
+    for (let i = 0; i < quiz.results.items.length; i++) {
+      if (quiz.results.items[i].id === userResult.result) {
         result1 = quiz.results.items[i].name;
       }
-      if(quiz.results.items[i].id === friendResult.result) {
+      if (quiz.results.items[i].id === friendResult.result) {
         result2 = quiz.results.items[i].name;
       }
     }
@@ -134,12 +141,15 @@ function compareMembers(
           </Col>
         </Row>
         {userResult.answers.map((answer, index) => {
-          return compareQuestion(
-            index,
-            userResult.answers[index],
-            friendResult.answers[index],
-            quiz
-          );
+          return (
+          <div key={index}>
+            {compareQuestion(
+              index,
+              userResult.answers[index],
+              friendResult.answers[index],
+              quiz
+            )}
+          </div>);
         })}
       </div>
     );
@@ -176,7 +186,7 @@ function CompareBox({ group, quizID, username }) {
                 {group.members.items.map((member) => {
                   if (member.userID !== username) {
                     return (
-                      <Dropdown.Item eventKey={member.userID}>
+                      <Dropdown.Item eventKey={member.userID} key={member.userID}>
                         {member.userID}
                       </Dropdown.Item>
                     );
@@ -185,7 +195,14 @@ function CompareBox({ group, quizID, username }) {
               </DropdownButton>
             </Col>
           </Row>
-          {compareMembers(quizID, quiz, username, friend, userResult, friendResult)}
+          {compareMembers(
+            quizID,
+            quiz,
+            username,
+            friend,
+            userResult,
+            friendResult
+          )}
         </Container>
       </div>
     </div>

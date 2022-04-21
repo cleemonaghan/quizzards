@@ -72,9 +72,7 @@ function useGatherResources(groupID) {
       setUser(username);
       //get the user groups
 
-      console.log(username);
       res = await getUserOwnedGroups(username);
-      console.log(res);
       setUserGroups(res);
 
       res = await gatherQuizzes(username);
@@ -105,15 +103,15 @@ function useGatherResources(groupID) {
 }
 
 function userButton(groupID, user, userGroups) {
-  console.log("group ID", groupID);
-  console.log("userGroups", userGroups);
-  console.log("userGroups length", userGroups.length);
+  //console.log("group ID", groupID);
+  //console.log("userGroups", userGroups);
+  //console.log("userGroups length", userGroups.length);
   let myGroup = false;
 
   for (let i = 0; i < userGroups.length; i++) {
-    console.log(userGroups[i]);
+    //console.log(userGroups[i]);
     let group = userGroups[i].id;
-    console.log(groupID);
+    //console.log(groupID);
 
     if (groupID == group) {
       myGroup = true;
@@ -123,7 +121,7 @@ function userButton(groupID, user, userGroups) {
 
   var result = [];
 
-  console.log(myGroup);
+  //console.log(myGroup);
 
   if (myGroup) {
     result.push(
@@ -132,7 +130,7 @@ function userButton(groupID, user, userGroups) {
       </Link>
     );
   }
-  console.log(result);
+  //console.log(result);
   return result;
 }
 /* 
@@ -177,7 +175,6 @@ associated with the group in the format to be displayed
 on the left side of the page
  */
 function displayQuizElements(quizzes) {
-  console.log(quizzes);
   if (quizzes === undefined || quizzes.length < 1) {
     return <p>This group has no quizzes yet</p>;
   } else {
@@ -229,13 +226,13 @@ async function gatherQuizzes(username) {
     let takenQuizzes = await getUserQuizzes(username);
     let result = [];
     result.push(
-      <div className="row align-items-center mt-5 mb-2">
+      <div className="row align-items-center mt-5 mb-2" key={"Header made"}>
         <h1 className="font-weight-bold col-12">Quizzes You Made</h1>
       </div>
     );
     for (let yourQuiz in yourQuizzes) {
       result.push(
-        <div className="col-12">
+        <div className="col-12" key={yourQuizzes[yourQuiz].id}>
           <QuizStatsBox
             title={yourQuizzes[yourQuiz].title}
             author={username}
@@ -245,13 +242,13 @@ async function gatherQuizzes(username) {
       );
     }
     result.push(
-      <div className="row align-items-center mt-5 mb-2">
+      <div className="row align-items-center mt-5 mb-2" key={"Header taken"}>
         <h1 className="font-weight-bold col-12">Quizzes You've Taken</h1>
       </div>
     );
     for (let takenQuiz in takenQuizzes) {
       result.push(
-        <div className="col-12">
+        <div className="col-12" key={takenQuizzes[takenQuiz].id}>
           <QuizStatsBox
             title={takenQuizzes[takenQuiz].title}
             author={takenQuizzes[takenQuiz].ownerUsername}
@@ -261,13 +258,13 @@ async function gatherQuizzes(username) {
       );
     }
     result.push(
-      <div className="row align-items-center mt-5 mb-2">
+      <div className="row align-items-center mt-5 mb-2" key={"Header other"}>
         <h1 className="font-weight-bold col-12">Other Quizzes</h1>
       </div>
     );
     for (let aQuiz in allQuizzes) {
       result.push(
-        <div className="col-12">
+        <div className="col-12" key={allQuizzes[aQuiz].id}>
           <QuizStatsBox
             title={allQuizzes[aQuiz].title}
             author={allQuizzes[aQuiz].ownerUsername}

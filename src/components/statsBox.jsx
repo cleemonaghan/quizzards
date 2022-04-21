@@ -18,13 +18,11 @@ function useGatherResources(quizID, members) {
       let result = [];
       for (let i = 0; i < members.length; i++) {
         let res = await fetchUserAnswer(members[i].userID, quizID);
-        console.log(res)
         if (res.length > 0) {
           //if the user has completed the quiz, add their result to the list
           result.push(res[0]);
         }
       }
-      console.log(result)
       setMemberResults(result);
 
       //get the quiz
@@ -63,10 +61,8 @@ function StatsBox({ group, quizID, result }) {
     }
     for (let i = 0; i < memberResults.length; i++) {
       let result = memberResults[i].result;
-      console.log(result)
       for (let j in quiz.results.items) {
         if (result === quiz.results.items[j].id) {
-          console.log("Adding to "+j);
           data[j] += 1;
         }
       }

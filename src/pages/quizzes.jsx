@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Media from "react-media";
 import { QuizBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput } from "mdbreact";
@@ -14,9 +15,10 @@ import {
   getUserQuizzes as getUserQuizzesQuery,
   getUserOwnedQuizzes as getUserOwnedQuizzesQuery,
   getUserSuggestedQuizzes as getUserSuggestedQuizzesQuery,
+  getUser,
 } from "../databaseFunctions/users";
 //import { includes } from "core-js/core/array";
-//
+
 class Quizzes extends React.Component {
   constructor() {
     super();
@@ -45,21 +47,29 @@ class Quizzes extends React.Component {
       //get the quiz information
       let tempOwned = await getUserOwnedQuizzesQuery(username);
       let tempTaken = await getUserQuizzesQuery(username);
-      let tempSuggest = await getUserSuggestedQuizzesQuery(username);
+      let user = await getUser(username);
+      let friendList = user.friends;
+      console.log(response);
+      console.log(friendList);
+      let tempSuggest = await getUserSuggestedQuizzesQuery(
+        friendList,
+        tempOwned,
+        tempTaken
+      );
 
       // set the state with the user info
       this.setState({
         username: username,
         ownedQuizzes: tempOwned,
         takenQuizzes: tempTaken,
-        suggestedQuizzes:tempSuggest,
+        suggestedQuizzes: tempSuggest,
       });
 
       this.setState({
         ownedQuizElements: await this.displayOwnedQuizzes(tempOwned),
         takenQuizElements: await this.displayTakenQuizzes(tempTaken),
         suggestedQuizElements: await this.displaySuggestedQuizzes(tempSuggest),
-      })
+      });
       console.log(this.state.ownedQuizElements);
       //update with the user's groups and user's recommended groups
       // this.setState({
@@ -74,18 +84,22 @@ class Quizzes extends React.Component {
     }
   }
 
-  async displayOwnedQuizzes(quizArr){
+  async displayOwnedQuizzes(quizArr) {
     //if they have made no quizzes return a message
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
-      return <p>You have made no quizzes. <br></br>
-      <Link to="/createQuiz">Create a Quiz</Link></p>;
+      return (
+        <p>
+          You have made no quizzes. <br></br>
+          <Link to="/createQuiz">Create a Quiz</Link>
+        </p>
+      );
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         result.push(
-          <div className="col-4" key={i}>
+          <div className="col-lg-3 col-sm-6" key={i}>
             <QuizBox
               title={quizArr[i].title}
               author={quizArr[i].ownerUsername}
@@ -99,7 +113,7 @@ class Quizzes extends React.Component {
     return result;
   }
 
-  async displayTakenQuizzes(quizArr){
+  async displayTakenQuizzes(quizArr) {
     //if they have taken no quizzes, return a message.
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
@@ -108,7 +122,7 @@ class Quizzes extends React.Component {
       //grab the ids of the quizzes they've made to filter with
       let ownedQuizzes = this.state.ownedQuizzes;
       let ownedQuizID = [];
-      for(let i = 0; i< ownedQuizzes.length; i++){
+      for (let i = 0; i < ownedQuizzes.length; i++) {
         ownedQuizID.push(ownedQuizzes[i].id);
       }
 
@@ -116,9 +130,9 @@ class Quizzes extends React.Component {
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         //only add quizzes that they've taken but haven't made
-        if(!ownedQuizID.includes(quizArr[i].id)){
+        if (!ownedQuizID.includes(quizArr[i].id)) {
           result.push(
-            <div className="col-4" key={i}>
+            <div className="col-lg-3 col-sm-6" key={i}>
               <QuizBox
                 title={quizArr[i].title}
                 author={quizArr[i].ownerUsername}
@@ -127,7 +141,6 @@ class Quizzes extends React.Component {
             </div>
           );
         }
-
       }
       console.log(result);
     }
@@ -135,45 +148,50 @@ class Quizzes extends React.Component {
   }
 
   async displaySuggestedQuizzes(quizArr) {
+    console.log(quizArr);
     //if they have no suggested quizzes, print message
     if (quizArr === undefined || quizArr.length < 1) {
       console.log("you have made no quizzes");
-     return <p>There are no suggested quizzes at this time. <br></br> 
-     To get suggested quizzes, 
-     <Link to="/friends"> add new friends </Link> 
-      or 
-      <Link to = "/groups"> join new groups </Link></p>;
+      return (
+        <p>
+          There are no suggested quizzes at this time. <br></br>
+          To get suggested quizzes,
+          <Link to="/friends"> add new friends </Link>
+          or
+          <Link to="/groups"> join new groups </Link>
+        </p>
+      );
     } else {
-      //grab the ids of the quizzes they've created
-      let ownedQuizzes = this.state.ownedQuizzes; 
-      let ownedQuizID = [];
-      for(let i = 0; i< ownedQuizzes.length; i++){
-        ownedQuizID.push(ownedQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've created
+      // let ownedQuizzes = this.state.ownedQuizzes;
+      // let ownedQuizID = [];
+      // for(let i = 0; i< ownedQuizzes.length; i++){
+      //   ownedQuizID.push(ownedQuizzes[i].id);
+      // }
 
-      //grab the ids of the quizzes they've taken
-      let takenQuizzes = this.state.takenQuizzes;
-      let takenQuizID = [];
-      for(let i = 0; i< takenQuizzes.length; i++){
-        takenQuizID.push(takenQuizzes[i].id);
-      }
+      // //grab the ids of the quizzes they've taken
+      // let takenQuizzes = this.state.takenQuizzes;
+      // let takenQuizID = [];
+      // for(let i = 0; i< takenQuizzes.length; i++){
+      //   takenQuizID.push(takenQuizzes[i].id);
+      // }
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         //only add quizzes they haven't seen yet
-        if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
-          result.push(
-            <div className="col-4" key={i}>
-              <QuizBox
-                title={quizArr[i].title}
-                author={quizArr[i].ownerUsername}
-                id={quizArr[i].id}
-              />
-            </div>
-          );
-        }
-
+        //if(!ownedQuizID.includes(quizArr[i].id) && !takenQuizID.includes(quizArr[i].id)){
+        result.push(
+          <div className="col-lg-3 col-sm-6" key={i}>
+            <QuizBox
+              title={quizArr[i].title}
+              author={quizArr[i].ownerUsername}
+              id={quizArr[i].id}
+            />
+          </div>
+        );
       }
+
+      //}
       console.log(result);
     }
     return result;
@@ -218,48 +236,66 @@ class Quizzes extends React.Component {
         <div className="quizzes mb-5">
           <div className="container">
             <div className="row">
-              <div className="col-2"></div>
-              <div className="row">
-                <div className="col-9 mt-5">
-                  <MDBCol>
-                    <MDBInput
-                      hint="Search Quizzes"
-                      type="text"
-                      containerClass="active-pink active-pink-2 mt-0 mb-3"
-                      variant="outline-primary"
-                      size="lg"
-                      onChange={this.handleChange}
-                    />
-                  </MDBCol>
+              <div className="col-9 mt-5">
+                <MDBCol>
+                  <MDBInput
+                    hint="Search Quizzes"
+                    className="form-control my-0 py-1"
+                    type="text"
+                    containerClass="active-pink active-pink-2 mt-0 mb-3"
+                    variant="outline-primary"
+                    size="lg"
+                    onChange={this.handleChange}
+                  />
+                </MDBCol>
+              </div>
+              <div className="col-3 mt-5 mb-4">
+                <div className="d-flex justify-content-end">
+                  <Link to="/createQuiz">
+                    <Media
+                      queries={{
+                        mobile: "(max-width: 574px)",
+                        other: "(min-width: 575px)",
+                      }}
+                    >
+                      {(matches) => (
+                        <Fragment>
+                          {matches.mobile && (
+                            <Button variant="outline-primary" size="lg">
+                              +
+                            </Button>
+                          )}
+                          {matches.other && (
+                            <Button variant="outline-primary" size="lg">
+                              Create New Quiz +
+                            </Button>
+                          )}
+                        </Fragment>
+                      )}
+                    </Media>
+                  </Link>
                 </div>
-
-                <div className="col-3 mt-5 mb-4">
-                  <div className="d-flex justify-content-end">
-                    <Link to="/createQuiz">
-                      <Button variant="outline-primary" size="lg">
-                        Create New Quiz +
-                      </Button>{" "}
-                    </Link>
-                  </div>
-                </div>
               </div>
-
-              <div className="row">{this.state.searchBar}</div>
-              <div className="row align-items-center mt-5 mb-2">
-                <h1 className="font-weight-bold col-4">Quizzes You Made</h1>
-              </div>
-              <div className="row">{this.state.ownedQuizElements}</div>
-
-              <div className="row align-items-center mt-5 mb-2">
-                <h1 className="font-weight-bold col-4">Quizzes You've Taken</h1>
-              </div>
-              <div className="row">{this.state.takenQuizElements}</div>
-
-              <div className="row align-items-center mt-5 mb-2">
-                <h1 className="font-weight-bold col-4">Suggested Quizzes</h1>
-              </div>
-              <div className="row">{this.state.suggestedQuizElements}</div>
             </div>
+
+            <div className="row">{this.state.searchBar}</div>
+            {/* Display the user's made quizzes */}
+            <div className="row align-items-center mt-5 mb-2">
+              <h1 className="font-weight-bold">Quizzes You Made</h1>
+            </div>
+            <div className="row">{this.state.ownedQuizElements}</div>
+
+            {/* Display the user's taken quizzes */}
+            <div className="row align-items-center mt-5 mb-2">
+              <h1 className="font-weight-bold">Quizzes You've Taken</h1>
+            </div>
+            <div className="row">{this.state.takenQuizElements}</div>
+
+            {/* Display the user's suggested quizzes */}
+            <div className="row align-items-center mt-5 mb-2">
+              <h1 className="font-weight-bold">Suggested Quizzes</h1>
+            </div>
+            <div className="row">{this.state.suggestedQuizElements}</div>
           </div>
         </div>
       );

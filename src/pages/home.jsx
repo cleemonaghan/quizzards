@@ -4,6 +4,7 @@ import { API, Auth, Storage } from "aws-amplify";
 import { default as Friends } from "./friends";
 import { QuizBox, failToLoad, Loading, FriendsList } from "../components";
 import GroupBox from "../components/groupBox";
+import { Link } from "react-router-dom";
 
 import {
   getUser,
@@ -78,7 +79,8 @@ class Home extends React.Component {
     const groupArr = await getUserGroups(this.state.username);
     // if there are no groups,
     if (groupArr === undefined || groupArr.length < 1) {
-      return <p>You have no groups</p>;
+      return <p>You have made no groups. <br></br>
+      <Link to="/createGroup">Create a Group</Link></p>;
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
@@ -103,9 +105,9 @@ class Home extends React.Component {
     const quizArr = await getUserOwnedQuizzes(this.state.username);
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
-      console.log("you have made no quizzes");
       this.setState({ myQuizzes: [] });
-      return <p>You have no quizzes</p>;
+      return <p>You have made no quizzes. <br></br>
+      <Link to="/createQuiz">Create a Quiz</Link></p>;
     } else {
       console.log(quizArr);
       console.log(quizArr.length);
@@ -137,8 +139,8 @@ class Home extends React.Component {
     const quizArr = await getUserQuizzes(this.state.username);
     // if there are no quizzes, display message
     if (quizArr === undefined || quizArr.length < 1) {
-      console.log("you have taken no quizzes");
-      return <p>You have no quizzes</p>;
+       return <p>You have taken no quizzes. <br></br>
+      <Link to="/quizzes">Take a Quiz</Link></p>;
     } else {
       console.log(quizArr);
       console.log(quizArr.length);

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Storage } from "aws-amplify";
-import { getUser } from "../databaseFunctions/users";
+import { getUser, getUserOwnedGroups, getUserOwnedQuizzes  } from "../databaseFunctions/users";
 import { failToLoad, Loading } from "../components";
+import { getGroup } from "../databaseFunctions/groups";
+import { Link } from "react-router-dom";
+import { QuizBox,  } from "../components";
+import GroupBox from "../components/groupBox";
 
 
 function useGatherResources(username) {
@@ -10,6 +14,8 @@ function useGatherResources(username) {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [userImage, setUserImage] = useState(null);
+    const [quizElements, setQuizElems] = useState(null);
+    const [groupElements, setGroupElems] = useState(null);
   
     /** This function is called upon initialization to fetch all the 
      * information essential to displaying the page. Once all the 
@@ -21,13 +27,29 @@ function useGatherResources(username) {
         setLoading(true);
         //get the group
         let res = await getUser(username);
-        setUser(res);
+        let temp = res;
+        setUser(temp);
         //get the group image
         res = await Storage.get(res.profilePicture);
         setUserImage(res);
+
+        //get the user Quizzes
+        res = await getUserOwnedQuizzes(username);
+        let tempQuizzes = res;
+        //get the user Groups
+        res = await getUserOwnedGroups(username);
+        let tempGroups = res;
+
+        res = await displayUserQuizzes(tempQuizzes);
+        setQuizElems(res);
+
+        res = await displayUserGroups(tempGroups);
+        setGroupElems(res);
       } catch (e) {
         //there was an error, so save it
-        setError(e);
+        console.log("there was an error: ");
+        console.log(e);
+         setError(e);
       } finally {
         //we are finished loading, so set loading to false
         setLoading(false);
@@ -37,8 +59,56 @@ function useGatherResources(username) {
       getInfo();
     }, []);
   
-    return [user, userImage, error, loading];
+    return [user, userImage, quizElements, groupElements, error, loading];
   }
+
+  async function displayUserQuizzes(quizArr){
+        //if they have made no quizzes return a message
+        if (quizArr === undefined || quizArr.length < 1) {
+          return <p>${this.state.username} has made no quizzes. </p>;
+        } else {
+          //for each quiz we are in, fetch the quiz and add it to the result array
+          var result = [];
+          for (let i = 0; i < quizArr.length; i++) {
+            result.push(
+              <div className="col-4" key={i}>
+                <QuizBox
+                  title={quizArr[i].title}
+                  author={quizArr[i].ownerUsername}
+                  id={quizArr[i].id}
+                />
+              </div>
+            );
+          }
+        }
+        return result;
+  } 
+
+  async function displayUserGroups(groupArr){
+        //if they have made no quizzes return a message
+        if (groupArr === undefined || groupArr.length < 1) {
+          return <p>${this.state.username} has made no groups. </p>;
+        } else {
+          //for each quiz we are in, fetch the quiz and add it to the result array
+          var result = [];
+          for (let i = 0; i < groupArr.length; i++) {
+            let group = await getGroup(groupArr[i].id);
+            let groupImage = await Storage.get(group.profilePicture);
+            result.push(
+              <div className="col-4" key={i}>
+                <GroupBox
+                  link={groupImage}
+                  name={group.name}
+                  groupID={groupArr[i].groupID}
+                />
+              </div>
+            );
+          }
+        }
+        return result;
+  }
+
+
 
 
 
@@ -51,7 +121,7 @@ function ViewProfile() {
   const username = info.username;
 
   
-  const [user, userImage, error, loading] = useGatherResources(username);
+  const [user, userImage, quizElements, groupElements, error, loading] = useGatherResources(username);
   
   if (error) return (failToLoad());
   return loading ? Loading() : 
@@ -82,6 +152,21 @@ function ViewProfile() {
           <div className="row">
             <h4 className="col-1">Bio:</h4>
             <h4 className="col-11 ps-4">{user.bio}</h4>
+          </div>
+
+        <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">{user.name}'s Groups</h1>
+          </div>
+          <div className="row col-9">
+            {/* Display the user's groups */}
+            {groupElements}
+        </div>
+        <div className="row align-items-center mt-5 mb-2">
+            <h1 className="font-weight-bold">{user.name}'s Quizzes</h1>
+          </div>
+          <div className="row col-9">
+            {/* Display the user's groups */}
+            {quizElements}
           </div>
 
         </div>

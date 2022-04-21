@@ -422,7 +422,7 @@ function GroupPage() {
       <div>
         <Modal show={showQuizzes} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Quizzes to Group</Modal.Title>
+            <Modal.Title>Add Quiz to Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
@@ -459,7 +459,7 @@ function GroupPage() {
               Close
             </Button>
             <Button form="member-form" variant="primary" type="submit">
-              Add Quizzes
+              Add Quiz
             </Button>
           </Modal.Footer>
         </Modal>

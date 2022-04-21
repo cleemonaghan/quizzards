@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Media from "react-media";
 import { GroupBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput, MDBIcon } from "mdbreact";
@@ -121,7 +122,7 @@ class Groups extends React.Component {
         //check if this group is one we own (if so, don't display it)
         for (let j = 0; j < ownedGroupsArr.length; j++) {
           if (groupArr[i].groupID === ownedGroupsArr[j].id) {
-            //this group is one of our owned groups, 
+            //this group is one of our owned groups,
             // so we don't need to display it
             repeat = true;
           }
@@ -187,7 +188,7 @@ class Groups extends React.Component {
 
     for (let i = 0; i < allGroups.length; i++) {
       let group = allGroups[i];
-      console.log(group)
+      console.log(group);
       if (group.ownerUsername === username) {
         continue;
       }
@@ -251,13 +252,30 @@ class Groups extends React.Component {
                 />
               </MDBCol>
             </div>
-
             <div className="col-3 mt-5 mb-4">
               <div className="d-flex justify-content-end">
                 <Link to="/createGroup">
-                  <Button variant="outline-primary" size="lg">
-                    Create New Group +
-                  </Button>{" "}
+                  <Media
+                    queries={{
+                      mobile: "(max-width: 574px)",
+                      other: "(min-width: 575px)",
+                    }}
+                  >
+                    {(matches) => (
+                      <Fragment>
+                        {matches.mobile && (
+                          <Button variant="outline-primary" size="lg">
+                            +
+                          </Button>
+                        )}
+                        {matches.other && (
+                          <Button variant="outline-primary" size="lg">
+                            Create New Group +
+                          </Button>
+                        )}
+                      </Fragment>
+                    )}
+                  </Media>
                 </Link>
               </div>
             </div>

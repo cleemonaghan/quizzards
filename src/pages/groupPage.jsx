@@ -76,9 +76,10 @@ function useGatherResources(groupID) {
 
       //get group quizzes
       res = await getGroupsQuizzes(groupID);
+      console.log(res);
       let groupQuizArr = [];
       for(let i = 0; i<res.length; i++){
-        let temp = await getQuiz(res[i].id);
+        let temp = await getQuiz(res[i].quizID);
         groupQuizArr.push(
           temp
         );
@@ -238,6 +239,9 @@ function displayQuizElements(groupQuizzes) {
     for (let i = 0; i < groupQuizzes.length; i++) {
       console.log(groupQuizzes.length);
       console.log(groupQuizzes[i]);
+      if(groupQuizzes[i]==null){
+        continue;
+      }
       console.log(groupQuizzes[i].id);
       let quiz = groupQuizzes[i];
       //let quiz = await getQuiz(groupQuizzes[i].id); //title,author,ID
@@ -525,9 +529,10 @@ function GroupPage() {
                 event.preventDefault();
                 let target = event.target;
                 console.dir(target);
-                for (let i = 0; i < allQuizzes.length; i++) {
+                for (let i = 0; i < target.length; i++) {
                   // if quiz is checked, add it to the group
                   if (event.target[i].checked) {
+                    console.log(target[i]);
                     let res = await addQuizToGroup(
                       target[i].id,
                       groupID

@@ -251,7 +251,7 @@ class Quizzes extends React.Component {
               </div>
               <div className="col-3 mt-5 mb-4">
                 <div className="d-flex justify-content-end">
-                  <Link to="/createGroup">
+                  <Link to="/createQuiz">
                     <Media
                       queries={{
                         mobile: "(max-width: 574px)",

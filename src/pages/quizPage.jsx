@@ -69,7 +69,6 @@ function useGatherResources(quizID, setModalShow) {
 }
 
 function userButton(quizID, user, quiz, userQuizzes, setModalShow) {
-
   console.log(quizID);
   console.log(user);
   console.log(quiz);
@@ -93,7 +92,6 @@ function userButton(quizID, user, quiz, userQuizzes, setModalShow) {
   if (myQuiz) {
     return (
       <Button variant="danger" size="lg" onClick={() => setModalShow(true)}>
-
         Delete Quiz
       </Button>
     );
@@ -157,11 +155,9 @@ function QuizPage() {
   const [quiz, error, loading, user, userQuizzes, deleteButton] =
     useGatherResources(quizID, setModalShow);
 
-
   if (hasDeleted) {
     return <Navigate to={"/quizzes"} />;
-  }  
-  else if (deleting) {
+  } else if (deleting) {
     return Loading();
   }
   //let deleteButton = userButton(quizID, user, quiz, userQuizzes);
@@ -169,9 +165,13 @@ function QuizPage() {
   return (
     <div className="quiz-page">
       <div className="container">
-        {DeleteQuizWarning(quizID, 
-  deleting, setDeleting, setHasDeleted, modalShow, () =>
-          setModalShow(false)
+        {DeleteQuizWarning(
+          quizID,
+          deleting,
+          setDeleting,
+          setHasDeleted,
+          modalShow,
+          () => setModalShow(false)
         )}
         <div className="mt-5">{deleteButton}</div>
         <Quiz quizID={quizID} />

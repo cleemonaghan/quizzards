@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Media from "react-media";
 import { QuizBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput } from "mdbreact";
@@ -250,10 +251,28 @@ class Quizzes extends React.Component {
               </div>
               <div className="col-3 mt-5 mb-4">
                 <div className="d-flex justify-content-end">
-                  <Link to="/createQuiz">
-                    <Button variant="outline-primary" size="lg">
-                      Create New Quiz +
-                    </Button>{" "}
+                  <Link to="/createGroup">
+                    <Media
+                      queries={{
+                        mobile: "(max-width: 574px)",
+                        other: "(min-width: 575px)",
+                      }}
+                    >
+                      {(matches) => (
+                        <Fragment>
+                          {matches.mobile && (
+                            <Button variant="outline-primary" size="lg">
+                              +
+                            </Button>
+                          )}
+                          {matches.other && (
+                            <Button variant="outline-primary" size="lg">
+                              Create New Quiz +
+                            </Button>
+                          )}
+                        </Fragment>
+                      )}
+                    </Media>
                   </Link>
                 </div>
               </div>

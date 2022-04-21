@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Media from "react-media";
 import { GroupBox, failToLoad, Loading } from "../components";
 import Button from "react-bootstrap/Button";
 import { MDBCol, MDBInput, MDBIcon } from "mdbreact";
@@ -254,10 +255,27 @@ class Groups extends React.Component {
             <div className="col-3 mt-5 mb-4">
               <div className="d-flex justify-content-end">
                 <Link to="/createGroup">
-                  <Button variant="outline-primary" size="lg">
-                    {" "}
-                    Create New Group +
-                  </Button>{" "}
+                  <Media
+                    queries={{
+                      mobile: "(max-width: 574px)",
+                      other: "(min-width: 575px)",
+                    }}
+                  >
+                    {(matches) => (
+                      <Fragment>
+                        {matches.mobile && (
+                          <Button variant="outline-primary" size="lg">
+                            +
+                          </Button>
+                        )}
+                        {matches.other && (
+                          <Button variant="outline-primary" size="lg">
+                            Create New Group +
+                          </Button>
+                        )}
+                      </Fragment>
+                    )}
+                  </Media>
                 </Link>
               </div>
             </div>

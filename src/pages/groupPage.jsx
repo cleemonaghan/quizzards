@@ -152,6 +152,7 @@ function useGatherResources(groupID) {
     userTakenQuizzes,
     allQuizzes,
     groupQuizzes,
+    setGroupQuizzes,
     quizSearchElement,
   ];
 }
@@ -413,6 +414,7 @@ function GroupPage() {
     userTakenQuizzes,
     allQuizzes,
     groupQuizzes,
+    setGroupQuizzes,
     quizSearchElement,
   ] = useGatherResources(groupID);
   console.log(groupQuizzes);
@@ -529,6 +531,7 @@ function GroupPage() {
                 event.preventDefault();
                 let target = event.target;
                 console.dir(target);
+                let updatedGroupQuizzes = groupQuizzes;
                 for (let i = 0; i < target.length; i++) {
                   // if quiz is checked, add it to the group
                   if (event.target[i].checked) {
@@ -539,21 +542,11 @@ function GroupPage() {
                     );
                     console.log("Adding quiz to group:");
                     console.log(res);
+                    let tempQuiz = await getQuiz(target[i].id);
+                    updatedGroupQuizzes.push(tempQuiz);
                   }
                 }
-                // update the members list
-                //let res = await getGroup(params.group.id);
-                console.log("Fetched group:");
-                //console.log(res);
-                //refreshMembers(
-                //  ownerUsername,
-                //  res.members.items,
-                //  res.memberRequests.items,
-                //  setMembers,
-                //</Modal.Body>  setMemberRequests
-                //);
-                let seeQuizzes = await getGroupsQuizzes(groupID);
-                console.log(seeQuizzes);
+                setGroupQuizzes(updatedGroupQuizzes);
                 handleClose();
               }}
             >

@@ -11,13 +11,13 @@ import logo from "../images/logo.png";
 import { Auth } from "aws-amplify";
 
 class Navigation extends React.Component {
-  async signout() {
-    try {
-      await Auth.signOut();
-    } catch (err) {
-      console.log("There was an error signing out: ", err);
-    }
-  }
+  // async signout() {
+  //   try {
+  //     await Auth.signOut();
+  //   } catch (err) {
+  //     console.log("There was an error signing out: ", err);
+  //   }
+  // }
   render() {
     return (
       <Navbar
@@ -40,7 +40,7 @@ class Navigation extends React.Component {
             Quizzards
           </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
             <Nav>
               <Nav.Link href="/">
@@ -63,9 +63,14 @@ class Navigation extends React.Component {
                 <PersonCircle className="mx-1 mb-1" />
                 Profile
               </Nav.Link>
-              <Button variant="light" onClick={this.signout}>
+              {/* <NavDropdown>
+                <NavDropdown.Item onClick={this.signout}>
+                  Log Out
+                </NavDropdown.Item>
+              </NavDropdown> */}
+              {/* <Button variant="light" onClick={this.signout}>
                 Signout
-              </Button>
+              </Button> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

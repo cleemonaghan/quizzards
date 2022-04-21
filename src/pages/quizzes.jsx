@@ -261,12 +261,12 @@ class Quizzes extends React.Component {
                       {(matches) => (
                         <Fragment>
                           {matches.mobile && (
-                            <Button variant="outline-primary" size="lg">
+                            <Button variant="primary" size="lg">
                               +
                             </Button>
                           )}
                           {matches.other && (
-                            <Button variant="outline-primary" size="lg">
+                            <Button variant="primary" size="lg">
                               Create New Quiz +
                             </Button>
                           )}

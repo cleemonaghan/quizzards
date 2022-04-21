@@ -1,10 +1,14 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
-import { getUser, getUserOwnedGroups, getUserOwnedQuizzes } from "../databaseFunctions/users";
+import {
+  getUser,
+  getUserOwnedGroups,
+  getUserOwnedQuizzes,
+} from "../databaseFunctions/users";
 import { getGroup } from "../databaseFunctions/groups";
 import { Link } from "react-router-dom";
-import { QuizBox,  } from "../components";
+import { QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
 
 class Profile extends React.Component {
@@ -24,7 +28,6 @@ class Profile extends React.Component {
       myGroups: null,
       groupElements: null,
     };
-
   }
 
   async componentDidMount() {
@@ -33,7 +36,7 @@ class Profile extends React.Component {
     let userDatabase = await getUser(this.user.username);
     let tempQuizzes = await getUserOwnedQuizzes(userSettings.username);
     let tempGroups = await getUserOwnedGroups(userSettings.username);
-    console.log("hi")
+    console.log("hi");
     console.log(userSettings.username);
     console.log(tempQuizzes);
     console.log(tempGroups);
@@ -59,7 +62,15 @@ class Profile extends React.Component {
     }
   }
 
-  async displayOwnedQuizzes(quizArr){
+  async signout() {
+    try {
+      await Auth.signOut();
+    } catch (err) {
+      console.log("There was an error signing out: ", err);
+    }
+  }
+
+  async displayOwnedQuizzes(quizArr) {
     //if they have made no quizzes return a message
     if (quizArr === undefined || quizArr.length < 1) {
       return <p>${this.state.username} has made no quizzes. </p>;
@@ -82,7 +93,7 @@ class Profile extends React.Component {
     return result;
   }
 
-  async displayOwnedGroups(groupArr){
+  async displayOwnedGroups(groupArr) {
     //if they have made no quizzes return a message
     if (groupArr === undefined || groupArr.length < 1) {
       return <p>${this.state.username} has made no groups. </p>;
@@ -115,9 +126,18 @@ class Profile extends React.Component {
         <div className="container">
           <div className="row align-items-center my-5">
             <h1 className="col-11">Profile</h1>
-            <Link to={{ pathname: "/profileEdit"}}>
-              <Button variant="outline-primary" className="col-1 float-end">Edit Profile </Button>{" "}
+            <Link to={{ pathname: "/profileEdit" }}>
+              <Button variant="outline-primary" className="col-1 float-end">
+                Edit Profile{" "}
+              </Button>{" "}
             </Link>
+            <Button
+              variant="outline-primary"
+              className="col-1 float-end"
+              onClick={this.signout}
+            >
+              Signout
+            </Button>
           </div>
           <div className="row align-items-center mb-2">
             <div className="col-1">
@@ -151,21 +171,20 @@ class Profile extends React.Component {
           </div>
         </div>
         <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">{this.state.name}'s Groups</h1>
-          </div>
-          <div className="row col-9">
-            {/* Display the user's groups */}
-            {this.state.groupElements}
+          <h1 className="font-weight-bold">{this.state.name}'s Groups</h1>
+        </div>
+        <div className="row col-9">
+          {/* Display the user's groups */}
+          {this.state.groupElements}
         </div>
         <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">{this.state.name}'s Quizzes</h1>
-          </div>
-          <div className="row col-9">
-            {/* Display the user's groups */}
-            {this.state.quizElements}
-          </div>
+          <h1 className="font-weight-bold">{this.state.name}'s Quizzes</h1>
+        </div>
+        <div className="row col-9">
+          {/* Display the user's groups */}
+          {this.state.quizElements}
+        </div>
       </div>
-      
     );
   }
 }

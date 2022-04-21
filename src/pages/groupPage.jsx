@@ -153,14 +153,14 @@ function handleStatsToggle(group, quizID, username, indexOfToggle) {
       //group stats
       return (
         <div>
-          <StatsBox group={group} quizID={quizID}/>
+          <StatsBox group={group} quizID={quizID} />
         </div>
       );
     } else if (indexOfToggle === 2) {
       //compare stats
       return (
         <div>
-          <CompareBox group={group} quizID={quizID} username={username}/>
+          <CompareBox group={group} quizID={quizID} username={username} />
         </div>
       );
     } else {
@@ -220,11 +220,17 @@ function generateAddQuizButton(showQuizzes) {
   }
 }
 /* 
+
+ */
+function saveSelectedQuiz(quizObj) {
+  return quizObj.id;
+}
+/* 
 gather quizzes returns all the quizzes in div form
  */
-async function gatherQuizzes(username) {
+async function gatherQuizzes(username, setQuizToAdd) {
   try {
-    let yourQuizzes = await getUserQuizzes(username);
+    let yourQuizzes = await getUserOwnedQuizzes(username);
     let allQuizzes = await listAllQuizzes();
     let takenQuizzes = await getUserQuizzes(username);
     let result = [];
@@ -250,6 +256,7 @@ async function gatherQuizzes(username) {
       </div>
     );
     for (let takenQuiz in takenQuizzes) {
+      //TODO TEST: MIGHT BE quizID not .id
       result.push(
         <div className="col-12">
           <QuizStatsBox
@@ -264,10 +271,10 @@ async function gatherQuizzes(username) {
       <div className="row align-items-center mt-5 mb-2">
         <h1 className="font-weight-bold col-12">Other Quizzes</h1>
       </div>
-    );
+    ); //TODO: saveSelected
     for (let aQuiz in allQuizzes) {
       result.push(
-        <div className="col-12">
+        <div className="col-12" onClick={saveSelectedQuiz(allQuizzes[aQuiz])}>
           <QuizStatsBox
             title={allQuizzes[aQuiz].title}
             author={allQuizzes[aQuiz].ownerUsername}
@@ -319,6 +326,7 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
   const [toggleVal, setToggleVal] = useState(1);
+  const [selectedQuizToAdd, setSelectedQuizToAdd] = useState(null);
   const [quizIDSelected, setQuizIDSelected] = useState(null);
   const [showQuizzes, setShowQuizzes] = useState(false);
   const [
@@ -406,7 +414,9 @@ function GroupPage() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <div>{handleStatsToggle(group, quizIDSelected, user, toggleVal)}</div>
+            <div>
+              {handleStatsToggle(group, quizIDSelected, user, toggleVal)}
+            </div>
           </div>
           <div className="members col-3">
             <div className="row mb-3">
@@ -426,19 +436,18 @@ function GroupPage() {
           </Modal.Header>
           <Modal.Body>
             <Form
-              id="quiz-form"
+              id="add-quizzes-form"
               onSubmit={async (event) => {
                 //addQuizzes
                 event.preventDefault(); ///addQuizToGroup(quizID, groupID)
                 let target = event.target;
-                for (let i = 0; i < quizzes.length; i++) {
-                  // if friend is checked, add them to the group
-                  if (event.target[i].checked) {
-                    let res = await addQuizToGroup(target[i].id, group.groupID);
-                    console.log("Adding quiz to group:");
-                    console.log(res);
-                  }
-                }
+                // if friend is checked, add them to the group
+
+                //let res = await addQuizToGroup(target.id, group.groupID);
+                console.log("Adding quiz to group:");
+                console.log({ target });
+                console.log(target.id);
+
                 // update the quiz list
                 // refreshMembers(
                 //   ownerUsername,
@@ -458,7 +467,7 @@ function GroupPage() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button form="member-form" variant="primary" type="submit">
+            <Button form="add-quizzes-form" variant="primary" type="submit">
               Add Quiz
             </Button>
           </Modal.Footer>

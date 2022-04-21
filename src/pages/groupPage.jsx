@@ -64,16 +64,27 @@ function useGatherResources(groupID) {
       //get the user
       let username = (await Auth.currentAuthenticatedUser()).username;
       setUser(username);
+      console.log(username);
+      console.log(groupID);
       //get the group
       let res = await getGroup(groupID);
       setGroup(res);
+      console.log(res);
       //get the group image
       res = await Storage.get(res.profilePicture);
       setGroupImage(res);
 
       //get group quizzes
       res = await getGroupsQuizzes(groupID);
-      setGroupQuizzes(res);
+      let groupQuizArr = [];
+      for(let i = 0; i<res.length; i++){
+        let temp = await getQuiz(res[i].id);
+        groupQuizArr.push(
+          temp
+        );
+      }
+      console.log(groupQuizArr);
+      setGroupQuizzes(groupQuizArr);
 
       //get user owned Quizzes
       let userOwned = await getUserOwnedQuizzes(username);
@@ -217,19 +228,29 @@ associated with the group in the format to be displayed
 on the left side of the page
  */
 function displayQuizElements(groupQuizzes) {
+  
   console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
+    console.log("returning no quizzes");
     return <p>This group has no quizzes yet</p>;
   } else {
     var result = [];
     for (let i = 0; i < groupQuizzes.length; i++) {
-      let quiz = groupQuizzes[i]; //title,author,ID
+      console.log(groupQuizzes.length);
+      console.log(groupQuizzes[i]);
+      console.log(groupQuizzes[i].id);
+      let quiz = groupQuizzes[i];
+      //let quiz = await getQuiz(groupQuizzes[i].id); //title,author,ID
+      console.log(quiz);
+      // console.log(quiz.title);
+      // console.log(quiz.ownerUsername);
+      // console.log(quiz.id);
       result.push(
         <div className="col-4 mb-4" key={i}>
           <QuizBox
             title={quiz.title}
-            author={quiz.author}
-            groupID={quiz.quizID}
+            author={quiz.ownerUsername}
+            id={quiz.id}
           />
         </div>
       );
@@ -283,10 +304,10 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         result.push(
           <Form.Group
             className="col-12"
-            controlId={yourQuizzes[yourQuiz].title}
+            controlId={yourQuizzes[yourQuiz].id}
             key={yourQuizzes[yourQuiz].title}
           >
-            <Form.Check id={yourQuizzes[yourQuiz].title}></Form.Check>
+            <Form.Check id={yourQuizzes[yourQuiz].id}></Form.Check>
             <QuizStatsBox
               title={yourQuizzes[yourQuiz].title}
               author={yourQuizzes[yourQuiz].ownerUsername}
@@ -308,10 +329,10 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         result.push(
           <Form.Group
             className="col-12"
-            controlId={takenQuizzes[takenQuiz].title}
+            controlId={takenQuizzes[takenQuiz].id}
             key={takenQuizzes[takenQuiz].title}
           >
-            <Form.Check id={takenQuizzes[takenQuiz].title}></Form.Check>
+            <Form.Check id={takenQuizzes[takenQuiz].id}></Form.Check>
             <QuizStatsBox
               title={takenQuizzes[takenQuiz].title}
               author={takenQuizzes[takenQuiz].ownerUsername}
@@ -338,10 +359,10 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
       result.push(
         <Form.Group
           className="col-12"
-          controlId={allQuizzes[aQuiz].title}
+          controlId={allQuizzes[aQuiz].id}
           key={allQuizzes[aQuiz].title}
         >
-          <Form.Check id={aQuiz.title}></Form.Check>
+          <Form.Check id={allQuizzes[aQuiz].id}></Form.Check>
           <QuizStatsBox
             title={allQuizzes[aQuiz].title}
             author={allQuizzes[aQuiz].ownerUsername}
@@ -390,6 +411,10 @@ function GroupPage() {
     groupQuizzes,
     quizSearchElement,
   ] = useGatherResources(groupID);
+  console.log(groupQuizzes);
+  console.log(allQuizzes);
+  console.log(userOwnedQuizzes);
+  console.log(userTakenQuizzes);
   const handleClose = () => {
     setShowQuizzes(false);
   };
@@ -499,14 +524,15 @@ function GroupPage() {
                 //addQuizzes
                 event.preventDefault();
                 let target = event.target;
+                console.dir(target);
                 for (let i = 0; i < allQuizzes.length; i++) {
-                  // if friend is checked, add them to the group
+                  // if quiz is checked, add it to the group
                   if (event.target[i].checked) {
                     let res = await addQuizToGroup(
-                      target[i].id
-                      //params.group.id
+                      target[i].id,
+                      groupID
                     );
-                    console.log("Adding member to group:");
+                    console.log("Adding quiz to group:");
                     console.log(res);
                   }
                 }
@@ -521,6 +547,8 @@ function GroupPage() {
                 //  setMembers,
                 //</Modal.Body>  setMemberRequests
                 //);
+                let seeQuizzes = await getGroupsQuizzes(groupID);
+                console.log(seeQuizzes);
                 handleClose();
               }}
             >

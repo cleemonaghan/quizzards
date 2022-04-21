@@ -257,6 +257,8 @@ export async function recommendGroups(friendList, userGroups) {
 }
 
 export async function addQuizToGroup(quizID, groupID) {
+  console.log(quizID);
+  console.log(groupID);
   let params = {
     quizID: quizID,
     groupID: groupID,

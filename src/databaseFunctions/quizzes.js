@@ -21,6 +21,7 @@ import {
 import {
   getQuiz as getQuizQuery,
   getQuestion as getQuestionQuery,
+  getAnswer as getAnswerQuery,
   getResult as getResultQuery,
   getUserAnswers, listUserAnswers
 } from "../graphql/queries";
@@ -376,6 +377,19 @@ export async function getQuestion(id) {
   });
 
   return res.data.getQuestion;
+}
+
+export async function getAnswer(id) {
+  //if the was no username specified, don't update the user
+  if (!id) return;
+  //update the  a new Post using the form data
+  let result = await API.graphql({
+    query: getAnswerQuery,
+    variables: { id: id },
+  });
+  console.log(result.data.getAnswer);
+
+  return result.data.getAnswer;
 }
 
 export async function getResult(id) {

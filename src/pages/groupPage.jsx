@@ -140,7 +140,8 @@ This function displays the group stats, pick a quiz for stats,
 and compare your stats components based on if a quiz is selected
 and what side the toggle menu is on
  */
-function handleStatsToggle(quizID, indexOfToggle) {
+function handleStatsToggle(group, quizID, username, indexOfToggle) {
+  quizID = "72656443-1a79-443c-92c3-1a5586966df5"; // Need to delete this !!!!!!!--------------------------------
   if (quizID === null) {
     return (
       <div>
@@ -152,14 +153,14 @@ function handleStatsToggle(quizID, indexOfToggle) {
       //group stats
       return (
         <div>
-          <StatsBox />
+          <StatsBox group={group} quizID={quizID}/>
         </div>
       );
     } else if (indexOfToggle === 2) {
       //compare stats
       return (
         <div>
-          <CompareBox />
+          <CompareBox group={group} quizID={quizID} username={username}/>
         </div>
       );
     } else {
@@ -405,7 +406,7 @@ function GroupPage() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <div>{handleStatsToggle(quizIDSelected, toggleVal)}</div>
+            <div>{handleStatsToggle(group, quizIDSelected, user, toggleVal)}</div>
           </div>
           <div className="members col-3">
             <div className="row mb-3">

@@ -10,6 +10,7 @@ import { getGroup } from "../databaseFunctions/groups";
 import { Link } from "react-router-dom";
 import { QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
+import { PencilSquare } from "react-bootstrap-icons";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -125,18 +126,18 @@ class Profile extends React.Component {
       <div className="profile">
         <div className="container">
           <div className="row align-items-center my-5">
-            <h1 className="col-11">Profile</h1>
-            <Link to={{ pathname: "/profileEdit" }}>
-              <Button variant="outline-primary" className="col-1 float-end">
-                Edit Profile{" "}
-              </Button>{" "}
-            </Link>
+            <h1 className="col-11">
+              Profile
+              <Link to={{ pathname: "/profileEdit" }}>
+                <PencilSquare className="p-2" color="black" />{" "}
+              </Link>
+            </h1>
             <Button
-              variant="outline-primary"
+              variant="primary"
               className="col-1 float-end"
               onClick={this.signout}
             >
-              Signout
+              Log Out
             </Button>
           </div>
           <div className="row align-items-center mb-2">

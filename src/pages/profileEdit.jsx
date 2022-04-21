@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { photo as defaultImage } from "../images";
 import { Auth, Storage } from "aws-amplify";
-import {  Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { updateUser, getUser } from "../databaseFunctions/users";
 
@@ -10,7 +10,7 @@ class ProfileEdit extends React.Component {
   constructor() {
     super();
     this.user = null;
-    
+
     this.state = {
       username: "",
       name: "",
@@ -20,7 +20,7 @@ class ProfileEdit extends React.Component {
       profile_pic: null,
       biography: "",
       alert: false,
-      submit:false,
+      submit: false,
     };
 
     this.changedPhoto = false;
@@ -31,7 +31,6 @@ class ProfileEdit extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
-    
   }
 
   async componentDidMount() {
@@ -123,7 +122,7 @@ class ProfileEdit extends React.Component {
           this.tempPhoto = this.defaultImage;
           this.setState({
             profile_pic: this.defaultImageBlob,
-            alert: true
+            alert: true,
           });
         }
       }
@@ -134,17 +133,19 @@ class ProfileEdit extends React.Component {
     event.preventDefault();
     //update the attributes
     await this.updateAttributes();
-    this.setState({submit: true})
+    this.setState({ submit: true });
   }
 
   displayAlert() {
     if (this.state.alert) {
       return (
-        <Alert variant="danger" onClose={() => this.setState({alert: false})} dismissible>
+        <Alert
+          variant="danger"
+          onClose={() => this.setState({ alert: false })}
+          dismissible
+        >
           <Alert.Heading>Oh snap! That photo is too large!</Alert.Heading>
-          <p>
-            Try using a smaller photo 
-          </p>
+          <p>Try using a smaller photo</p>
         </Alert>
       );
     }
@@ -158,7 +159,7 @@ class ProfileEdit extends React.Component {
     }
     return (
       <div className="profile">
-        <div className="container">
+        <div className="container mt-5">
           <Form onSubmit={this.handleSubmit}>
             {/* Username */}
             <Form.Group className="mb-3" controlId="username">

@@ -1,5 +1,6 @@
 import { Auth, Storage } from "aws-amplify";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
+import Media from "react-media";
 import { Col, Container, Row, Stack, Card } from "react-bootstrap";
 import { X } from "react-bootstrap-icons";
 import { failToLoad, Loading } from "../components";
@@ -84,7 +85,7 @@ function answerBox(
             className="rbq_answer_text text-center"
             style={{
               color: "#FFFFFF",
-              fontSize: "30px",
+              fontSize: "20px",
               fontWeight: fontWeight,
             }}
           >
@@ -121,9 +122,42 @@ function questionSection(
       <Card className="bg-dark text-white text-center mb-4">
         <Card.Img src={background} alt={"Question " + index + " Image"} />
         <Card.ImgOverlay>
-          <span className="rbq_question_overlap_text" style={{ fontSize: 80 }}>
-            {question.name}
-          </span>
+          <Media
+            queries={{
+              mobile: "(max-width: 574px)",
+              tablet: "(min-width: 575px) and (max-width: 999px)",
+              desktop: "(min-width: 1000px)",
+            }}
+          >
+            {(matches) => (
+              <Fragment>
+                {matches.mobile && (
+                  <span
+                    className="rbq_question_overlap_text"
+                    style={{ fontSize: 40 }}
+                  >
+                    {question.name}
+                  </span>
+                )}
+                {matches.tablet && (
+                  <span
+                    className="rbq_question_overlap_text"
+                    style={{ fontSize: 60 }}
+                  >
+                    {question.name}
+                  </span>
+                )}
+                {matches.desktop && (
+                  <span
+                    className="rbq_question_overlap_text"
+                    style={{ fontSize: 80 }}
+                  >
+                    {question.name}
+                  </span>
+                )}
+              </Fragment>
+            )}
+          </Media>
         </Card.ImgOverlay>
       </Card>
 
@@ -479,16 +513,54 @@ function Quiz({ quizID }) {
         <div className="rbq_inner_quiz_container">
           <h1 style={{ fontWeight: "bold" }}>{quiz.title}</h1>
           <p> {quiz.description} </p>
-          <div className="row">
-            <img
-              className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
-              alt={quiz.owner_picture}
-              src={quiz.owner_picture}
-            />
-            <p className="col-5 my-auto" style={{ fontSize: "25px" }}>
-              by <strong>{quiz.ownerUsername}</strong>
-            </p>
-          </div>
+          <Media
+            queries={{
+              mobile: "(max-width: 574px)",
+              tablet: "(min-width: 575px) and (max-width: 999px)",
+              desktop: "(min-width: 1000px)",
+            }}
+          >
+            {(matches) => (
+              <Fragment>
+                {matches.mobile && (
+                  <div className="row">
+                    <img
+                      className="img-fluid rounded-circle col-3 ms-4 mt-0 mb-2 px-3 py-3"
+                      alt={quiz.owner_picture}
+                      src={quiz.owner_picture}
+                    />
+                    <p className="col-5 my-auto" style={{ fontSize: "20px" }}>
+                      by <strong>{quiz.ownerUsername}</strong>
+                    </p>
+                  </div>
+                )}
+                {matches.tablet && (
+                  <div className="row">
+                    <img
+                      className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
+                      alt={quiz.owner_picture}
+                      src={quiz.owner_picture}
+                    />
+                    <p className="col-5 my-auto" style={{ fontSize: "25px" }}>
+                      by <strong>{quiz.ownerUsername}</strong>
+                    </p>
+                  </div>
+                )}
+                {matches.desktop && (
+                  <div className="row">
+                    <img
+                      className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
+                      alt={quiz.owner_picture}
+                      src={quiz.owner_picture}
+                    />
+                    <p className="col-5 my-auto" style={{ fontSize: "25px" }}>
+                      by <strong>{quiz.ownerUsername}</strong>
+                    </p>
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </Media>
 
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {

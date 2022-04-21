@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 
-function QuizStatsBox({ title, author, id }) {
+function QuizStatsBox({ title, author, id,owner }) {
   return (
     <div className="quiz-box mb-4">
       <Button className="p-0" style={{ width: "100%" }} variant="outline-dark">

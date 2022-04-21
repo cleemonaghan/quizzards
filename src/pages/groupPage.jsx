@@ -227,7 +227,7 @@ This function creates and returns the list of quizzes
 associated with the group in the format to be displayed
 on the left side of the page
  */
-function displayQuizElements(groupQuizzes) {
+function displayQuizElements(groupQuizzes,username,owner) {
   console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
     console.log("returning no quizzes");
@@ -250,6 +250,7 @@ function displayQuizElements(groupQuizzes) {
             title={quiz.title}
             author={quiz.ownerUsername}
             id={quiz.id}
+            owner = {username==owner}
           />
         </div>
       );
@@ -467,7 +468,7 @@ function GroupPage() {
 
               {generateAddQuizButton(setShowQuizzes)}
             </div>
-            {displayQuizElements(groupQuizzes)}
+            {displayQuizElements(groupQuizzes,group.ownerUsername,user)}
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">

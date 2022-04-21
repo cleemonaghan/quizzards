@@ -38,7 +38,7 @@ function useGatherResources(quizID, members) {
   }
   useEffect(() => {
     getInfo();
-  }, []);
+  }, [quizID]);
 
   return [memberResults, quiz, error, loading];
 }

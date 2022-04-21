@@ -45,7 +45,7 @@ function useGatherResources(quizID, username) {
   }
   useEffect(() => {
     getInfo();
-  }, []);
+  }, [quizID]);
 
   return [userResult, quiz, error, loading];
 }
@@ -112,8 +112,8 @@ function compareMembers(
   } else if (friendResult === null) {
     return <div>{friendUsername} has not taken this quiz yet.</div>;
   } else {
-    let result1 = 0;
-    let result2 = 0;
+    let result1 = "Unknown";
+    let result2 = "Unknown";
     for (let i = 0; i < quiz.results.items.length; i++) {
       if (quiz.results.items[i].id === userResult.result) {
         result1 = quiz.results.items[i].name;

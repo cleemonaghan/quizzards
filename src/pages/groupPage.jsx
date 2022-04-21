@@ -226,22 +226,16 @@ associated with the group in the format to be displayed
 on the left side of the page
  */
 function displayQuizElements(groupQuizzes, setQuizIDSelectedForStats) {
-  console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
-    console.log("returning no quizzes");
     return <p>This group has no quizzes yet</p>;
   } else {
     var result = [];
     for (let i = 0; i < groupQuizzes.length; i++) {
-      console.log(groupQuizzes.length);
-      console.log(groupQuizzes[i]);
       if (groupQuizzes[i] == null) {
         continue;
       }
-      console.log(groupQuizzes[i].id);
       let quiz = groupQuizzes[i];
       //let quiz = await getQuiz(groupQuizzes[i].id); //title,author,ID
-      console.log(quiz);
       result.push(
         <div
           className="col-auto"
@@ -293,7 +287,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
     let yourQuizzes = ownedQuizzes;
     let allQuizzes = userAllQuizzes;
     let takenQuizzes = userTakenQuizzes;
-    console.log(allQuizzes);
     let result = [];
 
     if (yourQuizzes.length > 0) {
@@ -381,7 +374,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         // </div>
       );
     }
-    console.log(result);
     return result;
   } catch (e) {
     //there was an error, so print it
@@ -415,10 +407,6 @@ function GroupPage() {
     setGroupQuizzes,
     quizSearchElement,
   ] = useGatherResources(groupID);
-  console.log(groupQuizzes);
-  console.log(allQuizzes);
-  console.log(userOwnedQuizzes);
-  console.log(userTakenQuizzes);
   const handleClose = () => {
     setShowQuizzes(false);
   };
@@ -532,7 +520,6 @@ function GroupPage() {
                 //addQuizzes
                 event.preventDefault();
                 let target = event.target;
-                console.dir(target);
                 let updatedGroupQuizzes = groupQuizzes;
                 for (let i = 0; i < target.length; i++) {
                   // if quiz is checked, add it to the group
@@ -540,7 +527,6 @@ function GroupPage() {
                     if(groupQuizzesID.has(target[i].id)){
                       continue;
                     }
-                    console.log(target[i]);
                     let res = await addQuizToGroup(target[i].id, groupID);
                     console.log("Adding quiz to group:");
                     console.log(res);

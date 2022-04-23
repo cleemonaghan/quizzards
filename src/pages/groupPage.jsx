@@ -121,8 +121,6 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(username);
       setUserGroups(res);
 
-
-
       console.log(userOwned);
       console.log(userTaken);
       console.log(allQuizzesArr);
@@ -137,7 +135,7 @@ function useGatherResources(groupID) {
       }
     } catch (e) {
       //there was an error, so save it
-      console.log(e)
+      console.log(e);
       setError(e);
     } finally {
       //we are finished loading, so set loading to false
@@ -417,8 +415,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
   }
 }
 
-
-
 /** This function loads a group page and returns the formatted html to display the page.
  *
  * @returns the group page with the specified ID
@@ -443,7 +439,7 @@ function GroupPage() {
     groupQuizzes,
     setGroupQuizzes,
     quizSearchElement,
-    isMember, 
+    isMember,
     setIsMember,
   ] = useGatherResources(groupID);
   const handleClose = () => {
@@ -486,7 +482,7 @@ function GroupPage() {
         <div className="row">
           <div className="quizzes col-3">
             <div className="row mb-3">
-              <DropdownButton
+              {/* <DropdownButton
                 className="col-auto"
                 id="dropdown-basic-button"
                 title="Filter"
@@ -496,7 +492,7 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
                 <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
                 <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
-              </DropdownButton>
+              </DropdownButton> */}
 
               {generateAddQuizButton(setShowQuizzes, isMember)}
             </div>
@@ -547,7 +543,11 @@ function GroupPage() {
                 x
               </Button>{" "}
             </div>
-            <MembersList group={group} isMember = {isMember} setMembership = {setIsMember}/>
+            <MembersList
+              group={group}
+              isMember={isMember}
+              setMembership={setIsMember}
+            />
           </div>
         </div>
       </div>

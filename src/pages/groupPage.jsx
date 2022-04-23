@@ -451,7 +451,6 @@ function GroupPage() {
   //TODO: do i need await here?
   //console.log(userGroups);
   let userB = userButton(groupID, user, userGroups);
-  console.log(error)
   if (error) return failToLoad();
   return loading ? (
     Loading()

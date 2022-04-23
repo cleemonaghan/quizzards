@@ -14,6 +14,7 @@ import {
   getMemberRequests,
   listMemberRequests,
   listGroups,
+  listQuizToGroups,
 } from "../graphql/queries";
 
 import { getUser } from "./users";
@@ -280,13 +281,34 @@ export async function getGroupsQuizzes(groupID) {
 }
 
 export async function deleteQuizFromGroup(qID,gID){
+  console.log(gID);
+  console.log(qID);
   let params = {
-    quizID: qID,
-    groupID: gID,
+    and: [
+      {
+        quizID: {
+          eq: qID, // filter userID == memberID
+        },
+      },
+      {
+        groupID: {
+          eq: gID, // filter groupID == groupID
+        },
+      },
+    ],
   };
+
+  let quizToGroupID = await API.graphql({
+    query: listQuizToGroups,
+    variables: {filter: params},
+  });
+  console.log(quizToGroupID);
+  if(quizToGroupID.data.listQuizToGroups.items.length == 0 || quizToGroupID.data.listQuizToGroups.items[0] == null){
+    return null;
+  }
   let res = await API.graphql({
     query: deleteQuizToGroup,
-    variables: { input: params },
+    variables: { input: {id:quizToGroupID.data.listQuizToGroups.items[0].id} },
   });
   return res;
 }

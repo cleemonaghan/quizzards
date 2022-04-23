@@ -3,15 +3,21 @@ import { Card, Button } from "react-bootstrap";
 import {
   Trash
 } from "react-bootstrap-icons";
-import { deleteQuizFromGroup } from "../databaseFunctions/groups";
+import { deleteQuizFromGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
 
 async function removeQuiz(quizID, groupID, currSelectedQuiz,setQuizIDSelectedForStats,groupQuizzes,setGroupQuizzes){
   console.log("hi");
   console.log(quizID);
   console.log(groupID);
-  //delete the quiz from the group
-  let res = await deleteQuizFromGroup(quizID, groupID);
+  console.log(quizID == currSelectedQuiz);
 
+  let updatedGroupQuizzes = [];
+  //delete the quiz from the group
+  let groupQ = await getGroupsQuizzes(groupID);
+  console.log(groupQ);
+  let res = await deleteQuizFromGroup(quizID, groupID);
+  groupQ = await getGroupsQuizzes(groupID);
+  console.log(groupQ);
   //if the quiz is currently selected to look at stats, update the current id to null
   if(quizID == currSelectedQuiz){
     setQuizIDSelectedForStats(null);
@@ -19,12 +25,9 @@ async function removeQuiz(quizID, groupID, currSelectedQuiz,setQuizIDSelectedFor
 
   //remove the quiz from the list of current group Quizzes and update the group list
   let index;
-  let updatedGroupQuizzes = groupQuizzes;
   for(let i = 0; i<groupQuizzes.length; i++){
-    if(groupQuizzes[i].id == quizID){
-      index = i;
-      updatedGroupQuizzes = groupQuizzes.splice(index,1);
-      break;
+    if(groupQuizzes[i].id != quizID){
+      updatedGroupQuizzes.push(groupQuizzes[i]);
     }
   }
   console.log(updatedGroupQuizzes);

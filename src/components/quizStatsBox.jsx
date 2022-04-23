@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { TrashFill, StarFill } from "react-bootstrap-icons";
 import { deleteQuizFromGroup } from "../databaseFunctions/groups";
+import { photo2 } from "../images";
 
 async function removeQuiz(
   quizID,
@@ -63,7 +64,7 @@ function QuizStatsBox({
           );
         }}
       >
-        <TrashFill className="mx-1 mb-1" />
+        <TrashFill className="mb-1" /> Remove from group
       </Button>
     );
   }
@@ -76,9 +77,6 @@ function QuizStatsBox({
           bg="dark"
           text="white"
         >
-          <div style={{ position: "absolute", top: 1, right: 5 }}>
-            <StarFill color="#feca1d" />
-          </div>
           <Card.Body className="align-items-center d-flex justify-content-center">
             <div>
               <Card.Title>
@@ -87,6 +85,20 @@ function QuizStatsBox({
               <Card.Text>{"By: " + author}</Card.Text>
             </div>
           </Card.Body>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+              width: "30px",
+            }}
+          >
+            <img
+              className="img-fluid rounded-circle my-auto"
+              src={photo2}
+              alt=""
+            />
+          </div>
         </Card>
       </Button>
       {deleteIcon}

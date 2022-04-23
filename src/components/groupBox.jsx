@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import Media from "react-media";
 import { Card, CardImg } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { StarFill } from "react-bootstrap-icons";
 import { photo2 } from "../images";
 
 function GroupBox({ link, name, groupID }) {
@@ -58,7 +57,6 @@ function GroupBox({ link, name, groupID }) {
               width: "30px",
             }}
           >
-            {/* <StarFill color="#feca1d" /> */}
             <img
               className="img-fluid rounded-circle my-auto"
               src={photo2}

@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { StarFill } from "react-bootstrap-icons";
 import { photo2 } from "../images";
 
 function QuizBox({ title, author, id }) {
@@ -30,7 +29,6 @@ function QuizBox({ title, author, id }) {
               width: "30px",
             }}
           >
-            {/* <StarFill color="#feca1d" /> */}
             <img
               className="img-fluid rounded-circle my-auto"
               src={photo2}

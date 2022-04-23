@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Media from "react-media";
 import { Button } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import {
@@ -80,13 +81,55 @@ class Profile extends React.Component {
       var result = [];
       for (let i = 0; i < quizArr.length; i++) {
         result.push(
-          <div className="col-4" key={i}>
-            <QuizBox
-              title={quizArr[i].title}
-              author={quizArr[i].ownerUsername}
-              id={quizArr[i].id}
-            />
-          </div>
+          <Media
+            queries={{
+              mobile: "(max-width: 575px)",
+              tablet: "(min-width: 576px) and (max-width: 999px)",
+              wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+              desktop: "(min-width: 1200px)",
+            }}
+          >
+            {(matches) => (
+              <Fragment>
+                {matches.mobile && (
+                  <div className="col-12" key={i}>
+                    <QuizBox
+                      title={quizArr[i].title}
+                      author={quizArr[i].ownerUsername}
+                      id={quizArr[i].id}
+                    />
+                  </div>
+                )}
+                {matches.tablet && (
+                  <div className="col-6" key={i}>
+                    <QuizBox
+                      title={quizArr[i].title}
+                      author={quizArr[i].ownerUsername}
+                      id={quizArr[i].id}
+                    />
+                  </div>
+                )}
+                {matches.wideTablet && (
+                  <div className="col-4" key={i}>
+                    <QuizBox
+                      title={quizArr[i].title}
+                      author={quizArr[i].ownerUsername}
+                      id={quizArr[i].id}
+                    />
+                  </div>
+                )}
+                {matches.desktop && (
+                  <div className="col-3" key={i}>
+                    <QuizBox
+                      title={quizArr[i].title}
+                      author={quizArr[i].ownerUsername}
+                      id={quizArr[i].id}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </Media>
         );
       }
       console.log(result);
@@ -107,13 +150,55 @@ class Profile extends React.Component {
         console.log(group);
         let groupImage = await Storage.get(group.profilePicture);
         result.push(
-          <div className="col-4" key={i}>
-            <GroupBox
-              link={groupImage}
-              name={group.name}
-              groupID={groupArr[i].groupID}
-            />
-          </div>
+          <Media
+            queries={{
+              mobile: "(max-width: 575px)",
+              tablet: "(min-width: 576px) and (max-width: 999px)",
+              wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+              desktop: "(min-width: 1200px)",
+            }}
+          >
+            {(matches) => (
+              <Fragment>
+                {matches.mobile && (
+                  <div className="col-12" key={i}>
+                    <GroupBox
+                      link={groupImage}
+                      name={group.name}
+                      groupID={groupArr[i].groupID}
+                    />
+                  </div>
+                )}
+                {matches.tablet && (
+                  <div className="col-6" key={i}>
+                    <GroupBox
+                      link={groupImage}
+                      name={group.name}
+                      groupID={groupArr[i].groupID}
+                    />
+                  </div>
+                )}
+                {matches.wideTablet && (
+                  <div className="col-4" key={i}>
+                    <GroupBox
+                      link={groupImage}
+                      name={group.name}
+                      groupID={groupArr[i].groupID}
+                    />
+                  </div>
+                )}
+                {matches.desktop && (
+                  <div className="col-3" key={i}>
+                    <GroupBox
+                      link={groupImage}
+                      name={group.name}
+                      groupID={groupArr[i].groupID}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </Media>
         );
       }
       console.log(result);
@@ -126,64 +211,184 @@ class Profile extends React.Component {
       <div className="profile">
         <div className="container">
           <div className="row align-items-center my-5">
-            <h1 className="col-11">
+            <h1 className="col-8">
               Profile
               <Link to={{ pathname: "/profileEdit" }}>
-                <PencilSquare className="p-2" color="black" />{" "}
+                <Media
+                  queries={{
+                    mobile: "(max-width: 575px)",
+                    other: "(min-width: 576px)",
+                  }}
+                >
+                  {(matches) => (
+                    <Fragment>
+                      {matches.mobile && (
+                        <PencilSquare className="p-1" color="black" />
+                      )}
+                      {matches.other && (
+                        <PencilSquare className="p-2" color="black" />
+                      )}
+                    </Fragment>
+                  )}
+                </Media>
               </Link>
             </h1>
-            <Button
-              variant="primary"
-              className="col-1 float-end"
-              onClick={this.signout}
-            >
-              Log Out
-            </Button>
+            <div className="col-4 d-flex justify-content-end">
+              <Button
+                variant="primary"
+                // className="col-auto d-flex justify-content-end"
+                onClick={this.signout}
+              >
+                Log Out
+              </Button>
+            </div>
           </div>
           <div className="row align-items-center mb-2">
-            <div className="col-1">
-              <img
-                id="profile_pic_display"
-                className="img-fluid rounded-circle my-auto"
-                src={this.state.profile_pic}
-                alt=""
-              />
-            </div>
+            <Media
+              queries={{
+                mobile: "(max-width: 575px)",
+                other: "(min-width: 576px)",
+              }}
+            >
+              {(matches) => (
+                <Fragment>
+                  {matches.mobile && (
+                    <div className="col-2">
+                      <img
+                        id="profile_pic_display"
+                        className="img-fluid rounded-circle my-auto"
+                        src={this.state.profile_pic}
+                        alt=""
+                      />
+                    </div>
+                  )}
+                  {matches.other && (
+                    <div className="col-1">
+                      <img
+                        id="profile_pic_display"
+                        className="img-fluid rounded-circle my-auto"
+                        src={this.state.profile_pic}
+                        alt=""
+                      />
+                    </div>
+                  )}
+                </Fragment>
+              )}
+            </Media>
+
             <h3 className="font-weight-light col-3 my-auto">
               {this.state.username}
             </h3>
           </div>
 
-          <div className="row">
-            <h4 className="col-1">Name:</h4>
-            <h4 className="col-11 ps-4">{this.state.name}</h4>
+          <Media
+            queries={{
+              mobile: "(max-width: 575px)",
+              tablet: "(min-width: 576px) and (max-width: 999px)",
+              wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+              desktop: "(min-width: 1200px)",
+            }}
+          >
+            {(matches) => (
+              <Fragment>
+                {matches.mobile && (
+                  <div>
+                    <div className="row">
+                      <h4 className="col-3">Name:</h4>
+                      <h4 className="col-9 ps-3">{this.state.name}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-3">Email:</h4>
+                      <h4 className="col-9 ps-3">{this.state.email}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-3">Birthdate:</h4>
+                      <h4 className="col-9 ps-3">{this.state.birthdate}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-3">Bio:</h4>
+                      <h4 className="col-9 ps-3">{this.state.biography}</h4>
+                    </div>
+                  </div>
+                )}
+                {matches.tablet && (
+                  <div>
+                    <div className="row">
+                      <h4 className="col-2">Name:</h4>
+                      <h4 className="col-10 ps-2">{this.state.name}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-2">Email:</h4>
+                      <h4 className="col-10 ps-2">{this.state.email}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-2">Birthdate:</h4>
+                      <h4 className="col-10 ps-2">{this.state.birthdate}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-2">Bio:</h4>
+                      <h4 className="col-10 ps-2">{this.state.biography}</h4>
+                    </div>{" "}
+                  </div>
+                )}
+                {matches.wideTablet && (
+                  <div>
+                    <div className="row">
+                      <h4 className="col-1">Name:</h4>
+                      <h4 className="col-11 ps-5">{this.state.name}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Email:</h4>
+                      <h4 className="col-11 ps-5">{this.state.email}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Birthdate:</h4>
+                      <h4 className="col-11 ps-5">{this.state.birthdate}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Bio:</h4>
+                      <h4 className="col-11 ps-5">{this.state.biography}</h4>
+                    </div>{" "}
+                  </div>
+                )}
+                {matches.desktop && (
+                  <div>
+                    <div className="row">
+                      <h4 className="col-1">Name:</h4>
+                      <h4 className="col-11 ps-4">{this.state.name}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Email:</h4>
+                      <h4 className="col-11 ps-4">{this.state.email}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Birthdate:</h4>
+                      <h4 className="col-11 ps-4">{this.state.birthdate}</h4>
+                    </div>
+                    <div className="row">
+                      <h4 className="col-1">Bio:</h4>
+                      <h4 className="col-11 ps-4">{this.state.biography}</h4>
+                    </div>{" "}
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </Media>
+
+          <div className="row align-items-center m-0 mt-5 mb-2">
+            <h1 className="font-weight-bold">{this.state.name}'s Groups</h1>
           </div>
-          <div className="row">
-            <h4 className="col-1">Email:</h4>
-            <h4 className="col-11 ps-4">{this.state.email}</h4>
+          <div className="row col-12 m-0">
+            {/* Display the user's groups */}
+            {this.state.groupElements}
           </div>
-          <div className="row">
-            <h4 className="col-1">Birthdate:</h4>
-            <h4 className="col-11 ps-4">{this.state.birthdate}</h4>
+          <div className="row align-items-center m-0 mt-5 mb-2">
+            <h1 className="font-weight-bold">{this.state.name}'s Quizzes</h1>
           </div>
-          <div className="row">
-            <h4 className="col-1">Bio:</h4>
-            <h4 className="col-11 ps-4">{this.state.biography}</h4>
+          <div className="row col-12 m-0">
+            {/* Display the user's groups */}
+            {this.state.quizElements}
           </div>
-        </div>
-        <div className="row align-items-center mt-5 mb-2">
-          <h1 className="font-weight-bold">{this.state.name}'s Groups</h1>
-        </div>
-        <div className="row col-9">
-          {/* Display the user's groups */}
-          {this.state.groupElements}
-        </div>
-        <div className="row align-items-center mt-5 mb-2">
-          <h1 className="font-weight-bold">{this.state.name}'s Quizzes</h1>
-        </div>
-        <div className="row col-9">
-          {/* Display the user's groups */}
-          {this.state.quizElements}
         </div>
       </div>
     );

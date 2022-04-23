@@ -497,13 +497,10 @@ export async function fetchUserAnswer(username, quizID) {
       ],
     },
   };
-  console.log("fetchUserAnswer")
-  console.log(params);
   let res = await API.graphql({
     query: listUserAnswers,
     variables: params,
   });
-  console.log(res);
   return res.data.listUserAnswers.items;
 }
 
@@ -535,8 +532,6 @@ export async function createUserAnswer(username, quizID, answers, result) {
       query: updateUserAnswersMutation,
       variables: { input: inputs },
     });
-    
-    console.log(res.data);
     return res.data.updateUserAnswers;
   }
   else {
@@ -554,7 +549,6 @@ export async function createUserAnswer(username, quizID, answers, result) {
       query: createUserAnswersMutation,
       variables: { input: inputs },
     });
-    console.log(res.data);
     return res.data.createUserAnswers;
   }
 }

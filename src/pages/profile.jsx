@@ -75,7 +75,7 @@ class Profile extends React.Component {
   async displayOwnedQuizzes(quizArr) {
     //if they have made no quizzes return a message
     if (quizArr === undefined || quizArr.length < 1) {
-      return <p>${this.state.username} has made no quizzes. </p>;
+      return <p>{this.state.username} has made no quizzes. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
@@ -140,7 +140,7 @@ class Profile extends React.Component {
   async displayOwnedGroups(groupArr) {
     //if they have made no quizzes return a message
     if (groupArr === undefined || groupArr.length < 1) {
-      return <p>${this.state.username} has made no groups. </p>;
+      return <p>{this.state.username} has made no groups. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];

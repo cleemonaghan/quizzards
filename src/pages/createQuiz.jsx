@@ -11,6 +11,7 @@ import {
   Container,
   OverlayTrigger,
   Tooltip,
+  Modal,
 } from "react-bootstrap";
 import { Auth, Storage } from "aws-amplify";
 import { QuizQuestion, QuizResult, QuizAnswer, Loading } from "../components";
@@ -31,6 +32,8 @@ class CreateQuiz extends React.Component {
       validated: false,
       submit: false,
       isSubmitting: false,
+      show: false,
+      event: null,
       results: [{ name: "", img: null }],
       questions: [
         { name: "", img: null, answers: [{ name: "", weights: [0] }] },
@@ -54,6 +57,7 @@ class CreateQuiz extends React.Component {
     this.addAnswer = this.addAnswer.bind(this);
     this.removeAnswer = this.removeAnswer.bind(this);
     this.updateAnswer = this.updateAnswer.bind(this);
+    //this.confirmSubmission = this.confirmSubmission.bind(this);
   }
 
   async componentDidMount() {
@@ -84,7 +88,7 @@ class CreateQuiz extends React.Component {
   async publishQuiz() {
     console.log("Publishing Quiz");
 
-    console.log(this.state)
+    console.log(this.state);
 
     let quizID = await createQuiz(
       this.state.quizName,
@@ -235,28 +239,24 @@ class CreateQuiz extends React.Component {
     weights.splice(resultIndex, 1, newWeight);
   }
 
-  async handleSubmit(event) {
-    const form = event.currentTarget;
-    event.preventDefault();
+  handleClose = () => this.setState({ show: false });
+  handleShow = () => this.setState({ show: true });
+  setEvent = (event) => this.setState({ event: event });
+
+  async handleSubmit() {
     console.log("Here");
-    this.setState({ validated: true });
-    if (form.checkValidity() === false) {
-      // if they have not filled all the fields, don't let them publish the quiz
-      console.log("Failed to submit");
-      event.stopPropagation();
-    } else {
-      //if they did properly fill out the quiz, let them publish the quiz
-      this.setState({ isSubmitting: true });
-      await this.publishQuiz();
-      this.setState({ submit: true, isSubmitting: false });
-    }
+
+    //if they did properly fill out the quiz, let them publish the quiz
+    this.setState({ isSubmitting: true });
+    await this.publishQuiz();
+    this.setState({ submit: true, isSubmitting: false });
   }
 
   render() {
     if (this.state.submit) {
       return <Navigate to={"/quizzes"} />;
     }
-    if( this.state.isSubmitting) {
+    if (this.state.isSubmitting) {
       return Loading();
     }
 
@@ -267,7 +267,19 @@ class CreateQuiz extends React.Component {
           <Form
             noValidate
             validated={this.state.validated}
-            onSubmit={this.handleSubmit}
+            onSubmit={(event) => {
+              event.preventDefault();
+              const form = event.currentTarget;
+              this.setState({ validated: true });
+              if (form.checkValidity() === false) {
+                // if they have not filled all the fields, don't let them publish the quiz
+                console.log("Failed to submit");
+                event.stopPropagation();
+              } else {
+                this.handleShow();
+                this.setEvent(event);
+              }
+            }}
           >
             <Container>
               <Row>
@@ -466,6 +478,30 @@ class CreateQuiz extends React.Component {
               Publish Quiz
             </Button> */}
           </Form>
+
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Quiz Creation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Once you create this quiz, it cannot be editted anymore. Are you
+              sure you want to continue?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                No
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.handleClose();
+                  this.handleSubmit();
+                }}
+              >
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       </div>
     );

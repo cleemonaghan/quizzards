@@ -111,7 +111,7 @@ export async function getGroup(id) {
 
 export async function getGroups() {
   let params = {
-    limit: 20,
+    limit: 100,
     //filter: {
     // Visibility: "public",
     //},
@@ -231,7 +231,7 @@ export async function recommendGroups(friendList, userGroups) {
 
   let listAllGroups = await API.graphql({
     query: listGroups,
-    variables: { limit: 30 },
+    variables: { limit: 100 },
   });
   listAllGroups = shuffleArray(listAllGroups.data.listGroups.items);
 

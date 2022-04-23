@@ -303,7 +303,7 @@ export async function getQuiz(id) {
 export async function listAllQuizzes() {
   //first find the memberRequest id
   let params = {
-    limit: 20,
+    limit: 100,
   };
   let result = await API.graphql({
     query: listQuizzesCustom,
@@ -318,7 +318,7 @@ export async function listAllQuizzes() {
 export async function listQuizzesOfGroup(username, groupID) {
   //first find the memberRequest id
   let params = {
-    limit: 20,
+    limit: 100,
     filter: {
       and: [
         {
@@ -481,7 +481,7 @@ export async function deleteResult(id) {
 // ---- User Answers to Quizzes Section ---- //
 export async function fetchUserAnswer(username, quizID) {
   let params = {
-    limit: 5,
+    limit: 100,
     filter: {
       and: [
         {
@@ -497,10 +497,13 @@ export async function fetchUserAnswer(username, quizID) {
       ],
     },
   };
+  console.log("fetchUserAnswer")
+  console.log(params);
   let res = await API.graphql({
     query: listUserAnswers,
     variables: params,
   });
+  console.log(res);
   return res.data.listUserAnswers.items;
 }
 
@@ -516,9 +519,12 @@ export async function fetchUserAnswer(username, quizID) {
 export async function createUserAnswer(username, quizID, answers, result) {
   //query the DB to see if a User Answer already exists
   let fetched = await fetchUserAnswer(username, quizID);
+  console.log("Existing Answers");
+  console.log(fetched);
 
   //if there is already a User Answer, update it with the new data
   if (fetched.length > 0) {
+    console.log("Updating Answer");
     let id = fetched[0].id;
     let inputs = {
       id: id,
@@ -529,9 +535,12 @@ export async function createUserAnswer(username, quizID, answers, result) {
       query: updateUserAnswersMutation,
       variables: { input: inputs },
     });
+    
+    console.log(res.data);
     return res.data.updateUserAnswers;
   }
   else {
+    console.log("Creating Answer");
     // if there is not a User Answer for that quiz in the DB, create a new one
     let inputs = {
       username: username,
@@ -545,6 +554,7 @@ export async function createUserAnswer(username, quizID, answers, result) {
       query: createUserAnswersMutation,
       variables: { input: inputs },
     });
+    console.log(res.data);
     return res.data.createUserAnswers;
   }
 }

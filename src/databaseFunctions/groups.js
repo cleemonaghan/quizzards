@@ -14,7 +14,7 @@ import {
   getMemberRequests,
   listMemberRequests,
   listGroups,
-  listQuizToGroups
+  listQuizToGroups,
 } from "../graphql/queries";
 
 import { getUser } from "./users";
@@ -281,27 +281,31 @@ export async function getGroupsQuizzes(groupID) {
 }
 
 export async function deleteQuizFromGroup(qID,gID){
+  console.log(gID);
+  console.log(qID);
   let params = {
-    limit: 100,
-    filter: {
-      and: [
-        {
-          quizID: {
-            eq: qID, // filter ownerUsername == username
-          },
-        } ,
+    and: [
+      {
+        quizID: {
+          eq: qID, // filter userID == memberID
+        },
+      },
       {
         groupID: {
           eq: gID, // filter groupID == groupID
         },
       },
-      ],
-    },
+    ],
   };
-  console.log("Input");
-  console.log(params);
 
-  //fetch the quizToGroup connection ID
+  let quizToGroupID = await API.graphql({
+    query: listQuizToGroups,
+    variables: {filter: params},
+  });
+  console.log(quizToGroupID);
+  if(quizToGroupID.data.listQuizToGroups.items.length == 0 || quizToGroupID.data.listQuizToGroups.items[0] == null){
+    return null;
+  }
   let res = await API.graphql({
     query: listQuizToGroups,
     variables: params,
@@ -314,7 +318,7 @@ export async function deleteQuizFromGroup(qID,gID){
   //Delete the connection from the DB using the ID
   res = await API.graphql({
     query: deleteQuizToGroup,
-    variables: { input: {id: res.data.listQuizToGroups.items[0].id} },
+    variables: { input: {id:quizToGroupID.data.listQuizToGroups.items[0].id} },
   });
   return res.data.deleteQuizToGroup;
 }

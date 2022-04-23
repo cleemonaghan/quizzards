@@ -69,11 +69,10 @@ function useGatherResources(groupID) {
       console.log(username);
       console.log(groupID);
       //get the group
-      let res = await getGroup(groupID);
-      setGroup(res);
-      console.log(res);
+      let groupFetched = await getGroup(groupID);
+      setGroup(groupFetched);
       //get the group image
-      res = await Storage.get(res.profilePicture);
+      let res = await Storage.get(groupFetched.profilePicture);
       setGroupImage(res);
 
       //get group quizzes
@@ -127,8 +126,7 @@ function useGatherResources(groupID) {
       //get form for all quizzes
       res = await gatherQuizzes(userOwned, userTaken, allQuizzesArr);
       setQuizSearchElement(res);
-      let members = group.members;
-      console.log(members);
+      let members = groupFetched.members;
       for (let x = 0; x < members.length; x++) {
         if (members[x].username === username) {
           setIsMember(true);
@@ -136,6 +134,7 @@ function useGatherResources(groupID) {
       }
     } catch (e) {
       //there was an error, so save it
+      console.log(e)
       setError(e);
     } finally {
       //we are finished loading, so set loading to false
@@ -452,6 +451,7 @@ function GroupPage() {
   //TODO: do i need await here?
   //console.log(userGroups);
   let userB = userButton(groupID, user, userGroups);
+  console.log(error)
   if (error) return failToLoad();
   return loading ? (
     Loading()

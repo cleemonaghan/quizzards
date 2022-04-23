@@ -11,13 +11,13 @@ import logo from "../images/logo.png";
 import { Auth } from "aws-amplify";
 
 class Navigation extends React.Component {
-  // async signout() {
-  //   try {
-  //     await Auth.signOut();
-  //   } catch (err) {
-  //     console.log("There was an error signing out: ", err);
-  //   }
-  // }
+  async signout() {
+    try {
+      await Auth.signOut();
+    } catch (err) {
+      console.log("There was an error signing out: ", err);
+    }
+  }
   render() {
     return (
       <Navbar
@@ -68,9 +68,9 @@ class Navigation extends React.Component {
                   Log Out
                 </NavDropdown.Item>
               </NavDropdown> */}
-              {/* <Button variant="light" onClick={this.signout}>
+              <Button variant="light" onClick={this.signout}>
                 Signout
-              </Button> */}
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

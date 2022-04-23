@@ -113,7 +113,7 @@ export async function getGroup(id) {
 
 export async function getGroups() {
   let params = {
-    limit: 20,
+    limit: 100,
     //filter: {
     // Visibility: "public",
     //},
@@ -233,7 +233,7 @@ export async function recommendGroups(friendList, userGroups) {
 
   let listAllGroups = await API.graphql({
     query: listGroups,
-    variables: { limit: 30 },
+    variables: { limit: 100 },
   });
   listAllGroups = shuffleArray(listAllGroups.data.listGroups.items);
 
@@ -307,8 +307,18 @@ export async function deleteQuizFromGroup(qID,gID){
     return null;
   }
   let res = await API.graphql({
+    query: listQuizToGroups,
+    variables: params,
+  });
+  console.log("Result");
+  console.log(res.data.listQuizToGroups)
+  console.log(res.data.listQuizToGroups.items[0].id)
+
+
+  //Delete the connection from the DB using the ID
+  res = await API.graphql({
     query: deleteQuizToGroup,
     variables: { input: {id:quizToGroupID.data.listQuizToGroups.items[0].id} },
   });
-  return res;
+  return res.data.deleteQuizToGroup;
 }

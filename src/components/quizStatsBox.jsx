@@ -5,7 +5,14 @@ import {
 } from "react-bootstrap-icons";
 import { deleteQuizFromGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
 
-async function removeQuiz(quizID, groupID, currSelectedQuiz,setQuizIDSelectedForStats,groupQuizzes,setGroupQuizzes){
+async function removeQuiz(
+  quizID,
+  groupID,
+  currSelectedQuiz,
+  setQuizIDSelectedForStats,
+  groupQuizzes,
+  setGroupQuizzes
+) {
   console.log("hi");
   console.log(quizID);
   console.log(groupID);
@@ -19,7 +26,7 @@ async function removeQuiz(quizID, groupID, currSelectedQuiz,setQuizIDSelectedFor
   groupQ = await getGroupsQuizzes(groupID);
   console.log(groupQ);
   //if the quiz is currently selected to look at stats, update the current id to null
-  if(quizID == currSelectedQuiz){
+  if (quizID == currSelectedQuiz) {
     setQuizIDSelectedForStats(null);
   }
 
@@ -32,31 +39,38 @@ async function removeQuiz(quizID, groupID, currSelectedQuiz,setQuizIDSelectedFor
   }
   console.log(updatedGroupQuizzes);
   setGroupQuizzes(updatedGroupQuizzes);
-
-
 }
-function QuizStatsBox({ 
-      groupQuizzes,
-      currSelectedQuiz,
-      setQuizIDSelectedForStats,
-      setGroupQuizzes,
-      title, 
-      author, 
-      id,
-      owner,
-      groupID }) {
+function QuizStatsBox({
+  groupQuizzes,
+  currSelectedQuiz,
+  setQuizIDSelectedForStats,
+  setGroupQuizzes,
+  title,
+  author,
+  id,
+  owner,
+  groupID,
+}) {
   let deleteIcon = [];
-  if(owner){
+  if (owner) {
     deleteIcon.push(
-      <Button 
-      onClick={async () => {
-        let temp = await removeQuiz(id, groupID,currSelectedQuiz,setQuizIDSelectedForStats,groupQuizzes,setGroupQuizzes);
-      }
-      }
+      <Button
+        className="mt-1"
+        variant="danger"
+        onClick={async () => {
+          let temp = await removeQuiz(
+            id,
+            groupID,
+            currSelectedQuiz,
+            setQuizIDSelectedForStats,
+            groupQuizzes,
+            setGroupQuizzes
+          );
+        }}
       >
-        <Trash className="mx-1 mb-1" />
+        <TrashFill className="mb-1" /> Remove from group
       </Button>
-      );
+    );
   }
   return (
     <div className="quiz-box mb-4">
@@ -74,11 +88,24 @@ function QuizStatsBox({
               </Card.Title>
               <Card.Text>{"By: " + author}</Card.Text>
             </div>
-
           </Card.Body>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+              width: "30px",
+            }}
+          >
+            <img
+              className="img-fluid rounded-circle my-auto"
+              src={photo2}
+              alt=""
+            />
+          </div>
         </Card>
       </Button>
-       {deleteIcon}
+      {deleteIcon}
     </div>
   );
 }

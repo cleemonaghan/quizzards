@@ -521,7 +521,7 @@ export async function recommendFriends(
   }
   let listAllUsers = await API.graphql({
     query: listUsers,
-    variables: { limit: 20 },
+    variables: { limit: 100 },
   });
   listAllUsers = shuffleArray(listAllUsers.data.listUsers.items);
 

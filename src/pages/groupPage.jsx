@@ -117,7 +117,6 @@ function useGatherResources(groupID) {
 
       //get the user groups
       res = await getUserOwnedGroups(username);
-      console.log(res);
       setUserGroups(res);
 
       console.log(userOwned);
@@ -156,15 +155,15 @@ function useGatherResources(groupID) {
 }
 
 function userButton(groupID, user, userGroups) {
-  console.log("group ID", groupID);
-  console.log("userGroups", userGroups);
-  console.log("userGroups length", userGroups.length);
+  //console.log("group ID", groupID);
+  //console.log("userGroups", userGroups);
+  //console.log("userGroups length", userGroups.length);
   let myGroup = false;
 
   for (let i = 0; i < userGroups.length; i++) {
-    console.log(userGroups[i]);
+    //console.log(userGroups[i]);
     let group = userGroups[i].id;
-    console.log(groupID);
+    //console.log(groupID);
 
     if (groupID == group) {
       myGroup = true;
@@ -174,7 +173,7 @@ function userButton(groupID, user, userGroups) {
 
   var result = [];
 
-  console.log(myGroup);
+  //console.log(myGroup);
 
   if (myGroup) {
     result.push(
@@ -183,7 +182,7 @@ function userButton(groupID, user, userGroups) {
       </Link>
     );
   }
-  console.log(result);
+  //console.log(result);
   return result;
 }
 /* 
@@ -236,20 +235,15 @@ function displayQuizElements(
     groupID) {
   console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
-    console.log("returning no quizzes");
     return <p>This group has no quizzes yet</p>;
   } else {
     var result = [];
     for (let i = 0; i < groupQuizzes.length; i++) {
-      console.log(groupQuizzes.length);
-      console.log(groupQuizzes[i]);
       if (groupQuizzes[i] == null) {
         continue;
       }
-      console.log(groupQuizzes[i].id);
       let quiz = groupQuizzes[i];
       //let quiz = await getQuiz(groupQuizzes[i].id); //title,author,ID
-      console.log(quiz);
       result.push(
         <div
           className="col-auto"
@@ -307,8 +301,8 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
     let yourQuizzes = ownedQuizzes;
     let allQuizzes = userAllQuizzes;
     let takenQuizzes = userTakenQuizzes;
-    console.log(allQuizzes);
     let result = [];
+
     if (yourQuizzes.length > 0) {
       result.push(
         <div className="row align-items-center mt-5 mb-2">
@@ -332,7 +326,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         );
       }
     }
-
     if (takenQuizzes.length > 0) {
       result.push(
         <div className="row align-items-center mt-5 mb-2">
@@ -372,6 +365,7 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
     ); //TODO: saveSelected
     for (let aQuiz in allQuizzes) {
       result.push(
+
         <Form.Group
           className="col-12"
           controlId={allQuizzes[aQuiz].id}
@@ -394,7 +388,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         // </div>
       );
     }
-    console.log(result);
     return result;
   } catch (e) {
     //there was an error, so print it
@@ -428,10 +421,6 @@ function GroupPage() {
     setGroupQuizzes,
     quizSearchElement,
   ] = useGatherResources(groupID);
-  console.log(groupQuizzes);
-  console.log(allQuizzes);
-  console.log(userOwnedQuizzes);
-  console.log(userTakenQuizzes);
   const handleClose = () => {
     setShowQuizzes(false);
   };
@@ -553,7 +542,6 @@ function GroupPage() {
                 //addQuizzes
                 event.preventDefault();
                 let target = event.target;
-                console.dir(target);
                 let updatedGroupQuizzes = groupQuizzes;
                 for (let i = 0; i < target.length; i++) {
                   // if quiz is checked, add it to the group
@@ -561,7 +549,6 @@ function GroupPage() {
                     if(groupQuizzesID.has(target[i].id)){
                       continue;
                     }
-                    console.log(target[i]);
                     let res = await addQuizToGroup(target[i].id, groupID);
                     console.log("Adding quiz to group:");
                     console.log(res);

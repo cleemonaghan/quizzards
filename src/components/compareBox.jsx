@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  DropdownButton,
+  Dropdown,
+  Button,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   getQuiz,
   fetchUserAnswer,
@@ -17,8 +25,12 @@ function useGatherResources(quizID, username) {
     try {
       setLoading(true);
       //get the user's results
-      let res = (await fetchUserAnswer(username, quizID))[0];
-      setUserResult(res);
+      let res = await fetchUserAnswer(username, quizID);
+      if (res.length > 0) {
+        setUserResult(res[0]);
+      } else {
+        setUserResult(null);
+      }
 
       //get the quiz
       let quizRes = await getQuiz(quizID);
@@ -33,7 +45,7 @@ function useGatherResources(quizID, username) {
   }
   useEffect(() => {
     getInfo();
-  }, []);
+  }, [quizID]);
 
   return [userResult, quiz, error, loading];
 }
@@ -65,7 +77,9 @@ function compareQuestion(index, answerID1, answerID2, quiz) {
   }
   return (
     <Row>
-      <h5>{index + 1}. {quiz.questions.items[index].name}</h5>
+      <h5>
+        {index + 1}. {quiz.questions.items[index].name}
+      </h5>
       <Col>
         <p>{answer1}</p>
       </Col>
@@ -77,17 +91,37 @@ function compareQuestion(index, answerID1, answerID2, quiz) {
 }
 
 function compareMembers(
+  quizID,
   quiz,
   username,
   friendUsername,
   userResult,
   friendResult
 ) {
-  if (friendUsername === "Select a friend") {
+  if (userResult === null) {
+    return (
+      <div>
+        <div>You haven't taken this quiz yet.</div>
+        <Link to={"/quizPage/" + quizID}>
+          <Button variant="outline-primary">Go to Quiz</Button>{" "}
+        </Link>
+      </div>
+    );
+  } else if (friendUsername === "Select a friend") {
     return <div>Select a friend to compare answers with.</div>;
   } else if (friendResult === null) {
     return <div>{friendUsername} has not taken this quiz yet.</div>;
   } else {
+    let result1 = "Unknown";
+    let result2 = "Unknown";
+    for (let i = 0; i < quiz.results.items.length; i++) {
+      if (quiz.results.items[i].id === userResult.result) {
+        result1 = quiz.results.items[i].name;
+      }
+      if (quiz.results.items[i].id === friendResult.result) {
+        result2 = quiz.results.items[i].name;
+      }
+    }
     return (
       <div>
         <Row>
@@ -98,8 +132,24 @@ function compareMembers(
             <h5>{friendUsername}</h5>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <h5>{result1}</h5>
+          </Col>
+          <Col>
+            <h5>{result2}</h5>
+          </Col>
+        </Row>
         {userResult.answers.map((answer, index) => {
-          return compareQuestion(index, userResult.answers[index], friendResult.answers[index], quiz);
+          return (
+          <div key={index}>
+            {compareQuestion(
+              index,
+              userResult.answers[index],
+              friendResult.answers[index],
+              quiz
+            )}
+          </div>);
         })}
       </div>
     );
@@ -136,7 +186,7 @@ function CompareBox({ group, quizID, username }) {
                 {group.members.items.map((member) => {
                   if (member.userID !== username) {
                     return (
-                      <Dropdown.Item eventKey={member.userID}>
+                      <Dropdown.Item eventKey={member.userID} key={member.userID}>
                         {member.userID}
                       </Dropdown.Item>
                     );
@@ -145,7 +195,14 @@ function CompareBox({ group, quizID, username }) {
               </DropdownButton>
             </Col>
           </Row>
-          {compareMembers(quiz, username, friend, userResult, friendResult)}
+          {compareMembers(
+            quizID,
+            quiz,
+            username,
+            friend,
+            userResult,
+            friendResult
+          )}
         </Container>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { photo2 } from "../images";
 
 function QuizBox({ title, author, id }) {
   return (
@@ -20,6 +21,20 @@ function QuizBox({ title, author, id }) {
               <Card.Text>{"By: " + author}</Card.Text>
             </div>
           </Card.Body>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+              width: "30px",
+            }}
+          >
+            <img
+              className="img-fluid rounded-circle my-auto"
+              src={photo2}
+              alt=""
+            />
+          </div>
         </Card>
       </Link>
     </div>

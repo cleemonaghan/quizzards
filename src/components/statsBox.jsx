@@ -38,7 +38,7 @@ function useGatherResources(quizID, members) {
   }
   useEffect(() => {
     getInfo();
-  }, []);
+  }, [quizID]);
 
   return [memberResults, quiz, error, loading];
 }
@@ -63,7 +63,7 @@ function StatsBox({ group, quizID, result }) {
       let result = memberResults[i].result;
       for (let j in quiz.results.items) {
         if (result === quiz.results.items[j].id) {
-          data[i] += 1;
+          data[j] += 1;
         }
       }
     }

@@ -284,13 +284,13 @@ class Groups extends React.Component {
 
           {/* Display the user's owned groups */}
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Owned Groups</h1>
+            <h1 className="font-weight-bold">Groups You Own</h1>
           </div>
           <div className="row">{this.state.ownedElements}</div>
 
           {/* Display the user's groups */}
           <div className="row align-items-center mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Groups</h1>
+            <h1 className="font-weight-bold">Groups You've Joined</h1>
           </div>
           <div className="row">{this.state.groupElements}</div>
 

@@ -20,6 +20,7 @@ function useGatherResources(quizID, username) {
   const [loading, setLoading] = useState(true);
   const [userResult, setUserResult] = useState(null);
   const [quiz, setQuiz] = useState(null);
+  const [userFriends, setUserFriends] = useState([]);
 
   async function getInfo() {
     try {
@@ -35,6 +36,11 @@ function useGatherResources(quizID, username) {
       //get the quiz
       let quizRes = await getQuiz(quizID);
       setQuiz(quizRes);
+
+      //get the user's friends
+      let friends = (await getUser(username)).friends;
+      console.log(friends);
+      setUserFriends(friends);
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -47,7 +53,7 @@ function useGatherResources(quizID, username) {
     getInfo();
   }, [quizID]);
 
-  return [userResult, quiz, error, loading];
+  return [userResult, userFriends, quiz, error, loading];
 }
 
 async function changeFriend(
@@ -157,7 +163,7 @@ function compareMembers(
 }
 
 function CompareBox({ group, quizID, username }) {
-  const [userResult, quiz, error, loading] = useGatherResources(
+  const [userResult, userFriends, quiz, error, loading] = useGatherResources(
     quizID,
     username
   );
@@ -184,7 +190,7 @@ function CompareBox({ group, quizID, username }) {
               >
                 {" "}
                 {group.members.items.map((member) => {
-                  if (member.userID !== username) {
+                  if (member.userID !== username && userFriends.includes(member.userID)) {
                     return (
                       <Dropdown.Item eventKey={member.userID} key={member.userID}>
                         {member.userID}

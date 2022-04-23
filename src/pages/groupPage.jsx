@@ -121,15 +121,7 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(username);
       setUserGroups(res);
 
-      //get all groups they're a part of
-      res = await getUserGroups(username);
-      for(let i = 0; i < res.length; i++){
-        console.log(res[i]);
-        if(res[i].groupID == groupID){
-          setMembership(true);
-          break;
-        }
-      }
+
 
       console.log(userOwned);
       console.log(userTaken);

@@ -14,6 +14,7 @@ import {
   getMemberRequests,
   listMemberRequests,
   listGroups,
+  listQuizToGroups
 } from "../graphql/queries";
 
 import { getUser } from "./users";
@@ -284,9 +285,20 @@ export async function deleteQuizFromGroup(qID,gID){
     quizID: qID,
     groupID: gID,
   };
+
+  //fetch the quizToGroup connection ID
   let res = await API.graphql({
-    query: deleteQuizToGroup,
+    query: listQuizToGroups,
     variables: { input: params },
   });
-  return res;
+  console.log(res.data.listQuizToGroups)
+  console.log(res.data.listQuizToGroups.items[0].id)
+
+
+  //Delete the connection from the DB using the ID
+  res = await API.graphql({
+    query: deleteQuizToGroup,
+    variables: { input: {id: res.data.listQuizToGroups.items[0].id} },
+  });
+  return res.data.deleteQuizToGroup;
 }

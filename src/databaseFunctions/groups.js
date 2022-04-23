@@ -282,15 +282,31 @@ export async function getGroupsQuizzes(groupID) {
 
 export async function deleteQuizFromGroup(qID,gID){
   let params = {
-    quizID: qID,
-    groupID: gID,
+    limit: 100,
+    filter: {
+      and: [
+        {
+          quizID: {
+            eq: qID, // filter ownerUsername == username
+          },
+        } ,
+      {
+        groupID: {
+          eq: gID, // filter groupID == groupID
+        },
+      },
+      ],
+    },
   };
+  console.log("Input");
+  console.log(params);
 
   //fetch the quizToGroup connection ID
   let res = await API.graphql({
     query: listQuizToGroups,
-    variables: { input: params },
+    variables: params,
   });
+  console.log("Result");
   console.log(res.data.listQuizToGroups)
   console.log(res.data.listQuizToGroups.items[0].id)
 

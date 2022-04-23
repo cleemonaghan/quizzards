@@ -19,6 +19,7 @@ import {
   StatsBox,
   CompareBox,
   PickAQuiz,
+  JoinGroup,
   failToLoad,
   Loading,
 } from "../components";
@@ -52,6 +53,7 @@ function useGatherResources(groupID) {
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [groupQuizzes, setGroupQuizzes] = useState([]); //list of quizzes belonging to group
   const [quizSearchElement, setQuizSearchElement] = useState([]); //for
+  const [isMember, setIsMember] = useState(false);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -125,6 +127,13 @@ function useGatherResources(groupID) {
       //get form for all quizzes
       res = await gatherQuizzes(userOwned, userTaken, allQuizzesArr);
       setQuizSearchElement(res);
+      let members = group.members;
+      console.log(members);
+      for (let x = 0; x < members.length; x++) {
+        if (members[x].username === username) {
+          setIsMember(true);
+        }
+      }
     } catch (e) {
       //there was an error, so save it
       setError(e);
@@ -151,6 +160,7 @@ function useGatherResources(groupID) {
     groupQuizzes,
     setGroupQuizzes,
     quizSearchElement,
+    isMember,
   ];
 }
 
@@ -190,30 +200,38 @@ This function displays the group stats, pick a quiz for stats,
 and compare your stats components based on if a quiz is selected
 and what side the toggle menu is on
  */
-function handleStatsToggle(group, quizID, username, indexOfToggle) {
-  if (quizID === null) {
+function handleStatsToggle(group, quizID, username, indexOfToggle, isMember) {
+  if (!isMember) {
     return (
       <div>
-        <PickAQuiz />
+        <JoinGroup />
       </div>
     );
   } else {
-    if (indexOfToggle === 1) {
-      //group stats
+    if (quizID === null) {
       return (
         <div>
-          <StatsBox group={group} quizID={quizID} />
-        </div>
-      );
-    } else if (indexOfToggle === 2) {
-      //compare stats
-      return (
-        <div>
-          <CompareBox group={group} quizID={quizID} username={username} />
+          <PickAQuiz />
         </div>
       );
     } else {
-      return <div></div>; //should never reach this
+      if (indexOfToggle === 1) {
+        //group stats
+        return (
+          <div>
+            <StatsBox group={group} quizID={quizID} />
+          </div>
+        );
+      } else if (indexOfToggle === 2) {
+        //compare stats
+        return (
+          <div>
+            <CompareBox group={group} quizID={quizID} username={username} />
+          </div>
+        );
+      } else {
+        return <div></div>; //should never reach this
+      }
     }
   }
 }
@@ -226,13 +244,14 @@ associated with the group in the format to be displayed
 on the left side of the page
  */
 function displayQuizElements(
-    groupQuizzes,
-    currSelectedQuiz,
-    setQuizIDSelectedForStats,
-    setGroupQuizzes, 
-    username,
-    owner, 
-    groupID) {
+  groupQuizzes,
+  currSelectedQuiz,
+  setQuizIDSelectedForStats,
+  setGroupQuizzes,
+  username,
+  owner,
+  groupID
+) {
   console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
     return <p>This group has no quizzes yet</p>;
@@ -254,12 +273,12 @@ function displayQuizElements(
             title={quiz.title}
             author={quiz.ownerUsername}
             id={quiz.id}
-            owner = {username==owner}
-            groupID = {groupID}
-            groupQuizzes = {groupQuizzes}
-            setGroupQuizzes = {setGroupQuizzes}
-            currSelectedQuiz = {currSelectedQuiz}
-            setQuizIDSelectedForStats = {setQuizIDSelectedForStats}
+            owner={username == owner}
+            groupID={groupID}
+            groupQuizzes={groupQuizzes}
+            setGroupQuizzes={setGroupQuizzes}
+            currSelectedQuiz={currSelectedQuiz}
+            setQuizIDSelectedForStats={setQuizIDSelectedForStats}
           />
         </div>
       );
@@ -273,9 +292,9 @@ onclick displays the showQuizzes popup
 TODO: add checks that the user clicking is a 
 group member?
  */
-function generateAddQuizButton(showQuizzes) {
-  //TODO:check if they are the owner of the group
-  if (true) {
+function generateAddQuizButton(showQuizzes, isMember) {
+  //check if they are a member of the group
+  if (isMember) {
     return (
       <Button
         className="col-auto"
@@ -365,7 +384,6 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
     ); //TODO: saveSelected
     for (let aQuiz in allQuizzes) {
       result.push(
-
         <Form.Group
           className="col-12"
           controlId={allQuizzes[aQuiz].id}
@@ -420,6 +438,7 @@ function GroupPage() {
     groupQuizzes,
     setGroupQuizzes,
     quizSearchElement,
+    isMember,
   ] = useGatherResources(groupID);
   const handleClose = () => {
     setShowQuizzes(false);
@@ -471,17 +490,17 @@ function GroupPage() {
                 <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
               </DropdownButton>
 
-              {generateAddQuizButton(setShowQuizzes)}
+              {generateAddQuizButton(setShowQuizzes, isMember)}
             </div>
             {displayQuizElements(
               groupQuizzes,
               quizIDSelectedForStats,
               setQuizIDSelectedForStats,
               setGroupQuizzes,
-              user, 
+              user,
               group.ownerUsername,
               groupID
-              )}
+            )}
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">
@@ -509,7 +528,8 @@ function GroupPage() {
                 group,
                 quizIDSelectedForStats,
                 user,
-                toggleVal
+                toggleVal,
+                isMember
               )}
             </div>
           </div>
@@ -536,7 +556,7 @@ function GroupPage() {
 
               onSubmit={async (event) => {
                 let groupQuizzesID = new Set();
-                for(let i = 0; i < groupQuizzes.length; i++){
+                for (let i = 0; i < groupQuizzes.length; i++) {
                   groupQuizzesID.add(groupQuizzes[i].id);
                 }
                 //addQuizzes
@@ -546,7 +566,7 @@ function GroupPage() {
                 for (let i = 0; i < target.length; i++) {
                   // if quiz is checked, add it to the group
                   if (event.target[i].checked) {
-                    if(groupQuizzesID.has(target[i].id)){
+                    if (groupQuizzesID.has(target[i].id)) {
                       continue;
                     }
                     let res = await addQuizToGroup(target[i].id, groupID);

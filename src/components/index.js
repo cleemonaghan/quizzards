@@ -18,3 +18,4 @@ export { default as QuizQuestion } from "./quizQuestion";
 export { default as QuizAnswer } from "./quizAnswer";
 export { default as QuizResult } from "./quizResult";
 export { default as PickAQuiz } from "./pickAQuiz";
+export { default as JoinGroup } from "./joinGroup";

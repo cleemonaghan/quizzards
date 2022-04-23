@@ -515,8 +515,8 @@ function Quiz({ quizID }) {
           <p> {quiz.description} </p>
           <Media
             queries={{
-              mobile: "(max-width: 574px)",
-              tablet: "(min-width: 575px) and (max-width: 999px)",
+              mobile: "(max-width: 575px)",
+              tablet: "(min-width: 576px) and (max-width: 999px)",
               desktop: "(min-width: 1000px)",
             }}
           >

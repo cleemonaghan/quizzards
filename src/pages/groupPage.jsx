@@ -225,7 +225,15 @@ This function creates and returns the list of quizzes
 associated with the group in the format to be displayed
 on the left side of the page
  */
-function displayQuizElements(groupQuizzes, setQuizIDSelectedForStats) {
+function displayQuizElements(
+    groupQuizzes,
+    currSelectedQuiz,
+    setQuizIDSelectedForStats,
+    setGroupQuizzes, 
+    username,
+    owner, 
+    groupID) {
+  console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
     return <p>This group has no quizzes yet</p>;
   } else {
@@ -246,6 +254,12 @@ function displayQuizElements(groupQuizzes, setQuizIDSelectedForStats) {
             title={quiz.title}
             author={quiz.ownerUsername}
             id={quiz.id}
+            owner = {username==owner}
+            groupID = {groupID}
+            groupQuizzes = {groupQuizzes}
+            setGroupQuizzes = {setGroupQuizzes}
+            currSelectedQuiz = {currSelectedQuiz}
+            setQuizIDSelectedForStats = {setQuizIDSelectedForStats}
           />
         </div>
       );
@@ -459,7 +473,15 @@ function GroupPage() {
 
               {generateAddQuizButton(setShowQuizzes)}
             </div>
-            {displayQuizElements(groupQuizzes, setQuizIDSelectedForStats)}
+            {displayQuizElements(
+              groupQuizzes,
+              quizIDSelectedForStats,
+              setQuizIDSelectedForStats,
+              setGroupQuizzes,
+              user, 
+              group.ownerUsername,
+              groupID
+              )}
           </div>
           <div className="stats-compare col-6">
             <div className="mb-3 align-items-center d-flex justify-content-center">

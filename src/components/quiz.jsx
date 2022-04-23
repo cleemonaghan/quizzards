@@ -115,7 +115,8 @@ function questionSection(
   let background = question.picture;
   if (question.picture === undefined || question.picture === null) {
     //if there is no picture, then use a blank color
-    background = lizards[index];
+    
+    background = lizards[index%lizards.length];
   }
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">

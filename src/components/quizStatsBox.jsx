@@ -1,9 +1,11 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import {
-  Trash
+  TrashFill, 
+  StarFill
 } from "react-bootstrap-icons";
 import { deleteQuizFromGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
+import { photo2 } from "../images";
 
 async function removeQuiz(
   quizID,

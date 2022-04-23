@@ -9,6 +9,7 @@ import {
   addMemberToGroup,
   requestMemberToGroup,
   addMemberfromRequestList,
+  removeMemberFromGroup,
 } from "../databaseFunctions/groups";
 
 async function getUserImage(username) {
@@ -220,7 +221,21 @@ function generateInviteButton(currentUser, owner, showFriends) {
   }
 }
 
+async function removeUserFromGroup(username, groupID, isMember, setMembership){
+  console.log(username);
+  console.log(groupID);
+  console.log(isMember);
+  //remove user from group member list
+  let res = await removeMemberFromGroup(username, groupID);
+  if(isMember){
+   setMembership(false);
+  }
+  console.log(isMember);
+
+}
+
 function useRequestButton(
+  params,
   currentUser,
   owner,
   members,
@@ -259,7 +274,17 @@ function useRequestButton(
     }).length > 0
   ) {
     //we are already a member
-    return <Button variant="outline-danger">Leave Group</Button>;
+    return <Button 
+    variant="outline-danger"
+    onClick={async () => {
+      let temp = await removeUserFromGroup(
+        currentUser,
+        groupID,
+        params.isMember,
+        params.setMembership
+      );
+    }}
+    >Leave Group</Button>;
   } else {
     //we are not in the group, we have not requested to join yet
 
@@ -354,6 +379,7 @@ function MembersList(params) {
   );
 
   const requestButton = useRequestButton(
+    params,
     username,
     ownerUsername,
     members,

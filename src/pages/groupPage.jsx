@@ -29,6 +29,7 @@ import {
   addQuizToGroup,
 } from "../databaseFunctions/groups";
 import {
+  getUserGroups,
   getUserOwnedGroups,
   getUserOwnedQuizzes,
   getUserQuizzes,
@@ -52,6 +53,7 @@ function useGatherResources(groupID) {
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [groupQuizzes, setGroupQuizzes] = useState([]); //list of quizzes belonging to group
   const [quizSearchElement, setQuizSearchElement] = useState([]); //for
+  const [isMember, setMembership] = useState(false);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -119,6 +121,16 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(username);
       setUserGroups(res);
 
+      //get all groups they're a part of
+      res = await getUserGroups(username);
+      for(let i = 0; i < res.length; i++){
+        console.log(res[i]);
+        if(res[i].groupID == groupID){
+          setMembership(true);
+          break;
+        }
+      }
+
       console.log(userOwned);
       console.log(userTaken);
       console.log(allQuizzesArr);
@@ -151,6 +163,8 @@ function useGatherResources(groupID) {
     groupQuizzes,
     setGroupQuizzes,
     quizSearchElement,
+    isMember,
+    setMembership,
   ];
 }
 
@@ -396,6 +410,8 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
   }
 }
 
+
+
 /** This function loads a group page and returns the formatted html to display the page.
  *
  * @returns the group page with the specified ID
@@ -420,11 +436,15 @@ function GroupPage() {
     groupQuizzes,
     setGroupQuizzes,
     quizSearchElement,
+    isMember, 
+    setMembership,
   ] = useGatherResources(groupID);
   const handleClose = () => {
     setShowQuizzes(false);
   };
   const [loading4, setLoading4] = useState(true);
+
+  //set button to leave group if they are not the owner
 
   // const useHandleShowQuizzes = async () => {
   //   let res = await gatherQuizzes(user, setLoading4);//HERE
@@ -519,7 +539,7 @@ function GroupPage() {
                 x
               </Button>{" "}
             </div>
-            <MembersList group={group} />
+            <MembersList group={group} isMember = {isMember} setMembership = {setMembership}/>
           </div>
         </div>
       </div>

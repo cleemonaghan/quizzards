@@ -7,12 +7,14 @@ import {
   deleteMemberRequests,
   createQuizToGroup,
   deleteQuizToGroup,
+  deleteMembers,
 } from "../graphql/mutations";
 import {
   getGroup as getGroupQuery,
   listGroups as listGroupQuery,
   getMemberRequests,
   listMemberRequests,
+  listMembers,
   listGroups,
   listQuizToGroups,
 } from "../graphql/queries";
@@ -135,6 +137,41 @@ export async function addMemberToGroup(memberID, groupID) {
     variables: { input: params },
   });
   return res;
+}
+
+export async function removeMemberFromGroup(memberID, groupID){
+  console.log(memberID);
+  console.log(groupID);
+  let params = {
+    and: [
+      {
+        userID: {
+          eq: memberID, // filter userID == memberID
+        },
+      },
+      {
+        groupID: {
+          eq: groupID, // filter groupID == groupID
+        },
+      },
+    ],
+  };
+
+  let memberToGroupID = await API.graphql({
+    query: listMembers,
+    variables: {filter: params},
+  });
+  if(memberToGroupID.data.listMembers.items.length == 0 || memberToGroupID.data.listMembers.items[0] == null){
+    return null;
+  }
+
+
+  //Delete the connection from the DB using the ID
+  let res = await API.graphql({
+    query: deleteMembers,
+    variables: { input: {id:memberToGroupID.data.listMembers.items[0].id} },
+  });
+  return res.data.deleteMember;
 }
 
 export async function requestMemberToGroup(memberID, groupID) {

@@ -57,7 +57,7 @@ function useGatherResources(groupID) {
   const [quizSearchElement, setQuizSearchElement] = useState([]); //for
   const [isMember, setIsMember] = useState(false);
   const [showQuizzes, setShowQuizzes] = useState(false);
-  const [showMembers,setShowMembers] = useState(true);
+  const [showMembers,setShowMembers] = useState(false);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the

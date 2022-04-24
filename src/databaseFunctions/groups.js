@@ -7,6 +7,7 @@ import {
   deleteMemberRequests,
   createQuizToGroup,
   deleteQuizToGroup,
+  deleteGroup,
   deleteMembers,
 } from "../graphql/mutations";
 import {
@@ -69,12 +70,16 @@ export async function createGroup(params) {
 
 
 export async function removeGroup(groupID){
+
+  let group = await getGroup(groupID);
+  
+
   let params = {
     id: groupID,
   }
   console.log(params);
   let res = await API.graphql({
-    query: deleteQuizToGroup,
+    query: deleteGroup,
     variables: {input: params},
   });
   console.log(res);

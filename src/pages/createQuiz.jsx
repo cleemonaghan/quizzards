@@ -484,7 +484,7 @@ class CreateQuiz extends React.Component {
               <Modal.Title>Confirm Quiz Creation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Once you create this quiz, it cannot be editted anymore. Are you
+              Once you create this quiz, it cannot be edited anymore. Are you
               sure you want to continue?
             </Modal.Body>
             <Modal.Footer>

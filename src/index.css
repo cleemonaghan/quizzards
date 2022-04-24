@@ -83,6 +83,11 @@ hr:not([size]) {
     -1px -1px 0 #000;
 }
 
+.modal-body {
+  overflow-y: scroll;
+  max-height: 78vh;
+}
+
 /* 
 pink: #db278d
 red: #f14e48

@@ -320,12 +320,17 @@ function displayModalBody(loading, friends) {
           controlId={friends[i].name}
           key={friends[i].name}
         >
-          <Form.Check id={friends[i].name}></Form.Check>
-          <Friend
-            userName={friends[i].name}
-            link={friends[i].image}
-            key={friends[i].name}
-          />
+          <Form.Check
+            className="col-1 my-auto"
+            id={friends[i].name}
+          ></Form.Check>
+          <div className="col-11 ps-0">
+            <Friend
+              userName={friends[i].name}
+              link={friends[i].image}
+              key={friends[i].name}
+            />
+          </div>
         </Form.Group>
       );
     }

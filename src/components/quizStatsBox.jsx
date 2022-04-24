@@ -75,7 +75,7 @@ function QuizStatsBox({
     deleteIcon.push(
       <Button
         className="mt-1"
-        variant="danger"
+        variant="outline-danger"
         onClick={async () => {
           let temp = await removeQuiz(
             id,

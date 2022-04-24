@@ -338,23 +338,28 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
 
     if (yourQuizzes.length > 0) {
       result.push(
-        <div className="row align-items-center mt-5 mb-2">
+        <div className="row align-items-center mb-2">
           <h1 className="font-weight-bold col-12">Quizzes You Made</h1>
         </div>
       );
       for (let yourQuiz in yourQuizzes) {
         result.push(
           <Form.Group
-            className="col-12"
+            className="row"
             controlId={yourQuizzes[yourQuiz].id}
             key={yourQuizzes[yourQuiz].title}
           >
-            <Form.Check id={yourQuizzes[yourQuiz].id}></Form.Check>
-            <QuizStatsBox
-              title={yourQuizzes[yourQuiz].title}
-              author={yourQuizzes[yourQuiz].ownerUsername}
+            <Form.Check
+              className="col-1"
               id={yourQuizzes[yourQuiz].id}
-            />
+            ></Form.Check>
+            <div className="col-11 ps-0">
+              <QuizStatsBox
+                title={yourQuizzes[yourQuiz].title}
+                author={yourQuizzes[yourQuiz].ownerUsername}
+                id={yourQuizzes[yourQuiz].id}
+              />
+            </div>
           </Form.Group>
         );
       }
@@ -369,16 +374,21 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
         //TODO TEST: MIGHT BE quizID not .id
         result.push(
           <Form.Group
-            className="col-12"
+            className="row"
             controlId={takenQuizzes[takenQuiz].id}
             key={takenQuizzes[takenQuiz].title}
           >
-            <Form.Check id={takenQuizzes[takenQuiz].id}></Form.Check>
-            <QuizStatsBox
-              title={takenQuizzes[takenQuiz].title}
-              author={takenQuizzes[takenQuiz].ownerUsername}
+            <Form.Check
+              className="col-1"
               id={takenQuizzes[takenQuiz].id}
-            />
+            ></Form.Check>
+            <div className="col-11 ps-0">
+              <QuizStatsBox
+                title={takenQuizzes[takenQuiz].title}
+                author={takenQuizzes[takenQuiz].ownerUsername}
+                id={takenQuizzes[takenQuiz].id}
+              />
+            </div>
           </Form.Group>
           // <div className="col-12" onClick={saveSelectedQuiz(allQuizzes[aQuiz])}>
           //   <QuizStatsBox
@@ -399,16 +409,18 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
     for (let aQuiz in allQuizzes) {
       result.push(
         <Form.Group
-          className="col-12"
+          className="row"
           controlId={allQuizzes[aQuiz].id}
           key={allQuizzes[aQuiz].title}
         >
-          <Form.Check id={allQuizzes[aQuiz].id}></Form.Check>
-          <QuizStatsBox
-            title={allQuizzes[aQuiz].title}
-            author={allQuizzes[aQuiz].ownerUsername}
-            id={allQuizzes[aQuiz].id}
-          />
+          <Form.Check className="col-1" id={allQuizzes[aQuiz].id}></Form.Check>
+          <div className="col-11 ps-0">
+            <QuizStatsBox
+              title={allQuizzes[aQuiz].title}
+              author={allQuizzes[aQuiz].ownerUsername}
+              id={allQuizzes[aQuiz].id}
+            />
+          </div>
         </Form.Group>
         // <div className="col-12"
         // onClick={saveSelectedQuiz(allQuizzes[aQuiz])}>
@@ -520,7 +532,7 @@ function GroupPage() {
             {matches.tablet && (
               <div className="row m-0">
                 <img
-                  className="col-5 mb-5 px-0"
+                  className="col-5 mb-4 px-0"
                   src={groupImage}
                   alt=""
                   width="100%"
@@ -538,7 +550,7 @@ function GroupPage() {
             {matches.wideTablet && (
               <div className="row m-0">
                 <img
-                  className="col-5 mb-5 px-0"
+                  className="col-5 mb-4 px-0"
                   src={groupImage}
                   alt=""
                   width="100%"

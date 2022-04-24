@@ -83,7 +83,7 @@ function compareQuestion(index, answerID1, answerID2, quiz) {
   }
   return (
     <Row>
-      <h5>
+      <h5 className="py-2" style={{ backgroundColor: "#7248f11c" }}>
         {index + 1}. {quiz.questions.items[index].name}
       </h5>
       <Col>
@@ -129,13 +129,13 @@ function compareMembers(
       }
     }
     return (
-      <div>
+      <div className="px-0">
         <Row>
           <Col>
-            <h5>{username}</h5>
+            <h5>{username}:</h5>
           </Col>
           <Col>
-            <h5>{friendUsername}</h5>
+            <h5>{friendUsername}:</h5>
           </Col>
         </Row>
         <Row>
@@ -148,14 +148,15 @@ function compareMembers(
         </Row>
         {userResult.answers.map((answer, index) => {
           return (
-          <div key={index}>
-            {compareQuestion(
-              index,
-              userResult.answers[index],
-              friendResult.answers[index],
-              quiz
-            )}
-          </div>);
+            <div key={index}>
+              {compareQuestion(
+                index,
+                userResult.answers[index],
+                friendResult.answers[index],
+                quiz
+              )}
+            </div>
+          );
         })}
       </div>
     );
@@ -172,34 +173,34 @@ function CompareBox({ group, quizID, username }) {
 
   return (
     <div className="compare-box">
-      <div className="outline mx-3 mb-5 pb-4">
+      <div className="outline mx-3 mb-5 pb-3">
         <Container>
           <Row>
-            <Col>
-              <h4 className="my-3"> My Answers: </h4>
-            </Col>
-            <Col className="row">
-              <DropdownButton
-                className="col-auto my-3"
-                id="dropdown-basic-button"
-                title="Friends"
-                variant="outline-primary"
-                onSelect={(event) =>
-                  changeFriend(event, quizID, setFriend, setFriendResult)
+            <h4 className="col-8 my-3"> Compare Results: </h4>
+
+            <DropdownButton
+              className="col-4 my-3 d-flex justify-content-end"
+              id="dropdown-basic-button"
+              title="Friends"
+              variant="outline-primary"
+              onSelect={(event) =>
+                changeFriend(event, quizID, setFriend, setFriendResult)
+              }
+            >
+              {" "}
+              {group.members.items.map((member) => {
+                if (
+                  member.userID !== username &&
+                  userFriends.includes(member.userID)
+                ) {
+                  return (
+                    <Dropdown.Item eventKey={member.userID} key={member.userID}>
+                      {member.userID}
+                    </Dropdown.Item>
+                  );
                 }
-              >
-                {" "}
-                {group.members.items.map((member) => {
-                  if (member.userID !== username && userFriends.includes(member.userID)) {
-                    return (
-                      <Dropdown.Item eventKey={member.userID} key={member.userID}>
-                        {member.userID}
-                      </Dropdown.Item>
-                    );
-                  }
-                })}
-              </DropdownButton>
-            </Col>
+              })}
+            </DropdownButton>
           </Row>
           {compareMembers(
             quizID,

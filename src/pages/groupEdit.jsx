@@ -12,11 +12,13 @@ async function removeGroup(groupID,setDeleting,setHasDeleted){
   console.log(groupID);
   let tempGroup = await getGroups();
   console.log(tempGroup);
+  tempGroup = await getGroup(groupID);
+  console.log(tempGroup);
   //remove group from DB
   let res = await removeGroupMutation(groupID);
 
-  tempGroup = await getGroups();
-  console.log(tempGroup);
+  //tempGroup = await getGroups();
+  //console.log(tempGroup);
   setHasDeleted(true);
   return;
 }

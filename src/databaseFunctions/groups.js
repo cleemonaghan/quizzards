@@ -20,7 +20,7 @@ import {
   listQuizToGroups,
 } from "../graphql/queries";
 
-import { getUser } from "./users";
+import { getUser, getUserGroups, removeUserFromGroup } from "./users";
 
 /** This method creates a group with specified attributes.
  *
@@ -71,9 +71,30 @@ export async function createGroup(params) {
 
 export async function removeGroup(groupID){
 
+  //remove group from user groups list
   let group = await getGroup(groupID);
+  let groupMembers = group.members.items;
+  console.log(groupMembers);
+  groupMembers.forEach(async (mem)=>{
+    let remove = await getUserGroups(mem.userID);
+    console.log(remove);
+    remove = await removeMemberFromGroup(mem.userID,groupID);
+    remove = await getUserGroups(mem.userID);
+    console.log(remove);
+  });
 
+  //remove group from member request list
+  let groupRequestMembers = group.memberRequests.items;
+  groupRequestMembers.forEach(async (mem)=>{
+    let remove = await getUserGroups(mem.userID);
+    console.log(remove);
+    remove = await removeMemberRequestFromGroup(mem.userID,groupID);
+    remove = await getUserGroups(mem.userID);
+    console.log(remove);
+  });
 
+ 
+  //remove group from console
   let params = {
     id: groupID,
   }
@@ -129,7 +150,6 @@ export async function getGroup(id) {
     query: getGroupQuery,
     variables: { id: id },
   });
-  console.log(result.data.getGroup);
   return result.data.getGroup;
 }
 
@@ -191,6 +211,41 @@ export async function removeMemberFromGroup(memberID, groupID){
   let res = await API.graphql({
     query: deleteMembers,
     variables: { input: {id:memberToGroupID.data.listMembers.items[0].id} },
+  });
+  return res.data.deleteMember;
+}
+
+export async function removeMemberRequestFromGroup(memberID, groupID){
+  console.log(memberID);
+  console.log(groupID);
+  let params = {
+    and: [
+      {
+        userID: {
+          eq: memberID, // filter userID == memberID
+        },
+      },
+      {
+        groupID: {
+          eq: groupID, // filter groupID == groupID
+        },
+      },
+    ],
+  };
+
+  let memberToGroupID = await API.graphql({
+    query: listMemberRequests,
+    variables: {filter: params},
+  });
+  if(memberToGroupID.data.listMemberRequests.items.length == 0 || memberToGroupID.data.listMemberRequests.items[0] == null){
+    return null;
+  }
+
+
+  //Delete the connection from the DB using the ID
+  let res = await API.graphql({
+    query: deleteMembers,
+    variables: { input: {id:memberToGroupID.data.listMemberRequests.items[0].id} },
   });
   return res.data.deleteMember;
 }

@@ -130,6 +130,7 @@ class Groups extends React.Component {
         if (!repeat) {
           console.log(groupArr);
           let group = await getGroup(groupArr[i].groupID);
+          console.log(group);
           if(group==null){
             continue;
           }

@@ -115,8 +115,8 @@ function questionSection(
   let background = question.picture;
   if (question.picture === undefined || question.picture === null) {
     //if there is no picture, then use a blank color
-    
-    background = lizards[index%lizards.length];
+
+    background = lizards[index % lizards.length];
   }
   return (
     <div className="rbq_list_item_container rbq_question rbq_first_question">
@@ -424,7 +424,13 @@ function useGatherResources(quizID, setCompleted, setExistingResult) {
 
   return [quiz, username, error, loading];
 }
-
+function returnCompleted(isCompleted, divToShow) {
+  if (isCompleted) {
+    return divToShow;
+  } else {
+    return <div></div>;
+  }
+}
 function Quiz({ quizID }) {
   let colors = [
     "#db278d",
@@ -562,7 +568,27 @@ function Quiz({ quizID }) {
               </Fragment>
             )}
           </Media>
-
+          {returnCompleted(
+            completed,
+            <div
+              ref={(el) =>
+                (itemsRef.current[quiz.questions.items.length + 1] = el)
+              }
+            >
+              {displayResult(
+                completed,
+                score,
+                quiz.results.items,
+                quiz.title,
+                itemsRef,
+                setCompleted,
+                quiz.questions.items,
+                setScore,
+                existingResult,
+                setExistingResult
+              )}
+            </div>
+          )}
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {
               return (
@@ -584,25 +610,6 @@ function Quiz({ quizID }) {
                 </div>
               );
             })}
-          </div>
-
-          <div
-            ref={(el) =>
-              (itemsRef.current[quiz.questions.items.length + 1] = el)
-            }
-          >
-            {displayResult(
-              completed,
-              score,
-              quiz.results.items,
-              quiz.title,
-              itemsRef,
-              setCompleted,
-              quiz.questions.items,
-              setScore,
-              existingResult,
-              setExistingResult
-            )}
           </div>
         </div>
       </div>

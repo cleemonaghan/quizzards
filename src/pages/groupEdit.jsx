@@ -41,7 +41,7 @@ function GroupEdit() {
   ) : (
     <div className="edit_group">
       <div className="container">
-        <h1 className="font-weight-light my-5">Create Group</h1>
+        <h1 className="font-weight-light my-5">Edit Group</h1>
         <Form
           onSubmit={(event) =>
             handleSubmit(
@@ -112,7 +112,11 @@ function GroupEdit() {
             Update Group
           </Button>
           {/* Delete Group */}
-          <Button className="ms-2" variant="danger">
+          <Button
+            className="ms-2"
+            variant="danger"
+
+          >
             Delete Group
           </Button>
         </Form>

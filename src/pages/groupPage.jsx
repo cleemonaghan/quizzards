@@ -240,9 +240,6 @@ function handleStatsToggle(group, quizID, username, indexOfToggle, isMember) {
     }
   }
 }
-//todo: invite button as group owner: for pop up window.....quizzes, addQuiz to group
-//create new function...createquizto group
-//groups folder
 /* 
 This function creates and returns the list of quizzes
 associated with the group in the format to be displayed

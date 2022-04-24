@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import { Card, Button } from "react-bootstrap";
 import { TrashFill } from "react-bootstrap-icons";
+import { TrashFill, StarFill } from "react-bootstrap-icons";
 import {
   deleteQuizFromGroup,
   getGroupsQuizzes,
 } from "../databaseFunctions/groups";
-// import { photo2 } from "../images";
+import { photo2 } from "../images";
+import { getQuiz } from "../databaseFunctions/quizzes";
+import { Storage } from "aws-amplify";
+import { getUser } from "../databaseFunctions/users";
 
 async function removeQuiz(
   quizID,
@@ -42,6 +46,15 @@ async function removeQuiz(
   console.log(updatedGroupQuizzes);
   setGroupQuizzes(updatedGroupQuizzes);
 }
+async function getQuizPic(quizID, setQuizProfPic) {
+  console.log("get quiz pic");
+  let quiz = await getQuiz(quizID);
+  let user = await getUser(quiz.ownerUsername);
+  let quizPic = user.profilePicture;
+  let quizImage = await Storage.get(quizPic);
+  setQuizProfPic(quizImage);
+}
+
 function QuizStatsBox({
   groupQuizzes,
   currSelectedQuiz,
@@ -53,6 +66,11 @@ function QuizStatsBox({
   owner,
   groupID,
 }) {
+  const [quizProfPic, setQuizProfPic] = useState(photo2);
+  let res = async () => {
+    let stink = await getQuizPic(id, setQuizProfPic);
+  };
+  const [loadingImage, setLoadingImage] = useState(res);
   let deleteIcon = [];
   if (owner) {
     deleteIcon.push(
@@ -99,11 +117,11 @@ function QuizStatsBox({
               width: "30px",
             }}
           >
-            {/* <img
+            <img
               className="img-fluid rounded-circle my-auto"
-              src={groupProfPic}
+              src={quizProfPic}
               alt=""
-            /> */}
+            />
           </div>
         </Card>
       </Button>

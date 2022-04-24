@@ -1,10 +1,28 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import Media from "react-media";
 import { Card, CardImg } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { photo2 } from "../images";
+import {  Storage } from "aws-amplify";
+import { getGroup } from "../databaseFunctions/groups";
+import { getUser } from "../databaseFunctions/users";
 
-function GroupBox({ link, name, groupID }) {
+async function getGroupPic(groupID, setGroupProfPic){
+  console.log("get group pic");
+  let group = await getGroup(groupID);
+  let user = await getUser(group.ownerUsername);
+  let groupPic = user.profilePicture;
+  let groupImage = await Storage.get(groupPic);
+  setGroupProfPic(groupImage);
+}
+
+ function GroupBox({ link, name, groupID }) {
+  const [groupProfPic, setGroupProfPic] = useState(photo2);
+  let res = async()=>{
+    let stink = await getGroupPic(groupID, setGroupProfPic);
+  };
+  const [loadingImage, setLoadingImage] = useState(res);
+
   return (
     <div className="group-box mb-4">
       <Link
@@ -59,7 +77,7 @@ function GroupBox({ link, name, groupID }) {
           >
             <img
               className="img-fluid rounded-circle my-auto"
-              src={photo2}
+              src={groupProfPic}
               alt=""
             />
           </div>

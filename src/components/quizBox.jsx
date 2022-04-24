@@ -2,7 +2,7 @@ import React, { useState, Fragment } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getQuiz } from "../databaseFunctions/quizzes";
-import { photo2 } from "../images";
+import { photo } from "../images";
 import { Storage } from "aws-amplify";
 import { getUser } from "../databaseFunctions/users";
 
@@ -16,7 +16,7 @@ async function getQuizPic(quizID, setQuizProfPic) {
 }
 
 function QuizBox({ title, author, id }) {
-  const [quizProfPic, setQuizProfPic] = useState(photo2);
+  const [quizProfPic, setQuizProfPic] = useState(photo);
   let res = async () => {
     let stink = await getQuizPic(id, setQuizProfPic);
   };

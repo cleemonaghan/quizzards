@@ -1,12 +1,11 @@
 import React, { useState, Fragment } from "react";
 import { Card, Button } from "react-bootstrap";
 import { TrashFill } from "react-bootstrap-icons";
-import { TrashFill, StarFill } from "react-bootstrap-icons";
 import {
   deleteQuizFromGroup,
   getGroupsQuizzes,
 } from "../databaseFunctions/groups";
-import { photo2 } from "../images";
+import { photo } from "../images";
 import { getQuiz } from "../databaseFunctions/quizzes";
 import { Storage } from "aws-amplify";
 import { getUser } from "../databaseFunctions/users";
@@ -66,7 +65,7 @@ function QuizStatsBox({
   owner,
   groupID,
 }) {
-  const [quizProfPic, setQuizProfPic] = useState(photo2);
+  const [quizProfPic, setQuizProfPic] = useState(photo);
   let res = async () => {
     let stink = await getQuizPic(id, setQuizProfPic);
   };

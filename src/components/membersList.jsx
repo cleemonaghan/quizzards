@@ -105,8 +105,8 @@ function useGatherMembers(
 ) {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    refreshMembers(
+  useEffect(async () => {
+    await refreshMembers(
       ownername,
       memberList,
       requestedMemList,
@@ -357,7 +357,7 @@ function MembersList(params) {
   );
 
   //constants for adding friends to the group
-  const [loading4, setLoading4] = useState(true);
+  const [loading4, setLoading4] = useState(false);
   const [friends, setFriends] = useState([]);
 
   const [showFriends, setShowFriends] = useState(false);
@@ -396,7 +396,7 @@ function MembersList(params) {
     useHandleShowRequests
   );
 
-  return loading1 || loading2 || loading3 ? (
+  return loading1 || loading2 || loading3 || loading4 ? (
     <div>Loading...</div>
   ) : (
     <div className="members-list">

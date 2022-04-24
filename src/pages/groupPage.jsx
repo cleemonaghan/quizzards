@@ -67,8 +67,8 @@ function useGatherResources(groupID) {
       //get the user
       let username = (await Auth.currentAuthenticatedUser()).username;
       setUser(username);
-      console.log(username);
-      console.log(groupID);
+      //console.log(username);
+      //console.log(groupID);
       //get the group
       let groupFetched = await getGroup(groupID);
       setGroup(groupFetched);
@@ -78,13 +78,13 @@ function useGatherResources(groupID) {
 
       //get group quizzes
       res = await getGroupsQuizzes(groupID);
-      console.log(res);
+      //console.log(res);
       let groupQuizArr = [];
       for (let i = 0; i < res.length; i++) {
         let temp = await getQuiz(res[i].quizID);
         groupQuizArr.push(temp);
       }
-      console.log(groupQuizArr);
+      //console.log(groupQuizArr);
       setGroupQuizzes(groupQuizArr);
 
       //get user owned Quizzes
@@ -121,20 +121,24 @@ function useGatherResources(groupID) {
       res = await getUserOwnedGroups(username);
       setUserGroups(res);
 
-      console.log(userOwned);
-      console.log(userTaken);
-      console.log(allQuizzesArr);
+      //console.log(userOwned);
+      //console.log(userTaken);
+      // console.log(allQuizzesArr);
       //get form for all quizzes
       res = await gatherQuizzes(userOwned, userTaken, allQuizzesArr);
       setQuizSearchElement(res);
+      console.log(username);
       let members = groupFetched.members;
-      for (let x = 0; x < members.length; x++) {
-        if (members[x].username === username) {
+      console.log(members);
+      for (let x = 0; x < members.items.length; x++) {
+        if (members.items[x].userID === username) {
           setIsMember(true);
+          console.log("true is member");
         }
       }
     } catch (e) {
-      //there was an error, so save it
+      //there was an error, so save itc
+      console.log("error");
       console.log(e);
       setError(e);
     } finally {
@@ -253,7 +257,7 @@ function displayQuizElements(
   owner,
   groupID
 ) {
-  console.log(groupQuizzes);
+  //console.log(groupQuizzes);
   if (groupQuizzes === undefined || groupQuizzes.length < 1) {
     return <p>This group has no quizzes yet</p>;
   } else {
@@ -578,8 +582,8 @@ function GroupPage() {
                       continue;
                     }
                     let res = await addQuizToGroup(target[i].id, groupID);
-                    console.log("Adding quiz to group:");
-                    console.log(res);
+                    //console.log("Adding quiz to group:");
+                    //console.log(res);
                     let tempQuiz = await getQuiz(target[i].id);
                     updatedGroupQuizzes.push(tempQuiz);
                   }

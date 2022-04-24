@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import Media from "react-media";
 import { Auth, Storage } from "aws-amplify";
 import { Link, useParams } from "react-router-dom";
 import { PencilSquare } from "react-bootstrap-icons";
@@ -447,6 +448,7 @@ function GroupPage() {
     setShowQuizzes(false);
   };
   const [loading4, setLoading4] = useState(true);
+  const showMembers = useState(true);
 
   //set button to leave group if they are not the owner
 
@@ -462,95 +464,368 @@ function GroupPage() {
     Loading()
   ) : (
     <div className="group-page">
-      <div className="row m-0">
-        <img
-          className="col-4 mb-5 px-0"
-          src={groupImage}
-          alt=""
-          width="100%"
-          height="325vh"
-        />
-        <div className="description col-8 mb-5 py-5 px-0 bg-dark-grey">
-          <h1 className="px-5 text-light">
-            {group.name}
-            {userB}
-          </h1>
-          <p className="px-5 text-light">{group.bio}</p>
-        </div>
-      </div>
+      <Media
+        queries={{
+          mobile: "(max-width: 575px)",
+          tablet: "(min-width: 576px) and (max-width: 999px)",
+          wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+          desktop: "(min-width: 1200px)",
+        }}
+      >
+        {(matches) => (
+          <Fragment>
+            {matches.mobile && (
+              <div className="row m-0">
+                <img
+                  className="col-12 mb-0 px-0"
+                  src={groupImage}
+                  alt=""
+                  width="100%"
+                  height="250vh"
+                />
+                <div className="description col-12 mb-4 py-4 px-0 bg-dark-grey">
+                  <h1 className="px-4 text-light">
+                    {group.name}
+                    {userB}
+                  </h1>
+                  <p className="px-4 text-light">{group.bio}</p>
+                </div>
+              </div>
+            )}
+            {matches.tablet && (
+              <div className="row m-0">
+                <img
+                  className="col-5 mb-5 px-0"
+                  src={groupImage}
+                  alt=""
+                  width="100%"
+                  height="250vh"
+                />
+                <div className="description col-7 mb-4 py-5 px-0 bg-dark-grey">
+                  <h1 className="px-5 text-light">
+                    {group.name}
+                    {userB}
+                  </h1>
+                  <p className="px-5 text-light">{group.bio}</p>
+                </div>
+              </div>
+            )}
+            {matches.wideTablet && (
+              <div className="row m-0">
+                <img
+                  className="col-5 mb-5 px-0"
+                  src={groupImage}
+                  alt=""
+                  width="100%"
+                  height="325vh"
+                />
+                <div className="description col-7 mb-4 py-5 px-0 bg-dark-grey">
+                  <h1 className="px-5 text-light">
+                    {group.name}
+                    {userB}
+                  </h1>
+                  <p className="px-5 text-light">{group.bio}</p>
+                </div>
+              </div>
+            )}
+            {matches.desktop && (
+              <div className="row m-0">
+                <img
+                  className="col-4 mb-5 px-0"
+                  src={groupImage}
+                  alt=""
+                  width="100%"
+                  height="325vh"
+                />
+                <div className="description col-8 mb-5 py-5 px-0 bg-dark-grey">
+                  <h1 className="px-5 text-light">
+                    {group.name}
+                    {userB}
+                  </h1>
+                  <p className="px-5 text-light">{group.bio}</p>
+                </div>
+              </div>
+            )}
+          </Fragment>
+        )}
+      </Media>
 
       <div className="container">
-        <div className="row">
-          <div className="quizzes col-3">
-            <div className="row mb-3">
-              {/* <DropdownButton
-                className="col-auto"
-                id="dropdown-basic-button"
-                title="Filter"
-                variant="outline-primary"
-              >
-                <Dropdown.Item href="#/action-1">New Quizzes</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
-                <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
-              </DropdownButton> */}
-
-              {generateAddQuizButton(setShowQuizzes, isMember)}
-            </div>
-            {displayQuizElements(
-              groupQuizzes,
-              quizIDSelectedForStats,
-              setQuizIDSelectedForStats,
-              setGroupQuizzes,
-              user,
-              group.ownerUsername,
-              groupID
-            )}
-          </div>
-          <div className="stats-compare col-6">
-            <div className="mb-3 align-items-center d-flex justify-content-center">
-              <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                <ToggleButton
-                  id="tbg-group-stats"
-                  value={1}
-                  variant="outline-primary"
-                  onClick={() => setToggleVal(1)}
-                >
-                  Group Stats
-                </ToggleButton>
-                <ToggleButton
-                  id="tbg-compare-results"
-                  value={2}
-                  variant="outline-primary"
-                  onClick={() => setToggleVal(2)}
-                >
-                  Compare Results
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div>
-              {handleStatsToggle(
-                group,
-                quizIDSelectedForStats,
-                user,
-                toggleVal,
-                isMember
+        <Media
+          queries={{
+            mobile: "(max-width: 575px)",
+            tablet: "(min-width: 576px) and (max-width: 999px)",
+            wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+            desktop: "(min-width: 1200px)",
+          }}
+        >
+          {(matches) => (
+            <Fragment>
+              {matches.mobile && (
+                <div className="row">
+                  <div className="align-items-end d-flex justify-content-end mb-4">
+                    <Button variant="member">View Members</Button>
+                  </div>
+                  <div className="stats-compare col-12">
+                    <div className="mb-3 align-items-center d-flex justify-content-center">
+                      <ToggleButtonGroup
+                        type="radio"
+                        name="options"
+                        defaultValue={1}
+                      >
+                        <ToggleButton
+                          id="tbg-group-stats"
+                          value={1}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(1)}
+                        >
+                          Group Stats
+                        </ToggleButton>
+                        <ToggleButton
+                          id="tbg-compare-results"
+                          value={2}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(2)}
+                        >
+                          Compare Results
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </div>
+                    <div>
+                      {handleStatsToggle(
+                        group,
+                        quizIDSelectedForStats,
+                        user,
+                        toggleVal,
+                        isMember
+                      )}
+                    </div>
+                  </div>
+                  <div className="quizzes col-12">
+                    <div className="row mb-3 ms-0">
+                      {generateAddQuizButton(setShowQuizzes, isMember)}
+                    </div>
+                    {displayQuizElements(
+                      groupQuizzes,
+                      quizIDSelectedForStats,
+                      setQuizIDSelectedForStats,
+                      setGroupQuizzes,
+                      user,
+                      group.ownerUsername,
+                      groupID
+                    )}
+                  </div>
+                </div>
               )}
+              {matches.tablet && (
+                <div className="row">
+                  <div className="align-items-end d-flex justify-content-end mb-4">
+                    <Button variant="member">View Members</Button>
+                  </div>
+                  <div className="quizzes col-4">
+                    <div className="row mb-3 ms-0">
+                      {generateAddQuizButton(setShowQuizzes, isMember)}
+                    </div>
+                    {displayQuizElements(
+                      groupQuizzes,
+                      quizIDSelectedForStats,
+                      setQuizIDSelectedForStats,
+                      setGroupQuizzes,
+                      user,
+                      group.ownerUsername,
+                      groupID
+                    )}
+                  </div>
+                  <div className="stats-compare col-8">
+                    <div className="mb-3 align-items-center d-flex justify-content-center">
+                      <ToggleButtonGroup
+                        type="radio"
+                        name="options"
+                        defaultValue={1}
+                      >
+                        <ToggleButton
+                          id="tbg-group-stats"
+                          value={1}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(1)}
+                        >
+                          Group Stats
+                        </ToggleButton>
+                        <ToggleButton
+                          id="tbg-compare-results"
+                          value={2}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(2)}
+                        >
+                          Compare Results
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </div>
+                    <div>
+                      {handleStatsToggle(
+                        group,
+                        quizIDSelectedForStats,
+                        user,
+                        toggleVal,
+                        isMember
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {matches.wideTablet && (
+                <div className="row">
+                  <div className="align-items-end d-flex justify-content-end mb-4">
+                    <Button variant="member">View Members</Button>
+                  </div>
+                  <div className="quizzes col-4">
+                    <div className="row mb-3 ms-0">
+                      {generateAddQuizButton(setShowQuizzes, isMember)}
+                    </div>
+                    {displayQuizElements(
+                      groupQuizzes,
+                      quizIDSelectedForStats,
+                      setQuizIDSelectedForStats,
+                      setGroupQuizzes,
+                      user,
+                      group.ownerUsername,
+                      groupID
+                    )}
+                  </div>
+                  <div className="stats-compare col-8">
+                    <div className="mb-3 align-items-center d-flex justify-content-center">
+                      <ToggleButtonGroup
+                        type="radio"
+                        name="options"
+                        defaultValue={1}
+                      >
+                        <ToggleButton
+                          id="tbg-group-stats"
+                          value={1}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(1)}
+                        >
+                          Group Stats
+                        </ToggleButton>
+                        <ToggleButton
+                          id="tbg-compare-results"
+                          value={2}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(2)}
+                        >
+                          Compare Results
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </div>
+                    <div>
+                      {handleStatsToggle(
+                        group,
+                        quizIDSelectedForStats,
+                        user,
+                        toggleVal,
+                        isMember
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {matches.desktop && (
+                <div className="row">
+                  <div className="quizzes col-3">
+                    <div className="row mb-3 ms-0">
+                      {/* <DropdownButton
+                      className="col-auto"
+                      id="dropdown-basic-button"
+                      title="Filter"
+                      variant="outline-primary"
+                    >
+                      <Dropdown.Item href="#/action-1">New Quizzes</Dropdown.Item>
+                      <Dropdown.Item href="#/action-2">Popular Quizzes</Dropdown.Item>
+                      <Dropdown.Item href="#/action-3">All Quizzes</Dropdown.Item>
+                      <Dropdown.Item href="#/action-4">Quizzes Taken</Dropdown.Item>
+                    </DropdownButton> */}
+
+                      {generateAddQuizButton(setShowQuizzes, isMember)}
+                    </div>
+                    {displayQuizElements(
+                      groupQuizzes,
+                      quizIDSelectedForStats,
+                      setQuizIDSelectedForStats,
+                      setGroupQuizzes,
+                      user,
+                      group.ownerUsername,
+                      groupID
+                    )}
+                  </div>
+                  <div className="stats-compare col-6">
+                    <div className="mb-3 align-items-center d-flex justify-content-center">
+                      <ToggleButtonGroup
+                        type="radio"
+                        name="options"
+                        defaultValue={1}
+                      >
+                        <ToggleButton
+                          id="tbg-group-stats"
+                          value={1}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(1)}
+                        >
+                          Group Stats
+                        </ToggleButton>
+                        <ToggleButton
+                          id="tbg-compare-results"
+                          value={2}
+                          variant="outline-primary"
+                          onClick={() => setToggleVal(2)}
+                        >
+                          Compare Results
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </div>
+                    <div>
+                      {handleStatsToggle(
+                        group,
+                        quizIDSelectedForStats,
+                        user,
+                        toggleVal,
+                        isMember
+                      )}
+                    </div>
+                  </div>
+                  <div className="members col-3 mb-5">
+                    <div className="row mb-3">
+                      <Button variant="invisible" disabled>
+                        x
+                      </Button>{" "}
+                    </div>
+                    <MembersList
+                      group={group}
+                      isMember={isMember}
+                      setMembership={setIsMember}
+                    />
+                  </div>
+                </div>
+              )}
+            </Fragment>
+          )}
+        </Media>
+      </div>
+
+      <div>
+        <Modal show={showMembers} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Group Members</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="members">
+              <MembersList
+                group={group}
+                isMember={isMember}
+                setMembership={setIsMember}
+              />
             </div>
-          </div>
-          <div className="members col-3">
-            <div className="row mb-3">
-              <Button variant="invisible" disabled>
-                x
-              </Button>{" "}
-            </div>
-            <MembersList
-              group={group}
-              isMember={isMember}
-              setMembership={setIsMember}
-            />
-          </div>
-        </div>
+          </Modal.Body>
+        </Modal>
       </div>
 
       <div>

@@ -25,6 +25,12 @@
   border-color: white;
 }
 
+.btn-member {
+  color: white;
+  background-color: #7248f1;
+  border-color: #7248f1;
+}
+
 /* button hover colors */
 .btn-outline-danger:hover {
   color: white;
@@ -42,6 +48,12 @@
   color: white;
   background-color: #0273e9;
   border-color: #0273e9;
+}
+
+.btn-member:hover {
+  color: white;
+  background-color: #442b8f;
+  border-color: #442b8f;
 }
 
 .heart {

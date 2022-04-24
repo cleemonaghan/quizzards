@@ -221,17 +221,16 @@ function generateInviteButton(currentUser, owner, showFriends) {
   }
 }
 
-async function removeUserFromGroup(username, groupID, isMember, setMembership){
+async function removeUserFromGroup(username, groupID, isMember, setMembership) {
   console.log(username);
   console.log(groupID);
   console.log(isMember);
   //remove user from group member list
   let res = await removeMemberFromGroup(username, groupID);
-  if(isMember){
-   setMembership(false);
+  if (isMember) {
+    setMembership(false);
   }
   console.log(isMember);
-
 }
 
 function useRequestButton(
@@ -274,17 +273,21 @@ function useRequestButton(
     }).length > 0
   ) {
     //we are already a member
-    return <Button 
-    variant="outline-danger"
-    onClick={async () => {
-      let temp = await removeUserFromGroup(
-        currentUser,
-        groupID,
-        params.isMember,
-        params.setMembership
-      );
-    }}
-    >Leave Group</Button>;
+    return (
+      <Button
+        variant="outline-danger"
+        onClick={async () => {
+          let temp = await removeUserFromGroup(
+            currentUser,
+            groupID,
+            params.isMember,
+            params.setMembership
+          );
+        }}
+      >
+        Leave Group
+      </Button>
+    );
   } else {
     //we are not in the group, we have not requested to join yet
 
@@ -392,7 +395,7 @@ function MembersList(params) {
     <div>Loading...</div>
   ) : (
     <div className="members-list">
-      <div className="outline mb-5">
+      <div className="outline">
         <div className="row">
           <h4 className="col-5 ms-2 my-2"> Owner: </h4>
         </div>

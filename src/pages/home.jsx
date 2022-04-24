@@ -83,7 +83,9 @@ class Home extends React.Component {
       return (
         <p>
           You have made no groups. <br></br>
-          <Link to="/createGroup">Create a Group</Link>
+          <Link to="/createGroup">
+            <Button variant="primary">Create a Group</Button>
+          </Link>
         </p>
       );
     } else {
@@ -91,6 +93,9 @@ class Home extends React.Component {
       var result = [];
       for (let i = 0; i < groupArr.length; i++) {
         let group = await getGroup(groupArr[i].groupID);
+        if(group==null){
+          continue;
+        }
         let groupImage = await Storage.get(group.profilePicture);
         result.push(
           <Media
@@ -146,7 +151,9 @@ class Home extends React.Component {
       return (
         <p>
           You have made no quizzes. <br></br>
-          <Link to="/createQuiz">Create a Quiz</Link>
+          <Link to="/createQuiz">
+            <Button variant="primary">Create a Quiz</Button>
+          </Link>
         </p>
       );
     } else {
@@ -215,7 +222,9 @@ class Home extends React.Component {
       return (
         <p>
           You have taken no quizzes. <br></br>
-          <Link to="/quizzes">Take a Quiz</Link>
+          <Link to="/quizzes">
+            <Button variant="primary">Take a Quiz</Button>
+          </Link>
         </p>
       );
     } else {

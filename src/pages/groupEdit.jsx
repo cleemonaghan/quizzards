@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { getGroup, updateGroup } from "../databaseFunctions/groups";
+import { getGroup, getGroups, updateGroup, removeGroup as removeGroupMutation } from "../databaseFunctions/groups";
 import "@aws-amplify/ui-react/styles.css";
 import { Form, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { Storage } from "aws-amplify";
 import { useParams, Navigate } from "react-router-dom";
 import { failToLoad, Loading } from "../components";
+
+async function removeGroup(groupID,setDeleting,setHasDeleted){
+  setDeleting(true);
+  console.log("group being deleted");
+  console.log(groupID);
+  let tempGroup = await getGroups();
+  console.log(tempGroup);
+  //remove group from DB
+  let res = await removeGroupMutation(groupID);
+
+  tempGroup = await getGroups();
+  console.log(tempGroup);
+  setHasDeleted(true);
+  return;
+}
 
 function GroupEdit() {
   let info = useParams();
@@ -30,6 +45,14 @@ function GroupEdit() {
   );
 
   const [alert, setAlert] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [hasDeleted, setHasDeleted] = useState(false);
+
+  if (hasDeleted) {
+    return <Navigate to={"/groups"} />;
+  } else if (deleting) {
+    return Loading();
+  }
 
   if (error) return failToLoad();
   else if (submit) {
@@ -41,7 +64,7 @@ function GroupEdit() {
   ) : (
     <div className="edit_group">
       <div className="container">
-        <h1 className="font-weight-light my-5">Create Group</h1>
+        <h1 className="font-weight-light my-5">Edit Group</h1>
         <Form
           onSubmit={(event) =>
             handleSubmit(
@@ -112,7 +135,10 @@ function GroupEdit() {
             Update Group
           </Button>
           {/* Delete Group */}
-          <Button className="ms-2" variant="danger">
+          <Button className="ms-2" variant="danger"
+          onClick = {async () => {
+            let temp = await removeGroup(groupID, setDeleting,setHasDeleted);
+          }}>
             Delete Group
           </Button>
         </Form>

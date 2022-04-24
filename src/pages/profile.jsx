@@ -52,8 +52,8 @@ class Profile extends React.Component {
       biography: userDatabase.bio,
       myQuizzes: tempQuizzes,
       myGroups: tempGroups,
-      quizElements: await this.displayOwnedQuizzes(tempQuizzes),
-      groupElements: await this.displayOwnedGroups(tempGroups),
+      quizElements: await this.displayOwnedQuizzes(tempQuizzes, userSettings.username),
+      groupElements: await this.displayOwnedGroups(tempGroups, userSettings.username),
     });
     //load the picture from storage
     try {
@@ -72,10 +72,11 @@ class Profile extends React.Component {
     }
   }
 
-  async displayOwnedQuizzes(quizArr) {
+  async displayOwnedQuizzes(quizArr,username) {
     //if they have made no quizzes return a message
+    console.log(username);
     if (quizArr === undefined || quizArr.length < 1) {
-      return <p>{this.state.username} has made no quizzes. </p>;
+      return <p>{username} has made no quizzes. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
@@ -137,10 +138,10 @@ class Profile extends React.Component {
     return result;
   }
 
-  async displayOwnedGroups(groupArr) {
+  async displayOwnedGroups(groupArr,username) {
     //if they have made no quizzes return a message
     if (groupArr === undefined || groupArr.length < 1) {
-      return <p>{this.state.username} has made no groups. </p>;
+      return <p>{username} has made no groups. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
@@ -309,6 +310,24 @@ class Profile extends React.Component {
                       <h4 className="col-3">Bio:</h4>
                       <h4 className="col-9 ps-3">{this.state.biography}</h4>
                     </div>
+                    <div className="row align-items-center m-0 mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Groups
+                      </h1>
+                    </div>
+                    <div className="row col-12 m-0">
+                      {/* Display the user's groups */}
+                      {this.state.groupElements}
+                    </div>
+                    <div className="row align-items-center m-0 mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Quizzes
+                      </h1>
+                    </div>
+                    <div className="row col-12 m-0">
+                      {/* Display the user's groups */}
+                      {this.state.quizElements}
+                    </div>
                   </div>
                 )}
                 {matches.tablet && (
@@ -329,6 +348,24 @@ class Profile extends React.Component {
                       <h4 className="col-2">Bio:</h4>
                       <h4 className="col-10 ps-2">{this.state.biography}</h4>
                     </div>{" "}
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Groups
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.groupElements}
+                    </div>
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Quizzes
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.quizElements}
+                    </div>
                   </div>
                 )}
                 {matches.wideTablet && (
@@ -349,6 +386,24 @@ class Profile extends React.Component {
                       <h4 className="col-1">Bio:</h4>
                       <h4 className="col-11 ps-5">{this.state.biography}</h4>
                     </div>{" "}
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Groups
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.groupElements}
+                    </div>
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Quizzes
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.quizElements}
+                    </div>
                   </div>
                 )}
                 {matches.desktop && (
@@ -369,26 +424,29 @@ class Profile extends React.Component {
                       <h4 className="col-1">Bio:</h4>
                       <h4 className="col-11 ps-4">{this.state.biography}</h4>
                     </div>{" "}
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Groups
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.groupElements}
+                    </div>
+                    <div className="row align-items-center mt-5 mb-2">
+                      <h1 className="font-weight-bold">
+                        {this.state.name}'s Quizzes
+                      </h1>
+                    </div>
+                    <div className="row col-12">
+                      {/* Display the user's groups */}
+                      {this.state.quizElements}
+                    </div>
                   </div>
                 )}
               </Fragment>
             )}
           </Media>
-
-          <div className="row align-items-center m-0 mt-5 mb-2">
-            <h1 className="font-weight-bold">{this.state.name}'s Groups</h1>
-          </div>
-          <div className="row col-12 m-0">
-            {/* Display the user's groups */}
-            {this.state.groupElements}
-          </div>
-          <div className="row align-items-center m-0 mt-5 mb-2">
-            <h1 className="font-weight-bold">{this.state.name}'s Quizzes</h1>
-          </div>
-          <div className="row col-12 m-0">
-            {/* Display the user's groups */}
-            {this.state.quizElements}
-          </div>
         </div>
       </div>
     );

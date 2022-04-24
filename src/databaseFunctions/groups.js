@@ -7,12 +7,15 @@ import {
   deleteMemberRequests,
   createQuizToGroup,
   deleteQuizToGroup,
+  deleteGroup,
+  deleteMembers,
 } from "../graphql/mutations";
 import {
   getGroup as getGroupQuery,
   listGroups as listGroupQuery,
   getMemberRequests,
   listMemberRequests,
+  listMembers,
   listGroups,
   listQuizToGroups,
 } from "../graphql/queries";
@@ -65,6 +68,24 @@ export async function createGroup(params) {
   return res.data.createGroup;
 }
 
+
+export async function removeGroup(groupID){
+
+  let group = await getGroup(groupID);
+
+
+  let params = {
+    id: groupID,
+  }
+  console.log(params);
+  let res = await API.graphql({
+    query: deleteGroup,
+    variables: {input: params},
+  });
+  console.log(res);
+  return res;
+}
+
 /** This method updates the attributes of a specified group.
  *
  * @param {*} id The ID of the group
@@ -108,6 +129,7 @@ export async function getGroup(id) {
     query: getGroupQuery,
     variables: { id: id },
   });
+  console.log(result.data.getGroup);
   return result.data.getGroup;
 }
 
@@ -135,6 +157,42 @@ export async function addMemberToGroup(memberID, groupID) {
     variables: { input: params },
   });
   return res;
+}
+
+
+export async function removeMemberFromGroup(memberID, groupID){
+  console.log(memberID);
+  console.log(groupID);
+  let params = {
+    and: [
+      {
+        userID: {
+          eq: memberID, // filter userID == memberID
+        },
+      },
+      {
+        groupID: {
+          eq: groupID, // filter groupID == groupID
+        },
+      },
+    ],
+  };
+
+  let memberToGroupID = await API.graphql({
+    query: listMembers,
+    variables: {filter: params},
+  });
+  if(memberToGroupID.data.listMembers.items.length == 0 || memberToGroupID.data.listMembers.items[0] == null){
+    return null;
+  }
+
+
+  //Delete the connection from the DB using the ID
+  let res = await API.graphql({
+    query: deleteMembers,
+    variables: { input: {id:memberToGroupID.data.listMembers.items[0].id} },
+  });
+  return res.data.deleteMember;
 }
 
 export async function requestMemberToGroup(memberID, groupID) {

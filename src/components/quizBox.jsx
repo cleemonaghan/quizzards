@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { photo2 } from "../images";
+// import { photo2 } from "../images";
 
 function QuizBox({ title, author, id }) {
   return (
@@ -29,11 +29,11 @@ function QuizBox({ title, author, id }) {
               width: "30px",
             }}
           >
-            <img
+            {/* <img
               className="img-fluid rounded-circle my-auto"
-              src={photo2}
+              src={groupProfPic}
               alt=""
-            />
+            /> */}
           </div>
         </Card>
       </Link>

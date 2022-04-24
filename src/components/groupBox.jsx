@@ -2,12 +2,12 @@ import React, { useState, Fragment } from "react";
 import Media from "react-media";
 import { Card, CardImg } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { photo2 } from "../images";
-import {  Storage } from "aws-amplify";
+import { photo } from "../images";
+import { Storage } from "aws-amplify";
 import { getGroup } from "../databaseFunctions/groups";
 import { getUser } from "../databaseFunctions/users";
 
-async function getGroupPic(groupID, setGroupProfPic){
+async function getGroupPic(groupID, setGroupProfPic) {
   console.log("get group pic");
   let group = await getGroup(groupID);
   let user = await getUser(group.ownerUsername);
@@ -16,9 +16,9 @@ async function getGroupPic(groupID, setGroupProfPic){
   setGroupProfPic(groupImage);
 }
 
- function GroupBox({ link, name, groupID }) {
-  const [groupProfPic, setGroupProfPic] = useState(photo2);
-  let res = async()=>{
+function GroupBox({ link, name, groupID }) {
+  const [groupProfPic, setGroupProfPic] = useState(photo);
+  let res = async () => {
     let stink = await getGroupPic(groupID, setGroupProfPic);
   };
   const [loadingImage, setLoadingImage] = useState(res);

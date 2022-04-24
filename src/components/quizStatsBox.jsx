@@ -1,11 +1,11 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import { TrashFill } from "react-bootstrap-icons";
 import {
-  TrashFill, 
-  StarFill
-} from "react-bootstrap-icons";
-import { deleteQuizFromGroup, getGroupsQuizzes } from "../databaseFunctions/groups";
-import { photo2 } from "../images";
+  deleteQuizFromGroup,
+  getGroupsQuizzes,
+} from "../databaseFunctions/groups";
+// import { photo2 } from "../images";
 
 async function removeQuiz(
   quizID,
@@ -34,8 +34,8 @@ async function removeQuiz(
 
   //remove the quiz from the list of current group Quizzes and update the group list
   let index;
-  for(let i = 0; i<groupQuizzes.length; i++){
-    if(groupQuizzes[i].id != quizID){
+  for (let i = 0; i < groupQuizzes.length; i++) {
+    if (groupQuizzes[i].id != quizID) {
       updatedGroupQuizzes.push(groupQuizzes[i]);
     }
   }
@@ -99,11 +99,11 @@ function QuizStatsBox({
               width: "30px",
             }}
           >
-            <img
+            {/* <img
               className="img-fluid rounded-circle my-auto"
-              src={photo2}
+              src={groupProfPic}
               alt=""
-            />
+            /> */}
           </div>
         </Card>
       </Button>

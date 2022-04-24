@@ -140,7 +140,7 @@ class Groups extends React.Component {
               <GroupBox
                 link={groupImage}
                 name={group.name}
-                groupID={groupArr[i].id}
+                groupID={group.id}
               />
             </div>
           );

@@ -104,7 +104,7 @@ class Home extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-          >
+           key={i}>
             {(matches) => (
               <Fragment>
                 {matches.other && (
@@ -173,7 +173,7 @@ class Home extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-          >
+            key={i}>
             {(matches) => (
               <Fragment>
                 {matches.other && (
@@ -244,7 +244,7 @@ class Home extends React.Component {
                 wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
                 desktop: "(min-width: 1200px)",
               }}
-            >
+              key={i}>
               {(matches) => (
                 <Fragment>
                   {matches.other && (

@@ -45,10 +45,10 @@ function useGatherResources(username) {
       res = await getUserOwnedGroups(username);
       let tempGroups = res;
 
-      res = await displayUserQuizzes(tempQuizzes,username);
+      res = await displayUserQuizzes(tempQuizzes, username);
       setQuizElems(res);
 
-      res = await displayUserGroups(tempGroups,username);
+      res = await displayUserGroups(tempGroups, username);
       setGroupElems(res);
     } catch (e) {
       //there was an error, so save it
@@ -67,7 +67,7 @@ function useGatherResources(username) {
   return [user, userImage, quizElements, groupElements, error, loading];
 }
 
-async function displayUserQuizzes(quizArr,username) {
+async function displayUserQuizzes(quizArr, username) {
   //if they have made no quizzes return a message
   console.log(username);
   if (quizArr === undefined || quizArr.length < 1) {
@@ -84,6 +84,7 @@ async function displayUserQuizzes(quizArr,username) {
             wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
             desktop: "(min-width: 1200px)",
           }}
+          key={i}
         >
           {(matches) => (
             <Fragment>
@@ -151,6 +152,7 @@ async function displayUserGroups(groupArr, username) {
             wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
             desktop: "(min-width: 1200px)",
           }}
+          key={i}
         >
           {(matches) => (
             <Fragment>

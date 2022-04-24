@@ -159,7 +159,7 @@ async function displayUserGroups(groupArr, username) {
                   <GroupBox
                     link={groupImage}
                     name={group.name}
-                    groupID={groupArr[i].groupID}
+                    groupID={groupArr[i].id}
                   />
                 </div>
               )}
@@ -168,7 +168,7 @@ async function displayUserGroups(groupArr, username) {
                   <GroupBox
                     link={groupImage}
                     name={group.name}
-                    groupID={groupArr[i].groupID}
+                    groupID={groupArr[i].id}
                   />
                 </div>
               )}
@@ -177,7 +177,7 @@ async function displayUserGroups(groupArr, username) {
                   <GroupBox
                     link={groupImage}
                     name={group.name}
-                    groupID={groupArr[i].groupID}
+                    groupID={groupArr[i].id}
                   />
                 </div>
               )}
@@ -186,7 +186,7 @@ async function displayUserGroups(groupArr, username) {
                   <GroupBox
                     link={groupImage}
                     name={group.name}
-                    groupID={groupArr[i].groupID}
+                    groupID={groupArr[i].id}
                   />
                 </div>
               )}

@@ -72,7 +72,7 @@ export async function createGroup(params) {
 export async function removeGroup(groupID){
 
   let group = await getGroup(groupID);
-  
+
 
   let params = {
     id: groupID,
@@ -129,6 +129,7 @@ export async function getGroup(id) {
     query: getGroupQuery,
     variables: { id: id },
   });
+  console.log(result.data.getGroup);
   return result.data.getGroup;
 }
 

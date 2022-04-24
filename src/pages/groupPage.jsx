@@ -56,6 +56,8 @@ function useGatherResources(groupID) {
   const [groupQuizzes, setGroupQuizzes] = useState([]); //list of quizzes belonging to group
   const [quizSearchElement, setQuizSearchElement] = useState([]); //for
   const [isMember, setIsMember] = useState(false);
+  const [showQuizzes, setShowQuizzes] = useState(false);
+  const [showMembers,setShowMembers] = useState(true);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -68,11 +70,12 @@ function useGatherResources(groupID) {
       //get the user
       let username = (await Auth.currentAuthenticatedUser()).username;
       setUser(username);
-      //console.log(username);
-      //console.log(groupID);
+      console.log(username);
+      console.log(groupID);
       //get the group
       let groupFetched = await getGroup(groupID);
       setGroup(groupFetched);
+      console.log(groupFetched);
       //get the group image
       let res = await Storage.get(groupFetched.profilePicture);
       setGroupImage(res);
@@ -167,6 +170,10 @@ function useGatherResources(groupID) {
     quizSearchElement,
     isMember,
     setIsMember,
+    showQuizzes,
+    setShowQuizzes,
+    showMembers,
+    setShowMembers,
   ];
 }
 
@@ -417,6 +424,11 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
   }
 }
 
+function popUpMembers(setShowMembers){
+  console.log("pop up members");
+  setShowMembers(true);
+}
+
 /** This function loads a group page and returns the formatted html to display the page.
  *
  * @returns the group page with the specified ID
@@ -425,7 +437,6 @@ function GroupPage() {
   let info = useParams();
   let groupID = info.id;
   const [toggleVal, setToggleVal] = useState(1);
-  const [showQuizzes, setShowQuizzes] = useState(false);
   const [quizIDSelectedForStats, setQuizIDSelectedForStats] = useState(null);
 
   const [
@@ -443,12 +454,22 @@ function GroupPage() {
     quizSearchElement,
     isMember,
     setIsMember,
+    showQuizzes,
+    setShowQuizzes,
+    showMembers,
+    setShowMembers,
   ] = useGatherResources(groupID);
-  const handleClose = () => {
+  const handleCloseQuizzes = () => {
+    console.log("close thing");
     setShowQuizzes(false);
   };
+
+  const handleCloseMembers = () => {
+    console.log("close thing");
+    setShowMembers(false);
+  };
+
   const [loading4, setLoading4] = useState(true);
-  const showMembers = useState(true);
 
   //set button to leave group if they are not the owner
 
@@ -564,7 +585,7 @@ function GroupPage() {
               {matches.mobile && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member">View Members</Button>
+                    <Button variant="member" onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
                   </div>
                   <div className="stats-compare col-12">
                     <div className="mb-3 align-items-center d-flex justify-content-center">
@@ -620,7 +641,8 @@ function GroupPage() {
               {matches.tablet && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member">View Members</Button>
+                    <Button variant="member"
+                    onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
                   </div>
                   <div className="quizzes col-4">
                     <div className="row mb-3 ms-0">
@@ -676,7 +698,7 @@ function GroupPage() {
               {matches.wideTablet && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member">View Members</Button>
+                    <Button variant="member" onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
                   </div>
                   <div className="quizzes col-4">
                     <div className="row mb-3 ms-0">
@@ -812,7 +834,7 @@ function GroupPage() {
       </div>
 
       <div>
-        <Modal show={showMembers} onHide={handleClose}>
+        <Modal show={showMembers} onHide={handleCloseMembers}>
           <Modal.Header closeButton>
             <Modal.Title>Group Members</Modal.Title>
           </Modal.Header>
@@ -829,7 +851,7 @@ function GroupPage() {
       </div>
 
       <div>
-        <Modal show={showQuizzes} onHide={handleClose}>
+        <Modal show={showQuizzes} onHide={handleCloseQuizzes}>
           <Modal.Header closeButton>
             <Modal.Title>Add Quiz to Group</Modal.Title>
           </Modal.Header>
@@ -861,7 +883,7 @@ function GroupPage() {
                   }
                 }
                 setGroupQuizzes(updatedGroupQuizzes);
-                handleClose();
+                handleCloseQuizzes();
               }}
             >
               {quizSearchElement}
@@ -869,7 +891,7 @@ function GroupPage() {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleCloseQuizzes}>
               Close
             </Button>
             <Button form="add-quizzes-form" variant="primary" type="submit">

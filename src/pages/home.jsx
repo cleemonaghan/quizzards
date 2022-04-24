@@ -93,6 +93,9 @@ class Home extends React.Component {
       var result = [];
       for (let i = 0; i < groupArr.length; i++) {
         let group = await getGroup(groupArr[i].groupID);
+        if(group==null){
+          continue;
+        }
         let groupImage = await Storage.get(group.profilePicture);
         result.push(
           <Media

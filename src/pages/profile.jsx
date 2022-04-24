@@ -52,8 +52,14 @@ class Profile extends React.Component {
       biography: userDatabase.bio,
       myQuizzes: tempQuizzes,
       myGroups: tempGroups,
-      quizElements: await this.displayOwnedQuizzes(tempQuizzes, userSettings.username),
-      groupElements: await this.displayOwnedGroups(tempGroups, userSettings.username),
+      quizElements: await this.displayOwnedQuizzes(
+        tempQuizzes,
+        userSettings.username
+      ),
+      groupElements: await this.displayOwnedGroups(
+        tempGroups,
+        userSettings.username
+      ),
     });
     //load the picture from storage
     try {
@@ -72,7 +78,7 @@ class Profile extends React.Component {
     }
   }
 
-  async displayOwnedQuizzes(quizArr,username) {
+  async displayOwnedQuizzes(quizArr, username) {
     //if they have made no quizzes return a message
     console.log(username);
     if (quizArr === undefined || quizArr.length < 1) {
@@ -89,7 +95,8 @@ class Profile extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-          key={i}>
+            key={i}
+          >
             {(matches) => (
               <Fragment>
                 {matches.mobile && (
@@ -138,7 +145,7 @@ class Profile extends React.Component {
     return result;
   }
 
-  async displayOwnedGroups(groupArr,username) {
+  async displayOwnedGroups(groupArr, username) {
     //if they have made no quizzes return a message
     if (groupArr === undefined || groupArr.length < 1) {
       return <p>{username} has made no groups. </p>;
@@ -158,7 +165,8 @@ class Profile extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-            key={i}>
+            key={i}
+          >
             {(matches) => (
               <Fragment>
                 {matches.mobile && (
@@ -166,7 +174,7 @@ class Profile extends React.Component {
                     <GroupBox
                       link={groupImage}
                       name={group.name}
-                      groupID={groupArr[i].groupID}
+                      groupID={groupArr[i].id}
                     />
                   </div>
                 )}
@@ -175,7 +183,7 @@ class Profile extends React.Component {
                     <GroupBox
                       link={groupImage}
                       name={group.name}
-                      groupID={groupArr[i].groupID}
+                      groupID={groupArr[i].id}
                     />
                   </div>
                 )}
@@ -184,7 +192,7 @@ class Profile extends React.Component {
                     <GroupBox
                       link={groupImage}
                       name={group.name}
-                      groupID={groupArr[i].groupID}
+                      groupID={groupArr[i].id}
                     />
                   </div>
                 )}
@@ -193,7 +201,7 @@ class Profile extends React.Component {
                     <GroupBox
                       link={groupImage}
                       name={group.name}
-                      groupID={groupArr[i].groupID}
+                      groupID={groupArr[i].id}
                     />
                   </div>
                 )}

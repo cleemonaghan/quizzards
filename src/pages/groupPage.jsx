@@ -311,7 +311,7 @@ function generateAddQuizButton(showQuizzes, isMember) {
         variant="outline-primary"
         onClick={() => showQuizzes(true)}
       >
-        Add Quiz +
+        Add Quizzes +
       </Button>
     );
   } else {
@@ -883,7 +883,7 @@ function GroupPage() {
       <div>
         <Modal show={showQuizzes} onHide={handleCloseQuizzes}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Quiz to Group</Modal.Title>
+            <Modal.Title>Add Quizzes to Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
@@ -925,7 +925,7 @@ function GroupPage() {
               Close
             </Button>
             <Button form="add-quizzes-form" variant="primary" type="submit">
-              Add Quiz
+              Add Quizzes
             </Button>
           </Modal.Footer>
         </Modal>

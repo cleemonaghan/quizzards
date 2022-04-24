@@ -57,7 +57,7 @@ function useGatherResources(groupID) {
   const [quizSearchElement, setQuizSearchElement] = useState([]); //for
   const [isMember, setIsMember] = useState(false);
   const [showQuizzes, setShowQuizzes] = useState(false);
-  const [showMembers,setShowMembers] = useState(false);
+  const [showMembers, setShowMembers] = useState(false);
 
   /** This function is called upon initialization to fetch all the
    * information essential to displaying the page. Once all the
@@ -315,7 +315,11 @@ function generateAddQuizButton(showQuizzes, isMember) {
       </Button>
     );
   } else {
-    return <div></div>;
+    return (
+      <Button variant="invisible" disabled>
+        x
+      </Button>
+    );
   }
 }
 /* 
@@ -424,7 +428,7 @@ async function gatherQuizzes(ownedQuizzes, userTakenQuizzes, userAllQuizzes) {
   }
 }
 
-function popUpMembers(setShowMembers){
+function popUpMembers(setShowMembers) {
   console.log("pop up members");
   setShowMembers(true);
 }
@@ -585,7 +589,12 @@ function GroupPage() {
               {matches.mobile && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member" onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
+                    <Button
+                      variant="member"
+                      onClick={() => popUpMembers(setShowMembers)}
+                    >
+                      View Members
+                    </Button>
                   </div>
                   <div className="stats-compare col-12">
                     <div className="mb-3 align-items-center d-flex justify-content-center">
@@ -641,8 +650,12 @@ function GroupPage() {
               {matches.tablet && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member"
-                    onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
+                    <Button
+                      variant="member"
+                      onClick={() => popUpMembers(setShowMembers)}
+                    >
+                      View Members
+                    </Button>
                   </div>
                   <div className="quizzes col-4">
                     <div className="row mb-3 ms-0">
@@ -698,7 +711,12 @@ function GroupPage() {
               {matches.wideTablet && (
                 <div className="row">
                   <div className="align-items-end d-flex justify-content-end mb-4">
-                    <Button variant="member" onClick = {() =>popUpMembers(setShowMembers)}>View Members</Button>
+                    <Button
+                      variant="member"
+                      onClick={() => popUpMembers(setShowMembers)}
+                    >
+                      View Members
+                    </Button>
                   </div>
                   <div className="quizzes col-4">
                     <div className="row mb-3 ms-0">

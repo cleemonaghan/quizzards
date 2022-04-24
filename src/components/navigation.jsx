@@ -68,9 +68,9 @@ class Navigation extends React.Component {
                   Log Out
                 </NavDropdown.Item>
               </NavDropdown> */}
-              <Button variant="light" onClick={this.signout}>
+              {/* <Button variant="light" onClick={this.signout}>
                 Signout
-              </Button>
+              </Button> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

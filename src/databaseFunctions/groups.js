@@ -67,6 +67,20 @@ export async function createGroup(params) {
   return res.data.createGroup;
 }
 
+
+export async function removeGroup(groupID){
+  let params = {
+    id: groupID,
+  }
+  console.log(params);
+  let res = await API.graphql({
+    query: deleteQuizToGroup,
+    variables: {input: params},
+  });
+  console.log(res);
+  return res;
+}
+
 /** This method updates the attributes of a specified group.
  *
  * @param {*} id The ID of the group

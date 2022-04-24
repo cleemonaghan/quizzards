@@ -32,6 +32,7 @@ function useGatherResources(username) {
       //get the group
       let res = await getUser(username);
       let temp = res;
+      console.log(temp);
       setUser(temp);
       //get the group image
       res = await Storage.get(res.profilePicture);
@@ -44,10 +45,10 @@ function useGatherResources(username) {
       res = await getUserOwnedGroups(username);
       let tempGroups = res;
 
-      res = await displayUserQuizzes(tempQuizzes);
+      res = await displayUserQuizzes(tempQuizzes,username);
       setQuizElems(res);
 
-      res = await displayUserGroups(tempGroups);
+      res = await displayUserGroups(tempGroups,username);
       setGroupElems(res);
     } catch (e) {
       //there was an error, so save it
@@ -66,10 +67,11 @@ function useGatherResources(username) {
   return [user, userImage, quizElements, groupElements, error, loading];
 }
 
-async function displayUserQuizzes(quizArr) {
+async function displayUserQuizzes(quizArr,username) {
   //if they have made no quizzes return a message
+  console.log(username);
   if (quizArr === undefined || quizArr.length < 1) {
-    return <p>${this.state.username} has made no quizzes. </p>;
+    return <p>{username} has made no quizzes. </p>;
   } else {
     //for each quiz we are in, fetch the quiz and add it to the result array
     var result = [];
@@ -130,10 +132,11 @@ async function displayUserQuizzes(quizArr) {
   return result;
 }
 
-async function displayUserGroups(groupArr) {
+async function displayUserGroups(groupArr, username) {
   //if they have made no quizzes return a message
+  console.log(username);
   if (groupArr === undefined || groupArr.length < 1) {
-    return <p>${this.state.username} has made no groups. </p>;
+    return <p>{username} has made no groups. </p>;
   } else {
     //for each quiz we are in, fetch the quiz and add it to the result array
     var result = [];

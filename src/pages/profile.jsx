@@ -52,8 +52,8 @@ class Profile extends React.Component {
       biography: userDatabase.bio,
       myQuizzes: tempQuizzes,
       myGroups: tempGroups,
-      quizElements: await this.displayOwnedQuizzes(tempQuizzes),
-      groupElements: await this.displayOwnedGroups(tempGroups),
+      quizElements: await this.displayOwnedQuizzes(tempQuizzes, userSettings.username),
+      groupElements: await this.displayOwnedGroups(tempGroups, userSettings.username),
     });
     //load the picture from storage
     try {
@@ -72,10 +72,11 @@ class Profile extends React.Component {
     }
   }
 
-  async displayOwnedQuizzes(quizArr) {
+  async displayOwnedQuizzes(quizArr,username) {
     //if they have made no quizzes return a message
+    console.log(username);
     if (quizArr === undefined || quizArr.length < 1) {
-      return <p>{this.state.username} has made no quizzes. </p>;
+      return <p>{username} has made no quizzes. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];
@@ -137,10 +138,10 @@ class Profile extends React.Component {
     return result;
   }
 
-  async displayOwnedGroups(groupArr) {
+  async displayOwnedGroups(groupArr,username) {
     //if they have made no quizzes return a message
     if (groupArr === undefined || groupArr.length < 1) {
-      return <p>{this.state.username} has made no groups. </p>;
+      return <p>{username} has made no groups. </p>;
     } else {
       //for each quiz we are in, fetch the quiz and add it to the result array
       var result = [];

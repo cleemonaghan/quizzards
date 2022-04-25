@@ -1,22 +1,4 @@
 {
-  "staging": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-quizzardsii-staging-20019-authRole",
-      "UnauthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-authRole",
-      "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-quizzardsii-staging-20019-deployment",
-      "UnauthRoleName": "amplify-quizzardsii-staging-20019-unauthRole",
-      "StackName": "amplify-quizzardsii-staging-20019",
-      "StackId": "arn:aws:cloudformation:us-west-2:658885559798:stack/amplify-quizzardsii-staging-20019/75cdd120-c43b-11ec-9b72-0ad0de7ed30f",
-      "AmplifyAppId": "d1hl5z7jmdep1i"
-    },
-    "categories": {
-      "auth": {
-        "quizzards3a3566983a356698": {}
-      }
-    }
-  },
   "colin": {
     "awscloudformation": {
       "AuthRoleName": "amplify-quizzardsii-colin-202247-authRole",
@@ -28,6 +10,19 @@
       "StackName": "amplify-quizzardsii-colin-202247",
       "StackId": "arn:aws:cloudformation:us-west-2:658885559798:stack/amplify-quizzardsii-colin-202247/fb59e490-c446-11ec-9781-02cadde9d1ad",
       "AmplifyAppId": "d3djq4lv4botwl"
+    }
+  },
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-quizzardsii-staging-20019-authRole",
+      "UnauthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-quizzardsii-staging-20019-deployment",
+      "UnauthRoleName": "amplify-quizzardsii-staging-20019-unauthRole",
+      "StackName": "amplify-quizzardsii-staging-20019",
+      "StackId": "arn:aws:cloudformation:us-west-2:658885559798:stack/amplify-quizzardsii-staging-20019/75cdd120-c43b-11ec-9b72-0ad0de7ed30f",
+      "AmplifyAppId": "d1hl5z7jmdep1i"
     },
     "categories": {
       "auth": {

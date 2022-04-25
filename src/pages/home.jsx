@@ -6,7 +6,6 @@ import { default as Friends } from "./friends";
 import { QuizBox, failToLoad, Loading, FriendsList } from "../components";
 import GroupBox from "../components/groupBox";
 import { Link } from "react-router-dom";
-
 import {
   getUser,
   getUserGroups,
@@ -15,8 +14,7 @@ import {
   acceptFriend,
   requestFriend,
 } from "../databaseFunctions/users.js";
-import Button from "@restart/ui/esm/Button";
-
+import { Button } from "react-bootstrap";
 import { getGroup } from "../databaseFunctions/groups";
 import { getQuiz } from "../databaseFunctions/quizzes";
 
@@ -84,7 +82,9 @@ class Home extends React.Component {
         <p>
           You have made no groups. <br></br>
           <Link to="/createGroup">
-            <Button variant="primary">Create a Group</Button>
+            <Button className="mt-2" variant="primary">
+              Create a Group
+            </Button>
           </Link>
         </p>
       );
@@ -93,7 +93,7 @@ class Home extends React.Component {
       var result = [];
       for (let i = 0; i < groupArr.length; i++) {
         let group = await getGroup(groupArr[i].groupID);
-        if(group==null){
+        if (group == null) {
           continue;
         }
         let groupImage = await Storage.get(group.profilePicture);
@@ -104,7 +104,8 @@ class Home extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-           key={i}>
+            key={i}
+          >
             {(matches) => (
               <Fragment>
                 {matches.other && (
@@ -152,7 +153,9 @@ class Home extends React.Component {
         <p>
           You have made no quizzes. <br></br>
           <Link to="/createQuiz">
-            <Button variant="primary">Create a Quiz</Button>
+            <Button className="mt-2" variant="primary">
+              Create a Quiz
+            </Button>
           </Link>
         </p>
       );
@@ -173,7 +176,8 @@ class Home extends React.Component {
               wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
               desktop: "(min-width: 1200px)",
             }}
-            key={i}>
+            key={i}
+          >
             {(matches) => (
               <Fragment>
                 {matches.other && (
@@ -223,7 +227,9 @@ class Home extends React.Component {
         <p>
           You have taken no quizzes. <br></br>
           <Link to="/quizzes">
-            <Button variant="primary">Take a Quiz</Button>
+            <Button className="mt-2" variant="primary">
+              Take a Quiz
+            </Button>
           </Link>
         </p>
       );
@@ -244,7 +250,8 @@ class Home extends React.Component {
                 wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
                 desktop: "(min-width: 1200px)",
               }}
-              key={i}>
+              key={i}
+            >
               {(matches) => (
                 <Fragment>
                   {matches.other && (

@@ -44,23 +44,63 @@ class Navigation extends React.Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
             <Nav>
-              <Link to="/">
+              <Link
+                className="px-2 my-2 text-center"
+                style={{
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#9a9d9f",
+                }}
+                to="/"
+              >
                 <HouseFill className="mx-1 mb-1" />
                 Home
               </Link>
-              <Link to="/quizzes">
+              <Link
+                className="px-2 my-2 text-center"
+                style={{
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#9a9d9f",
+                }}
+                to="/quizzes"
+              >
                 <PatchQuestionFill className="mx-1 mb-1" />
                 Quizzes
               </Link>
-              <Link to="/groups">
+              <Link
+                className="px-2 my-2 text-center"
+                style={{
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#9a9d9f",
+                }}
+                to="/groups"
+              >
                 <PeopleFill className="mx-1 mb-1" />
                 Groups
               </Link>
-              <Link to="/friends">
+              <Link
+                className="px-2 my-2 text-center"
+                style={{
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#9a9d9f",
+                }}
+                to="/friends"
+              >
                 <SuitHeartFill className="mx-1 mb-1" />
                 Friends
               </Link>
-              <Link to="/profile">
+              <Link
+                className="px-2 my-2 text-center"
+                style={{
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#9a9d9f",
+                }}
+                to="/profile"
+              >
                 <PersonCircle className="mx-1 mb-1" />
                 Profile
               </Link>
@@ -69,9 +109,9 @@ class Navigation extends React.Component {
                   Log Out
                 </NavDropdown.Item>
               </NavDropdown> */}
-               <Button variant="light" onClick={this.signout}>
+              <Button className="ms-2" variant="light" onClick={this.signout}>
                 Signout
-              </Button> 
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

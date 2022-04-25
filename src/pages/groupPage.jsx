@@ -905,11 +905,18 @@ function GroupPage() {
                     if (groupQuizzesID.has(target[i].id)) {
                       continue;
                     }
+
                     let res = await addQuizToGroup(target[i].id, groupID);
                     //console.log("Adding quiz to group:");
                     //console.log(res);
                     let tempQuiz = await getQuiz(target[i].id);
                     updatedGroupQuizzes.push(tempQuiz);
+                    if (updatedGroupQuizzes.length > 10) {
+                      alert(
+                        "No more than 10 quizzes are allowed in a group! The owner must remove a quiz."
+                      );
+                      i = target.length;
+                    }
                   }
                 }
                 setGroupQuizzes(updatedGroupQuizzes);

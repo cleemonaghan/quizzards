@@ -98,8 +98,8 @@ function answerBox(
 }
 
 function handleBackClick(reference) {
-  console.log("Scrolling to")
-  console.log(reference)
+  console.log("Scrolling to");
+  console.log(reference);
   reference.scrollIntoView({ behavior: "smooth" });
 }
 
@@ -426,13 +426,13 @@ function useGatherResources(quizID, setCompleted, setExistingResult) {
 
   return [quiz, username, error, loading];
 }
-function returnCompleted(isCompleted, divToShow) {
-  if (isCompleted) {
-    return divToShow;
-  } else {
-    return <div></div>;
-  }
-}
+// function returnCompleted(isCompleted, divToShow) {
+//   if (isCompleted) {
+//     return divToShow;
+//   } else {
+//     return <div></div>;
+//   }
+// }
 function Quiz({ quizID }) {
   let colors = [
     "#db278d",
@@ -571,29 +571,12 @@ function Quiz({ quizID }) {
               </Fragment>
             )}
           </Media>
-          <div id="results"
-              ref={(el) =>
-                (itemsRef.current[quiz.questions.items.length + 1] = el)
-              }
-            >
-          {returnCompleted(
-            completed,
-            <div>
-              {displayResult(
-                completed,
-                score,
-                quiz.results.items,
-                quiz.title,
-                itemsRef,
-                setCompleted,
-                quiz.questions.items,
-                setScore,
-                existingResult,
-                setExistingResult
-              )}
-            </div>
-          )}
-          </div>
+          <div
+            id="results"
+            ref={(el) =>
+              (itemsRef.current[quiz.questions.items.length + 1] = el)
+            }
+          ></div>
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {
               return (
@@ -615,6 +598,24 @@ function Quiz({ quizID }) {
                 </div>
               );
             })}
+          </div>
+          <div
+            ref={(el) =>
+              (itemsRef.current[quiz.questions.items.length + 1] = el)
+            }
+          >
+            {displayResult(
+              completed,
+              score,
+              quiz.results.items,
+              quiz.title,
+              itemsRef,
+              setCompleted,
+              quiz.questions.items,
+              setScore,
+              existingResult,
+              setExistingResult
+            )}
           </div>
         </div>
       </div>

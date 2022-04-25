@@ -1,15 +1,15 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify3c4301de0bc54-staging-212758-authRole",
-      "UnauthRoleArn": "arn:aws:iam::658885559798:role/amplify-amplify3c4301de0bc54-staging-212758-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::658885559798:role/amplify-amplify3c4301de0bc54-staging-212758-authRole",
+      "AuthRoleName": "amplify-quizzardsii-staging-20019-authRole",
+      "UnauthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::658885559798:role/amplify-quizzardsii-staging-20019-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-amplify3c4301de0bc54-staging-212758-deployment",
-      "UnauthRoleName": "amplify-amplify3c4301de0bc54-staging-212758-unauthRole",
-      "StackName": "amplify-amplify3c4301de0bc54-staging-212758",
-      "StackId": "arn:aws:cloudformation:us-west-2:658885559798:stack/amplify-amplify3c4301de0bc54-staging-212758/4eac5e30-9426-11ec-8189-0a909d6088c1",
-      "AmplifyAppId": "d3605eot3zhimz"
+      "DeploymentBucketName": "amplify-quizzardsii-staging-20019-deployment",
+      "UnauthRoleName": "amplify-quizzardsii-staging-20019-unauthRole",
+      "StackName": "amplify-quizzardsii-staging-20019",
+      "StackId": "arn:aws:cloudformation:us-west-2:658885559798:stack/amplify-quizzardsii-staging-20019/75cdd120-c43b-11ec-9b72-0ad0de7ed30f",
+      "AmplifyAppId": "d1hl5z7jmdep1i"
     },
     "categories": {
       "auth": {

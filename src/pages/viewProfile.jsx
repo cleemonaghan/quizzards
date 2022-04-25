@@ -12,6 +12,7 @@ import { getGroup } from "../databaseFunctions/groups";
 import { Link } from "react-router-dom";
 import { QuizBox } from "../components";
 import GroupBox from "../components/groupBox";
+import { Button } from "react-bootstrap";
 
 function useGatherResources(username) {
   const [error, setError] = useState(null);
@@ -215,7 +216,21 @@ function ViewProfile() {
     <div className="profile">
       <div className="container">
         <div className="row align-items-center my-5">
-          <h1 className="col-11">Profile</h1>
+          <h1 className="col-8">Profile</h1>
+          {/* <div className="col-4 d-flex justify-content-end">
+            <Button variant="primary" disabled>
+              Requested
+            </Button>
+          </div> */}
+          {/* <div className="col-4 d-flex justify-content-end">
+            <Button variant="outline-primary">Request</Button>
+          </div> */}
+          {/* <div className="col-4 d-flex justify-content-end">
+            <Button className="me-2" variant="outline-success">
+              Accept
+            </Button>
+            <Button variant="outline-danger">Deny</Button>
+          </div> */}
         </div>
         <div className="row align-items-center mb-2">
           <Media

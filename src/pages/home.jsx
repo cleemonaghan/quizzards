@@ -334,7 +334,66 @@ class Home extends React.Component {
               </Fragment>
             )}
           </Media>
-          <div className="row align-items-center my-5">
+          <div className="col-auto">
+            <div className="row align-items-center my-5">
+              <Media
+                queries={{
+                  mobile: "(max-width: 575px)",
+                  tablet: "(min-width: 576px) and (max-width: 999px)",
+                  wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+                  desktop: "(min-width: 1200px)",
+                }}
+              >
+                {(matches) => (
+                  <Fragment>
+                    {matches.mobile && (
+                      <div className="col-3 ms-2">
+                        <img
+                          className="img-fluid rounded-circle my-auto"
+                          src={this.state.profile_pic}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    {matches.tablet && (
+                      <div className="col-3">
+                        <img
+                          className="img-fluid rounded-circle my-auto"
+                          src={this.state.profile_pic}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    {matches.wideTablet && (
+                      <div className="col-2">
+                        <img
+                          className="img-fluid rounded-circle my-auto"
+                          src={this.state.profile_pic}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    {matches.desktop && (
+                      <div className="col-1">
+                        <img
+                          className="img-fluid rounded-circle my-auto"
+                          src={this.state.profile_pic}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                  </Fragment>
+                )}
+              </Media>
+
+              <h3 className="font-weight-light col-auto my-auto">
+                {this.state.username}
+              </h3>
+            </div>
+            <div className="row align-items-center m-0 mt-5 mb-2">
+              <h1 className="font-weight-bold">Your Groups</h1>
+            </div>
+            {/* Display the user's groups */}
             <Media
               queries={{
                 mobile: "(max-width: 575px)",
@@ -346,122 +405,65 @@ class Home extends React.Component {
               {(matches) => (
                 <Fragment>
                   {matches.mobile && (
-                    <div className="col-3 ms-2">
-                      <img
-                        className="img-fluid rounded-circle my-auto"
-                        src={this.state.profile_pic}
-                        alt=""
-                      />
+                    <div className="row col-12 m-0">
+                      {this.state.groupElements}
                     </div>
                   )}
                   {matches.tablet && (
-                    <div className="col-3">
-                      <img
-                        className="img-fluid rounded-circle my-auto"
-                        src={this.state.profile_pic}
-                        alt=""
-                      />
-                    </div>
+                    <div className="row col-6">{this.state.groupElements}</div>
                   )}
                   {matches.wideTablet && (
-                    <div className="col-2">
-                      <img
-                        className="img-fluid rounded-circle my-auto"
-                        src={this.state.profile_pic}
-                        alt=""
-                      />
-                    </div>
+                    <div className="row col-8">{this.state.groupElements}</div>
                   )}
                   {matches.desktop && (
-                    <div className="col-1">
-                      <img
-                        className="img-fluid rounded-circle my-auto"
-                        src={this.state.profile_pic}
-                        alt=""
-                      />
-                    </div>
+                    <div className="row col-9">{this.state.groupElements}</div>
                   )}
                 </Fragment>
               )}
             </Media>
 
-            <h3 className="font-weight-light col-auto my-auto">
-              {this.state.username}
-            </h3>
+            <div className="row align-items-center m-0 mt-5 mb-2">
+              <h1 className="font-weight-bold">Your Quizzes</h1>
+            </div>
+            {/* Display the user's quizzes */}
+            <Media
+              queries={{
+                mobile: "(max-width: 575px)",
+                tablet: "(min-width: 576px) and (max-width: 999px)",
+                wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
+                desktop: "(min-width: 1200px)",
+              }}
+            >
+              {(matches) => (
+                <Fragment>
+                  {matches.mobile && (
+                    <div className="row col-12 m-0">
+                      {this.state.quizElements}
+                      {this.state.quizTakenElements}
+                    </div>
+                  )}
+                  {matches.tablet && (
+                    <div className="row col-6">
+                      {this.state.quizElements}
+                      {this.state.quizTakenElements}
+                    </div>
+                  )}
+                  {matches.wideTablet && (
+                    <div className="row col-8">
+                      {this.state.quizElements}
+                      {this.state.quizTakenElements}
+                    </div>
+                  )}
+                  {matches.desktop && (
+                    <div className="row col-9">
+                      {this.state.quizElements}
+                      {this.state.quizTakenElements}
+                    </div>
+                  )}
+                </Fragment>
+              )}
+            </Media>
           </div>
-          <div className="row align-items-center m-0 mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Groups</h1>
-          </div>
-          {/* Display the user's groups */}
-          <Media
-            queries={{
-              mobile: "(max-width: 575px)",
-              tablet: "(min-width: 576px) and (max-width: 999px)",
-              wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
-              desktop: "(min-width: 1200px)",
-            }}
-          >
-            {(matches) => (
-              <Fragment>
-                {matches.mobile && (
-                  <div className="row col-12 m-0">
-                    {this.state.groupElements}
-                  </div>
-                )}
-                {matches.tablet && (
-                  <div className="row col-6">{this.state.groupElements}</div>
-                )}
-                {matches.wideTablet && (
-                  <div className="row col-8">{this.state.groupElements}</div>
-                )}
-                {matches.desktop && (
-                  <div className="row col-9">{this.state.groupElements}</div>
-                )}
-              </Fragment>
-            )}
-          </Media>
-
-          <div className="row align-items-center m-0 mt-5 mb-2">
-            <h1 className="font-weight-bold">Your Quizzes</h1>
-          </div>
-          {/* Display the user's quizzes */}
-          <Media
-            queries={{
-              mobile: "(max-width: 575px)",
-              tablet: "(min-width: 576px) and (max-width: 999px)",
-              wideTablet: "(min-width: 1000px) and (max-width: 1199px)",
-              desktop: "(min-width: 1200px)",
-            }}
-          >
-            {(matches) => (
-              <Fragment>
-                {matches.mobile && (
-                  <div className="row col-12 m-0">
-                    {this.state.quizElements}
-                    {this.state.quizTakenElements}
-                  </div>
-                )}
-                {matches.tablet && (
-                  <div className="row col-6">
-                    {this.state.quizElements}
-                    {this.state.quizTakenElements}
-                  </div>
-                )}
-                {matches.wideTablet && (
-                  <div className="row col-8">
-                    {this.state.quizElements}
-                    {this.state.quizTakenElements}
-                  </div>
-                )}
-                {matches.desktop && (
-                  <div className="row col-9">
-                    {this.state.quizElements}
-                    {this.state.quizTakenElements}
-                  </div>
-                )}
-              </Fragment>
-            )}
-          </Media>
 
           {/* <div className="row align-items-center mt-5 mb-2">
             <h1 className="font-weight-bold">Quizzes You Made</h1>

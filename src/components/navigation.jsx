@@ -8,6 +8,7 @@ import {
   PatchQuestionFill,
 } from "react-bootstrap-icons";
 import logo from "../images/logo.png";
+import { Link } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 class Navigation extends React.Component {
@@ -43,26 +44,26 @@ class Navigation extends React.Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
             <Nav>
-              <Nav.Link href="/">
+              <Link to="/">
                 <HouseFill className="mx-1 mb-1" />
                 Home
-              </Nav.Link>
-              <Nav.Link href="/quizzes">
+              </Link>
+              <Link to="/quizzes">
                 <PatchQuestionFill className="mx-1 mb-1" />
                 Quizzes
-              </Nav.Link>
-              <Nav.Link href="/groups">
+              </Link>
+              <Link to="/groups">
                 <PeopleFill className="mx-1 mb-1" />
                 Groups
-              </Nav.Link>
-              <Nav.Link href="/friends">
+              </Link>
+              <Link to="/friends">
                 <SuitHeartFill className="mx-1 mb-1" />
                 Friends
-              </Nav.Link>
-              <Nav.Link href="/profile">
+              </Link>
+              <Link to="/profile">
                 <PersonCircle className="mx-1 mb-1" />
                 Profile
-              </Nav.Link>
+              </Link>
               {/* <NavDropdown>
                 <NavDropdown.Item onClick={this.signout}>
                   Log Out

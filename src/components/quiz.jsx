@@ -98,6 +98,8 @@ function answerBox(
 }
 
 function handleBackClick(reference) {
+  console.log("Scrolling to")
+  console.log(reference)
   reference.scrollIntoView({ behavior: "smooth" });
 }
 
@@ -515,6 +517,7 @@ function Quiz({ quizID }) {
         setCompleted(true);
       }
     }
+    console.log(itemsRef.current);
     return (
       <div ref={(el) => (itemsRef.current[0] = el)} name="Top" className="mt-5">
         <div className="rbq_inner_quiz_container">
@@ -568,13 +571,14 @@ function Quiz({ quizID }) {
               </Fragment>
             )}
           </Media>
-          {returnCompleted(
-            completed,
-            <div
+          <div id="results"
               ref={(el) =>
                 (itemsRef.current[quiz.questions.items.length + 1] = el)
               }
             >
+          {returnCompleted(
+            completed,
+            <div>
               {displayResult(
                 completed,
                 score,
@@ -589,6 +593,7 @@ function Quiz({ quizID }) {
               )}
             </div>
           )}
+          </div>
           <div id="main_questions_container">
             {quiz.questions.items.map((question, index) => {
               return (

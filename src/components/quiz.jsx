@@ -43,9 +43,9 @@ function answerBox(
 
   return (
     <Card
-      className="text-center py-4 border-0 align-items-center d-flex justify-content-center"
+      className="answer text-center py-auto border-0 align-items-center d-flex justify-content-center"
       style={{
-        height: "150px",
+        height: "175px",
         backgroundColor: displayColor,
         opacity: opacity,
       }}

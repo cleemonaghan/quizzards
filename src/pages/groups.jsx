@@ -113,7 +113,16 @@ class Groups extends React.Component {
   async fetchYourGroups(groupArr, ownedGroupsArr) {
     // if there are no groups,
     if (groupArr === undefined || groupArr.length < 1) {
-      return <p>You have no groups</p>;
+      return (
+        <p>
+          You have made no groups. <br></br>
+          <Link to="/createGroup">
+            <Button className="mt-2" variant="primary">
+              Create a Group
+            </Button>
+          </Link>
+        </p>
+      );
     } else {
       //for each group we are in, fetch the group and add it to the result array
       var result = [];
@@ -131,7 +140,7 @@ class Groups extends React.Component {
           console.log(groupArr);
           let group = await getGroup(groupArr[i].groupID);
           console.log(group);
-          if(group==null){
+          if (group == null) {
             continue;
           }
           let groupImage = await Storage.get(group.profilePicture);

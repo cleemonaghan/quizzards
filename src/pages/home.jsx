@@ -385,7 +385,7 @@ class Home extends React.Component {
               )}
             </Media>
 
-            <h3 className="font-weight-light col-3 my-auto">
+            <h3 className="font-weight-light col-auto my-auto">
               {this.state.username}
             </h3>
           </div>

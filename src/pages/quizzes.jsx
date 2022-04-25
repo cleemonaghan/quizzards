@@ -91,7 +91,11 @@ class Quizzes extends React.Component {
       return (
         <p>
           You have made no quizzes. <br></br>
-          <Link to="/createQuiz">Create a Quiz</Link>
+          <Link to="/createQuiz">
+            <Button className="mt-2" variant="primary">
+              Create a Quiz
+            </Button>
+          </Link>
         </p>
       );
     } else {

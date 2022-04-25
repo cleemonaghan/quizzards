@@ -4,12 +4,9 @@ import { Auth, Storage } from "aws-amplify";
 import { Link, useParams } from "react-router-dom";
 import { PencilSquare } from "react-bootstrap-icons";
 import {
-  Dropdown,
-  DropdownButton,
   Button,
   ToggleButton,
   ToggleButtonGroup,
-  Container,
   Form,
   Modal,
 } from "react-bootstrap";

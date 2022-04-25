@@ -202,6 +202,7 @@ export async function removeMemberFromGroup(memberID, groupID){
     query: listMembers,
     variables: {filter: params},
   });
+  console.log(memberToGroupID);
   if(memberToGroupID.data.listMembers.items.length == 0 || memberToGroupID.data.listMembers.items[0] == null){
     return null;
   }

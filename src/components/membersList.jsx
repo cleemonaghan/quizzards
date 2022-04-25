@@ -96,29 +96,6 @@ async function refreshMembers(
   }
 }
 
-function useGatherMembers(
-  ownername,
-  memberList,
-  requestedMemList,
-  setMembers,
-  setMemberRequests
-) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(async () => {
-    await refreshMembers(
-      ownername,
-      memberList,
-      requestedMemList,
-      setMembers,
-      setMemberRequests
-    );
-    //we are finished loading, so set loading to false
-    setLoading(false);
-  }, []);
-  return [loading, refreshMembers];
-}
-
 function displayMembers(loading, members) {
   if (loading) return <p>loading...</p>;
   else {
@@ -126,15 +103,15 @@ function displayMembers(loading, members) {
       return <p className="ms-2">There are no other members.</p>;
     }
     let list = [];
-    for (let i in members) {
+    members.forEach(element => {
       list.push(
         <Member
-          userName={members[i].name}
-          link={members[i].image}
-          key={members[i].name}
+          userName={element.name}
+          link={element.image}
+          key={element.name}
         />
       );
-    }
+    });
     return <div>{list}</div>;
   }
 }
@@ -227,6 +204,8 @@ async function removeUserFromGroup(username, groupID, isMember, setMembership) {
   console.log(isMember);
   //remove user from group member list
   let res = await removeMemberFromGroup(username, groupID);
+  console.log("Leaving group");
+  console.log(res);
   if (isMember) {
     setMembership(false);
   }
@@ -277,12 +256,13 @@ function useRequestButton(
       <Button
         variant="outline-danger"
         onClick={async () => {
-          let temp = await removeUserFromGroup(
+          await removeUserFromGroup(
             currentUser,
             groupID,
             params.isMember,
             params.setMembership
           );
+          
         }}
       >
         Leave Group
@@ -348,13 +328,21 @@ function MembersList(params) {
 
   const [members, setMembers] = useState([]);
   const [memberRequests, setMemberRequests] = useState([]);
-  const [loading3] = useGatherMembers(
-    ownerUsername,
-    params.group.members.items,
-    params.group.memberRequests.items,
-    setMembers,
-    setMemberRequests
-  );
+
+  const [loading3, setLoading3] = useState(false);
+
+  useEffect(async () => {
+    setLoading3(true);
+    await refreshMembers(
+      ownerUsername,
+      params.group.members.items,
+      params.group.memberRequests.items,
+      setMembers,
+      setMemberRequests
+    );
+    //we are finished loading, so set loading to false
+    setLoading3(false);
+  }, []);
 
   //constants for adding friends to the group
   const [loading4, setLoading4] = useState(false);
@@ -441,7 +429,7 @@ function MembersList(params) {
                 }
                 // update the members list
                 let res = await getGroup(params.group.id);
-                console.log("Fetched group:");
+                console.log("Updating group members:");
                 console.log(res);
                 refreshMembers(
                   ownerUsername,
@@ -492,6 +480,8 @@ function MembersList(params) {
                 }
                 // update the members list
                 let res = await getGroup(params.group.id);
+                console.log("Updating group members:");
+                console.log(res);
                 refreshMembers(
                   ownerUsername,
                   res.members.items,

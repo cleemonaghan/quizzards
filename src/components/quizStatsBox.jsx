@@ -85,6 +85,7 @@ function QuizStatsBox({
             groupQuizzes,
             setGroupQuizzes
           );
+          console.log("delete");
         }}
       >
         <TrashFill className="mb-1" /> Remove from group

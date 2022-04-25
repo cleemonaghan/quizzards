@@ -5,15 +5,24 @@ import { Button } from "react-bootstrap";
 import { getQuiz, fetchUserAnswer } from "../databaseFunctions/quizzes";
 import Loading from "./loading";
 
-function useGatherResources(quizID, members) {
+function useGatherResources(quizID, members, username) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [memberResults, setMemberResults] = useState([]);
   const [quiz, setQuiz] = useState(null);
+  const [userResult, setUserResult] = useState(null);
 
   async function getInfo() {
     try {
       setLoading(true);
+      //get the user's results
+      let res = await fetchUserAnswer(username, quizID);
+      if (res.length > 0) {
+        setUserResult(res[0]);
+      } else {
+        setUserResult(null);
+      }
+
       //get the members' results
       let result = [];
       for (let i = 0; i < members.length; i++) {
@@ -40,18 +49,27 @@ function useGatherResources(quizID, members) {
     getInfo();
   }, [quizID]);
 
-  return [memberResults, quiz, error, loading];
+  return [memberResults, userResult, quiz, error, loading];
 }
 
-function StatsBox({ group, quizID, result }) {
-  const [memberResults, quiz, error, loading] = useGatherResources(
+function getUserResult(userResult) {
+  if (userResult === null) {
+    return <div></div>;
+  } else {
+    return userResult.result;
+  }
+}
+
+function StatsBox({ group, quizID, result, username }) {
+  const [memberResults, userResult, quiz, error, loading] = useGatherResources(
     quizID,
-    group.members.items
+    group.members.items,
+    username
   );
 
   let data = [];
   let labels = [];
-  
+
   if (loading) {
     return Loading();
   } else {
@@ -77,7 +95,10 @@ function StatsBox({ group, quizID, result }) {
           </div>
           <hr />
           <div className="row mx-auto">
-            <h4 className="col-auto ms-2 my-2"> My Results: {result}</h4>
+            <h4 className="col-auto ms-2 my-2">
+              {" "}
+              My Results: {getUserResult(userResult)}
+            </h4>
             <div className="col-auto my-auto">
               <Link to={"/quizPage/" + quizID}>
                 <Button variant="outline-primary">Go to Quiz</Button>{" "}

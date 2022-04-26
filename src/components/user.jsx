@@ -100,7 +100,7 @@ class User extends React.Component {
   requestedButton() {
     //if (status === "Requested") {
     return (
-      <div className="ms-5 ps-4">
+      <div className="ms-5 ps-4 col-auto">
         <Button
           variant="outline-success"
           size="sm"
@@ -146,7 +146,7 @@ class User extends React.Component {
   unconnectedButton() {
     //if (status === "Unconnected") {
     return (
-      <div className="ms-5 ps-5">
+      <div className="ms-5 ps-5 col-auto">
         <Button
           variant="outline-primary"
           size="sm"

@@ -334,7 +334,8 @@ class Home extends React.Component {
               </Fragment>
             )}
           </Media>
-          <div className="col-auto">
+
+          <div className="container col-12">
             <div className="row align-items-center my-5">
               <Media
                 queries={{

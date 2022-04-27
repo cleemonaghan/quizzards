@@ -90,7 +90,7 @@ class Quizzes extends React.Component {
       console.log("you have made no quizzes");
       return (
         <p>
-          You have made no quizzes. <br></br>
+          You have not made any quizzes.<br></br>
           <Link to="/createQuiz">
             <Button className="mt-2" variant="primary">
               Create a Quiz
@@ -120,8 +120,8 @@ class Quizzes extends React.Component {
   async displayTakenQuizzes(quizArr) {
     //if they have taken no quizzes, return a message.
     if (quizArr === undefined || quizArr.length < 1) {
-      console.log("you have made no quizzes");
-      return <p>You have taken no quizzes</p>;
+      console.log("you have taken no quizzes");
+      return <p>You have not taken any quizzes</p>;
     } else {
       //grab the ids of the quizzes they've made to filter with
       let ownedQuizzes = this.state.ownedQuizzes;

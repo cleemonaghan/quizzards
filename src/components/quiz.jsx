@@ -536,6 +536,10 @@ function Quiz({ quizID }) {
                   <div className="row">
                     <img
                       className="img-fluid rounded-circle col-3 ms-4 mt-0 mb-2 px-3 py-3"
+                      style={{
+                        height: "100px",
+                        width: "100px",
+                      }}
                       alt={quiz.owner_picture}
                       src={quiz.owner_picture}
                     />
@@ -548,6 +552,10 @@ function Quiz({ quizID }) {
                   <div className="row">
                     <img
                       className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
+                      style={{
+                        height: "100px",
+                        width: "100px",
+                      }}
                       alt={quiz.owner_picture}
                       src={quiz.owner_picture}
                     />
@@ -560,6 +568,10 @@ function Quiz({ quizID }) {
                   <div className="row">
                     <img
                       className="img-fluid rounded-circle col-2 ms-4 mt-0 mb-2 px-3 py-3"
+                      style={{
+                        height: "100px",
+                        width: "100px",
+                      }}
                       alt={quiz.owner_picture}
                       src={quiz.owner_picture}
                     />

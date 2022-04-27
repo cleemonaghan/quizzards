@@ -351,6 +351,7 @@ class Home extends React.Component {
                       <div className="col-3 ms-2">
                         <img
                           className="img-fluid rounded-circle my-auto"
+                          style={{ height: "60px", width: "60px" }}
                           src={this.state.profile_pic}
                           alt=""
                         />
@@ -360,6 +361,7 @@ class Home extends React.Component {
                       <div className="col-3">
                         <img
                           className="img-fluid rounded-circle my-auto"
+                          style={{ height: "60px", width: "60px" }}
                           src={this.state.profile_pic}
                           alt=""
                         />
@@ -369,6 +371,7 @@ class Home extends React.Component {
                       <div className="col-2">
                         <img
                           className="img-fluid rounded-circle my-auto"
+                          style={{ height: "60px", width: "60px" }}
                           src={this.state.profile_pic}
                           alt=""
                         />
@@ -378,6 +381,7 @@ class Home extends React.Component {
                       <div className="col-1">
                         <img
                           className="img-fluid rounded-circle my-auto"
+                          style={{ height: "60px", width: "60px" }}
                           src={this.state.profile_pic}
                           alt=""
                         />

@@ -246,6 +246,7 @@ function ViewProfile() {
                     <img
                       id="profile_pic_display"
                       className="img-fluid rounded-circle my-auto"
+                      style={{ height: "60px", width: "60px" }}
                       src={userImage}
                       alt=""
                     />
@@ -256,6 +257,7 @@ function ViewProfile() {
                     <img
                       id="profile_pic_display"
                       className="img-fluid rounded-circle my-auto"
+                      style={{ height: "60px", width: "60px" }}
                       src={userImage}
                       alt=""
                     />

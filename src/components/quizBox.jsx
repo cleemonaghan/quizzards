@@ -44,10 +44,13 @@ function QuizBox({ title, author, id }) {
               bottom: 10,
               right: 10,
               width: "30px",
+              backgroundColor: "white",
+              borderRadius: "50%",
             }}
           >
             <img
               className="img-fluid rounded-circle my-auto"
+              style={{ height: "30px", width: "30px" }}
               src={quizProfPic}
               alt=""
             />

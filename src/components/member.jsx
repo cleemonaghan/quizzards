@@ -6,6 +6,7 @@ function Member({ userName, link }) {
       <div className="row">
         <img
           className="img-fluid rounded-circle col-2 ms-4 my-2 px-2 py-2"
+          style={{ height: "60px", width: "60px" }}
           src={link}
           alt=""
         />

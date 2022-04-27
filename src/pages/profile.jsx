@@ -266,6 +266,7 @@ class Profile extends React.Component {
                       <img
                         id="profile_pic_display"
                         className="img-fluid rounded-circle my-auto"
+                        style={{ height: "60px", width: "60px" }}
                         src={this.state.profile_pic}
                         alt=""
                       />
@@ -276,6 +277,7 @@ class Profile extends React.Component {
                       <img
                         id="profile_pic_display"
                         className="img-fluid rounded-circle my-auto"
+                        style={{ height: "60px", width: "60px" }}
                         src={this.state.profile_pic}
                         alt=""
                       />
